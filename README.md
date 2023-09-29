@@ -34,7 +34,7 @@ Dev Diaries will be able to respond to 50 users with a total of 200 requests per
 
 
 # Technologies
-React JS
+### React JS
 React JS is a frontend library to create dynamic apps. React provides react hooks such as useState and useEffect which can be used to store data more easily from the server and display on the web page using JSX which provides a more programmatic way to display data. It also handles updating data all over the website components more easily.
 
 ### Express JS
