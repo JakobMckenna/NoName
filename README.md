@@ -17,43 +17,42 @@ Dev Diaries will be considered successful if users prefer it over similar apps. 
 
 
 # Core features
-## Live updates from repository
+### Live updates from repository
 One of our core features is to have live updates from the project’s GitHub repository. We want to track each developer’s progress using the GitHub API and display the information on our web application. This allows the entire team to see how far along everyone else is so they know if the project is on track or if they have to make adjustments on the timeline.
 
-## Save and organize research/bookmarks from the web
+### Save and organize research/bookmarks from the web
 It’s common for a team working on a project to do different kinds of research online and share these resources with their teammates. We want our app to be able to aid in this process by providing developers the ability to save and organize their research and bookmarks from the web.
 
-## Communication function between members
+### Communication function between members
 We also want team members to be able to communicate with each other in the app. In this way, they won’t need to find an external means of communication that works for everybody.
 
-## Time management tools
+### Time management tools
 Lastly, we thought it would be a good idea to have a feature that would help users with time management. This feature would use periodic notifications to check in with developers to see how their progress is going and remind them to take breaks.
 
-## Capacity Requirement
+### Capacity Requirement
 Dev Diaries will be able to respond to 50 users with a total of 200 requests per minute concurrently.
 
 
-## Technologies
+# Technologies
 React JS
 React JS is a frontend library to create dynamic apps. React provides react hooks such as useState and useEffect which can be used to store data more easily from the server and display on the web page using JSX which provides a more programmatic way to display data. It also handles updating data all over the website components more easily.
 
-## Express JS
+### Express JS
 Express JS Is a lightweight single threaded backend server library. Since Express JS is a back-end framework, it has access to libraries that can not be directly accessed on react JS and can more reliably communicate with databases and provide features such caching api responses and blocking from network attacks. It also interacts with outside API’s better whereas if you access them on react js , you risk a cross origin resource sharing error. Which could be a problem if it's not dealt with from the external api .
 
-## MongoDB
+### MongoDB
 MongoDB is a document database. Since it’s a document based database, it would provide relative flexibility in terms of how data from the application is stored. It also allows for better data retrieval since there's little to no need for merges between collections.
 
 
 # User stories
-## Live updates from the repository
-
+### Live updates from the repository
 “As a developer, I want to connect to my projects GitHub and see changes automatically so I don’t have to check Dev Diaries as well as GitHub”
 
 “As a new programmer, I want to see an easy to read summary of my project so that I don’t get overwhelmed by all the information on GitHub”
 
 “As a project manager, I want to keep track of my team members progress with easy to access statistics so I that I can be a more effective project manager”
 
-## Save and organize research/bookmarks from the web
+### Save and organize research/bookmarks from the web
 
 “As a developer who needs a lot of help from outside coding resources, I want to be able to easily save websites and resources I find and organize them by user story, feature, or task so that I can revisit resources as needed”
 
@@ -61,13 +60,13 @@ MongoDB is a document database. Since it’s a document based database, it would
 
 “As a developer, I want to share resources I found helpful with my team members so that we can limit redundant research”
 
-## Communication function between members
+### Communication function between members
 
 “As a team member who easily forgets what is discussed in person, I want chat functionality so I can have a better understanding of what my peers have said”
 
 “As a team member, I want to be able to easily find past communication about our project so that I don’t have to waste time having to check multiple platforms”
 
-## Time management tools
+### Time management tools
 
 “As a developer who struggles to manage my time, I want an easy to read summary of my timeline and progress to help me stay on time”
 
