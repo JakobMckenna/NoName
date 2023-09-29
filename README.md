@@ -1,5 +1,5 @@
-# NoName
-A project management tool for technical purposes, developed as a web application
+# Group NoName
+By Isabelle, Jakob, Susie, and Tehillah.
 
 # Project summary and vision
 Dev Diaries is a free web application with the goal of making project management for developers easier than ever. 
