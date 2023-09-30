@@ -5,6 +5,11 @@ const UserController = {
     getUser:(req:Request,res:Response)=>{
         const userData = UserService.getUser()
         res.send(userData);
+    },
+
+    createUser:(req:Request,res:Response)=>{
+        const user = UserService.createUser()
+        res.send(user)
     }
 }
 
