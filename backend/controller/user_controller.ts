@@ -16,9 +16,9 @@ const UserController = {
        // console.log(password)
         const user = await UserService.createUser(email , name, password)
         if(user)
-            res.status(201).json({"success":user})
+            res.status(201).json({"user":user})
         else{
-            res.status(400).json({"success":user})
+            res.status(400).json({"user":user})
         }
     }
 }

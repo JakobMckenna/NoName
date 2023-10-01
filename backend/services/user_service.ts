@@ -6,7 +6,7 @@ const UserService = {
         return ("a user")
     },
     createUser: async (email:string , name:string ,password: string) => {
-        let result:boolean = false;
+        let result:any;
         try {
           result = await createUserPasswordData(name,email,password);
            

@@ -19,12 +19,15 @@ export async function createUserPasswordData(name:string , email:string , passwo
                 },
             }
         );
-        result = true;
-       
+        console.log(user)
+     //   result = true;
+       // user.success= true
+        return user;
     } catch (err:any) {
       console.log(err)
+      return null;
     }finally {
-        return result;
+       // return result;
     }
 }
 
