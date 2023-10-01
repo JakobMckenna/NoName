@@ -8,14 +8,14 @@ const UserController = {
         const password: string = userBody.password;
 
         const userData = await UserService.signIn(email, password);
-        if(userData){
+        if (userData) {
             // user password is correct
             res.status(200).json({ user: userData });
-        }else{
+        } else {
             // user password does not match or user does not exist
-            res.status(400).json({"message":"failed"})
+            res.status(400).json({ "message": "failed" })
         }
-        
+
     },
 
     createUser: async (req: Request, res: Response) => {
