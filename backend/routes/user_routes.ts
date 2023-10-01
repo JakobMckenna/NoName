@@ -5,4 +5,6 @@ const userRoutes = express.Router();
 
 userRoutes.post("/",UserController.createUser)
 
+userRoutes.post("/auth", UserController.signIn)
+
 export default userRoutes;
