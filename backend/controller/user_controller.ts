@@ -7,9 +7,19 @@ const UserController = {
         res.send(userData);
     },
 
-    createUser:(req:Request,res:Response)=>{
-        const user = UserService.createUser()
-        res.send(user)
+    createUser:async (req:Request,res:Response)=>{
+        const userBody = req.body;
+       // console.log(userBody)
+        const name:string = userBody.name;
+        const email:string = userBody.email;
+        const password:string = userBody.password;
+       // console.log(password)
+        const user = await UserService.createUser(email , name, password)
+        if(user)
+            res.status(201).json({"success":user})
+        else{
+            res.status(400).json({"success":user})
+        }
     }
 }
 
