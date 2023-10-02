@@ -1,5 +1,16 @@
 
 import { createUserPasswordData, getUserPassword } from '../data-access/user_model';
+import jwt from "jsonwebtoken";
+
+
+
+
+const createUserToken = (email: string) => {
+  return jwt.sign({email}, "TLzr2645ADWJHnVwLILFarysji44YiPi", {
+    expiresIn: "24h",
+  });
+};
+
 
 const UserService = {
   getUser: () => {
@@ -10,16 +21,17 @@ const UserService = {
     try {
       const user = await getUserPassword(email, password);
       //if reul
-      if(password == user?.userPassword?.password){
+      if (password == user?.userPassword?.password) {
         console.log("password correct");
         result = {
           id: user.id,
           email: user.email,
-          name: user.name
+          name: user.name,
+          token: createUserToken(user.email)
+
         }
       }
-      else if (password != user?.userPassword?.password)
-      {
+      else if (password != user?.userPassword?.password) {
         console.log("password incorrect");
       }
     } catch (err: any) {
@@ -29,10 +41,16 @@ const UserService = {
     }
   },
   createUser: async (email: string, name: string, password: string) => {
-    let result: any;
+    let result: any = null;
     try {
-      result = await createUserPasswordData(name, email, password);
-
+      const user = await createUserPasswordData(name, email, password);
+      if (user) {
+        result = {
+          id: user?.id,
+          email: user?.email,
+          token: createUserToken(user?.email)
+        }
+      }
     } catch (err: any) {
       console.log(err)
     } finally {
