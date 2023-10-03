@@ -35,8 +35,15 @@ function SignIn({ handleSignIn }: any) {
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Login</button>
+                <div className="flex flex-row justify-center items-center">
+                  <p className="label-text mr-1">Don't have account?</p>
+                  <label className="label">
+                    <Link href="/signup" className="label-text  link link-hover">Sign up</Link>
+                  </label>
+                </div>
               </div>
             </form>
+
           </div>
         </div>
       </div>
@@ -48,18 +55,18 @@ function SignIn({ handleSignIn }: any) {
 export default function Home() {
 
 
-  const handleSignIn = async (data: any) => {
-      console.log(data)
-      try{
-        const response = await axios.post('http://localhost:5000/users/auth', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        console.log('Login successful', response.data);
-      }catch(error){
-        console.error('Login failed', error);
-      }
+  const handleSignIn = async (data: { email: string, password: string }) => {
+    //console.log(data)
+    try {
+      const response = await axios.post('http://localhost:5000/users/auth', { email: data.email, password: data.password }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Login successful', response.data);
+    } catch (error) {
+      console.error('Login failed', error);
+    }
   }
 
   return (
