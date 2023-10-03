@@ -16,8 +16,8 @@ function SignIn({ handleSignUp }: any) {
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content text-center">
                 <div className="max-w-md">
-
-                    <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+                    <h1 className="text-5xl font-bold mb-5">SIGN UP</h1>
+                    <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
 
                         <form className="card-body" onSubmit={handleSubmit(handleSignUp)}>
 
@@ -61,7 +61,7 @@ export default function Register() {
     const handleSignUp = async (data: { email: string, password: string, name: string }) => {
         //console.log(data)
         try {
-            const response = await axios.post('http://localhost:5000/users/auth', { name: data.name, email: data.email, password: data.password }, {
+            const response = await axios.post('http://localhost:5000/users', { name: data.name, email: data.email, password: data.password }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
