@@ -6,7 +6,7 @@ const GIT_TOKEN = process.env.GIT_TOKEN;
 
 const GithubService = {
 
-    getComits: async (owner: string, repoName: string) => {
+    getMainCommits: async (owner: string, repoName: string) => {
         let result:any = null;
         try {
             const url: string = `https://api.github.com/repos/${owner}/${repoName}/commits`;

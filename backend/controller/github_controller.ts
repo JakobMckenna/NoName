@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import GithubService from '../services/github_service';
 
 const GithubController = {
-    getCommits: async (req: Request, res: Response)=>{
+    getMainCommits: async (req: Request, res: Response)=>{
   
       const owner:string = req.params.owner;
       const repoName:string = req.params.repo;
 
-      const commits = await GithubService.getComits(owner , repoName);
+      const commits = await GithubService.getMainCommits(owner , repoName);
 
       if (commits) {
         // successfully got commits
