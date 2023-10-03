@@ -2,8 +2,11 @@ import Head from "next/head";
 import Link from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
-function SignIn({ handleSignIn }: any) {
+function SignIn({ handleSignIn  }: any) {
 
   const {
     register,
@@ -53,6 +56,19 @@ function SignIn({ handleSignIn }: any) {
 
 
 export default function Home() {
+  const router = useRouter();
+  const [login ,setLogin] = useState(false)
+
+  useEffect(
+    ()=>{
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            router.push("/projects")
+            console.log('UserData from local storage:', userData);
+          }
+    },[login]
+)
+
 
 
   const handleSignIn = async (data: { email: string, password: string }) => {
@@ -64,6 +80,8 @@ export default function Home() {
         },
       });
       console.log('Login successful', response.data);
+      localStorage.setItem("userData",JSON.stringify(response.data.user))
+      setLogin(true)
     } catch (error) {
       console.error('Login failed', error);
     }

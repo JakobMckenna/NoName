@@ -2,6 +2,9 @@ import Head from "next/head";
 import Link from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useRouter } from 'next/router';
+
 
 function SignIn({ handleSignUp }: any) {
 
@@ -11,6 +14,7 @@ function SignIn({ handleSignUp }: any) {
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
+    
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -56,6 +60,18 @@ function SignIn({ handleSignUp }: any) {
 
 
 export default function Register() {
+    const router = useRouter();
+    
+
+    useEffect(
+        ()=>{
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                router.push("/projects")
+                console.log('UserData from local storage:', userData);
+              }
+        },[]
+    )
 
 
     const handleSignUp = async (data: { email: string, password: string, name: string }) => {
@@ -67,6 +83,7 @@ export default function Register() {
                 },
             });
             console.log('Login successful', response.data);
+            localStorage.setItem("userData",JSON.stringify(response.data.user))
         } catch (error) {
             console.error('Login failed', error);
         }

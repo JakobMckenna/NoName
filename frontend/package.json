@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.0",
+    "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.1",
     "next": "^13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.47.0",
+    "react-router-dom": "^6.16.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
