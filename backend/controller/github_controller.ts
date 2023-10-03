@@ -19,3 +19,6 @@ const GithubController = {
 
     }
 }
+
+
+export default GithubController;
