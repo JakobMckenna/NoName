@@ -63,7 +63,7 @@ export default function Home() {
     ()=>{
         const userData = localStorage.getItem('userData');
         if (userData) {
-            router.push("/projects")
+            router.push("/home")
             console.log('UserData from local storage:', userData);
           }
     },[login]
