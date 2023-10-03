@@ -1,6 +1,6 @@
 # Dev Diaries Backend
 
-The Dev Diaries backend is built using the npm package manager [More info on npm]("https://docs.npmjs.com/about-npm") and Type Script [More info on Type Script ]("https://www.youtube.com/watch?v=zQnBQ4tB3ZA"). 
+The Dev Diaries backend is built using the npm package manager [More info on npm](https://docs.npmjs.com/about-npm) and Type Script [More info on Type Script ](https://www.youtube.com/watch?v=zQnBQ4tB3ZA). 
 
 # How to run 
 
@@ -23,10 +23,10 @@ routes are hosted .
 This is used in npm run dev mode so that we can edit code files and program is recommpilled as changes to the code is being made
 
 3. ## CORS
-This is the middleware that allows the front end to communicate with our backend even if they are running on different hosts or ports . Its also prevents a cors error. [More info on cors error]("https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors")
+This is the middleware that allows the front end to communicate with our backend even if they are running on different hosts or ports . Its also prevents a cors error. [More info on cors error](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors)
 
 4. ## Prisma
-This is an orm that comminicates with out MySql backend and allows us to use Object Relational Mapping to make queries to our database . [More info on Prisma]("https://www.prisma.io/docs/concepts/overview/what-is-prisma")
+This is an orm that comminicates with out MySql backend and allows us to use Object Relational Mapping to make queries to our database . [More info on Prisma](https://www.prisma.io/docs/concepts/overview/what-is-prisma)
 
 5. ## JWT Token
 This used for user authentetication and security .
