@@ -3,9 +3,9 @@ import GithubService from '../services/github_service';
 
 const GithubController = {
     getCommits: async (req: Request, res: Response)=>{
-      const body = req.body;
-      const owner:string = body.owner;
-      const repoName:string = body.name;
+  
+      const owner:string = req.params.owner;
+      const repoName:string = req.params.repo;
 
       const commits = await GithubService.getComits(owner , repoName);
 

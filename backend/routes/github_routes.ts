@@ -3,6 +3,6 @@ import GithubController from "../controller/github_controller";
 
 const githubRoutes = express.Router();
 
-githubRoutes.get("/comits" ,GithubController.getCommits);
+githubRoutes.get("/commits/:owner/:repo" ,GithubController.getCommits);
 
 export default githubRoutes;
