@@ -1,11 +1,16 @@
 import axios from 'axios';
 
 
-const GIT_TOKEN = process.env.GIT_TOKEN;
+const GIT_TOKEN = process.env.GIT_TOKEN; // git authorization token
 
 
 const GithubService = {
 
+
+    // getMainCommits
+    // get main branch  commits
+    // owner - github user name , repoName - name of the github repo
+    // returns list of commits or null if no commits or failed to retrieve github commits
     getMainCommits: async (owner: string, repoName: string) => {
         let result:any = null;
         try {
