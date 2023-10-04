@@ -9,8 +9,11 @@ githubRoutes.get("/branches/:owner/:repo" ,GithubController.getAllBranches);
 // Gets commits of main branch on github repo
 githubRoutes.get("/commits/:owner/:repo" ,GithubController.getMainCommits);
 
-// Gets commits of a particular branch from github routes
+// Gets commits of a particular branch from github repo
 githubRoutes.get("/commits/branch/:owner/:repo/:branch" ,GithubController.getBranchCommits);
+
+// Gets latest commits of a particular branch from github repo from the past hour
+githubRoutes.get("/latestcommits/:owner/:repo/:branch" ,GithubController.getLatestCommits);
 
 
 export default githubRoutes;
