@@ -34,6 +34,21 @@ const GithubController = {
         }
 
     },
+    getAllBranches: async (req: Request, res: Response)=>{
+        const owner: string = req.params.owner;
+        const repoName: string = req.params.repo;
+        
+        const branches = await GithubService.getAllBranches(owner, repoName);
+
+        if (branches) {
+            // successfully got branches
+            res.status(200).json({ branches: branches });
+        } else {
+            // failed to get branches
+            res.status(400).json({ "message": "failed" })
+        }
+
+    }
 }
 
 
