@@ -1,3 +1,8 @@
+/*
+    github_routes.ts
+    All github related routes on our rest api
+*/
+
 import express from "express";
 import GithubController from "../controller/github_controller";
 
@@ -14,6 +19,13 @@ githubRoutes.get("/commits/branch/:owner/:repo/:branch" ,GithubController.getBra
 
 // Gets latest commits of a particular branch from github repo from the past hour
 githubRoutes.get("/latestcommits/:owner/:repo/:branch" ,GithubController.getLatestCommits);
+
+// Gets all issues of  github repo
+githubRoutes.get("/issues/:owner/:repo" ,GithubController.getAllIssues);
+
+// Gets all issues closed within the past hour on a github repo
+githubRoutes.get("/closedissues/:owner/:repo" ,GithubController.getClosedIssues);
+
 
 
 export default githubRoutes;

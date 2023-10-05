@@ -62,7 +62,35 @@ const GithubController = {
             // failed to get commits
             res.status(400).json({ "message": "failed" })
         }
-    }
+    },
+    getAllIssues:async (req: Request, res: Response)=>{
+        const owner: string = req.params.owner;
+        const repoName: string = req.params.repo;
+        
+        const issues = await GithubService.getAllIssues(owner, repoName);
+
+        if (issues) {
+            // successfully got issues
+            res.status(200).json({ issues: issues });
+        } else {
+            // failed to get branches
+            res.status(400).json({ "message": "failed" })
+        }
+    },
+    getClosedIssues:async (req: Request, res: Response)=>{
+        const owner: string = req.params.owner;
+        const repoName: string = req.params.repo;
+        
+        const issues = await GithubService.getLatestClosedIssues(owner, repoName);
+
+        if (issues) {
+            // successfully got issues
+            res.status(200).json({ issues: issues });
+        } else {
+            // failed to get branches
+            res.status(400).json({ "message": "failed" })
+        }
+    },
 }
 
 
