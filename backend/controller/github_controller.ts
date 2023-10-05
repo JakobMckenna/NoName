@@ -91,6 +91,20 @@ const GithubController = {
             res.status(400).json({ "message": "failed" })
         }
     },
+    getAllPullRequest:async(req: Request, res: Response)=>{
+        const owner: string = req.params.owner;
+        const repoName: string = req.params.repo;
+        
+        const pulls = await GithubService.getPullRequests(owner, repoName);
+
+        if (pulls) {
+            // successfully got pull requests
+            res.status(200).json({ pulls: pulls });
+        } else {
+            // failed to get branches
+            res.status(400).json({ "message": "failed" })
+        }
+    }
 }
 
 

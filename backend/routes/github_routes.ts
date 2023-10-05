@@ -26,6 +26,7 @@ githubRoutes.get("/issues/:owner/:repo" ,GithubController.getAllIssues);
 // Gets all issues closed within the past hour on a github repo
 githubRoutes.get("/closedissues/:owner/:repo" ,GithubController.getClosedIssues);
 
-
+// Gets all issues pull request within the past hour on a github repo
+githubRoutes.get("/pulls/:owner/:repo" ,GithubController.getAllPullRequest);
 
 export default githubRoutes;

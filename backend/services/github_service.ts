@@ -136,7 +136,6 @@ const GithubService = {
     // gets all latest issues
     // owner - github user name , repoName - name of the github repo , branchName - name of branch
     // returns all latest issues 
-
     getLatestClosedIssues: async (owner: string, repoName: string) => {
         let result: any = null;
         const timeStamp: Date = hourBeforeTime();
@@ -160,6 +159,24 @@ const GithubService = {
             return result;
         }
     },
+    getPullRequests:async (owner: string, repoName: string)=>{
+        let result: any = null;
+        try {
+            const url: string = `https://api.github.com/repos/${owner}/${repoName}/pulls`;
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `token ${GIT_TOKEN}`
+                }
+            });
+            result = response.data;
+
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            return result;
+        }
+    }
 }
 
 export default GithubService;
