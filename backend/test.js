@@ -2,6 +2,7 @@
 testsPassed = 0;
 console.log("Running tests")
 //test creating a user 
+//doesnt work yet, need to access outside files
 userData = createUserPassWordData("testUser", "testUser@gmail.com", "testPassword")
 if(userData != null){
     testsPassed++;
