@@ -1,4 +1,5 @@
 // test suite
+// npm install jest -save-dev
 testsPassed = 0;
 console.log("Running tests")
 //test creating a user 
