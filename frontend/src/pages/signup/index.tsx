@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from 'next/router';
-
+import { yupResolver } from '@hookform/resolvers/yup'
 
 function SignIn({ handleSignUp }: any) {
 
@@ -12,7 +12,9 @@ function SignIn({ handleSignUp }: any) {
         register,
         handleSubmit,
         formState: { errors, isSubmitSuccessful, isSubmitting },
-    } = useForm();
+    } = useForm({
+        resolver: yupResolver()
+    });
 
     
 

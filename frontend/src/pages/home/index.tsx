@@ -3,22 +3,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import Navbar from "~/components/navbar";
+import useUser from "~/hooks/use_user";
 
 export default function Projects(){
-    const [loading ,setLoading] = useState(true)
-    const [user ,setUser] =useState<any>(null)
+    //const [loading ,setLoading] = useState(true)
+   // const [user ,setUser] =useState<any>(null)
     const router = useRouter();
+    const [user ,loading] = useUser()
     useEffect(
         ()=>{
 
-            const userData = localStorage.getItem('userData');
-            if (userData) {
-              //  user is signed in
-                console.log('UserData from local storage:', userData);
-                setUser(JSON.parse(userData))
-                setLoading(false)
-              }
-              else{
+            if(!user){
                 // go back and signin
                 router.push("/")
               }
