@@ -1,2 +1,4 @@
 backend/node_modules
 backend/dist
+testing/node_modules
+node_modules
