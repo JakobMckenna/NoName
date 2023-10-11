@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 
-function SignIn({ handleSignIn  }: any) {
+function SignIn({ handleSignIn, message }: any) {
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useForm();
+
 
 
   return (
@@ -22,7 +23,15 @@ function SignIn({ handleSignIn  }: any) {
 
           <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
 
-            <form className="card-body" onSubmit={handleSubmit(handleSignIn)}>
+            <form className="card-body  w-80 " onSubmit={handleSubmit(handleSignIn)}>
+              {message!="" && (
+                <div className="flex flex-col justify-center items-center  w-64 ">
+                  <div className="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>{message}</span>
+                  </div>
+                </div>)
+              }
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -57,22 +66,24 @@ function SignIn({ handleSignIn  }: any) {
 
 export default function Home() {
   const router = useRouter();
-  const [login ,setLogin] = useState(false)
+  const [login, setLogin] = useState(false)
+  const [failedMsg , setFailedMsg] = useState("")
 
   useEffect(
-    ()=>{
-        const userData = localStorage.getItem('userData');
-        if (userData) {
-            router.push("/home")
-            console.log('UserData from local storage:', userData);
-          }
-    },[login]
-)
+    () => {
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        router.push("/home")
+        console.log('UserData from local storage:', userData);
+      }
+    }, [login]
+  )
 
 
 
   const handleSignIn = async (data: { email: string, password: string }) => {
     //console.log(data)
+    let resMessage:string = "Failed to login or user does not exist,please try again";
     try {
       const response = await axios.post('http://localhost:5000/users/auth', { email: data.email, password: data.password }, {
         headers: {
@@ -80,10 +91,12 @@ export default function Home() {
         },
       });
       console.log('Login successful', response.data);
-      localStorage.setItem("userData",JSON.stringify(response.data.user))
+      localStorage.setItem("userData", JSON.stringify(response.data.user))
       setLogin(true)
+      resMessage = response.data
     } catch (error) {
       console.error('Login failed', error);
+      setFailedMsg(resMessage)
     }
   }
 
@@ -95,7 +108,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <SignIn handleSignIn={handleSignIn} />
+        <SignIn handleSignIn={handleSignIn} message={failedMsg} />
       </main>
     </>
   );
