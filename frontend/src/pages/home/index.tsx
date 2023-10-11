@@ -17,7 +17,7 @@ export default function Projects(){
                 // go back and signin
                 router.push("/")
               }
-        },[]
+        },[loading,user]
     )
     return(
         <div>

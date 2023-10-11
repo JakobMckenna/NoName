@@ -14,7 +14,7 @@ const useUser = () => {
                 setLoading(false)
             }
 
-        }, []
+        }, 
     )
     return [user,loading];
 }
