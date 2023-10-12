@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { registrationValidation } from "./validations_schemas/user_registration";
+import useGetReq from "~/hooks/use_fetch";
 function SignIn({ handleSignUp }: any) {
 
     const {
@@ -69,6 +70,7 @@ export default function Register() {
 
     useEffect(
         () => {
+           
             const userData = localStorage.getItem('userData');
             if (userData) {
                 router.push("/")

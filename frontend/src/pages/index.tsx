@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
+import useGetReq from "~/hooks/use_fetch";
 
 function SignIn({ handleSignIn, message }: any) {
 
@@ -83,6 +84,7 @@ export default function Home() {
 
   const handleSignIn = async (data: { email: string, password: string }) => {
     //console.log(data)
+    
     let resMessage:string = "Failed to login or user does not exist,please try again";
     try {
       const response = await axios.post('http://localhost:5000/users/auth', { email: data.email, password: data.password }, {

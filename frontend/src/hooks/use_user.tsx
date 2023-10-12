@@ -14,9 +14,10 @@ const useUser = () => {
                 setLoading(false)
             }
 
-        }, 
+
+        },[]
     )
-    return [user,loading];
+    return [user, loading];
 }
 
 export default useUser;
