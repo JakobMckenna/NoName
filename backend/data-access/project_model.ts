@@ -36,11 +36,11 @@ export async function getRepo(projectID: string) {
 
         const projects = await prisma.project.findUnique(
             {
-                where:{
-                    id:projectID,
+                where: {
+                    id: projectID,
                 },
                 include: {
-                    github:true,
+                    github: true,
                 }
             }
         )
@@ -60,17 +60,17 @@ export async function createRepo(projectID: string, owner: string, repo: string)
     const prisma = new PrismaClient()
     try {
 
-        const projects = await prisma.githubProject.create(
-           {
-            data:{
-                projectID:projectID,
-                owner:owner,
-                repoName:repo,
+        const gitRepo = await prisma.githubProject.create(
+            {
+                data: {
+                    projectID: projectID,
+                    owner: owner,
+                    repoName: repo,
+                }
             }
-           }
         )
 
-        return projects;
+        return gitRepo;
     } catch (err: any) {
         console.log(err)
         return null;
@@ -80,7 +80,31 @@ export async function createRepo(projectID: string, owner: string, repo: string)
 
 }
 
-export async function createProjectTasks(userID: number, name: string, details: string, deadline: string) {
+export async function createProjectTasks(projectID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number) {
+    const prisma = new PrismaClient()
+    try {
+
+        const gitRepo = await prisma.task.create(
+            {
+                data: {
+                    projectID: projectID,
+                    name: name,
+                    details: details,
+                    deadline: deadline,
+                    createdBy: authorUser,
+                    assignedTo: assignedUser
+
+                }
+            }
+        )
+
+        return gitRepo;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 
 }
 
