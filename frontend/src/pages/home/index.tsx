@@ -25,10 +25,7 @@ export default function Projects(){
     useEffect(
         ()=>{
             //console.log(commits)
-            if(!user){
-                // go back and signin
-               // router.push("/")
-              }
+           
               //console.log(loading)
               //console.log(user)
              
