@@ -1,6 +1,5 @@
-
 import { PrismaClient } from '@prisma/client'
-import { error } from 'console';
+
 
 /*
     createUserPasswordData
