@@ -56,4 +56,31 @@ export async function getUserPassword(userEmail: string, userPassword: string) {
 }
 
 
+/*
+    deleteUserByID
+    delete user by userID 
+    @userID is a int
+    returns deleted user obbject
+*/
+export async function deleteUserByID(userID: number) {
+    const prisma = new PrismaClient()
+    try {
+        
+        const user = await prisma.user.delete({
+            where:{
+                id:userID
+            }
+        })
 
+        console.log(`Deleted user\n${user}`)
+       
+    
+        return user;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally{
+        prisma.$disconnect()
+    }
+    
+}
