@@ -7,4 +7,7 @@ projectRoutes.get("/",ProjectController.getAllProjects)
 
 projectRoutes.post("/",ProjectController.createProject)
 
+projectRoutes.delete("/:id",ProjectController.removeProject)
+
+
 export default projectRoutes;

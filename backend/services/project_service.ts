@@ -1,4 +1,4 @@
-import { createProject, getAllProjects, getProject, removeProject, updateProject } from "../data-access/project_model"
+import { addProjectMember, createProject, getAllProjects, getProject, removeProject, updateProject } from "../data-access/project_model"
 
 const ProjectService = {
     getAllProjects: async () => {
@@ -24,6 +24,11 @@ const ProjectService = {
             if(exists === null)
             {
                 const projects = await createProject(name,userID);
+                if(projects)
+                {
+                    const addProjectManager = await addProjectMember(projects.id,userID)
+                    console.log(addProjectManager)
+                }
                 results = projects
             }else{
                 const projects = await updateProject(id, name,userID);

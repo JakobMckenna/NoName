@@ -289,27 +289,31 @@ export async function addProjectMember(projectID: string, userId: number) {
     const prisma = new PrismaClient()
     try {
 
-        const projects = await prisma.project.update(
+    
+
+        const user = await prisma.user.findFirst(
             {
-                where: {
-                    id: projectID,
-                },
-                data: {
-                    members: {
-                        create: [
-                            {
-                                id: userId
-                            }
-                        ]
+                where:{
+                    id:userId
+                }
+            }
+        )
+            
+        const members = await prisma.projectMember.create(
+            {
+                data:{
+                    user:{
+                        connect:{
+                            id:user?.id
+                        }
                     },
+                    projectID: projectID
 
-                },
-
-            },
+                }
+            }
         )
 
-
-        return projects;
+        return members;
     } catch (err: any) {
         console.log(err)
         return null;
