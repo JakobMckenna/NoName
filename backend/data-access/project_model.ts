@@ -279,7 +279,7 @@ export async function getResearchNotes(projectID: string) {
 
 }
 
-export async function createResearchNote(title: string, details: string, userID: number, sprint: string,url:string) {
+export async function createResearchNote(title: string, details: string, userID: number, sprint: string,urlList:any) {
     const prisma = new PrismaClient()
     try {
 
@@ -289,13 +289,47 @@ export async function createResearchNote(title: string, details: string, userID:
                     sprintID:sprint,
                     title:title,
                     userID:userID,
-                    details:details
-                },
-                include:{
+                    details:details,
                     link:{
-                        url:url,
+                        createMany:{
+                            data:urlList
+                        },
                     }
-                }
+                },
+                
+            }
+        )
+
+        return notes;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
+export async function updateResearchNote(noteID: string,title: string, details: string, userID: number, sprint: string,urlList:any) {
+    const prisma = new PrismaClient()
+    try {
+
+        const notes = await prisma.researchNote.update(
+            {
+                where:{
+                    id:noteID
+                },
+                data:{
+                    sprintID:sprint,
+                    title:title,
+                    userID:userID,
+                    details:details,
+                    link:{
+                        createMany:{
+                            data:urlList
+                        },
+                    }
+                },
+                
             }
         )
 
@@ -359,6 +393,36 @@ export async function createSprint(projectID: string, name: string, start: strin
         prisma.$disconnect()
     }
 }
+
+export async function updateSprint(sprintID :string,projectID: string, name: string, start: string, deadline: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const gitRepo = await prisma.sprint.update(
+            {
+                where:{
+                    id:sprintID
+                },
+                data: {
+                    projectID: projectID,
+                    name: name,
+                    start: start,
+                    deadline: deadline,
+                    // assignedTo: assignedUser
+
+                }
+            }
+        )
+
+        return gitRepo;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
 
 export async function removeSprint(sprintID: string) {
 
