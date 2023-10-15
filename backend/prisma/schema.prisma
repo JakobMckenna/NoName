@@ -72,7 +72,7 @@ model Task {
   date      DateTime
   createdBy    Int
   assignedTo   Int
-  projectID String   @unique
+  projectID String   
   user      User     @relation("createdBy",fields: [createdBy ], references: [id])
   assignedUser User  @relation("assignedTo",fields: [assignedTo], references: [id])
   project   Project  @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -84,7 +84,7 @@ model ResearchNote {
   details      String
   userID       Int    //created by this user
   link         WebLink[]
-  projectID    String    @unique
+  projectID    String    
   created      DateTime  @default(now())
   lastModified DateTime  @updatedAt
   user         User      @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -95,6 +95,6 @@ model WebLink {
   id      String       @id @default(cuid())
   url     String
   details String
-  noteID  String       @unique
+  noteID  String       
   Note    ResearchNote @relation(fields: [noteID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
