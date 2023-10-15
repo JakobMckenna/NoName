@@ -43,6 +43,23 @@ const ProjectController = {
             res.status(400).json()
         }
     },
+    addProjectMember:async (req: Request, res: Response) => {
+        try {
+            const memberBody = req.body;
+            const projectID: string = memberBody.projectID;
+            const userID: number= memberBody.userID;
+            
+          
+            const projects = await ProjectService.addMember(projectID,userID);
+            if (projects === null) {
+                res.status(400).json({ "projects": null });
+            }
+            res.status(200).json({ "projects": projects });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    }
 
 
 }

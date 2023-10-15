@@ -7,6 +7,8 @@ projectRoutes.get("/",ProjectController.getAllProjects)
 
 projectRoutes.post("/",ProjectController.createProject)
 
+projectRoutes.post("/member",ProjectController.addProjectMember)
+
 projectRoutes.delete("/:id",ProjectController.removeProject)
 
 

@@ -50,6 +50,16 @@ const ProjectService = {
             throw new Error("failed to get projects");
         }
     },
+    addMember:async (projectID:string , userID:number) => {
+        try {
+            let results = null;
+            const addProjectMem= await addProjectMember(projectID,userID)
+            results = addProjectMem;
+            return results;
+        } catch (error) {
+            throw new Error("failed to get projects");
+        }
+    },
     
 }
 
