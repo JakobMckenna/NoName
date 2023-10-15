@@ -1,5 +1,77 @@
 import { PrismaClient } from '@prisma/client'
 
+
+export async function createProject(name:string ,userID :number) {
+    const prisma = new PrismaClient()
+    try {
+
+        const project = await prisma.project.create(
+            {
+                data:{
+                    name:name,
+                    userId:userID
+                }
+            }
+        )
+
+        return project;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+
+}
+
+export async function updateProject(projectID:string,name:string ,userID :number) {
+    const prisma = new PrismaClient()
+    try {
+        const project = await prisma.project.update(
+            {
+                where:{
+                    id:projectID
+                },
+                data:{
+                    name:name,
+                    userId:userID
+                }
+            }
+        )
+
+        return project;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+
+}
+
+export async function removeProject(projectID:string,) {
+    const prisma = new PrismaClient()
+    try {
+        const project = await prisma.project.delete(
+            {
+                where:{
+                    id:projectID
+                },
+    
+            }
+        )
+
+        return project;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+
+}
+
+
 export async function getAllProjects() {
     const prisma = new PrismaClient()
     try {
@@ -31,6 +103,8 @@ export async function getAllProjects() {
     }
 
 }
+
+// repo
 export async function getRepo(projectID: string) {
     const prisma = new PrismaClient()
     try {
@@ -79,7 +153,32 @@ export async function createRepo(projectID: string, owner: string, repo: string)
     }
 
 }
+;
+export async function updateRepo(repoID :string ,projectID: string, owner: string, repo: string) {
+    const prisma = new PrismaClient()
+    try {
 
+        const gitRepo = await prisma.githubProject.update(
+            {
+                where:{
+                    id:repoID
+                },
+                data: {
+                    projectID: projectID,
+                    owner: owner,
+                    repoName: repo,
+                }
+            }
+        )
+
+        return gitRepo;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
 
 
 // Project tasks
