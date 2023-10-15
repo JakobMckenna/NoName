@@ -162,30 +162,6 @@ export async function updateProjectTask(taskID :string,sprintID: string , name: 
 
 
 
-export async function createSprints(projectID: string, name: string, start: string, deadline: string) {
-    const prisma = new PrismaClient()
-    try {
-
-        const sprint = await prisma.sprint.create(
-            {
-                data: {
-                    projectID: projectID,
-                    name: name,
-                    start: start,
-                    deadline: deadline
-                }
-            }
-        )
-
-        return sprint;
-    } catch (err: any) {
-        console.log(err)
-        return null;
-    } finally {
-        prisma.$disconnect()
-    }
-
-}
 
 export async function addProjectMember(projectID: string, userId: number) {
     const prisma = new PrismaClient()
