@@ -80,6 +80,9 @@ export async function createRepo(projectID: string, owner: string, repo: string)
 
 }
 
+
+
+// Project tasks
 export async function createProjectTasks(sprintID: string , name: string, details: string, deadline: string, assignedUser: number, authorUser: number,completed:boolean) {
     const prisma = new PrismaClient()
     try {
@@ -161,7 +164,7 @@ export async function updateProjectTask(taskID :string,sprintID: string , name: 
 }
 
 
-
+// Project Members
 
 export async function addProjectMember(projectID: string, userId: number) {
     const prisma = new PrismaClient()
@@ -203,7 +206,34 @@ export async function getMembers(projectID: string) {
         const members = await prisma.projectMember.findMany(
             {
                 where: {
+                  project:{
+                    id:projectID
+                  },
+                },
+                include: {
+                    user: true
+                }
+            }
+        )
+
+        return members;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
+export async function removeMember(projectID: string ,userID: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const members = await prisma.projectMember.delete(
+            {
+                where: {
                     id: projectID,
+
                 },
                 include: {
                     user: true
@@ -244,6 +274,9 @@ export async function getResearchNotes(projectID: string) {
     }
 
 }
+
+
+// Sprints
 
 export async function getSprints(projectID: string) {
     const prisma = new PrismaClient()
@@ -294,3 +327,6 @@ export async function createSprint(projectID: string, name: string, start: strin
     }
 }
 
+export async function removeSprint(sprintID: string) {
+    
+}
