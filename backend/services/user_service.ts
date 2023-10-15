@@ -20,7 +20,7 @@ const UserService = {
   signIn: async (email: string, password: string) => {
     let result: any = null;
     try {
-      const user = await getUserPassword(email, password);
+      const user = await getUserPassword(email);
       //if reul
       if (password == user?.userPassword?.password) {
         console.log("password correct");

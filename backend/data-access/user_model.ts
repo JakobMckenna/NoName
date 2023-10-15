@@ -32,8 +32,13 @@ export async function createUserPasswordData(name: string, email: string, passwo
     }
 }
 
-
-export async function getUserPassword(userEmail: string, userPassword: string) {
+/*
+    getUserPassword
+    confirms if an entered password is correct
+    @userEmail is a string , @userPassword is a string
+    returns deleted user obbject
+*/
+export async function getUserPassword(userEmail: string) {
     const prisma = new PrismaClient()
     try {
         
