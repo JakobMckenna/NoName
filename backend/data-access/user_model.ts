@@ -99,3 +99,27 @@ export async function deleteUserByID(userID: number) {
     }
     
 }
+
+
+export async function getUserProjects(userID: number) {
+    const prisma = new PrismaClient()
+    try {
+        
+        const user = await prisma.user.findUnique({
+            where: {
+                id:userID
+            },
+            include: {
+                project:true,
+            }
+        });
+       
+    
+        return user;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally{
+        prisma.$disconnect()
+    }
+}

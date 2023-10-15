@@ -4,6 +4,8 @@ import UserController from '../controller/user_controller';
 
 const userRoutes = express.Router();
 
+userRoutes.get("/projects/:id",UserController.projects)
+
 userRoutes.post("/",UserController.createUser)
 
 userRoutes.post("/auth", UserController.signIn)

@@ -49,6 +49,22 @@ const UserController = {
         } catch (error) {
             res.status(400).json({ "user": null});
         }
+    },
+    projects:async (req: Request, res: Response) => {
+        try {
+            const userID = req.params.id;
+            const userIdNum = parseInt(userID);
+            if (isNaN(userIdNum)){
+                res.status(400).json({ "user": null ,message:"query string should be number"});
+            }
+            const user = await UserService.getProjects(userIdNum);
+            if(user === null){
+                res.status(404).json({ "user": user });
+            }
+            res.status(200).json({ "user": user });
+        } catch (error) {
+            res.status(400).json({ "user": null});
+        }
     }
 }
 

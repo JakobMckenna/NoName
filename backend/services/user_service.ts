@@ -1,12 +1,12 @@
 
-import { createUserPasswordData, deleteUserByID, getUserPassword } from '../data-access/user_model';
+import { createUserPasswordData, deleteUserByID, getUserPassword, getUserProjects } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
 
 
 
 
 const createUserToken = (email: string) => {
-  return jwt.sign({email}, "TLzr2645ADWJHnVwLILFarysji44YiPi", {
+  return jwt.sign({ email }, "TLzr2645ADWJHnVwLILFarysji44YiPi", {
     expiresIn: "24h",
   });
 };
@@ -55,7 +55,7 @@ const UserService = {
       return result;
     }
   },
-  deleteUser:async (userID: number)=>{
+  deleteUser: async (userID: number) => {
     let result: any = null;
     try {
 
@@ -65,7 +65,20 @@ const UserService = {
       }
     } catch (err: any) {
       console.log(err)
-      throw new Error ()
+      throw new Error()
+    } finally {
+      return result;
+    }
+  },
+  getProjects: async (userID: number) => {
+    let result: any = null;
+    try {
+      const projects = await getUserProjects(userID);
+      result = projects;
+      return result;
+    } catch (err: any) {
+      console.log(err)
+      throw new Error()
     } finally {
       return result;
     }
