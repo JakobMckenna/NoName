@@ -6,7 +6,7 @@ export async function getAllProjects() {
     const prisma = new PrismaClient()
     try {
 
-        const user = await prisma.project.findMany(
+        const projects = await prisma.project.findMany(
             {
                 include: {
                     task: true,
@@ -21,7 +21,7 @@ export async function getAllProjects() {
             }
         )
 
-        return user;
+        return projects;
     } catch (err: any) {
         console.log(err)
         return null;
@@ -31,11 +31,52 @@ export async function getAllProjects() {
 
 }
 export async function getRepo(projectID: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const projects = await prisma.project.findUnique(
+            {
+                where:{
+                    id:projectID,
+                },
+                include: {
+                    github:true,
+                }
+            }
+        )
+
+        return projects;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 
 }
 
 
 export async function createRepo(projectID: string, owner: string, repo: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const projects = await prisma.githubProject.create(
+           {
+            data:{
+                projectID:projectID,
+                owner:owner,
+                repoName:repo,
+            }
+           }
+        )
+
+        return projects;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 
 }
 
