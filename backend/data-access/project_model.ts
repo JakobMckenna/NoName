@@ -24,6 +24,27 @@ export async function createProject(name:string ,userID :number) {
 
 }
 
+export async function getProject(projectID:string,) {
+    const prisma = new PrismaClient()
+    try {
+        const project = await prisma.project.findFirst(
+            {
+                where:{
+                    id:projectID
+                },
+    
+            }
+        )
+
+        return project;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
 export async function updateProject(projectID:string,name:string ,userID :number) {
     const prisma = new PrismaClient()
     try {
@@ -68,7 +89,6 @@ export async function removeProject(projectID:string,) {
     } finally {
         prisma.$disconnect()
     }
-
 }
 
 
