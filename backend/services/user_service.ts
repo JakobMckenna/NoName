@@ -1,5 +1,4 @@
 
-import { error } from 'console';
 import { createUserPasswordData, deleteUserByID, getUserPassword } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
 
@@ -14,9 +13,7 @@ const createUserToken = (email: string) => {
 
 
 const UserService = {
-  getUser: () => {
-    return ("a user")
-  },
+
   signIn: async (email: string, password: string) => {
     let result: any = null;
     try {
