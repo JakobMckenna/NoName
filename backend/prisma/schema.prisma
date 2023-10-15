@@ -11,58 +11,90 @@ datasource db {
 }
 
 model User {
-  id    Int @id @default(autoincrement())
-  email String @unique
-  name  String
+  id           Int             @id @default(autoincrement())
+  email        String          @unique
+  name         String
   userPassword UserPassword?
-  project Project[]
+  task         Task[]  @relation("createdBy")
+  assignedTask Task[]  @relation("assignedTo")
+  note         ResearchNote[]
+  project      Project[]
+  member       ProjectMember[]
 }
 
-model UserPassword{
-  userID Int @id
+model UserPassword {
+  userID   Int     @id
   password String?
-  user  User @relation(fields: [userID]  , references: [id])
+  user     User    @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Project{
-  id String @id @default(cuid())
+model Project {
+  id   String @id @default(cuid())
   name String
-  user User[]
-  notes ResearchNote[]
-  github GithubProject?
+  userId  Int   //created by this user
+  task    Task[]
+  sprint Sprint[]
+  notes   ResearchNote[]
+  github  GithubProject?
+  members ProjectMember[]
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
 }
 
-model GithubProject{
-  id String @id @default(cuid())
-  owner String
-  repoName String
-  projectID String @unique
-  project Project @relation(fields: [projectID],references: [id])
-}
-
-model Task{
-   id String @id @default(cuid())
-   name String 
-   details String?
-   date DateTime
+model Sprint{
+  id   String @id @default(cuid())
+  projectID String
+  start DateTime?
+  deadline DateTime
+  project Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
 }
 
-model ResearchNote{
-  id String @id @default(cuid())
-  title String
+model ProjectMember {
+  id        String @id @default(cuid())
+  projectID String
+  user    User[]
+  project Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model GithubProject {
+  id        String  @id @default(cuid())
+  owner     String
+  repoName  String
+  projectID String  @unique
+  project   Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  name      String
+  details   String?
+  date      DateTime
+  createdBy    Int
+  assignedTo   Int
+  projectID String   @unique
+  user      User     @relation("createdBy",fields: [createdBy ], references: [id])
+  assignedUser User  @relation("assignedTo",fields: [assignedTo], references: [id])
+  project   Project  @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model ResearchNote {
+  id           String    @id @default(cuid())
+  title        String
+  details      String
+  userID       Int    //created by this user
+  link         WebLink[]
+  projectID    String    @unique
+  created      DateTime  @default(now())
+  lastModified DateTime  @updatedAt
+  user         User      @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  project      Project   @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model WebLink {
+  id      String       @id @default(cuid())
+  url     String
   details String
-  link WebLink[]
-  projectID String @unique
-  created DateTime  @default(now())
-  lastModified DateTime @updatedAt
-  project Project @relation(fields: [projectID],references: [id])
-}
-
-model WebLink{
-   id String @id @default(cuid())
-  url String
-  details String
-  noteID String @unique
-  Note ResearchNote @relation(fields: [noteID],references: [id])
+  noteID  String       @unique
+  Note    ResearchNote @relation(fields: [noteID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
