@@ -1,5 +1,6 @@
 
-import { createUserPasswordData, getUserPassword } from '../data-access/user_model';
+import { error } from 'console';
+import { createUserPasswordData, deleteUserByID, getUserPassword } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
 
 
@@ -56,9 +57,22 @@ const UserService = {
     } finally {
       return result;
     }
-
-
   },
+  deleteUser:async (userID: number)=>{
+    let result: any = null;
+    try {
+
+      const deletedUser = await deleteUserByID(userID);
+      if (deletedUser) {
+        result = deletedUser;
+      }
+    } catch (err: any) {
+      console.log(err)
+      throw new Error ()
+    } finally {
+      return result;
+    }
+  }
 }
 
 export default UserService;

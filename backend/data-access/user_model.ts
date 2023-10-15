@@ -1,5 +1,6 @@
 
 import { PrismaClient } from '@prisma/client'
+import { error } from 'console';
 
 
 export async function createUserPasswordData(name: string, email: string, password: string) {
@@ -63,7 +64,7 @@ export async function getUserPassword(userEmail: string, userPassword: string) {
     returns deleted user obbject
 */
 export async function deleteUserByID(userID: number) {
-    const prisma = new PrismaClient()
+    const prisma = new PrismaClient();
     try {
         
         const user = await prisma.user.delete({
@@ -73,11 +74,16 @@ export async function deleteUserByID(userID: number) {
         })
 
         console.log(`Deleted user\n${user}`)
-       
-    
+       if(user!=null)
+       {
+        console.log("user doesnt exist")
+        throw new Error ("user does not exist")
+       }
         return user;
     } catch (err: any) {
         console.log(err)
+        //throw(error)
+      //  throw new Error ()
         return null;
     } finally{
         prisma.$disconnect()
