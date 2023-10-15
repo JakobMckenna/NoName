@@ -80,11 +80,11 @@ export async function createRepo(projectID: string, owner: string, repo: string)
 
 }
 
-export async function createProjectTasks(sprintID: string,projectID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number,completed:boolean) {
+export async function createProjectTasks(sprintID: string , name: string, details: string, deadline: string, assignedUser: number, authorUser: number,completed:boolean) {
     const prisma = new PrismaClient()
     try {
 
-        const gitRepo = await prisma.task.create(
+        const tasks = await prisma.task.create(
             {
                 data:{
                     sprintID:sprintID,
@@ -98,7 +98,7 @@ export async function createProjectTasks(sprintID: string,projectID: string, nam
             }
         )
 
-        return gitRepo;
+        return tasks;
     } catch (err: any) {
         console.log(err)
         return null;
@@ -107,6 +107,28 @@ export async function createProjectTasks(sprintID: string,projectID: string, nam
     }
 
 }
+
+export async function removeProjectTask(taskID:string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const removedTask = await prisma.task.delete(
+            {
+               where:{
+                id:taskID,
+               },
+            }
+        )
+
+        return removedTask;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
 
 export async function createSprints(projectID: string, name: string, start: string, deadline: string) {
     const prisma = new PrismaClient()
