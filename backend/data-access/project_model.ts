@@ -8,8 +8,8 @@ export async function getAllProjects() {
             {
                 include: {
                     sprint: {
-                        include:{
-                            task:true
+                        include: {
+                            task: true
                         }
                     },
                     members: {
@@ -83,20 +83,20 @@ export async function createRepo(projectID: string, owner: string, repo: string)
 
 
 // Project tasks
-export async function createProjectTasks(sprintID: string , name: string, details: string, deadline: string, assignedUser: number, authorUser: number,completed:boolean) {
+export async function createProjectTasks(sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) {
     const prisma = new PrismaClient()
     try {
 
         const tasks = await prisma.task.create(
             {
-                data:{
-                    sprintID:sprintID,
-                    name:name,
-                    details:details,
-                    deadline:deadline,
-                    assignedTo:assignedUser,
-                    createdBy:authorUser,
-                    completed:completed
+                data: {
+                    sprintID: sprintID,
+                    name: name,
+                    details: details,
+                    deadline: deadline,
+                    assignedTo: assignedUser,
+                    createdBy: authorUser,
+                    completed: completed
                 }
             }
         )
@@ -111,15 +111,15 @@ export async function createProjectTasks(sprintID: string , name: string, detail
 
 }
 
-export async function removeProjectTask(taskID:string) {
+export async function removeProjectTask(taskID: string) {
     const prisma = new PrismaClient()
     try {
 
         const removedTask = await prisma.task.delete(
             {
-               where:{
-                id:taskID,
-               },
+                where: {
+                    id: taskID,
+                },
             }
         )
 
@@ -132,23 +132,23 @@ export async function removeProjectTask(taskID:string) {
     }
 }
 
-export async function updateProjectTask(taskID :string,sprintID: string , name: string, details: string, deadline: string, assignedUser: number, authorUser: number,completed:boolean) {
+export async function updateProjectTask(taskID: string, sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) {
     const prisma = new PrismaClient()
     try {
 
         const task = await prisma.task.update(
             {
-                where:{
-                    id:taskID,
+                where: {
+                    id: taskID,
                 },
-                data:{
-                    sprintID:sprintID,
-                    name:name,
-                    details:details,
-                    deadline:deadline,
-                    assignedTo:assignedUser,
-                    createdBy:authorUser,
-                    completed:completed
+                data: {
+                    sprintID: sprintID,
+                    name: name,
+                    details: details,
+                    deadline: deadline,
+                    assignedTo: assignedUser,
+                    createdBy: authorUser,
+                    completed: completed
                 }
             }
         )
@@ -172,14 +172,14 @@ export async function addProjectMember(projectID: string, userId: number) {
 
         const projects = await prisma.project.update(
             {
-                where:{
-                    id:projectID,
+                where: {
+                    id: projectID,
                 },
                 data: {
-                    members:{
-                        create:[
+                    members: {
+                        create: [
                             {
-                                id:userId
+                                id: userId
                             }
                         ]
                     },
@@ -206,9 +206,9 @@ export async function getProjectMembers(projectID: string) {
         const members = await prisma.projectMember.findMany(
             {
                 where: {
-                  project:{
-                    id:projectID
-                  },
+                    project: {
+                        id: projectID
+                    },
                 },
                 include: {
                     user: true
@@ -225,23 +225,23 @@ export async function getProjectMembers(projectID: string) {
     }
 }
 
-export async function removeProjectMember(projectID: string ,userID: number) {
+export async function removeProjectMember(projectID: string, userID: number) {
     const prisma = new PrismaClient()
     try {
 
         const members = await prisma.projectMember.deleteMany(
             {
                 where: {
-                    project:{
-                        id:projectID,
-                        user:{
-                            id:userID,
+                    project: {
+                        id: projectID,
+                        user: {
+                            id: userID,
                         },
                     },
-                   
+
 
                 },
-              
+
             }
         )
 
@@ -277,6 +277,35 @@ export async function getResearchNotes(projectID: string) {
         prisma.$disconnect()
     }
 
+}
+
+export async function createResearchNote(title: string, details: string, userID: number, sprint: string,url:string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const notes = await prisma.researchNote.create(
+            {
+                data:{
+                    sprintID:sprint,
+                    title:title,
+                    userID:userID,
+                    details:details
+                },
+                include:{
+                    link:{
+                        url:url,
+                    }
+                }
+            }
+        )
+
+        return notes;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 }
 
 
@@ -332,5 +361,5 @@ export async function createSprint(projectID: string, name: string, start: strin
 }
 
 export async function removeSprint(sprintID: string) {
-    
+
 }

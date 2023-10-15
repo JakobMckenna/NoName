@@ -95,7 +95,7 @@ model ResearchNote {
 model WebLink {
   id      String       @id @default(cuid())
   url     String
-  details String
+  details String ?
   noteID  String       
   Note    ResearchNote @relation(fields: [noteID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
