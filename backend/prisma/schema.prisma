@@ -69,7 +69,7 @@ model Task {
   id        String   @id @default(cuid())
   name      String
   details   String?
-  date      DateTime
+  deadline      DateTime
   createdBy    Int
   assignedTo   Int
   projectID String   
