@@ -122,7 +122,7 @@ export async function getSprints(projectID: string) {
 
 }
 
-export async function createSprint(params:type) {
+export async function createSprint(projectID: string,name:string,start :string , deadline: string) {
     const prisma = new PrismaClient()
     try {
 
@@ -131,10 +131,9 @@ export async function createSprint(params:type) {
                 data: {
                     projectID: projectID,
                     name: name,
-                    details: details,
+                    start: start,
                     deadline: deadline,
-                    createdBy: authorUser,
-                    assignedTo: assignedUser
+                   // assignedTo: assignedUser
 
                 }
             }
