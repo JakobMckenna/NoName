@@ -15,10 +15,54 @@ model User {
   email String @unique
   name  String
   userPassword UserPassword?
+  project Project[]
 }
 
 model UserPassword{
   userID Int @id
   password String?
   user  User @relation(fields: [userID]  , references: [id])
+}
+
+model Project{
+  id String @id @default(cuid())
+  name String
+  user User[]
+  notes ResearchNote[]
+  github GithubProject?
+}
+
+model GithubProject{
+  id String @id @default(cuid())
+  owner String
+  repoName String
+  projectID String @unique
+  project Project @relation(fields: [projectID],references: [id])
+}
+
+model Task{
+   id String @id @default(cuid())
+   name String 
+   details String?
+   date DateTime
+
+}
+
+model ResearchNote{
+  id String @id @default(cuid())
+  title String
+  details String
+  link WebLink[]
+  projectID String @unique
+  created DateTime  @default(now())
+  lastModified DateTime @updatedAt
+  project Project @relation(fields: [projectID],references: [id])
+}
+
+model WebLink{
+   id String @id @default(cuid())
+  url String
+  details String
+  noteID String @unique
+  Note ResearchNote @relation(fields: [noteID],references: [id])
 }
