@@ -2,7 +2,12 @@
 import { PrismaClient } from '@prisma/client'
 import { error } from 'console';
 
-
+/*
+    createUserPasswordData
+    creates user with a password
+    @name is a string @email is a string , @password is a string
+    returns user obbject with password
+*/
 export async function createUserPasswordData(name: string, email: string, password: string) {
     const prisma = new PrismaClient()
     try {
@@ -36,7 +41,7 @@ export async function createUserPasswordData(name: string, email: string, passwo
     getUserPassword
     confirms if an entered password is correct
     @userEmail is a string , @userPassword is a string
-    returns deleted user obbject
+    returns user obbject with password
 */
 export async function getUserPassword(userEmail: string) {
     const prisma = new PrismaClient()
