@@ -122,3 +122,30 @@ export async function getSprints(projectID: string) {
 
 }
 
+export async function createSprint(params:type) {
+    const prisma = new PrismaClient()
+    try {
+
+        const gitRepo = await prisma.sprint.create(
+            {
+                data: {
+                    projectID: projectID,
+                    name: name,
+                    details: details,
+                    deadline: deadline,
+                    createdBy: authorUser,
+                    assignedTo: assignedUser
+
+                }
+            }
+        )
+
+        return gitRepo;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+

@@ -44,6 +44,7 @@ model Project {
 model Sprint{
   id   String @id @default(cuid())
   projectID String
+  name String
   start DateTime?
   deadline DateTime
   project Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
