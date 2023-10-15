@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 
-
-
 export async function getAllProjects() {
     const prisma = new PrismaClient()
     try {
@@ -9,14 +7,17 @@ export async function getAllProjects() {
         const projects = await prisma.project.findMany(
             {
                 include: {
-                    task: true,
-                    sprint: true,
+                    sprint: {
+                        include:{
+                            task:true
+                        }
+                    },
                     members: {
                         include: {
                             user: true,
                         }
                     },
-                    github: true
+                    github: true,
                 }
             }
         )
@@ -55,7 +56,6 @@ export async function getRepo(projectID: string) {
 
 }
 
-
 export async function createRepo(projectID: string, owner: string, repo: string) {
     const prisma = new PrismaClient()
     try {
@@ -80,20 +80,20 @@ export async function createRepo(projectID: string, owner: string, repo: string)
 
 }
 
-export async function createProjectTasks(projectID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number) {
+export async function createProjectTasks(sprintID: string,projectID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number,completed:boolean) {
     const prisma = new PrismaClient()
     try {
 
         const gitRepo = await prisma.task.create(
             {
-                data: {
-                    projectID: projectID,
-                    name: name,
-                    details: details,
-                    deadline: deadline,
-                    createdBy: authorUser,
-                    assignedTo: assignedUser
-
+                data:{
+                    sprintID:sprintID,
+                    name:name,
+                    details:details,
+                    deadline:deadline,
+                    assignedTo:assignedUser,
+                    createdBy:authorUser,
+                    completed:completed
                 }
             }
         )
@@ -108,21 +108,137 @@ export async function createProjectTasks(projectID: string, name: string, detail
 
 }
 
-export async function getMembers(projectID: string) {
+export async function createSprints(projectID: string, name: string, start: string, deadline: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const sprint = await prisma.sprint.create(
+            {
+                data: {
+                    projectID: projectID,
+                    name: name,
+                    start: start,
+                    deadline: deadline
+                }
+            }
+        )
+
+        return sprint;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 
 }
 
-export async function getResearchNotes(projectID: string) {
+export async function addProjectMember(projectID: string, userId: number) {
+    const prisma = new PrismaClient()
+    try {
 
+        const projects = await prisma.project.update(
+            {
+                where:{
+                    id:projectID,
+                },
+                data: {
+                    members:{
+                        create:[
+                            {
+                                id:userId
+                            }
+                        ]
+                    },
+
+                },
+
+            },
+        )
+
+
+        return projects;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
+export async function getMembers(projectID: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const members = await prisma.projectMember.findMany(
+            {
+                where: {
+                    id: projectID,
+                },
+                include: {
+                    user: true
+                }
+            }
+        )
+
+        return members;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
+export async function getResearchNotes(projectID: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const notes = await prisma.researchNote.findMany(
+            {
+                where: {
+                    id: projectID,
+                },
+                include: {
+                    link: true
+                }
+            }
+        )
+
+        return notes;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 
 }
 
 export async function getSprints(projectID: string) {
+    const prisma = new PrismaClient()
+    try {
 
+        const sprints = await prisma.sprint.findMany(
+            {
+                where: {
+                    id: projectID,
+                },
+
+            }
+        )
+
+        return sprints;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 
 }
 
-export async function createSprint(projectID: string,name:string,start :string , deadline: string) {
+export async function createSprint(projectID: string, name: string, start: string, deadline: string) {
     const prisma = new PrismaClient()
     try {
 
@@ -133,7 +249,7 @@ export async function createSprint(projectID: string,name:string,start :string ,
                     name: name,
                     start: start,
                     deadline: deadline,
-                   // assignedTo: assignedUser
+                    // assignedTo: assignedUser
 
                 }
             }
