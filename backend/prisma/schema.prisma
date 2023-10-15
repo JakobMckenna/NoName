@@ -36,7 +36,7 @@ model Project {
   github  GithubProject?
   members ProjectMember[]
   user    User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
- 
+ @@unique([name,userId])
 }
 
 model Sprint{

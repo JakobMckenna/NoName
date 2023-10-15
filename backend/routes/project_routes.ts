@@ -5,4 +5,6 @@ const projectRoutes = express.Router();
 
 projectRoutes.get("/",ProjectController.getAllProjects)
 
+projectRoutes.post("/",ProjectController.createProject)
+
 export default projectRoutes;

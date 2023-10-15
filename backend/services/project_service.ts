@@ -18,7 +18,9 @@ const ProjectService = {
     createProject:async (id:string ,name:string ,userID :number) => {
         try {
             let results = null;
-            const exists = await getProject(id)
+            let exists = null;
+            if (id != null)
+                 exists = await getProject(id)
             if(exists === null)
             {
                 const projects = await createProject(name,userID);
