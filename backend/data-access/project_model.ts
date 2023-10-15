@@ -372,7 +372,7 @@ export async function createSprint(projectID: string, name: string, start: strin
     const prisma = new PrismaClient()
     try {
 
-        const gitRepo = await prisma.sprint.create(
+        const sprint = await prisma.sprint.create(
             {
                 data: {
                     projectID: projectID,
@@ -385,7 +385,7 @@ export async function createSprint(projectID: string, name: string, start: strin
             }
         )
 
-        return gitRepo;
+        return sprint;
     } catch (err: any) {
         console.log(err)
         return null;
@@ -398,7 +398,7 @@ export async function updateSprint(sprintID :string,projectID: string, name: str
     const prisma = new PrismaClient()
     try {
 
-        const gitRepo = await prisma.sprint.update(
+        const sprint = await prisma.sprint.update(
             {
                 where:{
                     id:sprintID
@@ -414,7 +414,7 @@ export async function updateSprint(sprintID :string,projectID: string, name: str
             }
         )
 
-        return gitRepo;
+        return sprint;
     } catch (err: any) {
         console.log(err)
         return null;
