@@ -199,7 +199,7 @@ export async function addProjectMember(projectID: string, userId: number) {
     }
 }
 
-export async function getMembers(projectID: string) {
+export async function getProjectMembers(projectID: string) {
     const prisma = new PrismaClient()
     try {
 
@@ -225,19 +225,23 @@ export async function getMembers(projectID: string) {
     }
 }
 
-export async function removeMember(projectID: string ,userID: string) {
+export async function removeProjectMember(projectID: string ,userID: number) {
     const prisma = new PrismaClient()
     try {
 
-        const members = await prisma.projectMember.delete(
+        const members = await prisma.projectMember.deleteMany(
             {
                 where: {
-                    id: projectID,
+                    project:{
+                        id:projectID,
+                        user:{
+                            id:userID,
+                        },
+                    },
+                   
 
                 },
-                include: {
-                    user: true
-                }
+              
             }
         )
 
