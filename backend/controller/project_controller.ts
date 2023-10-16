@@ -72,6 +72,25 @@ const ProjectController = {
         } catch (error) {
             res.status(400).json()
         }
+    },
+    removeMember:async (req: Request, res: Response) => {
+        try {
+            const projectID: string = req.params.projectID;
+            const userID: string = req.params.userID;
+            const userIdNum = parseInt(userID);
+            if (isNaN(userIdNum)){
+                res.status(400).json({ "user": null ,message:"query string should be number"});
+            }
+            const projects = await ProjectService.removeMember(projectID,userIdNum);
+            if (projects === null) {
+                res.status(400).json({ "projects": null });
+            }
+            res.status(200).json({ "projects": projects });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+
     }
 
 }

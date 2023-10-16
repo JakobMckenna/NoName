@@ -13,5 +13,6 @@ projectRoutes.post("/member",ProjectController.addProjectMember)
 
 projectRoutes.delete("/:id",ProjectController.removeProject)
 
+projectRoutes.delete("/member",ProjectController.addProjectMember)
 
 export default projectRoutes;

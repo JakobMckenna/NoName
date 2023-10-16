@@ -1,4 +1,4 @@
-import { addProjectMember, createProject, getAllProjects, getProject, getProjectMembers, removeProject, updateProject } from "../data-access/project_model"
+import { addProjectMember, createProject, getAllProjects, getProject, getProjectMembers, removeProject, removeProjectMember, updateProject } from "../data-access/project_model"
 
 const ProjectService = {
     getAllProjects: async () => {
@@ -63,6 +63,16 @@ const ProjectService = {
             let results = null;
             const members = await getProjectMembers(projectID)
             results = members;
+            return results;
+        } catch (error) {
+            throw new Error("failed to get projects");
+        }
+    },
+    removeMember: async (projectID: string, userID: number) => {
+        try {
+            let results = null;
+            const removedMember = await removeProjectMember(projectID, userID)
+            results = removedMember;
             return results;
         } catch (error) {
             throw new Error("failed to get projects");
