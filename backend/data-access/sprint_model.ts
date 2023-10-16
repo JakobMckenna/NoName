@@ -82,5 +82,23 @@ export async function updateSprint(sprintID :string,projectID: string, name: str
 
 
 export async function removeSprint(sprintID: string) {
+    const prisma = new PrismaClient()
+    try {
 
+        const sprint = await prisma.sprint.delete(
+            {
+                where:{
+                    id:sprintID
+                },
+              
+            }
+        )
+
+        return sprint;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
 }
