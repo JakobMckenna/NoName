@@ -1,4 +1,4 @@
-import { addProjectMember, createProject, getAllProjects, getProject, removeProject, updateProject } from "../data-access/project_model"
+import { addProjectMember, createProject, getAllProjects, getProject, getProjectMembers, removeProject, updateProject } from "../data-access/project_model"
 
 const ProjectService = {
     getAllProjects: async () => {
@@ -15,32 +15,30 @@ const ProjectService = {
         creates project and if project already exists it updates the project
 
     */
-    createProject:async (id:string ,name:string ,userID :number) => {
+    createProject: async (id: string, name: string, userID: number) => {
         try {
             let results = null;
             let exists = null;
             if (id != null)
-                 exists = await getProject(id)
-            if(exists === null)
-            {
-                const projects = await createProject(name,userID);
-                if(projects)
-                {
-                    const addProjectManager = await addProjectMember(projects.id,userID)
+                exists = await getProject(id)
+            if (exists === null) {
+                const projects = await createProject(name, userID);
+                if (projects) {
+                    const addProjectManager = await addProjectMember(projects.id, userID)
                     console.log(addProjectManager)
                 }
                 results = projects
-            }else{
-                const projects = await updateProject(id, name,userID);
+            } else {
+                const projects = await updateProject(id, name, userID);
                 results = projects
             }
-                
+
             return results;
         } catch (error) {
             throw new Error("failed to get projects");
         }
     },
-    removeProject:async (id:string ) => {
+    removeProject: async (id: string) => {
         try {
             let results = null;
             const removedProject = await removeProject(id);
@@ -50,17 +48,26 @@ const ProjectService = {
             throw new Error("failed to get projects");
         }
     },
-    addMember:async (projectID:string , userID:number) => {
+    addMember: async (projectID: string, userID: number) => {
         try {
             let results = null;
-            const addProjectMem= await addProjectMember(projectID,userID)
+            const addProjectMem = await addProjectMember(projectID, userID)
             results = addProjectMem;
             return results;
         } catch (error) {
             throw new Error("failed to get projects");
         }
     },
-    
+    getMembers: async (projectID: string) => {
+        try {
+            let results = null;
+            const members = await getProjectMembers(projectID)
+            results = members;
+            return results;
+        } catch (error) {
+            throw new Error("failed to get projects");
+        }
+    },
 }
 
 export default ProjectService;

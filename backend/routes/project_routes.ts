@@ -5,6 +5,8 @@ const projectRoutes = express.Router();
 
 projectRoutes.get("/",ProjectController.getAllProjects)
 
+projectRoutes.get("/member/:id",ProjectController.getMembers)
+
 projectRoutes.post("/",ProjectController.createProject)
 
 projectRoutes.post("/member",ProjectController.addProjectMember)

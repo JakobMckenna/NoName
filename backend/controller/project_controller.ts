@@ -59,8 +59,20 @@ const ProjectController = {
         } catch (error) {
             res.status(400).json()
         }
-    }
+    },
+    getMembers:async (req: Request, res: Response) => {
+        try {
+            const projectID: string = req.params.id;
+            const members = await ProjectService.getMembers(projectID);
+            if (members === null) {
+                res.status(400).json({ "members": null });
+            }
+            res.status(200).json({ "members": members });
 
+        } catch (error) {
+            res.status(400).json()
+        }
+    }
 
 }
 
