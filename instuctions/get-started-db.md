@@ -6,5 +6,5 @@
 
 ## Create database on MySql instance
 - The codes below creates the database based on the prisma schema
-> npx prisma migragte dev --name init
+> npx prisma migrate dev --name init
 > npx prisma db push
