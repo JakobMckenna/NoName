@@ -28,7 +28,7 @@ export async function getResearchNotes(projectID: string) {
 
 }
 
-export async function createResearchNote(title: string, details: string, userID: number, sprint: string, urlList: any) {
+export async function createResearchNote(title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
     const prisma = new PrismaClient()
     try {
 
