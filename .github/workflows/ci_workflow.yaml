@@ -28,7 +28,7 @@ jobs:
         env: 
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
       - name: Set up Docker
         run: |
           docker --version
