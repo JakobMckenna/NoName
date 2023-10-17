@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { createResearchNote ,deleteResearchNote, updateResearchNote } from "../data-access/research_model";
+import { createResearchNote ,deleteResearchNote, getResearchNotes, updateResearchNote } from "../data-access/research_model";
 import { Url } from "../interfaces/interfaces";
 
 const NoteService = {
@@ -29,6 +29,16 @@ const NoteService = {
         try{
             let result = null;
             const deletedNote = await updateResearchNote(noteID,title,details,userID,sprint,urlList);
+            result = deletedNote;
+            return result;
+        }catch(error){
+            throw new Error("faield to create note")
+        }
+    },
+    getAll:async (projectID:string) => {
+        try{
+            let result = null;
+            const deletedNote = await getResearchNotes(projectID);
             result = deletedNote;
             return result;
         }catch(error){
