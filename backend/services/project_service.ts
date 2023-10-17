@@ -1,7 +1,7 @@
 import { addProjectMember, createProject, getAllProjects, getProject, getProjectMembers, removeProject, removeProjectMember, updateProject } from "../data-access/project_model"
 import { createRepo, getRepo, updateRepo } from "../data-access/repo_model";
 import { createSprint, getSprint, getSprints, removeSprint, updateSprint } from "../data-access/sprint_model";
-import { createProjectTask, getProjectTask, updateProjectTask } from "../data-access/task_model";
+import { createProjectTask, getProjectTask, removeProjectTask, updateProjectTask } from "../data-access/task_model";
 
 const ProjectService = {
     getAllProjects: async () => {
@@ -149,13 +149,13 @@ const ProjectService = {
             throw new Error("failed to get sprints");
         }
     },
-    addTask:async (sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean)=>{
+    addTask:async (taskID:string,sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean)=>{
         try {
             let results = null;
            
             let exists = null;
-            if (sprintID!= null || sprintID==="")
-                exists = await getProjectTask(sprintID)
+            if (taskID!= null || taskID==="")
+                exists = await getProjectTask(taskID)
             if (exists === null)
             {
                 const sprint = await createProjectTask(sprintID,name,details,deadline,assignedUser,authorUser,completed)
@@ -167,6 +167,14 @@ const ProjectService = {
             return results;
         } catch (error) {
             throw new Error("failed to add new sprint");
+        }
+    },
+    removeTask:async (taskID:string)=>{
+        try {
+            const task = await removeProjectTask(taskID);
+            return task;
+        } catch (error) {
+            throw new Error("failed to get sprints");
         }
     },
 }
