@@ -34,5 +34,7 @@ projectRoutes.delete("/notes/:id",NotesController.delete);
 
 projectRoutes.patch("/notes",NotesController.update);
 
+projectRoutes.post("/task",ProjectController.addTask);
+
 
 export default projectRoutes;

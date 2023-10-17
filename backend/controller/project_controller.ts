@@ -163,13 +163,14 @@ const ProjectController = {
     addTask: async (req: Request, res: Response) => {
         try {
             const taskBody = req.body;
+            console.log(taskBody)
             const taskID: string = taskBody.taskID;
             const sprintID: string = taskBody.sprintID;
 
             const details: string = taskBody.details;
             const name: string = taskBody.name;
             const assignedUser: number = taskBody.assignedUser;
-            const authorUser: number = taskBody.projectID;
+            const authorUser: number = taskBody.authorUser;
             const deadline: string = taskBody.deadline;
             const completed: boolean = taskBody.completed;
 
