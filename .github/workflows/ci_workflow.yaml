@@ -28,7 +28,7 @@ jobs:
       - name: Set up Docker
         run: |
           docker --version
-          service docker start # Start Docker daemon
+          sudo service docker start # Start Docker daemon
       - name: Set up database on MySQL instance
         run: |
           docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
