@@ -40,6 +40,7 @@ export async function getProject(projectID:string,) {
                                     link:true,
                                 },
                             },
+                            task:true
                         },
                     },
                     github:true,
@@ -48,6 +49,7 @@ export async function getProject(projectID:string,) {
                             user:true
                         },
                     },
+                    
                 },
     
             }

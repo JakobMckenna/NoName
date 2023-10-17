@@ -110,7 +110,11 @@ export async function getUserProjects(userID: number) {
                 id:userID
             },
             include: {
-                project:true,
+                project:{
+                    include:{
+                        github:true,
+                    }
+                },
             }
         });
        
