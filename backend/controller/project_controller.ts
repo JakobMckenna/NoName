@@ -43,14 +43,14 @@ const ProjectController = {
             res.status(400).json()
         }
     },
-    addProjectMember:async (req: Request, res: Response) => {
+    addProjectMember: async (req: Request, res: Response) => {
         try {
             const memberBody = req.body;
             const projectID: string = memberBody.projectID;
-            const userID: number= memberBody.userID;
-            
-          
-            const projects = await ProjectService.addMember(projectID,userID);
+            const userID: number = memberBody.userID;
+
+
+            const projects = await ProjectService.addMember(projectID, userID);
             if (projects === null) {
                 res.status(400).json({ "projects": null });
             }
@@ -60,7 +60,7 @@ const ProjectController = {
             res.status(400).json()
         }
     },
-    getMembers:async (req: Request, res: Response) => {
+    getMembers: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
             const members = await ProjectService.getMembers(projectID);
@@ -73,15 +73,15 @@ const ProjectController = {
             res.status(400).json()
         }
     },
-    removeMember:async (req: Request, res: Response) => {
+    removeMember: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.projectID;
             const userID: string = req.params.userID;
             const userIdNum = parseInt(userID);
-            if (isNaN(userIdNum)){
-                res.status(400).json({ "user": null ,message:"query string should be number"});
+            if (isNaN(userIdNum)) {
+                res.status(400).json({ "user": null, message: "query string should be number" });
             }
-            const projects = await ProjectService.removeMember(projectID,userIdNum);
+            const projects = await ProjectService.removeMember(projectID, userIdNum);
             if (projects === null) {
                 res.status(400).json({ "projects": null });
             }
@@ -92,7 +92,79 @@ const ProjectController = {
         }
 
     },
-    
+    addRepo: async (req: Request, res: Response) => {
+        try {
+            const repoID: string = req.params.repoID;
+            const projectID: string = req.params.projectID;
+            const owner: string = req.params.owner;
+            const repoName: string = req.params.repoName;
+            const repo = await ProjectService.addRepo(repoID, projectID, owner, repoName)
+            res.status(200).json({ "github": repo });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    },
+    createSprint: async (req: Request, res: Response) => {
+        try {
+            const sprintID: string = req.params.sprintID;
+            const projectID: string = req.params.projectID;
+            const name: string = req.params.name;
+            const start: string = req.params.start;
+            const deadline: string = req.params.deadline;
+
+            const sprint = await ProjectService.createSprint(sprintID, projectID, name, start, deadline)
+            res.status(200).json({ "sprint": sprint });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    },
+    removeSprint: async (req: Request, res: Response) => {
+        try {
+            const sprintID: string = req.params.sprintID;
+
+            const sprint = await ProjectService.removeSprint(sprintID)
+            res.status(200).json({ "sprint": sprint });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    },
+    // get all sprint of all a project
+    getAllSprints: async (req: Request, res: Response) => {
+        try {
+            const projectID: string = req.params.projectID;
+
+            const sprints = await ProjectService.getAllSprints(projectID)
+            res.status(200).json({ "sprints": sprints });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    },
+    addTask: async (req: Request, res: Response) => {
+        try {
+            const taskBody = req.body;
+            const taskID: string = taskBody.taskID;
+            const sprintID: string = taskBody.sprintID;
+
+            const details: string = taskBody.details;
+            const name: string = taskBody.name;
+            const assignedUser: number = taskBody.assignedUser;
+            const authorUser: number = taskBody.projectID;
+            const deadline: string = taskBody.deadline;
+            const completed: boolean = taskBody.completed;
+
+           
+
+            const addedTask = await ProjectService.addTask(taskID, sprintID, name, details, deadline, assignedUser, authorUser, completed)
+            res.status(200).json({ "task": addedTask  });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    },
 
 }
 
