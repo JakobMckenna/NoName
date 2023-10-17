@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { Url } from '../interfaces/interfaces';
 
 
 
@@ -27,24 +28,24 @@ export async function getResearchNotes(projectID: string) {
 
 }
 
-export async function createResearchNote(title: string, details: string, userID: number, sprint: string,urlList:any) {
+export async function createResearchNote(title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
     const prisma = new PrismaClient()
     try {
 
         const notes = await prisma.researchNote.create(
             {
-                data:{
-                    sprintID:sprint,
-                    title:title,
-                    userID:userID,
-                    details:details,
-                    link:{
-                        createMany:{
-                            data:urlList
+                data: {
+                    sprintID: sprint,
+                    title: title,
+                    userID: userID,
+                    details: details,
+                    link: {
+                        createMany: {
+                            data: urlList
                         },
                     }
                 },
-                
+
             }
         )
 
@@ -57,27 +58,49 @@ export async function createResearchNote(title: string, details: string, userID:
     }
 }
 
-export async function updateResearchNote(noteID: string,title: string, details: string, userID: number, sprint: string,urlList:any) {
+export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
     const prisma = new PrismaClient()
     try {
 
         const notes = await prisma.researchNote.update(
             {
-                where:{
-                    id:noteID
+                where: {
+                    id: noteID
                 },
-                data:{
-                    sprintID:sprint,
-                    title:title,
-                    userID:userID,
-                    details:details,
-                    link:{
-                        createMany:{
-                            data:urlList
+                data: {
+                    sprintID: sprint,
+                    title: title,
+                    userID: userID,
+                    details: details,
+                    link: {
+                        createMany: {
+                            data: urlList
                         },
                     }
                 },
-                
+
+            }
+        )
+
+        return notes;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
+
+export async function deleteResearchNote(noteID: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const notes = await prisma.researchNote.delete(
+            {
+                where: {
+                    id: noteID
+                }
             }
         )
 

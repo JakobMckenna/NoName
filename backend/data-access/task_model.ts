@@ -14,7 +14,8 @@ export async function createProjectTask(sprintID: string, name: string, details:
                     deadline: deadline,
                     assignedTo: assignedUser,
                     createdBy: authorUser,
-                    completed: completed
+                    completed: completed,
+                    
                 }
             }
         )
