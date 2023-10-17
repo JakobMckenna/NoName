@@ -108,11 +108,12 @@ const ProjectController = {
     },
     createSprint: async (req: Request, res: Response) => {
         try {
-            const sprintID: string = req.params.sprintID;
-            const projectID: string = req.params.projectID;
-            const name: string = req.params.name;
-            const start: string = req.params.start;
-            const deadline: string = req.params.deadline;
+            const sprintBody = req.body;
+            const sprintID: string = sprintBody.sprintID;
+            const projectID: string = sprintBody.projectID;
+            const name: string = sprintBody.name;
+            const start: string = sprintBody.start;
+            const deadline: string = sprintBody.deadline;
 
             const sprint = await ProjectService.createSprint(sprintID, projectID, name, start, deadline)
             res.status(200).json({ "sprint": sprint });
