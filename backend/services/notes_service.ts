@@ -38,8 +38,8 @@ const NoteService = {
     getAll:async (projectID:string) => {
         try{
             let result = null;
-            const deletedNote = await getResearchNotes(projectID);
-            result = deletedNote;
+            const allNotes = await getResearchNotes(projectID);
+            result = allNotes;
             return result;
         }catch(error){
             throw new Error("faield to create note")
