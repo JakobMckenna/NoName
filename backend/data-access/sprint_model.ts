@@ -2,14 +2,37 @@ import { PrismaClient } from '@prisma/client'
 
 // Sprints
 
-export async function getSprints(projectID: string) {
+export async function getSprint(sprintID:string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const sprints = await prisma.sprint.findFirst(
+            {
+                where: {
+                    id: sprintID,
+                },
+
+            }
+        )
+
+        return sprints;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+
+}
+
+export async function getSprints(userProjectID: string) {
     const prisma = new PrismaClient()
     try {
 
         const sprints = await prisma.sprint.findMany(
             {
                 where: {
-                    id: projectID,
+                    projectID: userProjectID,
                 },
 
             }

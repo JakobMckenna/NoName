@@ -123,3 +123,35 @@ export async function getUserProjects(userID: number) {
         prisma.$disconnect()
     }
 }
+
+export async function updateUser(userID: number,name: string, email: string, password: string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const user = await prisma.user.update(
+            {
+                where:{
+                    id:userID
+                },
+                data: {
+                    email: email,
+                    name: name,
+                    userPassword: {
+                        create: {
+                            password: password
+                        }
+                    }
+                },
+            }
+        );
+       // console.log(user)
+
+        return user;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        // clean up prisma client object
+        prisma.$disconnect()
+    }
+}
