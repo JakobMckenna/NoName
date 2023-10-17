@@ -32,7 +32,7 @@ jobs:
       - name: Set up database on MySQL instance
         run: |
           docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
-          npx prisma migragte dev --name init npx prisma db push
+          npx prisma migrate dev --name init npx prisma db push
           npm run postinstall
       - name: Run server
         run: |
