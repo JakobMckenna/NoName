@@ -32,7 +32,3 @@ jobs:
           cd ..
           cd frontend
           npm run dev
-        env: 
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
