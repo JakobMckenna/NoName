@@ -94,10 +94,11 @@ const ProjectController = {
     },
     addRepo: async (req: Request, res: Response) => {
         try {
-            const repoID: string = req.params.repoID;
-            const projectID: string = req.params.projectID;
-            const owner: string = req.params.owner;
-            const repoName: string = req.params.repoName;
+            const repoBody = req.body;
+            const repoID: string = repoBody.repoID;
+            const projectID: string = repoBody.projectID;
+            const owner: string =repoBody.owner;
+            const repoName: string = repoBody.repoName;
             const repo = await ProjectService.addRepo(repoID, projectID, owner, repoName)
             res.status(200).json({ "github": repo });
 
