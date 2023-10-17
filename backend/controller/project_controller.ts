@@ -175,6 +175,10 @@ const ProjectController = {
             const completed: boolean = taskBody.completed;
 
             const addedTask = await ProjectService.addTask(taskID, sprintID, name, details, deadline, assignedUser, authorUser, completed)
+            if(addedTask === null)
+            {
+                res.status(400).json()
+            }
             res.status(200).json({ "task": addedTask  });
 
         } catch (error) {
@@ -183,8 +187,12 @@ const ProjectController = {
     },
     removeTask: async (req: Request, res: Response) => {
         try {
-            const taskID: string = req.params.taskID;
+            const taskID: string = req.params.id;
             const removedTask = await ProjectService.removeTask(taskID)
+            if(removedTask === null)
+            {
+                res.status(400).json()
+            }
             res.status(200).json({ "sprints": removedTask });
 
         } catch (error) {
