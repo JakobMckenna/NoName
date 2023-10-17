@@ -165,6 +165,17 @@ const ProjectController = {
             res.status(400).json()
         }
     },
+    remove: async (req: Request, res: Response) => {
+        try {
+            const taskID: string = req.params.taskID;
+
+            const removedTask = await ProjectService.removeTask(taskID)
+            res.status(200).json({ "sprints": removedTask });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+    },
 
 }
 
