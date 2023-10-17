@@ -33,10 +33,22 @@ export async function getProject(projectID:string,) {
                     id:projectID
                 },
                 include:{
-                    sprint:true,
+                    sprint:{
+                        include:{
+                            note:{
+                                include:{
+                                    link:true,
+                                },
+                            },
+                        },
+                    },
                     github:true,
-                    members:true
-                }
+                    members:{
+                        include:{
+                            user:true
+                        },
+                    },
+                },
     
             }
         )

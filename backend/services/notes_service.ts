@@ -2,7 +2,7 @@ import { url } from "inspector";
 import { createResearchNote ,deleteResearchNote, getResearchNotes, updateResearchNote } from "../data-access/research_model";
 import { Url } from "../interfaces/interfaces";
 
-const NoteService = {
+const NotesService = {
 
     create:async (title: string, details: string, userID: number, sprint: string, urlList: Url[])=>{
         try{
@@ -49,4 +49,4 @@ const NoteService = {
 }
 
 
-export default NoteService;
+export default NotesService;
