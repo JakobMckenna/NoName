@@ -22,9 +22,9 @@ jobs:
           npm install
       - name: Create .env file
         run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
-          echo "TOKEN_SECRET=${{ secrets.TOKEN_SECRET }}" >> .env
-          echo "GIT_TOKEN=${{ secrets.GIT_TOKEN }}" >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} > .env
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
+          echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
       - name: Set up Docker
         run: |
           docker --version
