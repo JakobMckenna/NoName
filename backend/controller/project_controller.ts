@@ -151,7 +151,7 @@ const ProjectController = {
     // get all sprint of all a project
     getAllSprints: async (req: Request, res: Response) => {
         try {
-            const projectID: string = req.params.projectID;
+            const projectID: string = req.params.id;
 
             const sprints = await ProjectService.getAllSprints(projectID)
             res.status(200).json({ "sprints": sprints });

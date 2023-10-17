@@ -32,6 +32,11 @@ export async function getProject(projectID:string,) {
                 where:{
                     id:projectID
                 },
+                include:{
+                    sprint:true,
+                    github:true,
+                    members:true
+                }
     
             }
         )

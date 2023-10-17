@@ -24,4 +24,6 @@ projectRoutes.post("/sprint",ProjectController.createSprint)
 
 projectRoutes.delete("/sprint/:id",ProjectController.removeSprint)
 
+projectRoutes.get("/sprint/:id",ProjectController.getAllSprints)
+
 export default projectRoutes;
