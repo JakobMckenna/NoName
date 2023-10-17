@@ -139,7 +139,7 @@ const ProjectController = {
     },
     removeSprint: async (req: Request, res: Response) => {
         try {
-            const sprintID: string = req.params.sprintID;
+            const sprintID: string = req.params.id;
 
             const sprint = await ProjectService.removeSprint(sprintID)
             res.status(200).json({ "sprint": sprint });
@@ -182,7 +182,7 @@ const ProjectController = {
             res.status(400).json()
         }
     },
-    remove: async (req: Request, res: Response) => {
+    removeTask: async (req: Request, res: Response) => {
         try {
             const taskID: string = req.params.taskID;
 

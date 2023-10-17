@@ -22,4 +22,6 @@ projectRoutes.post("/repo",ProjectController.addRepo);
 
 projectRoutes.post("/sprint",ProjectController.createSprint)
 
+projectRoutes.delete("/sprint/:id",ProjectController.removeSprint)
+
 export default projectRoutes;
