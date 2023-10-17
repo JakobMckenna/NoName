@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
 
-export async function createProjectTasks(sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) {
+export async function createProjectTask(sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) {
     const prisma = new PrismaClient()
     try {
 
@@ -16,6 +16,28 @@ export async function createProjectTasks(sprintID: string, name: string, details
                     createdBy: authorUser,
                     completed: completed
                 }
+            }
+        )
+
+        return tasks;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    } finally {
+        prisma.$disconnect()
+    }
+
+}
+
+export async function getProjectTask(taskID:string) {
+    const prisma = new PrismaClient()
+    try {
+
+        const tasks = await prisma.task.findFirst(
+            {
+              where:{
+                id:taskID
+              }
             }
         )
 
