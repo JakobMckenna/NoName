@@ -10,11 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Build project
+      - name: Checkout code
         uses: actions/checkout@v4
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Build Project
         run: |
           cd backend
           npm install
