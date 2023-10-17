@@ -2,6 +2,21 @@ import { Request, Response } from 'express';
 import ProjectService from '../services/project_service';
 
 const ProjectController = {
+    getProject:async (req: Request, res: Response) => {
+        try {
+            const projectID: string = req.params.id;
+            const projects = await ProjectService.getProject(projectID);
+            if (projects === null) {
+                res.status(400).json({ "projects": null });
+            }
+            res.status(200).json({ "projects": projects });
+
+        } catch (error) {
+            res.status(400).json()
+        }
+
+
+    },
     createProject: async (req: Request, res: Response) => {
         const projectBody = req.body;
         try {
