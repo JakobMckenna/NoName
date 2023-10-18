@@ -25,7 +25,8 @@ jobs:
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} > .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
           echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
-          netstat -lt
+          prisma db pull
+          prisma db push
           docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
           npx prisma migrate dev --name init npx prisma db push
           npm run postinstall
