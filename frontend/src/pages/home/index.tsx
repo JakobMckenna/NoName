@@ -124,7 +124,7 @@ export default function LandingPage() {
             }
 
 
-        }, [loading, user]
+        }, [loading, user,getProjects]
     )
     return (
         <div>
