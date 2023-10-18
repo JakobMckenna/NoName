@@ -18,7 +18,7 @@ export default function Projects(){
 
     //const [commits ,lc] = useCommits({maintainer:"JakobMckenna",project:"NoName"})
     const getCommits = async ()=>{
-        const res = await axios.get("http://localhost:5000/github/commits/JakobMckenna/NoName")
+        const res = await axios.get("http://localhost:5001/github/commits/JakobMckenna/NoName")
         return res.data
     }
    
