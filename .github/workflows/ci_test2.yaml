@@ -28,7 +28,7 @@ jobs:
           echo "Starting docker run --name step"
           docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
           echo "Starting npx prisma migrate step"
-          npx prisma migrate dev --name init npx prisma db pull prisma db push
+          npx prisma migrate dev --name init npx prisma db pull npx prisma db push
           npm run postinstall
           npm run dev
           cd ..
