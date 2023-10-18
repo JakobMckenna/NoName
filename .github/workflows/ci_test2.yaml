@@ -28,7 +28,11 @@ jobs:
           echo "Starting docker run --name step"
           docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
           echo "Starting npx prisma migrate step"
-          npx prisma migrate dev --name init npx prisma db pull npx prisma db push
+          retries=5
+          until npx prisma migrate dev --name init npx prisma db push || [ $retries -eq 0 ]; do
+            sleep 10
+            retries=$((retries-1))
+          done
           npm run postinstall
           npm run dev
           cd ..
