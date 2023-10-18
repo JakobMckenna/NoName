@@ -12,7 +12,7 @@ const useCommits = ({maintainer ,project}:{maintainer:string , project:string}) 
     const [latestCommits, setLatestCommits] = useState(null);
 
     const getCommits = ()=>{
-        const url = `http://localhost:5000/github/commits/${maintainer}/${project}`
+        const url = `http://localhost:5001/github/commits/${maintainer}/${project}`
         axios
         .get(url)
         .then(function (response) {
