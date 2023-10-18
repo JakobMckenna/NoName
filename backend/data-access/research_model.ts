@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import { Url } from '../interfaces/interfaces';
 
-
+interface Url{
+    url:string
+}
 
 export async function getResearchNotes(projectID: string) {
     const prisma = new PrismaClient()
