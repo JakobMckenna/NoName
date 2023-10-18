@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -23,7 +24,7 @@ function RepoCard({ projects }: any) {
                             (project: any) => {
                                 return (
                                     <li>
-                                      <button className="btn   btn-link"> {project.name} </button>
+                                      <Link href={`/project/${project.id}`} className="btn   btn-link"> {project.name} </Link>
                                     </li>
                                 )
                             }
