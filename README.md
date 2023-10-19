@@ -34,14 +34,14 @@ Dev Diaries will be able to respond to 50 users with a total of 200 requests per
 
 
 # Technologies
-### React JS
-React JS is a frontend library to create dynamic apps. React provides react hooks such as useState and useEffect which can be used to store data more easily from the server and display on the web page using JSX which provides a more programmatic way to display data. It also handles updating data all over the website components more easily.
+### Next JS
+Next.js is an open-source web development framework created by the private company Vercel providing React-based web applications with server-side rendering and static website generation.
 
 ### Express JS
 Express JS Is a lightweight single threaded backend server library. Since Express JS is a back-end framework, it has access to libraries that can not be directly accessed on react JS and can more reliably communicate with databases and provide features such caching api responses and blocking from network attacks. It also interacts with outside API’s better whereas if you access them on react js , you risk a cross origin resource sharing error. Which could be a problem if it's not dealt with from the external api .
 
 ### MongoDB
-MongoDB is a document database. Since it’s a document based database, it would provide relative flexibility in terms of how data from the application is stored. It also allows for better data retrieval since there's little to no need for merges between collections.
+MySQL is an open-source relational database management system.
 
 
 # User stories
