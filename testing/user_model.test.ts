@@ -1,9 +1,10 @@
-import {createUserPasswordData, deleteUserByID} from "../backend/data-access/user_model"
+import {createUserPasswordData, deleteUserByID, updateUser} from "../backend/data-access/user_model"
 import {getUserPassword} from "../backend/data-access/user_model"
 
 let userID1: number | undefined
 let userID2: number | undefined
 let userID3: number | undefined
+let userID4: number | undefined
 
 test('user created', async () => {
     const data1 = await createUserPasswordData("john1","john889@email.com","password1");
@@ -16,10 +17,17 @@ test('user created', async () => {
     userID2 = data2?.id
     expect(data2?.name).toBe("john2");
   });
+ 
   test('user created', async () => {
     const data3 = await createUserPasswordData("john3","john977@email.com","password3");
     userID3 = data3?.id
     expect(data3?.email).toBe("john977@email.com")
+  });
+
+  test('user created', async () => {
+    const data9 = await createUserPasswordData("john31","john9771@email.com","password31");
+    userID3 = data9?.id
+    expect(data9).toBeTruthy
   });
 
   test('no pass', async () => {
@@ -54,6 +62,14 @@ test('user created', async () => {
    data8 = await deleteUserByID(userID3);
  }
  expect(data8).toBeNull();
+});
+
+test('delete user by ID3', async () => {
+  let data9 = null
+ if(userID4 !== undefined){
+   data9 = await deleteUserByID(userID4);
+ }
+ expect(data9).toBeNull();
 });
   
   
