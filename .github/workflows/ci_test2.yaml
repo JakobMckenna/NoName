@@ -33,7 +33,7 @@ jobs:
           done
           npm run build
           npm run postinstall
-          npm run dev & # so it runs in the background
+          npm run dev 
           # cd ..
           # cd frontend
           # npm install
