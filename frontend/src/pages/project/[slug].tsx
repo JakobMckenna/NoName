@@ -18,7 +18,13 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                 </div>
                 {!github && (
                     <div className="card-actions justify-start">
-                        <button onClick={() => document.getElementById('my_modal_4').showModal()} className="btn btn-secondary  btn-link">setup github</button>
+                        <button onClick={() =>{
+                            const modal:any = document.getElementById('my_modal_4')
+                            if(modal){
+                                modal?.showModal()
+                            }
+                            
+                            }} className="btn btn-secondary  btn-link">setup github</button>
                     </div>)
                 }
             </div>
@@ -48,7 +54,7 @@ function ResearchCard({ projectID }: { projectID: string }) {
 export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
-    const [projectData, setProjectData] = useState()
+    const [projectData, setProjectData] = useState<any>()
     const [github, setGithub] = useState(null)
     const projectID: string = String(router.query.slug);
 

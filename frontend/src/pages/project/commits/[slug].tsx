@@ -43,7 +43,7 @@ function CommitsList({ commits }: any) {
 export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
-    const [projectData, setProjectData] = useState();
+    const [projectData, setProjectData] = useState<any>();
     const [github, setGithub] = useState(null);
     const [commits, latestCommits, setMaintainer, setProject] = useCommits();
     const projectID: string = String(router.query.slug);
@@ -72,7 +72,7 @@ export default function Project() {
                 const getData = async () => {
                     if (projectID) {
                         const results = await getProjectData(projectID);
-                        if (results) {
+                        if (results && setMaintainer && setProject) {
                             setProjectData(results);
                             setGithub(results.github);
 
