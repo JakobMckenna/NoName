@@ -43,7 +43,7 @@ Next.js is an open-source web development framework created by the private compa
 ### Express JS
 Express JS Is a lightweight single threaded backend server library. Since Express JS is a back-end framework, it has access to libraries that can not be directly accessed on react JS and can more reliably communicate with databases and provide features such caching api responses and blocking from network attacks. It also interacts with outside API’s better whereas if you access them on react js , you risk a cross origin resource sharing error. Which could be a problem if it's not dealt with from the external api .
 
-### MongoDB
+### MySQL
 MySQL is an open-source relational database management system.
 
 
