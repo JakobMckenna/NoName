@@ -35,6 +35,5 @@ jobs:
           npm run postinstall
           npm run dev &
           cd ..
-          cd frontend
-          npm install
-          npm run dev
+          cd testing
+          npm test
