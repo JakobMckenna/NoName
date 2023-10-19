@@ -31,6 +31,7 @@ jobs:
             sleep 10
             retries=$((retries-1))
           done
+          npm run build
           npm run postinstall
           npm run dev
           cd ..
