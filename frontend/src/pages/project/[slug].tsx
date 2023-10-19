@@ -35,7 +35,7 @@ function ResearchCard({ projectID }: { projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
                 <div>
-                    <Link href={`/project/commits/${projectID}`} className="btn btn-link">see commits</Link>
+                    <Link href={`/project/commits/${projectID}`} className="btn btn-link">See Bookmarks</Link>
                 </div>
 
             </div>

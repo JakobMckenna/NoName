@@ -50,23 +50,32 @@ export default function Project() {
 
     const getProjectData = async (id: string) => {
         const reqUrl = `http://localhost:5000/projects/${id}`
-        const results = await axios.get(reqUrl)
-        console.log(results.data.projects)
-        return results.data.projects
+        try {
+            if (!id) {
+                router.push("/")
+            }
+            const results = await axios.get(reqUrl)
+            //  console.log(results.data.projects)
+            return results.data.projects
+
+        } catch (error) {
+            router.push("/home")
+        }
 
     }
 
     useEffect(
         () => {
 
-            if (user) {
+            if (user != null) {
                 // console.log
                 const getData = async () => {
                     if (projectID) {
                         const results = await getProjectData(projectID);
-                        setProjectData(results);
-                        setGithub(results.github);
-                        if (github) {
+                        if (results) {
+                            setProjectData(results);
+                            setGithub(results.github);
+
                             setMaintainer(String(results.github.owner))
                             setProject(results.github.repoName)
                         }
