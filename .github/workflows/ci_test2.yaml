@@ -36,6 +36,6 @@ jobs:
           npm run build
           npm run postinstall
           npm run dev
-          # cd ..
-          # cd frontend
-          # npm run dev
+          cd ..
+          cd frontend
+          npm run dev
