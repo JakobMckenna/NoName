@@ -39,7 +39,7 @@ jobs:
           
       - name: Run Tests
         run: |  
-          cd ..
+          # cd ..
           cd testing
           while ! nc -z localhost 5001; do
             sleep 1
