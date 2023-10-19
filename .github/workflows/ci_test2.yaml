@@ -36,4 +36,5 @@ jobs:
           npm run dev & # so it runs in the background
           cd ..
           cd frontend
+          npm install
           npm run dev
