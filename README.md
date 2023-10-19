@@ -17,6 +17,9 @@ Dev Diaries will be considered successful if users prefer it over similar apps. 
 
 
 # Core features
+### User authentication
+A crucial feature for every website is have user accounts. We want to have seperate accounts for each user and allow them to store information safely. Users will sign up with a name, email, and password. We will only allow unique emails so that users cannot have the same account credentials.
+
 ### Live updates from repository
 One of our core features is to have live updates from the project’s GitHub repository. We want to track each developer’s progress using the GitHub API and display the information on our web application. This allows the entire team to see how far along everyone else is so they know if the project is on track or if they have to make adjustments on the timeline.
 
