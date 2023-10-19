@@ -34,7 +34,7 @@ jobs:
           npm run build
           npm run postinstall
           npm run dev & # so it runs in the background
-          cd ..
-          cd frontend
-          npm install
-          npm run dev
+          # cd ..
+          # cd frontend
+          # npm install
+          # npm run dev
