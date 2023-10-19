@@ -10,8 +10,4 @@ test('user created', async () => {
     const data3 = await getUserPassword("john992@gmail.com");
     expect(data3).toBeNull();
   });
-
-
-
-
   
