@@ -39,4 +39,5 @@ jobs:
           while ! nc -z localhost 5001; do
             sleep 1
           done
+          npm install
           npm test
