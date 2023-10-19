@@ -1,4 +1,5 @@
 import Link from "next/link";
+import router from "next/router";
 
 const Drawer = () => {
     return (
@@ -21,6 +22,14 @@ const Drawer = () => {
                     <li><Link className="text-3xl" href="/">Tasks</Link></li>
                     <li><Link className="text-3xl" href="/">Research</Link></li>
                     <li><Link className="text-3xl" href="/">Settings</Link></li>
+                    <li>
+                        <a className="text-3xl" onClick={
+                            () => {
+                                localStorage.removeItem('userData');
+                                router.push("/")
+                            }
+                        }>Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>

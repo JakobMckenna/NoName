@@ -81,7 +81,7 @@ export default function Project() {
             }
 
 
-        }, [loading, user,getProjectData(projectID)]
+        }
     )
 
     return (

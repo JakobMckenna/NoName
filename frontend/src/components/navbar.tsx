@@ -1,41 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Drawer from "./drawer";
+import Link from "next/link";
 
-function UserProfile({ name, picture }: any) {
-  const router = useRouter();
-  return (
-    <div className="dropdown">
-      <label tabIndex={0}>
-        <div className="flex flex-row items-center justify-center ">
-          <Image
-            className="rounded-full"
-            src={picture}
-            height={50}
-            width={50}
-            alt={""}
-          />
 
-          <p>{name}</p>
-        </div>
-      </label>
-      <ul
-        tabIndex={0}
-        className="dropdown-content menu rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
-      >
-
-        <li>
-          <a onClick={
-            () => {
-              localStorage.removeItem('userData');
-              router.push("/")
-            }
-          }>Logout</a>
-        </li>
-      </ul>
-    </div>
-  );
-}
 
 
 const Navbar = ({userName}:{userName:string}) => {
@@ -45,7 +13,7 @@ const Navbar = ({userName}:{userName:string}) => {
        <Drawer />
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost normal-case text-xl">{userName}  DEV DIARY</a>
+        <Link href={"/home"} className="btn btn-ghost normal-case text-xl">{userName}  DEV DIARY</Link>
       </div>
       <div className="navbar-end">
         <button className="btn btn-ghost btn-circle">
