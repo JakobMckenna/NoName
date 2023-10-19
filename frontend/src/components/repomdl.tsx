@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useForm } from "react-hook-form";
 
 
-function Form({userID}:{userID:number}) {
+function Form({projectID}:{projectID:string}) {
     const {
         register,
         handleSubmit,
@@ -14,7 +14,7 @@ function Form({userID}:{userID:number}) {
     const handleCreateProject = async (data:any) => {
         console.log("submit")
         try{
-            const response = await axios.post('http://localhost:5000/projects', { name: data.name ,userID:userID }, {
+            const response = await axios.post('http://localhost:5000/projects/repo', { owner: data.owner ,repoName:data.repo,projectID:projectID}, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -32,29 +32,36 @@ function Form({userID}:{userID:number}) {
                 <label className="label">
                     <span className="label-text">Name</span>
                 </label>
-                <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
-                <div className="form-control mt-6">
+                <input {...register("owner")} type="text" placeholder="owner" className="input input-bordered" required />
+            </div>
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Name</span>
+                </label>
+                <input {...register("repo")} type="text" placeholder="repo name" className="input input-bordered" required />
+             
+
+            </div>
+            <div className="form-control mt-6">
                     <button className="btn btn-primary">Create Project</button>
 
                 </div>
-
-            </div>
         </form>
     )
 }
 
-const ProjectModal = ({userID}:{userID:number}) => {
+const RepoModal = ({projectID}:{projectID:string}) => {
     return (
-        <dialog id="my_modal_3" className="modal">
+        <dialog id="my_modal_4" className="modal">
             <div className="modal-box">
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form userID={userID} />
+                <Form projectID={projectID} />
             </div>
         </dialog>
     );
 }
 
-export default ProjectModal;
+export default RepoModal;
