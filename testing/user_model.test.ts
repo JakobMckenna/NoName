@@ -19,14 +19,14 @@ test('user created', async () => {
   });
  
   test('user created', async () => {
-    const data3 = await createUserPasswordData("john3","john977@email.com","password3");
+    const data3 = await createUserPasswordData("john3","john978@email.com","password3");
     userID3 = data3?.id
-    expect(data3?.email).toBe("john977@email.com")
+    expect(data3?.email).toBe("john978@email.com")
   });
 
   test('user created', async () => {
     const data9 = await createUserPasswordData("john31","john9771@email.com","password31");
-    userID3 = data9?.id
+    userID4 = data9?.id
     expect(data9).toBeTruthy
   });
 
