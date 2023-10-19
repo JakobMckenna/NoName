@@ -34,7 +34,9 @@ jobs:
           npm run build
           npm run postinstall
           npm run dev &
-          wait
+          while ! nc -z localhost 5001; do
+            sleep 1
+          done
           cd ..
           cd testing
           npm test
