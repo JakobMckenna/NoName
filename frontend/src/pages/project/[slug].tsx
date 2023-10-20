@@ -152,7 +152,7 @@ export default function Project() {
             <main className="container ml-80 pl-10">
                 <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
                 <div>
-                    <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commites</p>
+                    <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commits</p>
                 </div>
                 <div className="flex flex-row mb-5">
                     <MenuCard github={github} projectID={projectID} />
