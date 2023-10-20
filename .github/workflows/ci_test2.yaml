@@ -53,7 +53,7 @@ jobs:
     steps:
       - name: Check Build Status
         env:  # Set the GH_TOKEN environment variable
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           if [ ${{ job.status }} == 'success' ]; then
             gh pr review --approve "The build passed successfully."
