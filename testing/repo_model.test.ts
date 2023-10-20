@@ -37,12 +37,12 @@ test('create user', async () => {
         expect(data6).toBeTruthy();
       });
 
-      test('update a repo', async () => {
+      test('update a bad repo', async () => {
         let data7 = null
         if(projID !== undefined && repoID !== undefined){
-            data7 = await updateRepo(repoID, projID, "JakobMcKenna", "webScrapingTutorial");
+            data7 = await updateRepo(repoID, projID, "JakobMcKenna", "NoNameExists");
         }
-        expect(data7).toBeTruthy();
+        expect(data7).toBeNull();
       });
 
     test('remove a project', async () => {
