@@ -308,13 +308,40 @@ I. Git integration is functional
 
 II. Susie will help with testing
 
-III. Tehillah helped with some setup issues
+III. Spent time working on getting the testing architecture set up
 
-IV. Plan to have sprint completed by Tuesday
+IV. Tehillah helped with some setup issues
+
+V. Plan to have sprint completed by Tuesday
 
 **Next Steps**
 
 I. Finish tasks by next meeting, October 17th
+
+
+## Date: October 17th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile
+
+*Missing:* Isabelle
+
+*Location:* ECE E2 330
+
+**Agenda**
+
+I. Isabelle is behind on UI and has two midterms this week
+
+II. Backend tasks are done
+
+III. Some tests still required
+
+IV. Jakob will organize the non-code deliverables
+
+**Next Steps**
+
+I. TK will help Isabelle with frontend
+
+II. Project due Friday, meeting TA at 4pm
     
 <br>
 
