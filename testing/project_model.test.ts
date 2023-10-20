@@ -4,10 +4,9 @@ import {createUserPasswordData, deleteUserByID} from "../backend/data-access/use
 let userID: number | undefined
 let projID: string | undefined
 
-test('project created', async () => {
+test('create user', async () => {
   const newUser = await createUserPasswordData("ProjectUser", "PU1@gmail.com", "Pass");
   userID = newUser?.id
-  console.log("USERID is " + userID)
 });
 
 test('project created', async () => {
