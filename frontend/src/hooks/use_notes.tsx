@@ -7,23 +7,29 @@ import { useEffect, useState } from "react";
 const useNotes = () => {
     const [notes, setNotes] = useState(null);
     const [projectID, setProjectID] = useState("")
+    const [activate , setActivate] = useState(false)
+   
     const changeID:((arg:string)=>void|null|undefined) = (id:string)=>{
         setProjectID(id);
         //return id;
     };
 
+    const forceUpadte=()=>{
+        setActivate(true);
+    }
     const getResponse = async () => {
         try {
             const reqUrl = `http://localhost:5000/projects/notes/${projectID}`
             const results = await axios.get(reqUrl)
-            console.log("notes")
+         //   console.log("notes")
             console.log(results.data)
             setNotes(results.data.notes)
+            
         } catch (error) {
             //we failed to get notes for some reason
             setNotes(null);
         }
-
+        setActivate(false);
     }
     useEffect(
         () => {
@@ -34,10 +40,10 @@ const useNotes = () => {
             }
             getNotes()
             console.log(notes)
-
-        },[projectID]
+            
+        }
     )
-    return [notes,changeID];
+    return [notes,changeID,forceUpadte];
 }
 
 export default useNotes;
