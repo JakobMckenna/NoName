@@ -22,13 +22,13 @@ const Settings: React.FC<SettingsProps> = ({ onSaveSetting }) => {
     <div>
       <h1>Settings</h1>
       <div className="mb-4">
-        <label htmlFor="githubToken" className="block text-xl mb-2">
+        <label htmlFor="newSetting" className="block text-xl mb-2">
           Setting Name
         </label>
         <input
           type="text"
-          id="githubToken"
-          name="githubToken"
+          id="newSetting"
+          name="newSetting"
           value={newSetting}
           onChange={handleSettingChange}
           className="w-96 p-2 border rounded"
