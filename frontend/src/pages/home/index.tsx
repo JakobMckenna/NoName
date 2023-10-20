@@ -122,14 +122,14 @@ export default function LandingPage() {
                     const results = await getProjects(user.id)
                     //setProjects(results.user.projects)
                     setProjectList(results.project);
-                    return results.project;
+                    console.log(`list ${projectList}`)
+                 //   return results.project;
                 }
                 projects()
-                console.log(`list ${projectList}`)
             }
 
 
-        }, [loading, user,getProjects]
+        }, [loading, user]
     )
     return (
         <div>
