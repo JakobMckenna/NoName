@@ -35,8 +35,8 @@ const useSprint = () => {
             }
             sprints()
 
-        }
-    )
+        }, [projectID]);
+        
     return [sprints,setID];
 }
 

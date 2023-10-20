@@ -9,30 +9,36 @@ import SprintModal from "~/components/sprintmdl";
 import useSprint from "~/hooks/use_sprint";
 
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
+    if (github === null) {
+        return (
+            <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+                <div className="card-body items-center text-center h-full">
+                    <h2 className="card-title">Github</h2>
+                    <div className="card-actions justify-start">
+                        <button onClick={() => {
+                            const modal: any = document.getElementById('my_modal_4');
+                            if (modal) {
+                                modal?.showModal();
+                            }
+                        }} className="btn btn-secondary  btn-link">setup github</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     console.log(github);
+
     return (
         <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
-
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div>
                     <Link href={`/project/commits/${projectID}`} className="btn btn-link">see commits</Link>
                 </div>
-                {!github && (
-                    <div className="card-actions justify-start">
-                        <button onClick={() => {
-                            const modal: any = document.getElementById('my_modal_4')
-                            if (modal) {
-                                modal?.showModal()
-                            }
-
-                        }} className="btn btn-secondary  btn-link">setup github</button>
-                    </div>)
-                }
             </div>
-
         </div>
-    )
+    );
 }
 
 function ResearchCard({ projectID }: { projectID: string }) {
@@ -141,8 +147,7 @@ export default function Project() {
             }
 
 
-        }
-    )
+        }, [projectID, user, setID]);
 
     return (
         <div>
