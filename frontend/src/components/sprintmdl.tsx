@@ -12,21 +12,27 @@ function Form({ projectID }: { projectID: string }) {
 
 
     const submitSprint = async (data: any) => {
-        const startDate = new Date(data.start);
-        const deadlineDate = new Date(data.deadline);
-        const responseSprint = await axios.post('http://localhost:5001/projects/sprint', {
-            sprintID:null,
-            projectID: projectID,
-            name: data.name,
-            start: startDate.toISOString(),
-            deadline:deadlineDate.toISOString(),
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        try {
+            const startDate = new Date(data.start);
+            const deadlineDate = new Date(data.deadline);
+            const responseSprint = await axios.post('http://localhost:5001/projects/sprint', {
+                sprintID: null,
+                projectID: projectID,
+                name: data.name,
+                start: startDate.toISOString(),
+                deadline: deadlineDate.toISOString(),
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-        console.log(responseSprint.data)
+            console.log(responseSprint.data)
+            const modalElement: any = document.getElementById('sprint_modal')
+            modalElement.close()
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <form onSubmit={handleSubmit(submitSprint)} >
@@ -37,9 +43,9 @@ function Form({ projectID }: { projectID: string }) {
                 <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
             </div>
 
-           
 
-         
+
+
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">start</span>
@@ -62,7 +68,7 @@ function Form({ projectID }: { projectID: string }) {
     )
 }
 
-const SprintModal = ({projectID}:{projectID:string}) => {
+const SprintModal = ({ projectID }: { projectID: string }) => {
     return (
         <dialog id="sprint_modal" className="modal">
             <div className="modal-box">

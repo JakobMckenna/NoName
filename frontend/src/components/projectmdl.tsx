@@ -20,6 +20,8 @@ function Form({userID}:{userID:number}) {
                 },
             });
             console.log('Login successful', response.data);
+            const modalElement: any = document.getElementById('my_modal_3')
+            modalElement.close()
          
         }catch(error){
             console.log(error)
