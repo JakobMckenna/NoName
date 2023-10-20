@@ -1,4 +1,4 @@
-# Install pakcages required by project
+# Install packages required by project
 - cd into backend then run the code below
 > npm install
 
