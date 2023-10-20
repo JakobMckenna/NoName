@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.page-container {
+    display: flex;
+}
+
+.drawer-side {
+    width: 250px; /* Adjust the width of the side navigation as needed */
+    /* Other side navigation styles */
+}
+
+.main-content {
+    flex: 1; /* This allows the main content to take up the remaining space */
+    /* Other main content styles */
+}
+
+.page-container.drawer-side .drawer{
+    transform: translateX(0); /* Displayed */
+}
