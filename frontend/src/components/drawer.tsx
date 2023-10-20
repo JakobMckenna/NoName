@@ -22,7 +22,7 @@ const Drawer = () => {
                     <li><Link className="text-3xl" href="/">Projects</Link></li>
                     <li><Link className="text-3xl" href="/">Tasks</Link></li>
                     <li><Link className="text-3xl" href="/">Research</Link></li>
-                    <li><Link className="text-3xl" href="/">Settings</Link></li>
+                    <li><Link className="text-3xl" href="/">Settings</Link></li> {/* href = "/settings"*/}
                     <li>
                         <a className="text-3xl" onClick={
                             () => {

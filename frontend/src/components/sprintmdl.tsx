@@ -13,6 +13,19 @@ function Form({ projectID }: { projectID: string }) {
 
 
     const submitSprint = async (data: any) => {
+        const startDate = new Date(data.start);
+        const deadlineDate = new Date(data.deadline);
+        const responseSprint = await axios.post('http://localhost:5001/projects/sprint', {
+            sprintID:null,
+            projectID: projectID,
+            name: data.name,
+            start: startDate.toISOString(),
+            deadline:deadlineDate.toISOString(),
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
         try {
             const startDate = new Date(data.start);
             const deadlineDate = new Date(data.deadline);
