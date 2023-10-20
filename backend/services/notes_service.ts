@@ -1,6 +1,9 @@
-import { url } from "inspector";
+
 import { createResearchNote ,deleteResearchNote, getResearchNotes, updateResearchNote } from "../data-access/research_model";
-import { Url } from "../interfaces/interfaces";
+
+interface Url{
+    url:string
+}
 
 const NotesService = {
 

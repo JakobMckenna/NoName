@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import { Url } from '../interfaces/interfaces';
 
-
+interface Url{
+    url:string
+}
 
 export async function getResearchNotes(projectID: string) {
     const prisma = new PrismaClient()
@@ -10,7 +11,7 @@ export async function getResearchNotes(projectID: string) {
         const notes = await prisma.researchNote.findMany(
             {
                 where: {
-                    id: projectID,
+
                     sprint:{
                         project:{
                             id:projectID,
@@ -48,7 +49,8 @@ export async function createResearchNote(title: string, details: string, userID:
                         createMany: {
                             data: urlList
                         },
-                    }
+                    },
+                  
                 },
 
             }

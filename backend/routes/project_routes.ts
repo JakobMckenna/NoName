@@ -26,7 +26,7 @@ projectRoutes.delete("/sprint/:id",ProjectController.removeSprint);
 
 projectRoutes.get("/sprint/:id",ProjectController.getAllSprints);
 
-projectRoutes.get("/notes",NotesController.getAll);
+projectRoutes.get("/notes/:id",NotesController.getAll);
 
 projectRoutes.post("/notes",NotesController.create);
 
