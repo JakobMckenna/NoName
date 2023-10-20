@@ -10,6 +10,11 @@ export async function getResearchNotes(projectID: string) {
             {
                 where: {
                     id: projectID,
+                    sprint:{
+                        project:{
+                            id:projectID,
+                        },
+                    },
                 },
                 include: {
                     link: true
