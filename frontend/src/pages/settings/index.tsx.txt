@@ -1,4 +1,4 @@
-// frontend/pages/settings.tsx
+/* // frontend/pages/settings.tsx
 
 import React from 'react';
 import Settings from '~/components/settings';
@@ -24,3 +24,4 @@ const settings: React.FC = () => {
 };
 
 export default settings;
+ */
