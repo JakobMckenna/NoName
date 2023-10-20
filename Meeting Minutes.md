@@ -251,6 +251,70 @@ III. Sprint 3
 
 I. Meeting with TA tomorrow at 5pm online    
     
+
+
+## Date: October 3rd, 2023
+
+*Attendees:* Isabelle Anderson-Gregoire, Jakob McKenna, Tehillah Kangamba, Susie Kihaile
+
+*Location:* ECE E2 330
+
+**Agenda**
+
+I. Sprint 1 Feedback
+
+1. We get 100%
+
+II. Sprint 2
+
+1. 2 features
+
+2. 10 tests per feature
+
+3. Continuous Integration
+
+4. Sequence diagram
+
+III. Database
+
+1. Tehillah has been working on the DB
+
+2. Changed to MySQL as it's more compaitble with Prisma
+
+3. Did some research on git integration and found sample code, using JWT tokens for secure authentication requests
+
+IV. Infrastructure 
+
+1. NextJS and TypeScript
+
+2. Front end infrastructure> pages, components, public
+
+V. Susie will work on git integration
+
+**Next Steps**
+
+I. Meet next week to review progress
+
+
+## Date: October 10th, 2023
+
+*Attendees:* Isabelle Anderson-Gregoire, Jakob McKenna, Tehillah Kangamba, Susie Kihaile
+
+*Location:* ECE E2 330
+
+**Agenda**
+
+I. Git integration is functional
+
+II. Susie will help with testing
+
+III. Tehillah helped with some setup issues
+
+IV. Plan to have sprint completed by Tuesday
+
+**Next Steps**
+
+I. Finish tasks by next meeting, October 17th
     
 <br>
 
