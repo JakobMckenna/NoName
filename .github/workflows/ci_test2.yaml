@@ -36,6 +36,16 @@ jobs:
           npm run build
           npm run postinstall
           npm run dev &
+
+          # Start frontend
+          cd ..
+          cd frontend
+          while ! nc -z localhost 5001; do
+            sleep 1
+          done 
+          npm install
+          npm run dev &
+          
           
       # - name: Run Tests
       #   run: |  
