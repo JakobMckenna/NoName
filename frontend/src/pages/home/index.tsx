@@ -108,7 +108,6 @@ export default function LandingPage() {
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
         return results.data.user
-        //setResponse(results.data)
 
     }
 
@@ -120,16 +119,15 @@ export default function LandingPage() {
             if (user) {
                 const projects = async () => {
                     const results = await getProjects(user.id)
-                    //setProjects(results.user.projects)
                     setProjectList(results.project);
+                    console.log(`list ${projectList}`)
                     return results.project;
                 }
                 projects()
-                console.log(`list ${projectList}`)
             }
 
 
-        }, [loading, user,getProjects]
+        }, [loading, user, getProjects]
     )
     return (
         <div className = "w-full mx-auto">
