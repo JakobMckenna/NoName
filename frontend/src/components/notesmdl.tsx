@@ -38,13 +38,6 @@ function Form({ projectID, userID ,sprintID }: { projectID: string, userID: stri
 
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text">Details</span>
-                </label>
-                <input {...register("details")} type="text" placeholder="details" className="input input-bordered" required />
-            </div>
-
-            <div className="form-control">
-                <label className="label">
                     <span className="label-text">Url</span>
                 </label>
                 <input {...register("url")} type="text" placeholder="url" className="input input-bordered" required />
