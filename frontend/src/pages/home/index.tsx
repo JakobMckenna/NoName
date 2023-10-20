@@ -120,10 +120,10 @@ export default function LandingPage() {
                 const projects = async () => {
                     const results = await getProjects(user.id)
                     setProjectList(results.project);
+                    console.log(`list ${projectList}`)
                     return results.project;
                 }
                 projects()
-                console.log(`list ${projectList}`)
             }
 
 
