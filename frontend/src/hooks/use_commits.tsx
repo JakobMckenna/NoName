@@ -3,9 +3,6 @@ import { useEffect, useState } from "react";
 
 
 
-function getLatestCommits(){
-
-}
 
 const useCommits = () => {
     const [commits, setCommits] = useState(null);
@@ -21,12 +18,12 @@ const useCommits = () => {
         setProject(project);
     }
     const getCommits = ()=>{
-        console.log(maintainer)
+        //console.log(maintainer)
         const url = `http://localhost:5000/github/commits/${maintainer}/${project}`
         axios
         .get(url)
         .then(function (response) {
-          console.log(response.data.commits);
+       //   console.log(response.data.commits);
           setCommits(response.data.commits)
           return response.data.commits;
         });

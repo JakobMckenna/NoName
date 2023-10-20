@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RepoModal from "~/components/repomdl";
 import Link from "next/link";
+import SprintModal from "~/components/sprintmdl";
 
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     console.log(github);
@@ -50,6 +51,28 @@ function ResearchCard({ projectID }: { projectID: string }) {
     )
 }
 
+function SprintCard({ projectID }: { projectID: string }) {
+    // console.log(github);
+    return (
+        <div className="card  glass w-96  shadow-xl mr-12 max-h-56 ">
+
+            <div className="card-body items-center text-center h-full">
+                <h2 className="card-title">Sprint</h2>
+                <div>
+                    <button onClick={() =>{
+                            const modal:any = document.getElementById('sprint_modal')
+                            if(modal){
+                                modal?.showModal()
+                            }
+                            
+                            }} className="btn btn-link">Add Sprint</button>
+                </div>
+
+            </div>
+
+        </div>
+    )
+}
 
 export default function Project() {
     const router = useRouter();
@@ -105,14 +128,17 @@ export default function Project() {
             <Navbar userName={user?.email} />
 
             <main className="container ml-80 pl-10">
-                <h1 className="text-4xl uppercase mb-3">{projectData?.name} PROJECT</h1>
-                <div className="flex flex-row">
+                <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
+                <div className="flex flex-row mb-5">
                     <MenuCard github={github} projectID={projectID} />
                     <ResearchCard projectID={projectID} />
                 </div>
-                
+                <div className="flex flex-row">
+                    <SprintCard projectID={projectID} />
+                </div>
             </main>
             <RepoModal projectID={projectID} />
+            <SprintModal projectID={projectID} />
         </div>
     )
 

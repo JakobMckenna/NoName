@@ -1,8 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 import { useForm } from "react-hook-form";
 
-
-function Form({userID}:{userID:number}) {
+function Form({projectID}:{projectID:number}) {
     const {
         register,
         handleSubmit,
@@ -14,13 +13,13 @@ function Form({userID}:{userID:number}) {
     const handleCreateProject = async (data:any) => {
         console.log("submit")
         try{
-            const response = await axios.post('http://localhost:5000/projects', { name: data.name ,userID:userID }, {
+            const response = await axios.post('http://localhost:5000/projects/notes', { name: data.name ,projectID:projectID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             console.log('Login successful', response.data);
-         
+
         }catch(error){
             console.log(error)
         }
@@ -43,18 +42,23 @@ function Form({userID}:{userID:number}) {
     )
 }
 
-const ProjectModal = ({userID}:{userID:number}) => {
+
+
+
+
+
+const NotesModal = ({projectID}:{projectID:string}) => {
     return (
-        <dialog id="my_modal_3" className="modal">
+
+        <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
-                <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                </form>
-                <Form userID={userID} />
+                <Form projectID={projectID} />
             </div>
+            <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+            </form>
         </dialog>
     );
 }
 
-export default ProjectModal;
+export default NotesModal;

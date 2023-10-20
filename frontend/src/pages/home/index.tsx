@@ -33,7 +33,14 @@ function RepoCard({ projects }: any) {
                     }
                 </ul>
                 <div className="card-actions justify-start">
-                    <button className="btn btn-secondary  btn-link" onClick={() => document.getElementById('my_modal_3').showModal()}>Add Project</button>
+                    <button className="btn btn-secondary  btn-link" onClick={() => {
+                       const modalElement:any= document.getElementById('my_modal_3')
+                       if(modalElement){
+                        modalElement?.showModal()
+                       }
+                       
+                    }
+                    }>Add Project</button>
                 </div>
             </div>
         </div>
@@ -101,11 +108,7 @@ export default function LandingPage() {
         //setResponse(results.data)
     }
 
-    //const [commits ,lc] = useCommits({maintainer:"JakobMckenna",project:"NoName"})
-    const getCommits = async () => {
-        const res = await axios.get("http://localhost:5000/github/commits/JakobMckenna/NoName")
-        return res.data
-    }
+ 
 
     useEffect(
         () => {

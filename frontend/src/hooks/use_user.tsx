@@ -9,7 +9,7 @@ const useUser = () => {
             const userData = localStorage.getItem('userData');
             if (userData) {
                 //  user is signed in
-                console.log('UserData from local storage:', userData);
+               // console.log('UserData from local storage:', userData);
                 setUser(JSON.parse(userData))
                 setLoading(false)
             }

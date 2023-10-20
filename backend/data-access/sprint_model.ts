@@ -25,14 +25,15 @@ export async function getSprint(sprintID:string) {
 
 }
 
-export async function getSprints(userProjectID: string) {
+export async function getSprints(projectID: string) {
+    console.log("get all sprints")
     const prisma = new PrismaClient()
     try {
 
         const sprints = await prisma.sprint.findMany(
             {
                 where: {
-                    projectID: userProjectID,
+                    projectID: projectID,
                 },
 
             }
