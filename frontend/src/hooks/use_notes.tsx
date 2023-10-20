@@ -14,10 +14,11 @@ const useNotes = () => {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5000/users/projects/notes/${projectID}`
+            const reqUrl = `http://localhost:5000/projects/notes/${projectID}`
             const results = await axios.get(reqUrl)
+            console.log("notes")
             console.log(results.data)
-            setNotes(results.data)
+            setNotes(results.data.notes)
         } catch (error) {
             //we failed to get notes for some reason
             setNotes(null);
@@ -27,10 +28,14 @@ const useNotes = () => {
     useEffect(
         () => {
 
-            async () => await getResponse()
+            const getNotes = async () => {
+               const results = await getResponse();
+               console.log(results)
+            }
+            getNotes()
             console.log(notes)
 
-        }, [projectID],
+        },[projectID]
     )
     return [notes,changeID];
 }

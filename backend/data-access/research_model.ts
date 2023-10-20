@@ -11,7 +11,11 @@ export async function getResearchNotes(projectID: string) {
         const notes = await prisma.researchNote.findMany(
             {
                 where: {
-                    id: projectID,
+                    sprint:{
+                        project:{
+                            id:projectID,
+                        },
+                    },
                 },
                 include: {
                     link: true
@@ -44,7 +48,8 @@ export async function createResearchNote(title: string, details: string, userID:
                         createMany: {
                             data: urlList
                         },
-                    }
+                    },
+                  
                 },
 
             }

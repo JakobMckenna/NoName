@@ -8,24 +8,47 @@ import useNotes from "~/hooks/use_notes";
 import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
+function SprintList({ list }: { list: any }) {
+    if (list) {
+        return (
+            <div>
+                {
+                    list.map(
+                        (sprint: any) => (
+                            <div>
+                                {sprint.title}
+                            </div>
+                        )
+                    )
+                }
+            </div>
+        )
+    }
+    else {
+        return (
+            <div>
 
+            </div>
+        )
+    }
+}
 
 export default function Research() {
     const router = useRouter()
     const projectID: string = String(router.query.slug);
     const [user, loading] = useUser()
     const [notes, changeID] = useNotes()
-    const [sprints,setID] = useSprint()
+    const [sprints, setID] = useSprint()
     useEffect(
         () => {
-            if (user != null && projectID != null && changeID && setID!=null) {
-                
+            if (user != null && projectID != null && changeID && setID != null) {
+
                 changeID(projectID);
                 setID(projectID)
             }
 
 
-        }, [loading, user,projectID]
+        }, [loading, user, projectID]
     )
     return (
         <div>
@@ -33,15 +56,15 @@ export default function Research() {
             <main className="container ml-80 pl-10">
                 <div className="flex flex-row row-gap-2">
                     <button onClick={
-                        () => { 
-                            const modalElement:any =document.getElementById('my_modal_2')
-                            modalElement.showModal() 
+                        () => {
+                            const modalElement: any = document.getElementById('my_modal_2')
+                            modalElement.showModal()
                         }
                     } className="btn btn-primary">Add Note</button>
-
+                    <SprintList list={notes} />
                 </div>
             </main>
-            <NotesModal projectID={projectID} />
+            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints} />
         </div>
     )
 }

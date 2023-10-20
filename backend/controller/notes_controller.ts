@@ -29,6 +29,7 @@ const NotesController = {
         }
     },
     getAll:async (req: Request, res: Response) => {
+        console.log("get notes")
         try {
             const projectID: string = req.params.id;
             const notes = await NotesService.getAll(projectID);

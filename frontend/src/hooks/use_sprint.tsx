@@ -19,7 +19,7 @@ const useSprint = () => {
             console.log(`url ${reqUrl}`);
             const results = await axios.get(reqUrl)
             console.log(results.data.sprints)
-            setSprints(results.data)
+            setSprints(results.data.sprints)
         } catch (error) {
             //we failed to get notes for some reason
             setSprints(null);
