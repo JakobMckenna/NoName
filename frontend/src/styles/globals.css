@@ -2,20 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.page-container {
+/* .page-container {
     display: flex;
 }
 
 .drawer-side {
-    width: 250px; /* Adjust the width of the side navigation as needed */
-    /* Other side navigation styles */
+    width: 250px; 
 }
 
 .main-content {
-    flex: 1; /* This allows the main content to take up the remaining space */
-    /* Other main content styles */
+    flex: 1; 
 }
 
 .page-container.drawer-side .drawer{
-    transform: translateX(0); /* Displayed */
-}
+    transform: translateX(0); 
+*/
