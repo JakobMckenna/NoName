@@ -40,6 +40,7 @@ test('user created', async () => {
     expect(data5?.userPassword?.password).toBe("password2");
   });
 
+  //delete users when done
   test('delete user by ID', async () => {
      let data6 = null
     if(userID1 !== undefined){
