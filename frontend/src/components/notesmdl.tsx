@@ -19,6 +19,8 @@ function Form({ projectID, userID ,sprintID }: { projectID: string, userID: stri
                 },
             });
             console.log('Login successful', response.data);
+            const modalElement: any = document.getElementById('my_modal_2')
+            modalElement.close()
 
         } catch (error) {
             console.log(error)
@@ -49,7 +51,7 @@ function Form({ projectID, userID ,sprintID }: { projectID: string, userID: stri
             </div>
 
             <div className="form-control mt-6">
-                <button className="btn btn-primary">Create Project</button>
+                <button className="btn btn-primary">Create Note</button>
 
             </div>
         </form>

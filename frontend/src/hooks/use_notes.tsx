@@ -7,16 +7,14 @@ import { useEffect, useState } from "react";
 const useNotes = () => {
     const [notes, setNotes] = useState(null);
     const [projectID, setProjectID] = useState("")
-    const [activate , setActivate] = useState(false)
+   
    
     const changeID:((arg:string)=>void|null|undefined) = (id:string)=>{
         setProjectID(id);
         //return id;
     };
 
-    const forceUpadte=()=>{
-        setActivate(true);
-    }
+   
     const getResponse = async () => {
         try {
             const reqUrl = `http://localhost:5000/projects/notes/${projectID}`
@@ -29,7 +27,7 @@ const useNotes = () => {
             //we failed to get notes for some reason
             setNotes(null);
         }
-        setActivate(false);
+      
     }
     useEffect(
         () => {
@@ -41,9 +39,9 @@ const useNotes = () => {
             getNotes()
             console.log(notes)
             
-        }
+        },
     )
-    return [notes,changeID,forceUpadte];
+    return [notes,changeID];
 }
 
 export default useNotes;

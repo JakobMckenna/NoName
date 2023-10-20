@@ -112,10 +112,7 @@ export default function LandingPage() {
 
     useEffect(
         () => {
-            //console.log(commits)
-
-            //console.log(loading)
-            //console.log(user)
+          
             if (user) {
                 const projects = async () => {
                     const results = await getProjects(user.id)

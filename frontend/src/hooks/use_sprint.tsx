@@ -14,7 +14,7 @@ const useSprint = () => {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5000/projects/sprint/clnw74dr90009ve704tbi7il4`
+            const reqUrl = `http://localhost:5000/projects/sprint/${projectID}`
             console.log("url")
             console.log(`url ${reqUrl}`);
             const results = await axios.get(reqUrl)
@@ -35,7 +35,7 @@ const useSprint = () => {
             }
             sprints()
 
-        },[projectID]
+        }
     )
     return [sprints,setID];
 }
