@@ -100,12 +100,14 @@ export default function LandingPage() {
     const [user, loading] = useUser()
     const [projectList, setProjectList] = useState([])
 
+
     const getProjects = async (userID: number) => {
-        const reqUrl = `http://localhost:5000/users/projects/${userID}`
+        const reqUrl = `http://localhost:5001/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
         return results.data.user
         //setResponse(results.data)
+
     }
 
  

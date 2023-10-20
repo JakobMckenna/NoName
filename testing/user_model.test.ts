@@ -1,24 +1,75 @@
-import {createUserPasswordData} from "../backend/data-access/user_model"
+import {createUserPasswordData, deleteUserByID, updateUser} from "../backend/data-access/user_model"
 import {getUserPassword} from "../backend/data-access/user_model"
 
-/*test('user created', async () => {
-    const data3 = await createUserPasswordData("john1","john991@email.com","password1");
-    expect(data3?.email).toBe("john991@email.com");
-  });
+let userID1: number | undefined
+let userID2: number | undefined
+let userID3: number | undefined
+let userID4: number | undefined
 
-  test('user created 2', async () => {
-    const data2 = await createUserPasswordData("john2","john992@email.com","password2");
-    expect(data2?.name).toBe("john2");
+test('user created', async () => {
+    const data1 = await createUserPasswordData("john1","john889@email.com","password1");
+    userID1 = data1?.id
+    expect(data1?.email).toBe("john889@email.com");
   });
-
-  test('user created 3', async () => {
-    const data3 = await createUserPasswordData("john3","john992@email.com","password2");
-    expect(data3?.name).toBe("john3");
-  });*/
 
   test('user created', async () => {
-    const data3 = await getUserPassword("john992@gmail.com");
-    expect(data3).toBeNull();
+    const data2 = await createUserPasswordData("john2","john999@email.com","password2");
+    userID2 = data2?.id
+    expect(data2?.name).toBe("john2");
+  });
+ 
+  test('user created', async () => {
+    const data3 = await createUserPasswordData("john3","john978@email.com","password3");
+    userID3 = data3?.id
+    expect(data3?.email).toBe("john978@email.com")
   });
 
+  test('user created', async () => {
+    const data9 = await createUserPasswordData("john31","john9771@email.com","password31");
+    userID4 = data9?.id
+    expect(data9).toBeTruthy
+  });
+
+  test('no pass', async () => {
+    const data4 = await getUserPassword("john912@gmail.com");
+    expect(data4).toBeNull();
+  });
+
+  test('should have pass', async () => {
+    const data5 = await getUserPassword("john999@email.com");
+    expect(data5?.userPassword?.password).toBe("password2");
+  });
+
+  test('delete user by ID', async () => {
+     let data6 = null
+    if(userID1 !== undefined){
+      data6 = await deleteUserByID(userID1);
+    }
+    expect(data6).toBeNull();
+  });
+
+  test('delete user by ID2', async () => {
+    let data7 = null
+   if(userID2 !== undefined){
+     data7 = await deleteUserByID(userID2);
+   }
+   expect(data7).toBeNull();
+ });
+
+ test('delete user by ID3', async () => {
+  let data8 = null
+ if(userID3 !== undefined){
+   data8 = await deleteUserByID(userID3);
+ }
+ expect(data8).toBeNull();
+});
+
+test('delete user by ID3', async () => {
+  let data9 = null
+ if(userID4 !== undefined){
+   data9 = await deleteUserByID(userID4);
+ }
+ expect(data9).toBeNull();
+});
+  
   

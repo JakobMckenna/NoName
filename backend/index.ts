@@ -8,7 +8,9 @@ import projectRoutes from './routes/project_routes';
 dotenv.config();
 
 const app: Express = express();
-const port = 5000;
+
+const port = 5001;
+
 
 app.use(cors());
 app.use(express.json());

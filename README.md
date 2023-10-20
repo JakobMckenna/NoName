@@ -17,6 +17,9 @@ Dev Diaries will be considered successful if users prefer it over similar apps. 
 
 
 # Core features
+### User authentication
+A crucial feature for every website is have user accounts. We want to have seperate accounts for each user and allow them to store information safely. Users will sign up with a name, email, and password. We will only allow unique emails so that users cannot have the same account credentials.
+
 ### Live updates from repository
 One of our core features is to have live updates from the project’s GitHub repository. We want to track each developer’s progress using the GitHub API and display the information on our web application. This allows the entire team to see how far along everyone else is so they know if the project is on track or if they have to make adjustments on the timeline.
 
@@ -34,14 +37,14 @@ Dev Diaries will be able to respond to 50 users with a total of 200 requests per
 
 
 # Technologies
-### React JS
-React JS is a frontend library to create dynamic apps. React provides react hooks such as useState and useEffect which can be used to store data more easily from the server and display on the web page using JSX which provides a more programmatic way to display data. It also handles updating data all over the website components more easily.
+### Next JS
+Next.js is an open-source web development framework created by the private company Vercel providing React-based web applications with server-side rendering and static website generation.
 
 ### Express JS
 Express JS Is a lightweight single threaded backend server library. Since Express JS is a back-end framework, it has access to libraries that can not be directly accessed on react JS and can more reliably communicate with databases and provide features such caching api responses and blocking from network attacks. It also interacts with outside API’s better whereas if you access them on react js , you risk a cross origin resource sharing error. Which could be a problem if it's not dealt with from the external api .
 
-### MongoDB
-MongoDB is a document database. Since it’s a document based database, it would provide relative flexibility in terms of how data from the application is stored. It also allows for better data retrieval since there's little to no need for merges between collections.
+### MySQL
+MySQL is an open-source relational database management system.
 
 
 # User stories

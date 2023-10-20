@@ -11,6 +11,7 @@ export async function getResearchNotes(projectID: string) {
         const notes = await prisma.researchNote.findMany(
             {
                 where: {
+
                     sprint:{
                         project:{
                             id:projectID,

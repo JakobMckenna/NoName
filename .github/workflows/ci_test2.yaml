@@ -3,7 +3,7 @@ name: Continuous Integration Workflow test2
 on: 
   pull_request: 
     branches:
-      - stage
+      - main
   workflow_dispatch:
 
 jobs:
@@ -12,10 +12,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          
       - name: Build Project
         run: |
           cd backend
@@ -26,9 +28,21 @@ jobs:
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
           echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
           docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
-          npx prisma migrate dev --name init npx prisma db push
+          retries=5
+          until npx prisma migrate dev --name init npx prisma db push || [ $retries -eq 0 ]; do
+            sleep 10
+            retries=$((retries-1))
+          done
+          npm run build
           npm run postinstall
-          npm run dev
-          cd ..
-          cd frontend
-          npm run dev
+          npm run dev &
+          
+      - name: Run Tests
+        run: |  
+          # cd ..
+          cd testing
+          while ! nc -z localhost 5001; do
+            sleep 1
+          done
+          npm install
+          npm test

@@ -83,7 +83,7 @@ export default function Register() {
     const handleSignUp = async (data: { email: string, password: string, name: string }) => {
         //console.log(data)
         try {
-            const response = await axios.post('http://localhost:5000/users', { name: data.name, email: data.email, password: data.password }, {
+            const response = await axios.post('http://localhost:5001/users', { name: data.name, email: data.email, password: data.password }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
