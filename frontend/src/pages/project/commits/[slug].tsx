@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "~/components/navbar";
 import RepoModal from "~/components/repomdl";
+import Spinner from "~/components/spinner";
 import useCommits from "~/hooks/use_commits";
 import useUser from "~/hooks/use_user";
 
@@ -99,6 +100,7 @@ export default function Project() {
 
             <main className="container ml-80 pl-10">
                 <h1 className="text-4xl uppercase mb-3">{projectData?.name} PROJECT Commits</h1>
+                {!commits && (<Spinner />)}
                 {commits != null && (<CommitsList commits={commits} />)}
             </main>
 
