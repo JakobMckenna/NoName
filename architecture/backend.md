@@ -35,7 +35,7 @@ This used for user authentetication and security .
 # Architecture
 
 1. ## Node Server
-In index.ts , express starts running an http server on port 5000 and receivies incoming requests
+In index.ts , express starts running an http server on port 5001 and receivies incoming requests
 
 2. ## Routes Layer
 In the routes file , the available routes in our backend exist as Javascript objects and the route paths are declare in index.ts for example in line 13 "app.use('/users', userRoutes);"  so this means all user routes start with http://host:port/users/{route path} and the route paths can be found in the routes objects within our routes

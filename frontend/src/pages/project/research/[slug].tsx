@@ -11,7 +11,7 @@ import useUser from "~/hooks/use_user";
 function NoteList({ list }: { list: any }) {
     const deleteNote = async (id: string) => {
         try {
-            const deletedNote = await axios.delete(`http://localhost:5000/projects/notes/${id}`);
+            const deletedNote = await axios.delete(`http://localhost:5001/projects/notes/${id}`);
             console.log(`deleted ${deletedNote}`);
         } catch (error) {
             console.log(error);

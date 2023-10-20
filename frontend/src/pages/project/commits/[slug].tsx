@@ -49,7 +49,7 @@ export default function Project() {
     const projectID: string = String(router.query.slug);
 
     const getProjectData = async (id: string) => {
-        const reqUrl = `http://localhost:5000/projects/${id}`
+        const reqUrl = `http://localhost:5001/projects/${id}`
         try {
             if (!id) {
                 router.push("/")

@@ -14,7 +14,7 @@ function Form({ projectID }: { projectID: string }) {
     const submitSprint = async (data: any) => {
         const startDate = new Date(data.start);
         const deadlineDate = new Date(data.deadline);
-        const responseSprint = await axios.post('http://localhost:5000/projects/sprint', {
+        const responseSprint = await axios.post('http://localhost:5001/projects/sprint', {
             sprintID:null,
             projectID: projectID,
             name: data.name,

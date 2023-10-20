@@ -17,7 +17,7 @@ const useNotes = () => {
    
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5000/projects/notes/${projectID}`
+            const reqUrl = `http://localhost:5001/projects/notes/${projectID}`
             const results = await axios.get(reqUrl)
          //   console.log("notes")
             console.log(results.data)

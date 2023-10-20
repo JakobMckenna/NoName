@@ -23,7 +23,7 @@ function RepoCard({ projects }: any) {
                         projects.map(
                             (project: any) => {
                                 return (
-                                    <li>
+                                    <li key ={project.id}>
                                       <Link href={`/project/${project.id}`} className="btn   btn-link"> {project.name} </Link>
                                     </li>
                                 )

@@ -14,7 +14,7 @@ const useSprint = () => {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5000/projects/sprint/${projectID}`
+            const reqUrl = `http://localhost:5001/projects/sprint/${projectID}`
             console.log("url")
             console.log(`url ${reqUrl}`);
             const results = await axios.get(reqUrl)
