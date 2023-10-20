@@ -8,7 +8,7 @@ const useUserProjects = ({ userID }:any) => {
     const [response, setResponse] = useState<any>(null);
 
     const getResponse = async () => {
-        const reqUrl = `http://localhost:5000/users/projects${userID}`
+        const reqUrl = `http://localhost:5001/users/projects${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data)
         setResponse(results.data)
