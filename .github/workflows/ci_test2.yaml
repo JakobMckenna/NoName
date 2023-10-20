@@ -47,11 +47,14 @@ jobs:
       #     npm install
       #     npm test
 
-
+  build-status:
+    runs-on: ubuntu-latest
+    needs: [build]  
+    steps:
       - name: Check Build Status
         run: |
-          if [ ${{ success() }} = true ]; then
-            gh pr review --approve "Build successful."
+          if [ ${{ job.status }} == 'success' ]; then
+            gh pr review --approve "The build passed successfully."
           else
-            gh pr review --reject "Build failed."
+            gh pr review --reject "The build failed. Please fix the issues."
           fi
