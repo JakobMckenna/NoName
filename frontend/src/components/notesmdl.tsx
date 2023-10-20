@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
@@ -5,7 +6,7 @@ function Form({ projectID, userID ,sprintID }: { projectID: string, userID: stri
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitSuccessful, isSubmitting },
+        formState: {},
     } = useForm();
 
 

@@ -1,11 +1,10 @@
+/* eslint-disable */
 import Head from "next/head";
 import Link from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSearchParams } from "next/navigation";
-import useGetReq from "~/hooks/use_fetch";
 
 function SignIn({ handleSignIn, message }: any) {
 

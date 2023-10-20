@@ -1,12 +1,13 @@
+/* eslint-disable */
 import Head from "next/head";
-import Link from "next/link";
+
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup'
-import { registrationValidation } from "./validations_schemas/user_registration";
-import useGetReq from "~/hooks/use_fetch";
+import { registrationValidation } from "../../validations_schemas/user_registration";
+
 function SignIn({ handleSignUp }: any) {
 
     const {

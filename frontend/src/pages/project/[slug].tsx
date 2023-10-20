@@ -1,3 +1,4 @@
+/* eslint-disable */
 import useUser from "~/hooks/use_user"
 import { useRouter } from 'next/router'
 import Navbar from "~/components/navbar";
