@@ -342,6 +342,34 @@ IV. Jakob will organize the non-code deliverables
 I. TK will help Isabelle with frontend
 
 II. Project due Friday, meeting TA at 4pm
+
+
+## Date: October 24th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle
+
+*Location:* ECE E2 330
+
+**Agenda**
+
+I. Looked ahead to sprint 3 and broke down tasks
+
+II. Looked at presentation due the 31st
+
+III. Need to catch up from last sprint as well
+
+IV. Sprint 3 is due during reading week - Jakob can't help last week
+
+**Next Steps**
+
+I. Jakob will work on testing and the presentation
+
+II. Susie can work on the CD
+
+III. Isabelle will look into notifications/multi-team members
+
+IV. Tehillah will do research into the communication feature
+
     
 <br>
 
