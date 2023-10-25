@@ -28,7 +28,11 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
 
-io.on('connection', (socket) => {
+
+
+const chatNameSpace = io.of('chat');
+
+chatNameSpace.on('connection', (socket) => {
   console.log('a user connected');
 });
 

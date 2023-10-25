@@ -16,9 +16,17 @@ export async function createUserPasswordData(name: string, email: string, passwo
     const prisma = new PrismaClient()
     try {
 
-        const user = await prisma.user.findMany(
+        const user = await prisma.user.create(
             {
-              
+                data: {
+                    email: email,
+                    name: name,
+                    userPassword: {
+                        create: {
+                            password: password
+                        }
+                    }
+                },
             }
         );
         console.log(user)
@@ -117,7 +125,7 @@ export async function getUserProjects(userID: number) {
                     include:{
                         project:true,
                     },
-                },
+                }
             }
         });
        
