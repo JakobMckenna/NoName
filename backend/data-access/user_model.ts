@@ -1,6 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 
 
+
+export async function getAllUsers() {
+    
+}
+
 /*
     createUserPasswordData
     creates user with a password
@@ -11,17 +16,9 @@ export async function createUserPasswordData(name: string, email: string, passwo
     const prisma = new PrismaClient()
     try {
 
-        const user = await prisma.user.create(
+        const user = await prisma.user.findMany(
             {
-                data: {
-                    email: email,
-                    name: name,
-                    userPassword: {
-                        create: {
-                            password: password
-                        }
-                    }
-                },
+              
             }
         );
         console.log(user)
@@ -52,6 +49,7 @@ export async function getUserPassword(userEmail: string) {
             },
             include: {
                 userPassword: true,
+                
             }
         });
        
@@ -114,6 +112,11 @@ export async function getUserProjects(userID: number) {
                     include:{
                         github:true,
                     }
+                },
+                member:{
+                    include:{
+                        project:true,
+                    },
                 },
             }
         });

@@ -9,7 +9,8 @@ export async function createProject(name:string ,userID :number) {
             {
                 data:{
                     name:name,
-                    userId:userID
+                    userId:userID,
+                   
                 }
             }
         )
