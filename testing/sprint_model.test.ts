@@ -60,14 +60,6 @@ test('Creating a dummy user to create a project', async () => {
        expect(data4).toBeTruthy();
       });
 
-      /*test('create note', async () => {
-        let data11 = null
-       if(userID !== undefined && sprintID !== undefined){
-         data11 = await createResearchNote("Title", "details", userID, sprintID, 23 );
-       }
-       expect(data11).toBeTruthy();
-      });*/
-
       test('remove sprint', async () => {
         let data10 = null
        if(sprintID !== undefined){
