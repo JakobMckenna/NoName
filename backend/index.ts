@@ -6,6 +6,8 @@ import userRoutes from './routes/user_routes';
 import cors from 'cors';
 import githubRoutes from './routes/github_routes';
 import projectRoutes from './routes/project_routes';
+import Chat from "./sockets/chat";
+
 
 dotenv.config();
 
@@ -33,33 +35,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 
-
-const chatNameSpace = io.of('chat');
-
-chatNameSpace.on('connection', (socket) => {
-  console.log('a user connected');
-
-
-  socket.on('create',(room)=>{
-    socket.join(room)
-    console.log(`create room ${room}`)
-  })
-
-  socket.on('join',(room)=>{
-    socket.join(room)
-    console.log(`joined room ${room}`)
-  })
-
-  socket.on('leave',(room)=>{
-    socket.leave(room)
-    console.log(`left room ${room}`)
-  })
-
-  socket.on('disconnect', () => {
-    console.log(`Socket ${socket.id} disconnected`);
-  });
-
-});
+const chatSocket = new Chat(io)
+console.log(chatSocket.rooms())
 
 server.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

@@ -8,6 +8,8 @@ export default function ChatPage() {
     
     const projectID = String(router.query.slug);
     const [socket,loading] = useChatSocket(projectID)
+
+    
     useEffect(
         () => {
           
