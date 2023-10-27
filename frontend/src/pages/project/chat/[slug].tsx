@@ -1,6 +1,8 @@
 import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 import { io } from "socket.io-client"
+import ChatBox from "~/components/chat";
+import Navbar from "~/components/navbar";
 import useChatSocket from "~/hooks/use_chat_socket";
 
 export default function ChatPage() {
@@ -21,8 +23,12 @@ export default function ChatPage() {
         }, [loading]
     )
     return (
-        <div>
-
+        <div className="">
+            <Navbar userName="" />
+            <div className="container px-72 h-screen  min-h-full overflow-y-none">
+                <ChatBox />
+            </div>
+            
         </div>
     )
 

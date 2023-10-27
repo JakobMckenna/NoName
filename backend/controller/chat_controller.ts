@@ -26,8 +26,8 @@ export default class ChatController {
                 console.log(`left room ${room}`)
             })
 
-            socket.on('message',()=>{
-                
+            socket.on('message',(data:any)=>{
+                socket.to(data.room).emit(data.message)
             })
 
             socket.on('disconnect', () => {
