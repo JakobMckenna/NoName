@@ -60,7 +60,8 @@ test('Creating a dummy user to create a project', async () => {
        expect(data4).toBeTruthy();
       });
 
-      test('remove sprint', async () => {
+      //clean up the DB
+      test('Remove a sprint', async () => {
         let data10 = null
        if(sprintID !== undefined){
          data10 = await removeSprint(sprintID);
@@ -68,7 +69,7 @@ test('Creating a dummy user to create a project', async () => {
        expect(data10).toBeTruthy();
       });
 
-    test('remove a project', async () => {
+    test('Remove a project', async () => {
         let data7 = null
         if(projID !== undefined){
             data7 = await removeProject(projID);
