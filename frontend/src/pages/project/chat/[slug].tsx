@@ -13,7 +13,7 @@ export default function ChatPage() {
     const projectID = String(router.query.slug);
     const [socket,loading] = useChatSocket(projectID);
     const [userName , setUserName]= useState("JohnDoe");
-    const [userID , setUserID]= useState<number>()
+    const [userID , setUserID]= useState<string>()
 
 
 

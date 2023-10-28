@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
 
-interface Chat{
-    name:string;
-    message:string;
-    userID:number;
+interface Chat {
+    name: string;
+    message: string;
+    userID: string;
 }
 
-function Form({sendMessage}:{sendMessage:any}) {
+function Form({ sendMessage }: { sendMessage: any }) {
     const {
         register,
         handleSubmit,
@@ -43,37 +43,50 @@ function Form({sendMessage}:{sendMessage:any}) {
 }
 
 
-const ChatBox = ({socket,projectID,name,userID}:{socket: Socket, projectID:string,name:string,userID:number}) => {
-    const [chatHistory ,setChatHistory]= useState<Chat[]>([])
+const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectID: string, name: string, userID: string }) => {
+    const [chatHistory, setChatHistory] = useState<Chat[]>([])
 
-    const sendMessage = (msg:string)=>{
-        socket.emit("message",{room:projectID ,message:msg, name:name ,userID:userID})
+    const sendMessage = (msg: string) => {
+        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID })
     }
 
-    const getMessage = ()=>{
+    const getMessage = () => {
         let result = null;
-        socket.on("message",(data:any)=>{
+        socket.on("message", (data: any) => {
             console.log(data);
             result = data;
         })
         return result;
     }
 
-    useEffect(()=>{
-        socket.on("message",(data:Chat)=>{
-            console.log(data); 
-            setChatHistory((messages)=>[...messages ,data])
-           // result = data;
+    useEffect(() => {
+        socket.on("message", (data: Chat) => {
+            console.log(data);
+            setChatHistory((messages) => [...messages, data])
+            // result = data;
         })
-    },[socket])
+    }, [socket])
     return (
         <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
             <div className="h-3/5 mb-10 overflow-y-auto ">
+                {
+                    chatHistory.map((chat, index) => {
+                        return (<div key={index} className={userID==chat.userID?"chat chat-start":"chat chat-end"}>
+                            <div className="chat-header">
+                                {chat.name}
+                                <time className="text-xs opacity-50">2 hours ago</time>
+                            </div>
+                            <div className="chat-bubble">{chat.message}</div>
+
+                        </div>)
+                    }
+                    )
+                }
 
             </div>
             <div className="w-full h-1/5 overflow-y-none">
                 <Form sendMessage={sendMessage} />
-           </div>
+            </div>
         </div>
     );
 }
