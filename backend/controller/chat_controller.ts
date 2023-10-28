@@ -27,6 +27,7 @@ export default class ChatController {
             })
 
             socket.on('message',(data:any)=>{
+                console.log(data.message)
                 socket.to(data.room).emit(data.message)
             })
 

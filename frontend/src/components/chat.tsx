@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { Socket } from "socket.io-client";
 
-function Form() {
+function Form({sendMessage}:{sendMessage:any}) {
     const {
         register,
         handleSubmit,
@@ -13,7 +14,7 @@ function Form() {
     const handleCreateProject = async (data: any) => {
         console.log("submit")
         try {
-          
+            sendMessage(data.message)
 
         } catch (error) {
             console.log(error)
@@ -35,14 +36,18 @@ function Form() {
 }
 
 
-const ChatBox = (props: any) => {
+const ChatBox = ({socket,projectID}:{socket: Socket, projectID:string}) => {
+
+    const sendMessage = (msg:string)=>{
+        socket.emit("message",{room:projectID ,message:msg})
+    }
     return (
         <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
             <div className="h-3/5 mb-10 overflow-y-auto ">
 
             </div>
             <div className="w-full h-1/5 overflow-y-none">
-                <Form />
+                <Form sendMessage={sendMessage} />
            </div>
         </div>
     );
