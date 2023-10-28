@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
 
@@ -41,6 +42,22 @@ const ChatBox = ({socket,projectID}:{socket: Socket, projectID:string}) => {
     const sendMessage = (msg:string)=>{
         socket.emit("message",{room:projectID ,message:msg})
     }
+
+    const getMessage = ()=>{
+        let result = null;
+        socket.on("message",(data:any)=>{
+            console.log(data);
+            result = data;
+        })
+        return result;
+    }
+
+    useEffect(()=>{
+        socket.on("message",(data:any)=>{
+            console.log(data);
+           // result = data;
+        })
+    })
     return (
         <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
             <div className="h-3/5 mb-10 overflow-y-auto ">

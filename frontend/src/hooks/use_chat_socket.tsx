@@ -8,7 +8,7 @@ interface ChatSocket{
 }
 
 const useChatSocket = (projectID:string)  => {
-    const [socket, setSocket] = useState<Socket>();
+    const [socket, setSocket] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     useEffect(
         () => {
@@ -21,6 +21,8 @@ const useChatSocket = (projectID:string)  => {
             }else{
                 console.log("no")
             }
+
+            
 
 
         },[projectID]

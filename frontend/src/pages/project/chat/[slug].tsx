@@ -21,8 +21,15 @@ export default function ChatPage() {
             if (projectID != null || projectID != undefined) {
                 console.log(projectID)
 
+
             }
-        }, [loading]
+           if (socket){
+            socket.on("message",(data:any)=>{
+                console.log(data);
+               // result = data;
+            })
+           }
+        }
     )
     return (
         <div className="">
