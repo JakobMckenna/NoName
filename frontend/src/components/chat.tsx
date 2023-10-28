@@ -74,7 +74,6 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                         return (<div key={index} className={userID==chat.userID?"chat chat-start":"chat chat-end"}>
                             <div className="chat-header">
                                 {chat.name}
-                                <time className="text-xs opacity-50">2 hours ago</time>
                             </div>
                             <div className="chat-bubble">{chat.message}</div>
 
