@@ -15,10 +15,11 @@ model User {
   email        String          @unique
   name         String
   userPassword UserPassword?
-  task         Task[]  @relation("createdBy")
-  assignedTask Task[]  @relation("assignedTo")
+  task         Task[]          @relation("createdBy")
+  assignedTask Task[]          @relation("assignedTo")
   note         ResearchNote[]
   project      Project[]
+  chat         Chat[]
   member       ProjectMember[]
 }
 
@@ -29,32 +30,34 @@ model UserPassword {
 }
 
 model Project {
-  id   String @id @default(cuid())
-  name String
-  userId  Int   //created by this user
-  sprint Sprint[]
+  id      String          @id @default(cuid())
+  name    String
+  userId  Int //created by this user
+  sprint  Sprint[]
   github  GithubProject?
   members ProjectMember[]
-  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
- @@unique([name,userId])
+  chat    Chat[]
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([name, userId])
 }
 
-model Sprint{
-  id   String @id @default(cuid())
+model Sprint {
+  id        String         @id @default(cuid())
   projectID String
-  name String
-  start DateTime?
-  deadline DateTime
-  project Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  task Task[]
-  note ResearchNote[]
+  name      String
+  start     DateTime?
+  deadline  DateTime
+  project   Project        @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  task      Task[]
+  note      ResearchNote[]
 }
 
 model ProjectMember {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   projectID String
-  user    User[]  
-  project Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User[]
+  project   Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model GithubProject {
@@ -66,36 +69,46 @@ model GithubProject {
 }
 
 model Task {
-  id        String   @id @default(cuid())
-  name      String
-  details   String?
-  deadline      DateTime
+  id           String   @id @default(cuid())
+  name         String
+  details      String?
+  deadline     DateTime
   createdBy    Int
-  assignedTo   Int  
-  completed Boolean
-  sprintID    String
-  sprint  Sprint @relation(fields: [sprintID],references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User     @relation("createdBy",fields: [createdBy ], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  assignedUser User  @relation("assignedTo",fields: [assignedTo], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  assignedTo   Int
+  completed    Boolean
+  sprintID     String
+  sprint       Sprint   @relation(fields: [sprintID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user         User     @relation("createdBy", fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  assignedUser User     @relation("assignedTo", fields: [assignedTo], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model ResearchNote {
   id           String    @id @default(cuid())
   title        String
   details      String
-  userID       Int    //created by this user
+  userID       Int //created by this user
   link         WebLink[]
-  sprintID    String    
+  sprintID     String
   created      DateTime  @default(now())
   lastModified DateTime  @updatedAt
   user         User      @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  sprint      Sprint   @relation(fields: [sprintID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  sprint       Sprint    @relation(fields: [sprintID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model WebLink {
   id      String       @id @default(cuid())
   url     String
-  details String ?
-  noteID  String       
+  details String?
+  noteID  String
   Note    ResearchNote @relation(fields: [noteID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Chat {
+  id        String  @id @default(cuid())
+  message   String
+  userID    Int
+  projectID String
+  timestamp DateTime @default(now())
+  project   Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User    @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
