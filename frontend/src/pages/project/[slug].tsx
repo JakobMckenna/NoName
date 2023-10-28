@@ -99,6 +99,24 @@ function SprintCard({ projectID, sprints }: { projectID: string, sprints: any })
     )
 }
 
+function ChatCard({ projectID }: { projectID: string }) {
+    // console.log(github);
+    return (
+        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+
+            <div className="card-body items-center text-center h-full">
+                <h2 className="card-title">Chat Card</h2>
+                <div>
+                    <Link href={`/project/chat/${projectID}`} className="btn btn-link">See Chat</Link>
+                </div>
+
+            </div>
+
+        </div>
+    )
+}
+
+
 export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
@@ -151,25 +169,25 @@ export default function Project() {
         }, [projectID, user, setID]);
 
     return (
-        <div>
+        <div className="overscroll-x-none">
             <Navbar userName={user?.email} />
 
-            <main className="container ml-80 pl-10">
+            <main className="container ml-80 pl-10 overscroll-x-none">
                 <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
                 <div>
                     <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commits</p>
                 </div>
-                <div className="flex flex-row mb-5">
+                <div className="flex flex-row mb-5 overscroll-x-none">
                     <MenuCard github={github} projectID={projectID} />
                     <SprintCard projectID={projectID} sprints={sprints} />
 
                 </div>
-                <div className="flex flex-row">
+                <div className="flex flex-row overscroll-x-none">
                     {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
+                    <ChatCard projectID={projectID} />
                 </div>
             </main>
-            <RepoModal projectID={projectID} />
-            <SprintModal projectID={projectID} />
+            
         </div>
     )
 
