@@ -13,7 +13,7 @@ export default function ChatPage() {
     const projectID = String(router.query.slug);
     const [socket,loading] = useChatSocket(projectID);
     const [userName , setUserName]= useState("JohnDoe");
-    const [userID , setUserID]= useState<string>()
+    const [userID , setUserID]= useState<string>("")
 
 
 
@@ -26,12 +26,7 @@ export default function ChatPage() {
                 console.log(user)
 
             }
-           if (socket){
-            socket.on("message",(data:any)=>{
-                console.log(data);
-               // result = data;
-            })
-           }
+           
 
            if (user!=null && user.name!=null){
             setUserName(user.name)
