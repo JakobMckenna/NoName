@@ -37,10 +37,10 @@ function Form({sendMessage}:{sendMessage:any}) {
 }
 
 
-const ChatBox = ({socket,projectID}:{socket: Socket, projectID:string}) => {
+const ChatBox = ({socket,projectID,name}:{socket: Socket, projectID:string,name:string}) => {
 
     const sendMessage = (msg:string)=>{
-        socket.emit("message",{room:projectID ,message:msg})
+        socket.emit("message",{room:projectID ,message:msg, name:name})
     }
 
     const getMessage = ()=>{

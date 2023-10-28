@@ -1,5 +1,6 @@
 import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react"
+import { set } from "react-hook-form";
 import { Socket, io } from "socket.io-client"
 import ChatBox from "~/components/chat";
 import Navbar from "~/components/navbar";
@@ -11,6 +12,7 @@ export default function ChatPage() {
     const [user] = useUser();
     const projectID = String(router.query.slug);
     const [socket,loading] = useChatSocket(projectID);
+    const [userName , setUserName]= useState("JohnDoe")
 
 
 
@@ -20,7 +22,7 @@ export default function ChatPage() {
           
             if (projectID != null || projectID != undefined) {
                 console.log(projectID)
-
+                console.log(user)
 
             }
            if (socket){
@@ -29,13 +31,17 @@ export default function ChatPage() {
                // result = data;
             })
            }
-        }
+
+           if (user!=null && user.name!=null){
+            setUserName(user.name)
+           }
+        },[loading]
     )
     return (
         <div className="">
             <Navbar userName="" />
             <div className="container px-72 h-screen  min-h-full overflow-y-none">
-                {socket &&<ChatBox projectID={projectID} socket={socket as Socket}  />}
+                {socket &&<ChatBox projectID={projectID} socket={socket as Socket} name={userName} />}
             </div>
             
         </div>
