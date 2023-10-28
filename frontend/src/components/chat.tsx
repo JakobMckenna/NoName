@@ -1,7 +1,13 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
+
+interface Chat{
+    name:string;
+    message:string;
+    userID:number;
+}
 
 function Form({sendMessage}:{sendMessage:any}) {
     const {
@@ -37,10 +43,11 @@ function Form({sendMessage}:{sendMessage:any}) {
 }
 
 
-const ChatBox = ({socket,projectID,name}:{socket: Socket, projectID:string,name:string}) => {
+const ChatBox = ({socket,projectID,name,userID}:{socket: Socket, projectID:string,name:string,userID:number}) => {
+    const [chatHistory ,setChatHistory]= useState<Chat[]>([])
 
     const sendMessage = (msg:string)=>{
-        socket.emit("message",{room:projectID ,message:msg, name:name})
+        socket.emit("message",{room:projectID ,message:msg, name:name ,userID:userID})
     }
 
     const getMessage = ()=>{
@@ -53,11 +60,12 @@ const ChatBox = ({socket,projectID,name}:{socket: Socket, projectID:string,name:
     }
 
     useEffect(()=>{
-        socket.on("message",(data:any)=>{
-            console.log(data);
+        socket.on("message",(data:Chat)=>{
+            console.log(data); 
+            setChatHistory((messages)=>[...messages ,data])
            // result = data;
         })
-    })
+    },[socket])
     return (
         <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
             <div className="h-3/5 mb-10 overflow-y-auto ">

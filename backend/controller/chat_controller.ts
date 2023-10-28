@@ -29,7 +29,7 @@ export default class ChatController {
             socket.on('message',(data:any)=>{
                 console.log(data.message)
                 console.log(data.room)
-                chatNameSpace.to(data.room).emit("message",{name:data.name,message:data.message})
+                chatNameSpace.to(data.room).emit("message",{name:data.name,message:data.message,userID:data.userID})
             })
 
             socket.on('disconnect', () => {

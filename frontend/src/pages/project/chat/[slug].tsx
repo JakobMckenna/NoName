@@ -12,7 +12,8 @@ export default function ChatPage() {
     const [user] = useUser();
     const projectID = String(router.query.slug);
     const [socket,loading] = useChatSocket(projectID);
-    const [userName , setUserName]= useState("JohnDoe")
+    const [userName , setUserName]= useState("JohnDoe");
+    const [userID , setUserID]= useState<number>()
 
 
 
@@ -34,6 +35,7 @@ export default function ChatPage() {
 
            if (user!=null && user.name!=null){
             setUserName(user.name)
+            setUserID(user.id)
            }
         },[loading]
     )
@@ -41,7 +43,7 @@ export default function ChatPage() {
         <div className="">
             <Navbar userName="" />
             <div className="container px-72 h-screen  min-h-full overflow-y-none">
-                {socket &&<ChatBox projectID={projectID} socket={socket as Socket} name={userName} />}
+                {socket &&<ChatBox projectID={projectID} socket={socket as Socket} name={userName} userID={userID} />}
             </div>
             
         </div>
