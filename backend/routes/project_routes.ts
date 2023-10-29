@@ -38,5 +38,6 @@ projectRoutes.post("/task",ProjectController.addTask);
 
 projectRoutes.delete("/task/:id",ProjectController.removeTask);
 
+projectRoutes.get("/chat/:id",ProjectController.getPrevMessages);
 
 export default projectRoutes;

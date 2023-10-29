@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ProjectService from '../services/project_service';
+import ChatService from '../services/chat_service';
 
 const ProjectController = {
     getProject:async (req: Request, res: Response) => {
@@ -200,6 +201,15 @@ const ProjectController = {
         }
     },
     
+    getPrevMessages:async(req: Request, res: Response)=>{
+        try {
+            const projectID: string = req.params.id;
+            const result = await ChatService.getAll(projectID);
+            res.status(200).json({"messages":result})
+        } catch (error) {
+            res.status(400).json({"messages":null})
+        }
+    }
 
 }
 

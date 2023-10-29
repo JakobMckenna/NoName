@@ -1,6 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 
 
+
+export async function getAllUsers() {
+    
+}
+
 /*
     createUserPasswordData
     creates user with a password
@@ -52,6 +57,7 @@ export async function getUserPassword(userEmail: string) {
             },
             include: {
                 userPassword: true,
+                
             }
         });
        
@@ -115,6 +121,11 @@ export async function getUserProjects(userID: number) {
                         github:true,
                     }
                 },
+                member:{
+                    include:{
+                        project:true,
+                    },
+                }
             }
         });
        
