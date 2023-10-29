@@ -5,6 +5,7 @@ import { Socket, io } from "socket.io-client"
 import ChatBox from "~/components/chat";
 import Navbar from "~/components/navbar";
 import useChatSocket from "~/hooks/use_chat_socket";
+import usePrevChat from "~/hooks/use_prev_chat";
 import useUser from "~/hooks/use_user";
 
 export default function ChatPage() {
@@ -14,6 +15,7 @@ export default function ChatPage() {
     const [socket,loading] = useChatSocket(projectID);
     const [userName , setUserName]= useState("JohnDoe");
     const [userID , setUserID]= useState<string>("")
+   // const [prevChats,isLoading]= usePrevChat(projectID)
 
 
 

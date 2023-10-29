@@ -1,4 +1,5 @@
 import { Namespace, Socket } from "socket.io";
+import { Request, Response } from 'express';
 import { Dictionary } from "../interfaces/interfaces";
 import ChatService from "../services/chat_service";
 
@@ -54,12 +55,5 @@ export default class ChatController {
         return this.rooms
     }
 
-    async getAllPrevMessages(projectID:string){
-        try {
-            const result = await ChatService.getAll(projectID)
-            return result;
-        } catch (error) {
-            return null
-        }
-    }
 }
+

@@ -8,7 +8,10 @@ export async function getAllMessages(projectID:string) {
             {
                 where:{
                     projectID:projectID
-                }
+                },
+                include:{
+                    user:true
+                },
             }
         );
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
+import usePrevChat from "~/hooks/use_prev_chat";
 
 interface Chat {
     name: string;
@@ -45,7 +46,7 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
 const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectID: string, name: string, userID: string }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([])
-
+    const [prevChats,isLoading]= usePrevChat(projectID)
     const sendMessage = (msg: string) => {
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID })
     }
