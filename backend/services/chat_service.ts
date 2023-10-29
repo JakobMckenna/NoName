@@ -1,4 +1,4 @@
-import { deleteMessage, saveMessage } from "../data-access/chat_model";
+import { deleteMessage, getAllMessages, saveMessage } from "../data-access/chat_model";
 
 const ChatService = {
     save: async (message: string, projectID: string, userID: number) => {
@@ -18,7 +18,16 @@ const ChatService = {
             console.log(error);
             return null;
         }
-    }
+    },
+    getAll:async (projectID: string)=>{
+        try {
+            let result = await getAllMessages(projectID);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    },
 }
 
 export default ChatService;

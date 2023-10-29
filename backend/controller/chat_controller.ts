@@ -1,5 +1,6 @@
 import { Namespace, Socket } from "socket.io";
 import { Dictionary } from "../interfaces/interfaces";
+import ChatService from "../services/chat_service";
 
 export default class ChatController {
 
@@ -30,6 +31,7 @@ export default class ChatController {
                 console.log(data.message)
                 console.log(data.room)
                 chatNameSpace.to(data.room).emit("message",{name:data.name,message:data.message,userID:data.userID})
+                this.save(data.message,data.room ,data.userID)
             })
 
             socket.on('disconnect', () => {
@@ -39,8 +41,25 @@ export default class ChatController {
         });
     }
 
+    save(message: string, projectID: string, userID: number){
+        const savedMsg = async ()=>{
+            const result = await ChatService.save(message,projectID,userID)
+            return result;
+        }
+        savedMsg();
+    }
+
 
     getRooms(){
         return this.rooms
+    }
+
+    async getAllPrevMessages(projectID:string){
+        try {
+            const result = await ChatService.getAll(projectID)
+            return result;
+        } catch (error) {
+            return null
+        }
     }
 }
