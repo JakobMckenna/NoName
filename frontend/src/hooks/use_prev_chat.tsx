@@ -8,7 +8,7 @@ const usePrevChat = (projectID: string) => {
     const [response, setResponse] = useState<any>(null);
     const [isLoading, setLoading] = useState<boolean>(true);
     const getResponse = async () => {
-        const reqUrl = `http://localhost:5001/projects/chat/clnyh5xrc0001vexg88l8b499`
+        const reqUrl = `http://localhost:5001/projects/chat/${projectID}`
         const results = await axios.get(reqUrl)
         console.log("why")
         console.log(results.data.messages)
