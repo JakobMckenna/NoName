@@ -51,14 +51,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID })
     }
 
-    const getMessage = () => {
-        let result = null;
-        socket.on("message", (data: any) => {
-            console.log(data);
-            result = data;
-        })
-        return result;
-    }
+    
 
     useEffect(() => {
         socket.on("message", (data: Chat) => {
@@ -71,6 +64,20 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
         <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
             <div className="h-3/5 mb-10 overflow-y-auto ">
                 {
+                    // chats previousily saved in db
+                   prevChats!=null && prevChats.map((chat:any, index:number) => {
+                        return (<div key={index} className={userID==chat.userID?"chat chat-start":"chat chat-end"}>
+                            <div className="chat-header">
+                                {chat.user.name}
+                            </div>
+                            <div className="chat-bubble">{chat.message}</div>
+
+                        </div>)
+                    }
+                    )
+                }
+                {
+                    // chats live on socket
                     chatHistory.map((chat, index) => {
                         return (<div key={index} className={userID==chat.userID?"chat chat-start":"chat chat-end"}>
                             <div className="chat-header">
