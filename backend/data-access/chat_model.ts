@@ -1,6 +1,25 @@
 import { PrismaClient } from '@prisma/client'
 
+export async function getAllMessages(projectID:string) {
+    const prisma = new PrismaClient()
+    try {
 
+        const messages= await prisma.chat.findMany(
+            {
+                where:{
+                    projectID:projectID
+                }
+            }
+        );
+
+        return messages;
+    } catch (err: any) {
+        console.log(err);
+        return null;
+    } finally {
+        prisma.$disconnect();
+    }
+}
 
 export async function saveMessage(message:string ,projectID:string, userID: number) {
     const prisma = new PrismaClient()
