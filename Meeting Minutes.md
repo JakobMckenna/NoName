@@ -370,6 +370,31 @@ III. Isabelle will look into notifications/multi-team members
 
 IV. Tehillah will do research into the communication feature
 
+
+## Date: October 31st, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile
+
+*Location:* ECE E2 330
+
+**Agenda**
+
+I. Talked about presentation
+
+II. Looked over grading for other groups presentations
+
+III. Looked at what is left for sprint 3
+
+**Next Steps**
+
+I. Jakob will work on testing, now that presentation is done
+
+II. Susie will continue working on the CD
+
+III. Isabelle will look into notifications/multi-team members
+
+IV. Tehillah will look into a few small issues
+
     
 <br>
 
