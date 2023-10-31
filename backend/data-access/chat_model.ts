@@ -2,12 +2,16 @@ import { PrismaClient } from '@prisma/client'
 
 export async function getAllMessages(projectID:string) {
     const prisma = new PrismaClient()
+    const currentTime = new Date()
     try {
 
         const messages= await prisma.chat.findMany(
             {
                 where:{
-                    projectID:projectID
+                    projectID:projectID,
+                    timestamp:{
+                        lt: currentTime
+                    }
                 },
                 include:{
                     user:true
