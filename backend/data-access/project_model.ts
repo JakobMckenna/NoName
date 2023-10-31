@@ -45,11 +45,7 @@ export async function getProject(projectID:string,) {
                         },
                     },
                     github:true,
-                    members:{
-                        include:{
-                            user:true
-                        },
-                    },
+                    members:true,
                     
                 },
     

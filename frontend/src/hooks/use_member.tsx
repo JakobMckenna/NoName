@@ -22,7 +22,7 @@ const useUserProjects = ({ projectID }:{projectID:string}) => {
 
         }, [],
     )
-    return [response.member];
+    return [response.member ,response.member.members];
 }
 
 export default useUserProjects;
