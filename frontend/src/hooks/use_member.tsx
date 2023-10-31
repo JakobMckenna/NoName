@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 
 
 
-const useUserProjects = ({ userID }:any) => {
+const useUserProjects = ({ projectID }:{projectID:string}) => {
     const [response, setResponse] = useState<any>(null);
 
     const getResponse = async () => {
-        const reqUrl = `http://localhost:5001/users/projects${userID}`
+        const reqUrl = `http://localhost:5001/users/projects${projectID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
         setResponse(results.data)

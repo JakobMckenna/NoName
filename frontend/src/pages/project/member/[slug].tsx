@@ -39,7 +39,6 @@ export default function MemberPage() {
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
     const [github, setGithub] = useState(null);
-    
     const projectID = String(router.query.slug);
     return(
         <div>

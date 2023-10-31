@@ -129,7 +129,7 @@ export default function LandingPage() {
             }
 
 
-        }, [loading, user, getProjects]
+        }, [loading, user]
     )
     return (
         <div className = "w-full mx-auto">
