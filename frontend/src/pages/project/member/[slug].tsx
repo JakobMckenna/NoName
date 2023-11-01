@@ -2,14 +2,27 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Navbar from "~/components/navbar";
-import useUserProjects from "~/hooks/use_member";
+
 import useUser from "~/hooks/use_user";
 
 
-function Member({ member }: any) {
+function Member({ member,projectID }: any) {
+    const removeMember =async (projectID:string,userID:number)=>{
+        try {
+            const reqUrl = `http://localhost:5001/projects/member/${projectID}/${userID}`
+            const results = await axios.delete(reqUrl)
+            if (results.data && results.data.members) {
+                // console.log(results.data.projects.members)
+              //  setMembers(results.data.members)
+            }
+            console.log(results.data)
+            return results.data
+        } catch (error) {
 
-
-
+            console.log("failed")
+            return null
+        }
+    }
 
     return (
         <div className="flex flex-row px-6 justify-between mb-10">
@@ -24,8 +37,8 @@ function Member({ member }: any) {
                                 </div>
                                 <div>
                                     <button onClick={
-                                        ()=>{
-
+                                        async ()=>{
+                                          await removeMember(projectID,member.id)
                                         }
                                     } className="btn btn-primary">Remove</button>
                                 </div>
@@ -42,7 +55,7 @@ function Member({ member }: any) {
 
 function MemberBoard({ members }: any) {
     return (
-        <div className="flex flex-col border border-black rounded-md p-6  m-6 w-[425px] h-96 min-h-min">
+        <div className="flex flex-col bg-black border border-black rounded-md p-6  m-6 w-[425px] h-96 min-h-min">
             <div className="flex flex-row mb-3">
                 <div className="">
                     <button className="btn ">Add New Member</button>
@@ -53,7 +66,7 @@ function MemberBoard({ members }: any) {
                     members.map(
                         (member: any) => {
                             return (
-                                <Member key={member.id} member={member.user} />
+                                <Member key={member.id} member={member.user} projectID={member.projectID} />
                             )
                         }
                     )

@@ -149,24 +149,21 @@ export async function addProjectMember(projectID: string, userId: number) {
 
     
 
-        const user = await prisma.user.findFirst(
-            {
-                where:{
-                    id:userId
-                }
-            }
-        )
+        
             
         const members = await prisma.projectMember.create(
             {
                 data:{
                     user:{
                         connect:{
-                            id:user?.id
+                            id:userId
                         }
                     },
-                    projectID: projectID
-
+                   project:{
+                    connect:{
+                        id:projectID
+                    }
+                   },
                 }
             }
         )
@@ -207,26 +204,44 @@ export async function getProjectMembers(projectID: string) {
 }
 
 export async function removeProjectMember(projectID: string, userID: number) {
+     console.log(projectID)
     const prisma = new PrismaClient()
     try {
 
-        const members = await prisma.projectMember.deleteMany(
+        const members = await prisma.projectMember.findFirst(
             {
-                where: {
-                    project: {
-                        id: projectID,
-                        user: {
-                            id: userID,
-                        },
-                    },
-
-
+                where:{
+                 project:{
+                    id:projectID
+                 },
+                 user:{
+                    some:{
+                        id:userID
+                    }
+                 }
                 },
-
+               
             }
         )
 
-        return members;
+        if(members){
+            await prisma.projectMember.update(
+                {
+                    where:{
+                        id:members.id
+                    },
+                    data:{
+                        user:{
+                            disconnect:{
+                                id:userID
+                            }
+                        }
+                    }
+                }
+            )
+        }
+        console.log(members)
+        return  members;
     } catch (err: any) {
         console.log(err)
         return null;
