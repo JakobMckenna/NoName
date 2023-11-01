@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-function Form({ projectID, userID ,sprintID }: { projectID: string, userID: string ,sprintID:string }) {
+function Form({ projectID, userID ,sprintID ,sprints}: { projectID: string, userID: string ,sprintID:string,sprints:any }) {
     const {
         register,
         handleSubmit,
@@ -71,7 +71,7 @@ const NotesModal = ({ projectID, userID ,sprints}: { projectID: string, userID: 
 
         <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
-                <Form projectID={projectID} userID={userID} sprintID ={sprint} />
+                <Form projectID={projectID} userID={userID} sprintID ={sprint} sprints={sprints} />
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
