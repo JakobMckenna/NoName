@@ -12,7 +12,7 @@ const useChatSocket = (projectID:string)  => {
     const [loading, setLoading] = useState<boolean>(true);
     useEffect(
         () => {
-            if(projectID!==undefined)
+            if(projectID!==undefined || !socket)
             {
                 const chatSocket = io("http://localhost:5001/chat");
                 setSocket(chatSocket)

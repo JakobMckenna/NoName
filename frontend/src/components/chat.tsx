@@ -52,15 +52,19 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID })
     }
 
-    
+    const messageEvent = (data: Chat)=>{
+        console.log(data);
+        setChatHistory((messages) => [...messages, data])
+    }
 
     useEffect(() => {
-        socket.on("message", (data: Chat) => {
-            console.log(data);
-            setChatHistory((messages) => [...messages, data])
-            // result = data;
-        })
-    }, [socket])
+     
+        socket.on("message", messageEvent)
+        return () => {
+            socket.off("message", messageEvent);
+          };
+      
+    }, [])
     return (
         <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
             <div className="h-3/5 mb-10 overflow-y-auto ">
