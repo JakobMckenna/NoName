@@ -54,17 +54,19 @@ export default function Research() {
     const [user, loading] = useUser()
     const [notes, changeID] = useNotes()
     const [sprints, setID] = useSprint()
+    const [refresh,setRefresh]= useState(true)
     useEffect(
         () => {
-            if (user != null && projectID != null && changeID && setID != null) {
+            if (refresh && user != null && projectID != null && changeID && setID != null) {
 
                 changeID(projectID);
                 setID(projectID)
+                setRefresh(false)
 
             }
 
 
-        }, [loading, user, projectID]
+        }, [refresh]
     )
     return (
         <div>

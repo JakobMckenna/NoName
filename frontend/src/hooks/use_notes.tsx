@@ -37,10 +37,13 @@ const useNotes = () => {
                 const results = await getResponse();
                 console.log(results)
             }
-            getNotes()
-            console.log(notes)
+            if(projectID!=null ){
+                getNotes()
+                console.log(notes)
+            }
+          
 
-        },
+        },[notes]
     )
     return [notes, changeID];
 }
