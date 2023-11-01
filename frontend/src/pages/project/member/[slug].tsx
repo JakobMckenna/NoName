@@ -87,7 +87,7 @@ export default function MemberPage() {
             const reqUrl = `http://localhost:5001/projects/member/${userID}`
             const results = await axios.get(reqUrl)
             if (results.data && results.data.members && results.data.members.user) {
-                 console.log(results.data.projects.members.user)
+                 console.log(results.data.members.user)
                 setMembers(results.data.members.user)
             }
             console.log(results.data)

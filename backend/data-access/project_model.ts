@@ -151,22 +151,34 @@ export async function addProjectMember(projectID: string, userId: number) {
 
         
             
-        const members = await prisma.projectMember.create(
+        const members = await prisma.projectMember.findFirst(
             {
-                data:{
-                    user:{
-                        connect:{
-                            id:userId
-                        }
-                    },
-                   project:{
-                    connect:{
-                        id:projectID
-                    }
-                   },
-                }
+                where:{
+                 project:{
+                    id:projectID
+                 },
+             
+                },
+               
             }
         )
+
+        if(members){
+            await prisma.projectMember.update(
+                {
+                    where:{
+                        id:members.id
+                    },
+                    data:{
+                        user:{
+                            connect:{
+                                id:userId
+                            }
+                        }
+                    }
+                }
+            )
+        }
 
         return members;
     } catch (err: any) {
