@@ -260,7 +260,7 @@ export async function removeProjectMember(projectID: string, userID: number) {
             )
         }
         console.log(members)
-        return  result;
+        return {userID:userID ,projectID:projectID};
     } catch (err: any) {
         console.log(err)
         return null;
