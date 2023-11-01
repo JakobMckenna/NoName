@@ -201,7 +201,8 @@ export async function getProjectMembers(projectID: string) {
                     },
                 },
                 include: {
-                    user: true
+                    user: true,
+                    project:true
                 }
             }
         )
