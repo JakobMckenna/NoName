@@ -106,7 +106,7 @@ export default function Research() {
                 </div>
                 <NoteList list={notes} refresh={(val:boolean)=>setRefresh(val)} />
             </main>
-            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints} />
+            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints}  refresh={(val:boolean)=>setRefresh(val)}  />
         </div>
     )
 }

@@ -2,24 +2,26 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-function Form({ projectID, userID ,sprintID ,sprints}: { projectID: string, userID: string ,sprintID:string,sprints:any }) {
+function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: string, userID: string, sprintID: string, sprints: any ,refresh:any }) {
     const {
         register,
         handleSubmit,
-        formState: {},
+        formState: { },
     } = useForm();
 
 
 
     const handleCreateProject = async (data: any) => {
         console.log("submit")
+        console.log(data.sprint)
         try {
-            const response = await axios.post('http://localhost:5001/projects/notes', { title: data.title, details: "", projectID: projectID, userID: userID,sprintID:sprintID, urlList: [{ url: data.url }] }, {
+            const response = await axios.post('http://localhost:5001/projects/notes', { title: data.title, details: "", projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             console.log('Login successful', response.data);
+            refresh(true);
             const modalElement: any = document.getElementById('my_modal_2')
             modalElement.close()
 
@@ -30,6 +32,25 @@ function Form({ projectID, userID ,sprintID ,sprints}: { projectID: string, user
 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Title</span>
+                </label>
+                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs">
+                    {
+                     sprints &&  sprints.map((sprint:any)=>{
+                            return(
+                                <option key={sprint.id} value={sprint.id}>{sprint.name}</option>
+                            )
+                        })
+                    }
+                   
+                   
+                </select>
+            </div>
+
+           
+
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">Title</span>
@@ -57,12 +78,12 @@ function Form({ projectID, userID ,sprintID ,sprints}: { projectID: string, user
 
 
 
-const NotesModal = ({ projectID, userID ,sprints}: { projectID: string, userID: string ,sprints:any}) => {
-   // const sprint = sprints[0].id;
-    let sprint:string ="" ;
+const NotesModal = ({ projectID, userID, sprints ,refresh}: { projectID: string, userID: string, sprints: any ,refresh:any }) => {
+    // const sprint = sprints[0].id;
+    let sprint: string = "";
     console.log("sprints");
     console.log(sprints);
-    if(sprints){
+    if (sprints) {
         sprint = sprints[0].id;
         console.log("id")
         console.log(sprint)
@@ -71,7 +92,7 @@ const NotesModal = ({ projectID, userID ,sprints}: { projectID: string, userID: 
 
         <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
-                <Form projectID={projectID} userID={userID} sprintID ={sprint} sprints={sprints} />
+                <Form projectID={projectID} userID={userID} sprintID={sprint} sprints={sprints} refresh={refresh} />
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
