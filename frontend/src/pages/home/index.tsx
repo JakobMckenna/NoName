@@ -101,12 +101,13 @@ export default function LandingPage() {
     const router = useRouter();
     const [user, loading] = useUser()
     const [projectList, setProjectList] = useState([])
-
+    const [refresh,setRefresh] = useState(true)
 
     const getProjects = async (userID: number) => {
         const reqUrl = `http://localhost:5001/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
+       
         return results.data.user
 
     }
@@ -123,13 +124,19 @@ export default function LandingPage() {
                     console.log(results.member)
                     setProjectList(results.member);
                     console.log(`list ${projectList}`)
+
                     return results.project;
                 }
-                projects()
+                if(refresh)
+                {
+                    projects()
+                    setRefresh(false)
+                }
+               
             }
 
 
-        }, [loading, user]
+        }
     )
     return (
         <div className = "w-full mx-auto">
@@ -149,7 +156,7 @@ export default function LandingPage() {
                     <MenuCard />
                 </div>
             </main>
-            <ProjectModal userID={user?.id} />
+            <ProjectModal userID={user?.id} refresh={(val:boolean)=>setRefresh(val)} />
         </div>
     )
 } 
