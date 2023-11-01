@@ -226,7 +226,7 @@ export async function removeProjectMember(projectID: string, userID: number) {
      console.log(projectID)
     const prisma = new PrismaClient()
     try {
-
+        let result = null;
         const members = await prisma.projectMember.findFirst(
             {
                 where:{
@@ -244,7 +244,7 @@ export async function removeProjectMember(projectID: string, userID: number) {
         )
 
         if(members){
-            await prisma.projectMember.update(
+           result = await prisma.projectMember.update(
                 {
                     where:{
                         id:members.id
@@ -260,7 +260,7 @@ export async function removeProjectMember(projectID: string, userID: number) {
             )
         }
         console.log(members)
-        return  members;
+        return  result;
     } catch (err: any) {
         console.log(err)
         return null;
