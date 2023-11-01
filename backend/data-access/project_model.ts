@@ -181,7 +181,7 @@ export async function getProjectMembers(projectID: string) {
     const prisma = new PrismaClient()
     try {
 
-        const members = await prisma.projectMember.findMany(
+        const members = await prisma.projectMember.findFirst(
             {
                 where: {
                     project: {
