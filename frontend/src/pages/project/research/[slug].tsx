@@ -14,6 +14,7 @@ function NoteList({ list }: { list: any }) {
         try {
             const deletedNote = await axios.delete(`http://localhost:5001/projects/notes/${id}`);
             console.log(`deleted ${deletedNote}`);
+            
         } catch (error) {
             console.log(error);
         }
