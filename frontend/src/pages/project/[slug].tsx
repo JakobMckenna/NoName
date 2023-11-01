@@ -105,11 +105,15 @@ function ChatCard({ projectID }: { projectID: string }) {
         <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
 
             <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Chat Card</h2>
+                <h2 className="card-title"> Info/Communication</h2>
                 <div>
                     <Link href={`/project/chat/${projectID}`} className="btn btn-link">See Chat</Link>
                 </div>
+                <div>
+                    <Link href={`/project/member/${projectID}`} className="btn btn-link">Add/See Member</Link>
 
+                </div>
+                
             </div>
 
         </div>

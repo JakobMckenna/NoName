@@ -16,7 +16,7 @@ projectRoutes.post("/member",ProjectController.addProjectMember);
 
 projectRoutes.delete("/:id",ProjectController.removeProject);
 
-projectRoutes.delete("/member",ProjectController.addProjectMember);
+projectRoutes.delete("/member/:project/:user",ProjectController.removeMember);
 
 projectRoutes.post("/repo",ProjectController.addRepo);
 

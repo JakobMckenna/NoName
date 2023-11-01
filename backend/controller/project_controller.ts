@@ -91,8 +91,8 @@ const ProjectController = {
     },
     removeMember: async (req: Request, res: Response) => {
         try {
-            const projectID: string = req.params.projectID;
-            const userID: string = req.params.userID;
+            const projectID: string = req.params.project;
+            const userID: string = req.params.user;
             const userIdNum = parseInt(userID);
             if (isNaN(userIdNum)) {
                 res.status(400).json({ "user": null, message: "query string should be number" });

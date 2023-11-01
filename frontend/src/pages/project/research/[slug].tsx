@@ -5,15 +5,16 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "~/components/navbar";
 import NotesModal from "~/components/notesmdl";
-import useNotes from "~/hooks/use_notes";
+
 import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
-function NoteList({ list }: { list: any }) {
+function NoteList({ list ,refresh }: { list: any , refresh:any }) {
     const deleteNote = async (id: string) => {
         try {
             const deletedNote = await axios.delete(`http://localhost:5001/projects/notes/${id}`);
             console.log(`deleted ${deletedNote}`);
+             refresh(true)
         } catch (error) {
             console.log(error);
         }
@@ -52,20 +53,43 @@ export default function Research() {
     const router = useRouter()
     const projectID: string = String(router.query.slug);
     const [user, loading] = useUser()
-    const [notes, changeID] = useNotes()
+    const [notes, setNotes] = useState([])
+    // const [notes, changeID] = useNotes()
     const [sprints, setID] = useSprint()
+    const [refresh, setRefresh] = useState(true)
+
+    const getResponse = async () => {
+        try {
+            const reqUrl = `http://localhost:5001/projects/notes/${projectID}`
+            const results = await axios.get(reqUrl)
+
+            console.log(results.data)
+            setNotes(results.data.notes)
+            setRefresh(false)
+
+        } catch (error) {
+            //we failed to get notes for some reason
+            //setNotes(null);
+            setRefresh(true)
+
+        }
+    }
+
     useEffect(
         () => {
-            if (user != null && projectID != null && changeID && setID != null) {
+            if (user != null && projectID != null && setID != null) {
 
-                changeID(projectID);
+                //    changeID(projectID);
                 setID(projectID)
+                // setRefresh(false)
 
             }
 
+            if (refresh) {
+                getResponse()
+            }
 
-        }, [loading, user, projectID]
-    )
+        }, [projectID,refresh])
     return (
         <div>
             <Navbar userName={user?.email} />
@@ -75,13 +99,14 @@ export default function Research() {
                         () => {
                             const modalElement: any = document.getElementById('my_modal_2')
                             modalElement.showModal()
+                            setRefresh(true)
                         }
                     } className="btn btn-primary">Add Note</button>
 
                 </div>
-                <NoteList list={notes} />
+                <NoteList list={notes} refresh={(val:boolean)=>setRefresh(val)} />
             </main>
-            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints} />
+            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints}  refresh={(val:boolean)=>setRefresh(val)}  />
         </div>
     )
 }

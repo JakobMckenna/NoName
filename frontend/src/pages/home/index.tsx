@@ -25,8 +25,8 @@ function RepoCard({ projects }: any) {
                         projects.map(
                             (project: any) => {
                                 return (
-                                    <li key ={project.id}>
-                                      <Link href={`/project/${project.id}`} className="btn   btn-link"> {project.name} </Link>
+                                    <li key ={project.project.id}>
+                                      <Link href={`/project/${project.project.id}`} className="btn   btn-link"> {project.project.name} </Link>
                                     </li>
                                 )
                             }
@@ -101,12 +101,13 @@ export default function LandingPage() {
     const router = useRouter();
     const [user, loading] = useUser()
     const [projectList, setProjectList] = useState([])
-
+    const [refresh,setRefresh] = useState(true)
 
     const getProjects = async (userID: number) => {
         const reqUrl = `http://localhost:5001/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
+       
         return results.data.user
 
     }
@@ -119,15 +120,23 @@ export default function LandingPage() {
             if (user) {
                 const projects = async () => {
                     const results = await getProjects(user.id)
-                    setProjectList(results.project);
+                    console.log("members")
+                    console.log(results.member)
+                    setProjectList(results.member);
                     console.log(`list ${projectList}`)
+
                     return results.project;
                 }
-                projects()
+                if(refresh)
+                {
+                    projects()
+                    setRefresh(false)
+                }
+               
             }
 
 
-        }, [loading, user, getProjects]
+        }
     )
     return (
         <div className = "w-full mx-auto">
@@ -147,7 +156,7 @@ export default function LandingPage() {
                     <MenuCard />
                 </div>
             </main>
-            <ProjectModal userID={user?.id} />
+            <ProjectModal userID={user?.id} refresh={(val:boolean)=>setRefresh(val)} />
         </div>
     )
 } 

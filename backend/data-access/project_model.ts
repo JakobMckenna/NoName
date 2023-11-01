@@ -45,11 +45,7 @@ export async function getProject(projectID:string,) {
                         },
                     },
                     github:true,
-                    members:{
-                        include:{
-                            user:true
-                        },
-                    },
+                    members:true,
                     
                 },
     
@@ -152,28 +148,43 @@ export async function addProjectMember(projectID: string, userId: number) {
     try {
 
     
-
-        const user = await prisma.user.findFirst(
+        const members = await prisma.projectMember.findFirst(
             {
                 where:{
-                    id:userId
-                }
+                 project:{
+                    id:projectID
+                 },
+             
+                },
+               
             }
         )
             
-        const members = await prisma.projectMember.create(
-            {
-                data:{
-                    user:{
-                        connect:{
-                            id:user?.id
-                        }
+        if(members){
+            await prisma.projectMember.update(
+                {
+                    where:{
+                        id:members.id
                     },
-                    projectID: projectID
-
+                    data:{
+                        user:{
+                            connect:{
+                                id:userId
+                            }
+                        }
+                    }
                 }
-            }
-        )
+            )
+        }else{
+            await prisma.projectMember.create(
+                {
+                    data:{
+                        projectID:projectID
+                    }
+                }
+            )
+            addProjectMember(projectID,userId)
+        }
 
         return members;
     } catch (err: any) {
@@ -188,7 +199,7 @@ export async function getProjectMembers(projectID: string) {
     const prisma = new PrismaClient()
     try {
 
-        const members = await prisma.projectMember.findMany(
+        const members = await prisma.projectMember.findFirst(
             {
                 where: {
                     project: {
@@ -196,7 +207,8 @@ export async function getProjectMembers(projectID: string) {
                     },
                 },
                 include: {
-                    user: true
+                    user: true,
+                    project:true
                 }
             }
         )
@@ -211,26 +223,44 @@ export async function getProjectMembers(projectID: string) {
 }
 
 export async function removeProjectMember(projectID: string, userID: number) {
+     console.log(projectID)
     const prisma = new PrismaClient()
     try {
-
-        const members = await prisma.projectMember.deleteMany(
+        let result = null;
+        const members = await prisma.projectMember.findFirst(
             {
-                where: {
-                    project: {
-                        id: projectID,
-                        user: {
-                            id: userID,
-                        },
-                    },
-
-
+                where:{
+                 project:{
+                    id:projectID
+                 },
+                 user:{
+                    some:{
+                        id:userID
+                    }
+                 }
                 },
-
+               
             }
         )
 
-        return members;
+        if(members){
+           result = await prisma.projectMember.update(
+                {
+                    where:{
+                        id:members.id
+                    },
+                    data:{
+                        user:{
+                            disconnect:{
+                                id:userID
+                            }
+                        }
+                    }
+                }
+            )
+        }
+        console.log(members)
+        return {userID:userID ,projectID:projectID};
     } catch (err: any) {
         console.log(err)
         return null;

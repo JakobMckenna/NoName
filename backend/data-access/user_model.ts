@@ -123,8 +123,13 @@ export async function getUserProjects(userID: number) {
                 },
                 member:{
                     include:{
-                        project:true,
+                        project:{
+                            include:{
+                                members:true,
+                            },
+                        },
                     },
+                    
                 }
             }
         });
