@@ -1,12 +1,59 @@
+/* eslint-disable */
+
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
 import Navbar from "~/components/navbar";
 
 import useUser from "~/hooks/use_user";
 
 
-function Member({ name, email, projectID, userID, owner }: any) {
+function Form({projectID ,changeError,refresh}:{projectID:string , changeError:any,refresh:any}) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitSuccessful, isSubmitting },
+    } = useForm();
+
+
+
+    const handleCreateProject = async (data:any) => {
+        console.log("submit")
+        try{
+            const response = await axios.post('http://localhost:5001/projects/member', { userID: parseInt(data.userID) ,projectID:projectID }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log('Login successful', response.data);
+            
+            refresh(true)
+        }catch(error){
+            console.log(error)
+            changeError("user does not exists ")
+        }
+    }
+
+    return (
+        <form className="flex flex-row" onSubmit={handleSubmit(handleCreateProject)} >
+            <div className="form-control">
+                
+                <input {...register("userID")} type="number" placeholder="userID" className="input input-bordered" onChange={
+                    ()=>changeError("")
+                } required />
+            </div>
+            <div className="form-control">
+                    <button className="btn">Add Member</button>
+
+            </div>
+
+        </form>
+    )
+}
+
+function Member({ name, email, projectID, userID, owner,refresh }: any) {
     const removeMember = async (projectID: string, userID: number) => {
         try {
             const reqUrl = `http://localhost:5001/projects/member/${projectID}/${userID}`
@@ -16,6 +63,7 @@ function Member({ name, email, projectID, userID, owner }: any) {
                 //  setMembers(results.data.members)
             }
             console.log(results.data)
+            refresh(true)
             return results.data
         } catch (error) {
 
@@ -48,20 +96,19 @@ function Member({ name, email, projectID, userID, owner }: any) {
 }
 
 
-function MemberBoard({ members, projectID, owner }: any) {
+function MemberBoard({ members, projectID, owner ,error,changeError , refresh }: any) {
     return (
-        <div className="flex flex-col bg-black border border-black rounded-md p-6  m-6 w-[425px] h-96 min-h-min">
-            <div className="flex flex-row mb-3">
-                <div className="">
-                    <button className="btn ">Add New Member</button>
-                </div>
+        <div className="flex flex-col bg-neutral-focus border-black rounded-md p-6  m-6 w-[425px] h-96 min-h-min">
+            <div className="flex flex-col mb-3 px-3">
+                <Form projectID={projectID} changeError={changeError} refresh={refresh} />
+                <div className="text-color-red">{error}</div>
             </div>
             <div className="overflow-auto">
                 {
                     members.map(
                         (member: any) => {
                             return (
-                                <Member key={member.id} name={member.name} email={member.email} userID={member.id} projectID={projectID} owner={owner} />
+                                <Member key={member.id} name={member.name} email={member.email} userID={member.id} projectID={projectID} owner={owner} refresh={refresh}  />
                             )
                         }
                     )
@@ -78,6 +125,8 @@ export default function MemberPage() {
     // const [user, loading] = useUser();
     const [members, setMembers] = useState([])
     const [ownerID, setOwnerID] = useState()
+    const [error , setError] = useState("");
+    const [refresh , setRefresh] = useState(true)
 
 
     const projectID: string = String(router.query.slug);
@@ -95,6 +144,7 @@ export default function MemberPage() {
                 setOwnerID(results.data.members.project.userId)
             }
             console.log(results.data)
+            setRefresh(false)
             return results.data
         } catch (error) {
 
@@ -113,17 +163,23 @@ export default function MemberPage() {
                     console.log("members")
 
                 }
-                projects()
+                if(refresh){
+                    projects()
+                }
+                
             }
 
 
-        },
+        },[refresh]
     )
 
     return (
         <div>
             <Navbar userName="" />
-            <MemberBoard projectID={projectID} members={members} owner={ownerID} />
+            <MemberBoard projectID={projectID} members={members} owner={ownerID} error={error} refresh={(val:boolean)=>{
+                setRefresh(val)
+                return val
+            }} changeError={(msg:string)=>setError(msg)} />
         </div>
     )
 }
