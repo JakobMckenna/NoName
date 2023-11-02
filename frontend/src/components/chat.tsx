@@ -9,6 +9,7 @@ interface Chat {
     name: string;
     message: string;
     userID: string;
+    timestamp:string;
 }
 
 function Form({ sendMessage }: { sendMessage: any }) {
