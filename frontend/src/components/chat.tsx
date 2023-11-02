@@ -71,11 +71,11 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 {
                     // chats previousily saved in db
                    prevChats!=null && prevChats.map((chat:any, index:number) => {
-                        return (<div key={index} className={userID==chat.userID?"chat chat-start":"chat chat-end"}>
+                        return (<div key={index} className={userID==chat.userID?"chat chat-start ":"chat chat-end"}>
                             <div className="chat-header">
                                 {chat.user.name}
                             </div>
-                            <div className="chat-bubble">{chat.message}</div>
+                            <div className={userID==chat.userID?"chat-bubble chat-bubble-accent":"chat-bubble"}>{chat.message}</div>
 
                         </div>)
                     }
@@ -84,11 +84,11 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 {
                     // chats live on socket
                     chatHistory.map((chat, index) => {
-                        return (<div key={index} className={userID==chat.userID?"chat chat-start":"chat chat-end"}>
+                        return (<div key={index} className={userID==chat.userID?"chat chat-start  ":"chat chat-end"}>
                             <div className="chat-header">
                                 {chat.name}
                             </div>
-                            <div className="chat-bubble">{chat.message}</div>
+                            <div className={userID==chat.userID?"chat-bubble chat-bubble-accent":"chat-bubble"}>{chat.message}</div>
 
                         </div>)
                     }
