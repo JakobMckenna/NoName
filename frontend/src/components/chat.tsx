@@ -100,9 +100,12 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 {
                     // chats live on socket
                     chatHistory.map((chat, index) => {
+                        const rightNowDate = new Date()
+                        const date:string = convDate(rightNowDate.toISOString());
                         return (<div key={index} className={userID==chat.userID?"chat chat-start  ":"chat chat-end"}>
                             <div className="chat-header">
                                 {chat.name}
+                                <time className="text-xs opacity-50">{date}</time>
                             </div>
                             <div className={userID==chat.userID?"chat-bubble chat-bubble-primary":"chat-bubble"}>{chat.message}</div>
 
