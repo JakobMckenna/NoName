@@ -64,6 +64,12 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
         
         }
     }
+
+    const convDate = (date:string)=>{
+        const result = new Date(date)
+        return ` ${result.toLocaleDateString()} ${result.toLocaleTimeString()}`
+
+    }
     useEffect(() => {
        // scroll()
         scroll()
@@ -74,14 +80,16 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
       
     }, [])
     return (
-        <div className="flex flex-col mx-10 w-full h-full overflow-y-none">
-            <div className="h-3/5 mb-10 overflow-y-auto ">
+        <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
+            <div className="bg-neutral-focus h-3/5 mb-10 overflow-y-auto px-10 pt-5 ">
                 {
                     // chats previousily saved in db
                    prevChats!=null && prevChats.map((chat:any, index:number) => {
+                    const date:string = convDate(chat.timestamp);
                         return (<div key={index} className={userID==chat.userID?"chat chat-start ":"chat chat-end"}>
                             <div className="chat-header">
                                 {chat.user.name}
+                                <time className="text-xs opacity-50">{date}</time>
                             </div>
                             <div className={userID==chat.userID?"chat-bubble chat-bubble-primary":"chat-bubble"}>{chat.message}</div>
 
