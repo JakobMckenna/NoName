@@ -10,7 +10,7 @@ import Navbar from "~/components/navbar";
 import useUser from "~/hooks/use_user";
 
 
-function Form({projectID ,changeError,refresh}:{projectID:string , changeError:any,refresh:any}) {
+function Form({ projectID, changeError, refresh }: { projectID: string, changeError: any, refresh: any }) {
     const {
         register,
         handleSubmit,
@@ -19,18 +19,18 @@ function Form({projectID ,changeError,refresh}:{projectID:string , changeError:a
 
 
 
-    const handleCreateProject = async (data:any) => {
+    const handleCreateProject = async (data: any) => {
         console.log("submit")
-        try{
-            const response = await axios.post('http://localhost:5001/projects/member', { userID: parseInt(data.userID) ,projectID:projectID }, {
+        try {
+            const response = await axios.post('http://localhost:5001/projects/member', { userID: parseInt(data.userID), projectID: projectID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             console.log('Login successful', response.data);
-            
+
             refresh(true)
-        }catch(error){
+        } catch (error) {
             console.log(error)
             changeError("user does not exists ")
         }
@@ -39,13 +39,13 @@ function Form({projectID ,changeError,refresh}:{projectID:string , changeError:a
     return (
         <form className="flex flex-row" onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
-                
+
                 <input {...register("userID")} type="number" placeholder="userID" className="input input-bordered" onChange={
-                    ()=>changeError("")
+                    () => changeError("")
                 } required />
             </div>
             <div className="form-control">
-                    <button className="btn">Add Member</button>
+                <button className="btn">Add Member</button>
 
             </div>
 
@@ -53,7 +53,7 @@ function Form({projectID ,changeError,refresh}:{projectID:string , changeError:a
     )
 }
 
-function Member({ name, email, projectID, userID, owner,refresh }: any) {
+function Member({ name, email, projectID, userID, owner, refresh }: any) {
     const removeMember = async (projectID: string, userID: number) => {
         try {
             const reqUrl = `http://localhost:5001/projects/member/${projectID}/${userID}`
@@ -81,11 +81,11 @@ function Member({ name, email, projectID, userID, owner,refresh }: any) {
                     <p>{email}</p>
                 </div>
                 <div>
-                    {owner!==userID?<button onClick={
+                    {owner !== userID ? <button onClick={
                         async () => {
                             await removeMember(projectID, userID)
                         }
-                    } className="btn btn-primary">Remove</button>:<p>Owner</p>}
+                    } className="btn btn-primary">Remove</button> : <p>Owner</p>}
                 </div>
 
             </>
@@ -96,7 +96,7 @@ function Member({ name, email, projectID, userID, owner,refresh }: any) {
 }
 
 
-function MemberBoard({ members, projectID, owner ,error,changeError , refresh }: any) {
+function MemberBoard({ members, projectID, owner, error, changeError, refresh }: any) {
     return (
         <div className="flex flex-col bg-neutral-focus border-black rounded-md p-6  m-6 w-[425px] h-96 min-h-min">
             <div className="flex flex-col mb-3 px-3">
@@ -108,7 +108,7 @@ function MemberBoard({ members, projectID, owner ,error,changeError , refresh }:
                     members.map(
                         (member: any) => {
                             return (
-                                <Member key={member.id} name={member.name} email={member.email} userID={member.id} projectID={projectID} owner={owner} refresh={refresh}  />
+                                <Member key={member.id} name={member.name} email={member.email} userID={member.id} projectID={projectID} owner={owner} refresh={refresh} />
                             )
                         }
                     )
@@ -125,8 +125,8 @@ export default function MemberPage() {
     // const [user, loading] = useUser();
     const [members, setMembers] = useState([])
     const [ownerID, setOwnerID] = useState()
-    const [error , setError] = useState("");
-    const [refresh , setRefresh] = useState(true)
+    const [error, setError] = useState("");
+    const [refresh, setRefresh] = useState(true)
 
 
     const projectID: string = String(router.query.slug);
@@ -163,23 +163,25 @@ export default function MemberPage() {
                     console.log("members")
 
                 }
-                if(refresh){
+                if (refresh) {
                     projects()
                 }
-                
+
             }
 
 
-        },[refresh]
+        }, [refresh]
     )
 
     return (
         <div>
             <Navbar userName="" />
-            <MemberBoard projectID={projectID} members={members} owner={ownerID} error={error} refresh={(val:boolean)=>{
-                setRefresh(val)
-                return val
-            }} changeError={(msg:string)=>setError(msg)} />
+            <main className="container mx-auto">
+                <MemberBoard projectID={projectID} members={members} owner={ownerID} error={error} refresh={(val: boolean) => {
+                    setRefresh(val)
+                    return val
+                }} changeError={(msg: string) => setError(msg)} />
+            </main>
         </div>
     )
 }

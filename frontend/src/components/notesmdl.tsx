@@ -34,7 +34,7 @@ function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: st
         <form onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text">Title</span>
+                    <span className="label-text">Sprint</span>
                 </label>
                 <select  {...register("sprint")} className="select select-bordered w-full max-w-xs">
                     {
