@@ -12,7 +12,7 @@ import useSprint from "~/hooks/use_sprint";
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
         return (
-            <div className="card  bg-neutral-focus w-96  shadow-xl  h-56 ">
+            <div className="card  bg-neutral-focus w-80 shadow-xl  h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Github</h2>
                     <div className="card-actions justify-start">
