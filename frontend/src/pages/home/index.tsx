@@ -14,9 +14,9 @@ import ProjectModal from "~/components/projectmdl";
 import useUser from "~/hooks/use_user";
 
 function RepoCard({ projects }: any) {
-    console.log(projects)
+    //console.log(projects)
     return (
-        <div className="card glass w-96  shadow-xl mr-12 max-h-64 m-4">
+        <div className="card bg-neutral-focus  w-80  shadow-xl mr-12 max-h-64 m-4">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Projects</h2>
@@ -51,7 +51,7 @@ function RepoCard({ projects }: any) {
 
 function TaskCard() {
     return (
-        <div className="card glass w-96  shadow-xl mr-12 max-h-64 m-4">
+        <div className="card bg-neutral-focus w-80  shadow-xl mr-12 max-h-64 m-4">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Tasks</h2>
@@ -68,7 +68,7 @@ function TaskCard() {
 
 function StatsCard() {
     return (
-        <div className="card glass w-96  shadow-xl mr-12 max-h-64 m-4">
+        <div className="card bg-neutral-focus w-80  shadow-xl mr-12 max-h-64 m-4">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Statistics</h2>
@@ -82,7 +82,7 @@ function StatsCard() {
 
 function MenuCard() {
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 max-h-56 m-4">
+        <div className="card  bg-neutral-focus w-80  shadow-xl mr-12 max-h-56 m-4">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research Links</h2>

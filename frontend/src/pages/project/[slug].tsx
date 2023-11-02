@@ -12,7 +12,7 @@ import useSprint from "~/hooks/use_sprint";
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
         return (
-            <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+            <div className="card  bg-neutral-focus w-96  shadow-xl  h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Github</h2>
                     <div className="card-actions justify-start">
@@ -31,7 +31,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     console.log(github);
 
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl  h-56 ">
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div>
@@ -45,7 +45,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
 function ResearchCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl  h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
@@ -62,15 +62,15 @@ function ResearchCard({ projectID }: { projectID: string }) {
 function SprintCard({ projectID, sprints }: { projectID: string, sprints: any }) {
     // console.log(github);
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Sprint</h2>
                 <div>
                     {
-                       sprints && sprints.map(
+                        sprints && sprints.map(
                             (sprint: any) => {
-                               return (
+                                return (
                                     <div>
                                         Current: {sprint.name}
                                     </div>
@@ -78,9 +78,9 @@ function SprintCard({ projectID, sprints }: { projectID: string, sprints: any })
                             }
                         )
                     }
-                   
+
                 </div>
-                {(sprints===null || sprints.length==0)  &&
+                {(sprints === null || sprints.length == 0) &&
                     (
                         <div>
                             <button onClick={() => {
@@ -102,7 +102,7 @@ function SprintCard({ projectID, sprints }: { projectID: string, sprints: any })
 function ChatCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title"> Info/Communication</h2>
@@ -113,7 +113,7 @@ function ChatCard({ projectID }: { projectID: string }) {
                     <Link href={`/project/member/${projectID}`} className="btn btn-link">Add/See Member</Link>
 
                 </div>
-                
+
             </div>
 
         </div>
@@ -158,7 +158,7 @@ export default function Project() {
                             setID(projectID)
                             setProjectData(results);
                             setGithub(results.github);
-                           
+
                         }
                     }
                 }
@@ -176,22 +176,29 @@ export default function Project() {
         <div className="overscroll-x-none">
             <Navbar userName={user?.email} />
 
-            <main className="container ml-80 pl-10 overscroll-x-none">
-                <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
-                <div>
-                    <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commits</p>
+            <main className="container  ">
+                <div className="flex flex-col justify-center items-center">
+                    <div>
+                        <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
+                        <div>
+                            <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commits</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="flex flex-row mb-5 overscroll-x-none">
-                    <MenuCard github={github} projectID={projectID} />
-                    <SprintCard projectID={projectID} sprints={sprints} />
+                <div className="container max-w-full px-72 ml-6  ">
+                    <div className=" grid grid-cols-2 justify-items-center gap-y-8 gap-x-5  ">
 
-                </div>
-                <div className="flex flex-row overscroll-x-none">
-                    {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
-                    <ChatCard projectID={projectID} />
+                        <MenuCard github={github} projectID={projectID} />
+                        <SprintCard projectID={projectID} sprints={sprints} />
+
+
+                        {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
+                        <ChatCard projectID={projectID} />
+
+                    </div>
                 </div>
             </main>
-            
+
         </div>
     )
 
