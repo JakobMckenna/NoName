@@ -89,7 +89,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     const date:string = convDate(chat.timestamp);
                         return (<div key={index} className={userID==chat.userID?"chat chat-start ":"chat chat-end"}>
                             <div className="chat-header">
-                                {chat.user.name}
+                                {chat.user.name}#{chat.user.id}
                                 <time className="text-xs opacity-50">{date}</time>
                             </div>
                             <div className={userID==chat.userID?"chat-bubble chat-bubble-primary":"chat-bubble"}>{chat.message}</div>
@@ -105,7 +105,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                         const date:string = convDate(rightNowDate.toISOString());
                         return (<div key={index} className={userID==chat.userID?"chat chat-start  ":"chat chat-end"}>
                             <div className="chat-header">
-                                {chat.name}
+                                {chat.name}#{chat.userID}
                                 <time className="text-xs opacity-50">{date}</time>
                             </div>
                             <div className={userID==chat.userID?"chat-bubble chat-bubble-primary":"chat-bubble"}>{chat.message}</div>
