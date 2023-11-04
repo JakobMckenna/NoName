@@ -1,5 +1,5 @@
 
-import { createUserPasswordData, deleteUserByID, getUserPassword, getUserProjects } from '../data-access/user_model';
+import { createUserPasswordData, deleteUserByID, getAllUsers, getUserPassword, getUserProjects } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
 
 
@@ -74,6 +74,19 @@ const UserService = {
     let result: any = null;
     try {
       const projects = await getUserProjects(userID);
+      result = projects;
+      return result;
+    } catch (err: any) {
+      console.log(err)
+      throw new Error()
+    } finally {
+      return result;
+    }
+  },
+  getAll: async()=>{
+    let result: any = null;
+    try {
+      const projects = await getAllUsers();
       result = projects;
       return result;
     } catch (err: any) {
