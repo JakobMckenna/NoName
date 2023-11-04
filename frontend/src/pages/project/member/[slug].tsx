@@ -185,3 +185,7 @@ export default function MemberPage() {
         </div>
     )
 }
+
+export async function getStaticProps(){
+    
+}

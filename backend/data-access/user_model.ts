@@ -3,7 +3,15 @@ import { PrismaClient } from '@prisma/client'
 
 
 export async function getAllUsers() {
-    
+    const prisma = new PrismaClient()
+    try {
+        const users = await prisma.user.findMany()
+        prisma.$disconnect()
+        return users;
+    } catch (err: any) {
+        console.log(err)
+        return null;
+    }
 }
 
 /*
@@ -50,23 +58,23 @@ export async function createUserPasswordData(name: string, email: string, passwo
 export async function getUserPassword(userEmail: string) {
     const prisma = new PrismaClient()
     try {
-        
+
         const user = await prisma.user.findUnique({
             where: {
                 email: userEmail,
             },
             include: {
                 userPassword: true,
-                
+
             }
         });
-       
-    
+
+
         return user;
     } catch (err: any) {
         console.log(err)
         return null;
-    } finally{
+    } finally {
         prisma.$disconnect()
     }
 }
@@ -81,78 +89,77 @@ export async function getUserPassword(userEmail: string) {
 export async function deleteUserByID(userID: number) {
     const prisma = new PrismaClient();
     try {
-        
+
         const user = await prisma.user.delete({
-            where:{
-                id:userID
+            where: {
+                id: userID
             }
         })
 
         console.log(`Deleted user\n${user}`)
-       if(user!=null)
-       {
-        console.log("user doesnt exist")
-        throw new Error ("user does not exist")
-       }
+        if (user != null) {
+            console.log("user doesnt exist")
+            throw new Error("user does not exist")
+        }
         return user;
     } catch (err: any) {
         console.log(err)
         //throw(error)
-      //  throw new Error ()
+        //  throw new Error ()
         return null;
-    } finally{
+    } finally {
         prisma.$disconnect()
     }
-    
+
 }
 
 
 export async function getUserProjects(userID: number) {
     const prisma = new PrismaClient()
     try {
-        
+
         const user = await prisma.user.findUnique({
             where: {
-                id:userID
+                id: userID
             },
             include: {
-                project:{
-                    include:{
-                        github:true,
-                        sprint:true
+                project: {
+                    include: {
+                        github: true,
+                        sprint: true
                     }
                 },
-                member:{
-                    include:{
-                        project:{
-                            include:{
-                                members:true,
+                member: {
+                    include: {
+                        project: {
+                            include: {
+                                members: true,
                             },
                         },
                     },
-                    
+
                 }
             }
         });
-       
-    
+
+
         return user;
     } catch (err: any) {
         console.log(err)
         return null;
-    } finally{
+    } finally {
         prisma.$disconnect()
     }
 }
 
-export async function updateUser(userID: number,name: string, email: string, password: string) {
+export async function updateUser(userID: number, name: string, email: string, password: string) {
     const prisma = new PrismaClient()
     try {
 
         const user = await prisma.user.update(
             {
-                where:{
-                    id:userID
+                where: {
+                    id: userID
                 },
                 data: {
                     email: email,
@@ -165,7 +172,7 @@ export async function updateUser(userID: number,name: string, email: string, pas
                 },
             }
         );
-       // console.log(user)
+        // console.log(user)
 
         return user;
     } catch (err: any) {
