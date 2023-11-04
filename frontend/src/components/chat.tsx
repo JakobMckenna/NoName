@@ -79,14 +79,11 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     const [prevChats, isLoading] = usePrevChat(projectID);
     const chatBox = useRef<HTMLDivElement | null>(null)
     const topChatBox = useRef<HTMLDivElement | null>(null)
-    const sendMessage = (msg: string) => {
-        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID })
-    }
 
     const messageEvent = (data: Chat) => {
         console.log(data);
         setChatHistory((messages) => [...messages, data])
-        scroll()
+       // scroll()
     }
     const scrollDown = () => {
         if (chatBox.current) {
@@ -94,12 +91,19 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
 
         }
     }
+
     const scrollUP = () => {
         if (topChatBox.current) {
             topChatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
 
         }
     }
+
+    const sendMessage = (msg: string) => {
+        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
+        scrollDown()
+    }
+
 
     const convDate = (date: string) => {
         const result = new Date(date)
@@ -153,7 +157,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     }
                     )
                 }
-                <div className="mt-10" ref={chatBox} />
+                <div className="mt-20" ref={chatBox} />
             </div>
             <div className="flex flex-row w-full h-1/5 overflow-y-none">
                 <Form sendMessage={sendMessage} />
