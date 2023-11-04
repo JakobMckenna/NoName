@@ -10,7 +10,7 @@ import Navbar from "~/components/navbar";
 import useUser from "~/hooks/use_user";
 
 
-function Form({ projectID, changeError, refresh }: { projectID: string, changeError: any, refresh: any }) {
+function Form({ projectID, changeError, refresh,users }: { projectID: string, changeError: any, refresh: any, users: any }) {
     const {
         register,
         handleSubmit,
@@ -43,6 +43,22 @@ function Form({ projectID, changeError, refresh }: { projectID: string, changeEr
                 <input {...register("userID")} type="number" placeholder="userID" className="input input-bordered" onChange={
                     () => changeError("")
                 } required />
+
+                <select className="select select-bordered w-full max-w-xs">
+                    <option disabled selected>Pick a user</option>
+                    {
+                        users.map(
+                            (user:any)=>{
+                                return(
+                                    <option key={user.id} value={user.id}>
+                                        {user.name}#{user.id}
+                                       
+                                    </option>
+                                )
+                            }
+                        )
+                    }
+                </select>
             </div>
             <div className="form-control">
                 <button className="btn">Add Member</button>
@@ -96,11 +112,11 @@ function Member({ name, email, projectID, userID, owner, refresh }: any) {
 }
 
 
-function MemberBoard({ members, projectID, owner, error, changeError, refresh }: any) {
+function MemberBoard({ members, projectID, owner, error, changeError, refresh, users }: any) {
     return (
         <div className="flex flex-col bg-neutral-focus border-black rounded-md p-6  m-6 w-[425px] h-96 min-h-min">
             <div className="flex flex-col mb-3 px-3">
-                <Form projectID={projectID} changeError={changeError} refresh={refresh} />
+                <Form projectID={projectID} changeError={changeError} refresh={refresh} users={users} />
                 <div className="text-color-red">{error}</div>
             </div>
             <div className="overflow-auto">
@@ -118,7 +134,7 @@ function MemberBoard({ members, projectID, owner, error, changeError, refresh }:
     )
 }
 
-export default function MemberPage() {
+export default function MemberPage({ userList }: any) {
     const router = useRouter();
     const [user, loading] = useUser()
 
@@ -177,7 +193,7 @@ export default function MemberPage() {
         <div>
             <Navbar userName="" />
             <main className="container mx-auto">
-                <MemberBoard projectID={projectID} members={members} owner={ownerID} error={error} refresh={(val: boolean) => {
+                <MemberBoard projectID={projectID} members={members} owner={ownerID} users={userList} error={error} refresh={(val: boolean) => {
                     setRefresh(val)
                     return val
                 }} changeError={(msg: string) => setError(msg)} />
@@ -186,6 +202,42 @@ export default function MemberPage() {
     )
 }
 
-export async function getStaticProps(){
-    
+// export async function getStaticPaths() {
+//     const res = await fetch("http://localhost:5001/projects");
+//     const projects = await res.json();
+//     const paths =  projects.projects.map(
+//         (project:any)=>{
+//             return{
+//                 params:{slug:project.id}
+//             }
+//         }
+//     )
+//     return {
+//         paths,
+//         fallback: false,
+//     };
+// }
+
+
+
+// export async function getStaticProps(){
+//     const res = await fetch("http://localhost:5001/users");
+//     const users = await res.json();
+//    // console.log(users);
+//     return{
+//         props:{
+//             users,
+//         }
+//     }
+// }
+
+export async function getServerSideProps() {
+    const res = await fetch("http://localhost:5001/users");
+    const users = await res.json();
+    const userList = users.users
+    return {
+        props: {
+            userList,
+        }
+    }
 }

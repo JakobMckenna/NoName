@@ -46,6 +46,7 @@ const UserService = {
         result = {
           id: user?.id,
           email: user?.email,
+          name:user?.name,
           token: createUserToken(user?.email)
         }
       }
