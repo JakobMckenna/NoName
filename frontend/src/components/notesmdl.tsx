@@ -36,7 +36,7 @@ function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: st
                 <label className="label">
                     <span className="label-text">Sprint</span>
                 </label>
-                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs">
+                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs" required>
                     {
                      sprints &&  sprints.map((sprint:any)=>{
                             return(
