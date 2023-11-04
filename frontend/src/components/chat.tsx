@@ -12,6 +12,22 @@ interface Chat {
     timestamp: string;
 }
 
+function ChatActions({scrollDown ,scrollUp}:any) {
+    return (
+        <div className="flex flex-row justify-between items-end w-full mb-4">
+            <div>
+                <input type="text" placeholder="Search" className="input input-bordered w-full max-w-xs" />
+            </div>
+            <div className="flex flex-row justify-end">
+                <button className="btn btn-sm btn-success mr-4" onClick={()=>scrollDown()}>Latest Messages</button>
+                <button className="btn btn-sm btn-info" onClick={()=>scrollUp()}>Oldest Messages</button>
+            </div>
+
+
+        </div>
+    )
+}
+
 function Form({ sendMessage }: { sendMessage: any }) {
     const {
         register,
@@ -33,14 +49,15 @@ function Form({ sendMessage }: { sendMessage: any }) {
     }
 
     return (
+
         <form className="flex flex-row w-full " onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control w-4/5">
                 <textarea {...register("message")}
                     className="textarea textarea-bordered w-full "
-                    placeholder="type here"
+                    placeholder="Type here and press enter on your keyboard to send or click send button "
                     onKeyDown={
-                        (event)=>{
-                            if(event.key === `Enter`){
+                        (event) => {
+                            if (event.key === `Enter`) {
                                 event.preventDefault();
                                 handleSubmit(handleCreateProject)();
                             }
@@ -48,12 +65,13 @@ function Form({ sendMessage }: { sendMessage: any }) {
                     }
                     required />
             </div>
-            <div className="form-control w-1/5  mt-6">
+            <div className="form-control w-1/5 ">
                 <button className="btn btn-primary">Send</button>
 
             </div>
 
         </form>
+
     )
 }
 
@@ -62,6 +80,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
     const [prevChats, isLoading] = usePrevChat(projectID);
     const chatBox = useRef<HTMLDivElement | null>(null)
+    const topChatBox = useRef<HTMLDivElement | null>(null)
     const sendMessage = (msg: string) => {
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID })
     }
@@ -71,9 +90,15 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
         setChatHistory((messages) => [...messages, data])
         scroll()
     }
-    const scroll = () => {
+    const scrollDown = () => {
         if (chatBox.current) {
             chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
+
+        }
+    }
+    const scrollUP = () => {
+        if (topChatBox.current) {
+            topChatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
 
         }
     }
@@ -85,7 +110,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
     useEffect(() => {
         // scroll()
-        scroll()
+        scrollDown()
         socket.on("message", messageEvent)
         return () => {
             socket.off("message", messageEvent);
@@ -95,7 +120,9 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
-            <div className="bg-neutral-focus h-3/5 mb-10 overflow-y-auto px-10 pt-5 ">
+            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} />
+            <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
+                <span ref={topChatBox} />
                 {
                     // chats previousily saved in db
                     prevChats != null && prevChats.map((chat: any, index: number) => {
