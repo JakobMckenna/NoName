@@ -68,7 +68,7 @@ const UserController = {
     },
     getAll:async(req:Request , res:Response)=>{
         try{
-            const users = UserService.getAll();
+            const users = await UserService.getAll();
             res.status(200).json({"users":users});
 
         }catch(error){

@@ -86,8 +86,8 @@ const UserService = {
   getAll: async()=>{
     let result: any = null;
     try {
-      const projects = await getAllUsers();
-      result = projects;
+      const users = await getAllUsers();
+      result = users;
       return result;
     } catch (err: any) {
       console.log(err)
