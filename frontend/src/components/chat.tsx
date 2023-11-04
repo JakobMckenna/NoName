@@ -15,9 +15,7 @@ interface Chat {
 function ChatActions({scrollDown ,scrollUp}:any) {
     return (
         <div className="flex flex-row justify-between items-end w-full mb-4">
-            <div>
-                <input type="text" placeholder="Search" className="input input-bordered w-full max-w-xs" />
-            </div>
+            <span />
             <div className="flex flex-row justify-end">
                 <button className="btn btn-sm btn-success mr-4" onClick={()=>scrollDown()}>Latest Messages</button>
                 <button className="btn btn-sm btn-info" onClick={()=>scrollUp()}>Oldest Messages</button>
@@ -110,17 +108,18 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
     useEffect(() => {
         // scroll()
+       
         scrollDown()
         socket.on("message", messageEvent)
         return () => {
             socket.off("message", messageEvent);
         };
 
-    }, [])
+    }, [isLoading])
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
-            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} />
+            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} chatDB={prevChats} chatSocket={chatHistory} />
             <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
                 <span ref={topChatBox} />
                 {
@@ -154,7 +153,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     }
                     )
                 }
-                <div className="mt-20" ref={chatBox} />
+                <div className="mt-10" ref={chatBox} />
             </div>
             <div className="flex flex-row w-full h-1/5 overflow-y-none">
                 <Form sendMessage={sendMessage} />
