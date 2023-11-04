@@ -16,6 +16,7 @@ function Form({ sendMessage }: { sendMessage: any }) {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
@@ -24,19 +25,19 @@ function Form({ sendMessage }: { sendMessage: any }) {
     const handleCreateProject = async (data: any) => {
         console.log("submit")
         try {
-            sendMessage(data.message)
-
+            sendMessage(data.message);
+            setValue("message","");
         } catch (error) {
             console.log(error)
         }
     }
 
     return (
-        <form className="flex flex-row " onSubmit={handleSubmit(handleCreateProject)} >
-            <div className="form-control ">
-                <textarea {...register("message")} className="textarea textarea-bordered" placeholder="type here" required />
+        <form className="flex flex-row w-full " onSubmit={handleSubmit(handleCreateProject)} >
+            <div className="form-control w-4/5">
+                <textarea {...register("message")} className="textarea textarea-bordered w-full "  placeholder="type here" required />
             </div>
-            <div className="form-control mt-6">
+            <div className="form-control w-1/5  mt-6">
                 <button className="btn btn-primary">Send</button>
 
             </div>
@@ -116,7 +117,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 }
                 <div className="mt-20"   ref={chatBox} />
             </div>
-            <div className="w-full h-1/5 overflow-y-none">
+            <div className="flex flex-row w-full h-1/5 overflow-y-none">
                 <Form sendMessage={sendMessage} />
             </div>
         </div>
