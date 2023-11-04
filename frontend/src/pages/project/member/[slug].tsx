@@ -191,7 +191,7 @@ export default function MemberPage({ userList }: any) {
 
     return (
         <div>
-            <Navbar userName="" />
+            <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container mx-auto">
                 <MemberBoard projectID={projectID} members={members} owner={ownerID} users={userList} error={error} refresh={(val: boolean) => {
                     setRefresh(val)

@@ -100,7 +100,7 @@ export default function Project() {
 
     return (
         <div>
-            <Navbar userName={user?.email} />
+            <Navbar userName={`${user?.name}#${user?.id}`} />
 
             <main className="container w-full">
                 <div className="flex flex-col justify-center items-center pl-24 ">

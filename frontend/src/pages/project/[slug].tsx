@@ -174,7 +174,7 @@ export default function Project() {
 
     return (
         <div className="overscroll-x-none">
-            <Navbar userName={user?.email} />
+            <Navbar userName={`${user?.name}#${user?.id}`} />
 
             <main className="container  ">
                 <div className="flex flex-col justify-center items-center">
