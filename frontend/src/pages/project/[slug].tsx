@@ -175,8 +175,7 @@ export default function Project() {
     return (
         <div className="overscroll-x-none">
             <Navbar userName={`${user?.name}#${user?.id}`} />
-
-            <main className="container  ">
+            <main className="container mb-10  ">
                 <div className="flex flex-col justify-center items-center">
                     <div>
                         <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
