@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Navbar from "~/components/navbar";
 import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
@@ -19,7 +19,7 @@ interface Label {
 
 }
 
-function Issue({ title, label, assigned, milestone, dueDate ,avatar}: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string ,avatar:string}) {
+function Issue({ title, label, assigned, milestone, dueDate, avatar }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string }) {
     const convDate = (date: string) => {
         const result = new Date(date)
         return ` ${result.toDateString()}`
@@ -27,7 +27,7 @@ function Issue({ title, label, assigned, milestone, dueDate ,avatar}: { title: s
     }
     const date = convDate(dueDate)
     return (
-        <div className="flex flex-row justify-between  mb-5">
+        <div className="flex flex-row justify-between py-2 border-b-2  mb-5">
             <p className="w-36">{title}</p>
             <div className="flex flex-col w-32">
                 {
@@ -40,7 +40,7 @@ function Issue({ title, label, assigned, milestone, dueDate ,avatar}: { title: s
                     )
                 }
             </div>
-            <div className=" w-32"><Image src={avatar} height={20} width={20} alt={""} /><p>{assigned}</p> </div>
+            <div className=" w-32"> {assigned && (<><Image src={avatar} height={20} width={20} alt={""} /><p>{assigned}</p> </>)}</div>
             <div className="w-32 ">
                 <p className="badge badge-secondary badge-outline"> {milestone} </p>
             </div>
@@ -49,28 +49,50 @@ function Issue({ title, label, assigned, milestone, dueDate ,avatar}: { title: s
     )
 }
 
-function IssueList({ openIssues }: any) {
+function Issues({issues,type}:any) {
+    return(
+        <>
+        {
+            
+          issues &&  issues.map(
+                (issue: any, index: number) => {
+                    const name = issue.assignee?.login
+                    const milestone = issue.milestone?.title
+                    const dueOn = issue.milestone?.due_on
+                    const labels = issue.labels
+                    const avatar = issue.assignee?.avatar_url
+                    return (
+                        <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar} />
+                    )
+                }
+            ) 
+            
+        }
+
+        {
+            issues.length==0  && (<div>No issues {type} yet</div>)
+        }
+        </>
+    )
+    
+}
+
+
+
+function IssueList({ openIssues ,closedIssues }: any) {
+    const [show ,setShow]=useState(false)
     return (
-        <div className="flex flex-col border bg-neutral border-rose-400 p-10 w-max justify-center  overflow-y-auto  ">
+        <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center    ">
             <div className="flex flex-row justify-between w-100 mb-5">
-                <button className="btn btn-info">Open Issues</button>
-                <button className="btn btn-warning">Recently Closed Issues</button>
+                <button className="btn btn-info" onClick={()=>{
+                    setShow(true)
+                }}>Open Issues</button>
+                <button className="btn btn-warning" onClick={()=>setShow(false)}>Recently Closed Issues</button>
             </div>
             <div>
 
                 {
-                    openIssues.map(
-                        (issue: any, index: number) => {
-                            const name = issue.assignee?.login
-                            const milestone = issue.milestone?.title
-                            const dueOn = issue.milestone?.due_on
-                            const labels = issue.labels
-                            const avatar = issue.assignee?.avatar_url
-                            return (
-                                <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar}/>
-                            )
-                        }
-                    )
+                  show?  <Issues issues={openIssues} type={""} /> :<Issues issues={closedIssues} type={"closed"}/>
                 }
 
 
@@ -88,7 +110,8 @@ export default function IssuesPage() {
     const [refresh, setRefresh] = useState(true)
     const [projectData, setProjectData] = useState<any>();
     const projectID: string | string[] | null | undefined = router.query.slug;
-    const [openIssues, setOpenIssues] = useState()
+    const [openIssues, setOpenIssues] = useState();
+    const [closedIssues ,setClosedIssues]= useState()
     const getIssues = async (owner: string, repo: string) => {
         let result = true;
         const reqUrlOpen = `http://localhost:5001/github/issues/${owner}/${repo}`
@@ -100,7 +123,7 @@ export default function IssuesPage() {
             //setRefresh(false);
             console.log(resultsClosed.data);
             setOpenIssues(resultsOpen.data.issues)
-
+            setClosedIssues(resultsClosed.data.issues)
 
         } catch (error) {
             //setGithub()
@@ -167,11 +190,11 @@ export default function IssuesPage() {
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto h-screen">
+            <main className="container mx-auto ">
                 <h1 className="text-center">Github Issues</h1>
                 <div className="flex flex-row justify-center ">
                     {!openIssues && (<Spinner />)}
-                    {openIssues && <IssueList openIssues={openIssues} />}
+                    {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} />}
                 </div>
             </main>
         </div>
