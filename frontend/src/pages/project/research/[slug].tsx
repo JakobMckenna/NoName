@@ -92,7 +92,7 @@ export default function Research() {
         }, [projectID,refresh])
     return (
         <div>
-            <Navbar userName={user?.email} />
+            <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container ml-80 pl-10">
                 <div className="flex flex-row row-gap-2 mb-10">
                     <button onClick={
