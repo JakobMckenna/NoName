@@ -2,14 +2,74 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Navbar from "~/components/navbar";
+import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
 
-function IssueList(){
+
+interface Label{
+    
+id:number;
+node_id:string
+url:string
+name:string
+color:string
+default:string
+description:string
+
+}
+
+function Issue({title ,label ,assigned , milestone, dueDate}:{title:string ,label:Label[] ,assigned:string , milestone:string, dueDate:string}) {
+    const convDate = (date: string) => {
+        const result = new Date(date)
+        return ` ${result.toDateString()}`
+
+    }
+    const date = convDate(dueDate)
     return(
-        <div className="flex flex-col w-96">
-            <div className="flex flex-row justify-between w-100">
-                <button className="btn">Open Issues</button>
-                <button className="btn">Recently Closed Issues</button>
+        <div className="flex flex-row justify-between mb-5">
+            <p className="w-32">{title}</p>
+            <div className="flex flex-col w-32">
+                {
+                    label.map(
+                        (data,index)=>{
+                            return(
+                                <p key={index}  className="badge">{data.name} </p>
+                            )
+                        }
+                    )
+                }
+            </div>
+            <p className="w-32">{assigned} </p>
+            <p className="w-32">{milestone} </p>
+            <p className="w-32">{date}</p>
+        </div>
+    )
+}
+
+function IssueList({openIssues}:any){
+    return(
+        <div className="flex flex-col border bg-neutral border-rose-400 p-10 w-max justify-center">
+            <div className="flex flex-row justify-between w-100 mb-5">
+                <button className="btn btn-info">Open Issues</button>
+                <button className="btn btn-warning">Recently Closed Issues</button>
+            </div>
+            <div>
+                
+                {
+                    openIssues.map(
+                        (issue:any ,index:number)=>{
+                          const name = issue.assignee?.login
+                          const milestone = issue.milestone?.title
+                          const dueOn = issue.milestone?.due_on
+                          const labels = issue.labels
+                            return(
+                                <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} />
+                            )
+                        }
+                    )
+                }
+
+
             </div>
 
         </div>
@@ -105,7 +165,10 @@ export default function IssuesPage() {
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container mx-auto">
                     <h1 className="text-center">Github Issues</h1>
-                    <IssueList />
+                    <div className="flex flex-row justify-center">
+                        {!openIssues && (<Spinner />)}
+                       {openIssues && <IssueList openIssues={openIssues} />}
+                    </div>
             </main>
         </div>
     )
