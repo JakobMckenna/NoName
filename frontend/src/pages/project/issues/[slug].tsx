@@ -90,8 +90,8 @@ function Issues({ issues, type }: any) {
 
 function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [show, setShow] = useState(true);
-    const [filteredOpen, setFilteredOpen] = useState([])
-    const [filteredClosed, setFilteredClosed] = useState([])
+    const [filteredOpen, setFilteredOpen] = useState<any[]>(openIssues)
+    const [filteredClosed, setFilteredClosed] = useState<any[]>(closedIssues)
 
     const searchLabel = (issues: any[], search: string) => {
         return _.filter(issues, (issue) => {
@@ -101,7 +101,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     }
 
     const seachMilestone = (issues: any[], search: string) => {
-        return _.filter(issues,(issue) => {
+        return _.filter(issues, (issue) => {
             return issue.milestone.title.toLowerCase().includes(search.toLowerCase())
         })
 
@@ -109,33 +109,41 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
     const handleLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
         const label = event.target.value;
-        console.log(label)
-        let list = searchLabel(openIssues, label)
-        console.log(list)
+        let list ;
 
+        //console.log(label)
+        if (show) {
+           list = searchLabel(openIssues, label)
+           setFilteredOpen(list)
+            //console.log(list)
+        }else{
+            list = searchLabel(closedIssues, label)
+            setFilteredClosed(list)
+        }
 
     }
 
     const handleMilestone = (event: React.ChangeEvent<HTMLInputElement>) => {
         const milestone = event.target.value;
-        console.log(milestone)
-        let list =seachMilestone(openIssues, milestone)
+        let list ;
+        // console.log(milestone)
+        if (show) {
+            list = seachMilestone(openIssues, milestone)
+            setFilteredOpen(list)
+            // let list =searchLabel(openIssues,label)
+            // console.log(list)
+        } else {
+            list = seachMilestone(closedIssues, milestone)
+            setFilteredClosed(list)
+        }
 
-        // let list =searchLabel(openIssues,label)
-        console.log(list)
 
 
     }
 
 
 
-    useEffect(
-        () => {
-            setFilteredOpen(prev => openIssues)
-
-            setFilteredClosed(prev => closedIssues)
-        }, [filteredOpen, filteredClosed]
-    )
+   
     return (
         <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center  mb-10  ">
             <div className="flex flex-row justify-between w-100 mb-5">
@@ -166,12 +174,14 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
                         className="input input-bordered w-1/3 max-w-xs"
                         onChange={handleLabel}
                     />
+                 
                     <input
                         type="text"
                         placeholder="Milestone"
                         className="input input-bordered w-1/3 max-w-xs"
                         onChange={handleMilestone}
                     />
+                    
                 </div>
             </div>
             <div>
