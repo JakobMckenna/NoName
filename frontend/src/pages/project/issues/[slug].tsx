@@ -246,7 +246,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
                 </div>
             </div>
-            <div>
+            <div className="h-80 overflow-y-auto">
 
                 {
                     show ? <Issues issues={filteredOpen} type={""} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} /> : <Issues issues={filteredClosed} type={"recently closed"} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} />
@@ -308,7 +308,7 @@ export default function IssuesPage() {
         }
 
     }
-    
+
     const isRefreshing = () => {
         return refresh === true;
     }
