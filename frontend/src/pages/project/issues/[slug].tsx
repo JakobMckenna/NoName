@@ -49,50 +49,64 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar }: { title: 
     )
 }
 
-function Issues({issues,type}:any) {
-    return(
+function Issues({ issues, type }: any) {
+    return (
         <>
-        {
-            
-          issues &&  issues.map(
-                (issue: any, index: number) => {
-                    const name = issue.assignee?.login
-                    const milestone = issue.milestone?.title
-                    const dueOn = issue.milestone?.due_on
-                    const labels = issue.labels
-                    const avatar = issue.assignee?.avatar_url
-                    return (
-                        <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar} />
-                    )
-                }
-            ) 
-            
-        }
+            {
 
-        {
-            issues.length==0  && (<div>No issues {type} yet</div>)
-        }
+                issues && issues.map(
+                    (issue: any, index: number) => {
+                        const name = issue.assignee?.login
+                        const milestone = issue.milestone?.title
+                        const dueOn = issue.milestone?.due_on
+                        const labels = issue.labels
+                        const avatar = issue.assignee?.avatar_url
+                        return (
+                            <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar} />
+                        )
+                    }
+                )
+
+            }
+
+            {
+                issues.length == 0 && (<div>No issues {type} yet</div>)
+            }
         </>
     )
-    
+
 }
 
 
 
-function IssueList({ openIssues ,closedIssues }: any) {
-    const [show ,setShow]=useState(false)
+function IssueList({ openIssues, closedIssues, refresh }: any) {
+    const [show, setShow] = useState(true);
+    const [filteredOpen, setFilteredOpen] = useState()
     return (
-        <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center    ">
+        <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center  mb-10  ">
             <div className="flex flex-row justify-between w-100 mb-5">
-                <button className="btn btn-info" onClick={()=>{
-                    setShow(true)
-                }}>Open Issues</button>
-                <button className="btn btn-warning" onClick={()=>setShow(false)}>Recently Closed Issues</button>
+                <button
+                    className="btn btn-info"
+                    onClick={
+                        () => {
+                            refresh(true);
+                            setShow(true);
+                        }
+                    }>Open Issues</button>
+                <button
+                    className="btn btn-warning"
+                    onClick={
+                        () => {
+                            refresh(true);
+                            setShow(false);
+                            
+                        }
+                    }>Recently Closed Issues</button>
             </div>
             <div>
 
                 {
-                  show?  <Issues issues={openIssues} type={""} /> :<Issues issues={closedIssues} type={"closed"}/>
+                    show ? <Issues issues={openIssues} type={""} /> : <Issues issues={closedIssues} type={"closed"} />
                 }
 
 
@@ -111,7 +125,7 @@ export default function IssuesPage() {
     const [projectData, setProjectData] = useState<any>();
     const projectID: string | string[] | null | undefined = router.query.slug;
     const [openIssues, setOpenIssues] = useState();
-    const [closedIssues ,setClosedIssues]= useState()
+    const [closedIssues, setClosedIssues] = useState()
     const getIssues = async (owner: string, repo: string) => {
         let result = true;
         const reqUrlOpen = `http://localhost:5001/github/issues/${owner}/${repo}`
@@ -191,10 +205,10 @@ export default function IssuesPage() {
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container mx-auto ">
-                <h1 className="text-center">Github Issues</h1>
+                <h1 className="text-4xl uppercase mb-2 text-center">Issues</h1>
                 <div className="flex flex-row justify-center ">
                     {!openIssues && (<Spinner />)}
-                    {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} />}
+                    {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} refresh={(val: boolean) => setRefresh(val)} />}
                 </div>
             </main>
         </div>
