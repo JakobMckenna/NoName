@@ -13,7 +13,7 @@ import ProjectModal from "~/components/projectmdl";
 
 import useUser from "~/hooks/use_user";
 
-function RepoCard({ projects ,refresh }: any) {
+function RepoCard({ projects }: any) {
     //console.log(projects)
     return (
         <div className="card bg-neutral-focus  w-80  shadow-xl mr-12 max-h-64 m-4">
@@ -36,10 +36,9 @@ function RepoCard({ projects ,refresh }: any) {
                 </ul>
                 <div className="card-actions justify-start">
                     <button className="btn btn-secondary  btn-link" onClick={() => {
-                       const modalElement:any= document.getElementById('my_modal_3');
+                       const modalElement:any= document.getElementById('my_modal_3')
                        if(modalElement){
-                        modalElement?.showModal();
-                        refresh(true);
+                        modalElement?.showModal()
                        }
                        
                     }
@@ -112,10 +111,6 @@ export default function LandingPage() {
         return results.data.user
 
     }
-    const isRefreshing = () => {
-        return refresh === true;
-    }
-
 
  
 
@@ -124,21 +119,24 @@ export default function LandingPage() {
           
             if (user) {
                 const projects = async () => {
-                    const results = await getProjects(user.id);
+                    const results = await getProjects(user.id)
+                    console.log("members")
+                    console.log(results.member)
                     setProjectList(results.member);
+                    console.log(`list ${projectList}`)
+
                     return results.project;
                 }
                 if(refresh)
                 {
-                    projects();
-                    // clean up page refresh
-                    setRefresh(false);
+                    projects()
+                    setRefresh(false)
                 }
                
             }
 
 
-        },[isRefreshing]
+        }
     )
     return (
         <div className = "w-full mx-auto">
@@ -150,7 +148,7 @@ export default function LandingPage() {
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container flex flex-wrap justify-center items-center mx-auto">
                 <div className="flex flex-row mb-10 items-center">
-                    <RepoCard projects={projectList} refresh={(val:boolean)=>setRefresh(val)} />
+                    <RepoCard projects={projectList} />
                     <TaskCard />
                 </div>
                 <div className="flex flex-row items-center">
@@ -158,7 +156,7 @@ export default function LandingPage() {
                     <MenuCard />
                 </div>
             </main>
-            <ProjectModal userID={user?.id} refresh={(val:boolean)=>setRefresh(val)} />
+            <ProjectModal userID={user?.id} />
         </div>
     )
 } 
