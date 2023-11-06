@@ -5,7 +5,7 @@ import { use, useEffect, useState } from "react";
 import Navbar from "~/components/navbar";
 import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
-import { list } from "postcss";
+import * as _ from 'lodash';
 
 
 interface Label {
@@ -94,13 +94,17 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [filteredClosed, setFilteredClosed] = useState([])
 
     const searchLabel =(issues:any[] ,search:string)=>{
-
+        return  _.filter(issues,(issue)=>{
+            return _.some(issue.labels,(label)=>label.name.toLowerCase().includes(search.toLowerCase()))
+        })
+           
     }
 
     const handleLabel = (event:React.ChangeEvent<HTMLInputElement>) => {
         const label = event.target.value;
-        searchLabel(openIssues,label)
-   
+        console.log(label)
+        let list =searchLabel(openIssues,label)
+        console.log(list)
 
 
     }
