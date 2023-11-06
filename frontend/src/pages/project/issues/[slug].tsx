@@ -93,18 +93,20 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [filteredOpen, setFilteredOpen] = useState([])
     const [filteredClosed, setFilteredClosed] = useState([])
 
-    const handleOpen = ()=>{
-        
+    const handleLabel = (event:React.ChangeEvent<HTMLInputElement>) => {
+        const label = event.target.value;
+
+
     }
 
 
 
     useEffect(
-        ()=>{
-            setFilteredOpen(prev=>openIssues)
+        () => {
+            setFilteredOpen(prev => openIssues)
 
-            setFilteredClosed(prev=>closedIssues)
-        },[filteredOpen,filteredClosed]
+            setFilteredClosed(prev => closedIssues)
+        }, [filteredOpen, filteredClosed]
     )
     return (
         <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center  mb-10  ">
@@ -130,7 +132,12 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
             </div>
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row justify-between w-10/12">
-                    <input type="text" placeholder="Label" className="input input-bordered w-1/3 max-w-xs" />
+                    <input
+                        type="text"
+                        placeholder="Label"
+                        className="input input-bordered w-1/3 max-w-xs"
+                        onChange={handleLabel}
+                    />
                     <input type="text" placeholder="Milestone" className="input input-bordered w-1/3 max-w-xs" />
                 </div>
             </div>
