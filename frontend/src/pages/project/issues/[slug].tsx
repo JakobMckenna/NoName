@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Navbar from "~/components/navbar";
 import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
@@ -20,7 +20,7 @@ interface Label {
 
 }
 
-function Issue({ title, label, assigned, milestone, dueDate, avatar, addLabel }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string, addLabel: Function }) {
+function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string, clickLabel: Function }) {
     const convDate = (date: string) => {
         const result = new Date(date)
         return ` ${result.toDateString()}`
@@ -36,7 +36,15 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, addLabel }:
                         (data, index) => {
 
                             return (
-                                <p key={index} className="badge">{data.name} </p>
+                                <button
+                                    key={index}
+                                    className="badge"
+                                    onClick={
+                                        () => clickLabel(data.name)
+                                    }
+                                >
+                                    {data.name}
+                                </button>
                             )
                         }
                     )
@@ -51,11 +59,9 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, addLabel }:
     )
 }
 
-function Issues({ issues, type }: any) {
+function Issues({ issues, type, clickLabel }: any) {
     const [labels, setLabels] = useState<any>([])
-    const addLabel = (data: string) => {
-        setLabels((list: any) => [...list, data])
-    }
+
     return (
         <>
 
@@ -71,7 +77,15 @@ function Issues({ issues, type }: any) {
                         // setLabels((list:any)=>[...list,labels])
 
                         return (
-                            <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar} addLabel={addLabel} />
+                            <Issue key={index}
+                                title={issue.title}
+                                label={labels}
+                                assigned={name}
+                                milestone={milestone}
+                                dueDate={dueOn}
+                                avatar={avatar}
+                                clickLabel={clickLabel}
+                            />
                         )
                     }
                 )
@@ -90,10 +104,14 @@ function Issues({ issues, type }: any) {
 
 function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [show, setShow] = useState(true);
+    const labelTxt = useRef<HTMLInputElement>(null)
     const [filteredOpen, setFilteredOpen] = useState<any[]>(openIssues)
     const [filteredClosed, setFilteredClosed] = useState<any[]>(closedIssues)
 
+
     const searchLabel = (issues: any[], search: string) => {
+        setFilteredOpen(openIssues);
+        setFilteredClosed(closedIssues);
         return _.filter(issues, (issue) => {
             return _.some(issue.labels, (label) => label.name.toLowerCase().includes(search.toLowerCase()))
         })
@@ -109,14 +127,14 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
     const handleLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
         const label = event.target.value;
-        let list ;
+        let list;
 
         //console.log(label)
         if (show) {
-           list = searchLabel(openIssues, label)
-           setFilteredOpen(list)
+            list = searchLabel(openIssues, label)
+            setFilteredOpen(list)
             //console.log(list)
-        }else{
+        } else {
             list = searchLabel(closedIssues, label)
             setFilteredClosed(list)
         }
@@ -125,7 +143,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
     const handleMilestone = (event: React.ChangeEvent<HTMLInputElement>) => {
         const milestone = event.target.value;
-        let list ;
+        let list;
         // console.log(milestone)
         if (show) {
             list = seachMilestone(openIssues, milestone)
@@ -141,9 +159,28 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
     }
 
+    const clickLabel = (label: string) => {
+        let list;
+        if (labelTxt && labelTxt.current) {
+            labelTxt.current.value = label
+          //  labelTxt.current.
+        }
+
+        if (show) {
+            list = searchLabel(openIssues, label)
+            setFilteredOpen(list)
+            //console.log(list)
+        } else {
+            list = searchLabel(closedIssues, label)
+            setFilteredClosed(list)
+        }
+     
+     //   handleLabel()
+    }
 
 
-   
+
+
     return (
         <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center  mb-10  ">
             <div className="flex flex-row justify-between w-100 mb-5">
@@ -169,25 +206,26 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row justify-between w-10/12">
                     <input
+                        ref={labelTxt}
                         type="text"
                         placeholder="Label"
                         className="input input-bordered w-1/3 max-w-xs"
                         onChange={handleLabel}
                     />
-                 
+
                     <input
                         type="text"
                         placeholder="Milestone"
                         className="input input-bordered w-1/3 max-w-xs"
                         onChange={handleMilestone}
                     />
-                    
+
                 </div>
             </div>
             <div>
 
                 {
-                    show ? <Issues issues={filteredOpen} type={""} /> : <Issues issues={filteredClosed} type={"recently closed"} />
+                    show ? <Issues issues={filteredOpen} type={""} clickLabel={(val: string) => clickLabel(val)} /> : <Issues issues={filteredClosed} type={"recently closed"} clickLabel={(val: string) => clickLabel(val)} />
                 }
 
 

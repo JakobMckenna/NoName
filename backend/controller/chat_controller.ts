@@ -5,7 +5,7 @@ import ChatService from "../services/chat_service";
 
 export default class ChatController {
 
-    readonly rooms:Dictionary = {}
+    readonly rooms: Dictionary = {}
 
     constructor(chatNameSpace: Namespace) {
         chatNameSpace.on('connection', (socket) => {
@@ -28,11 +28,11 @@ export default class ChatController {
                 console.log(`left room ${room}`)
             })
 
-            socket.on('message',(data:any)=>{
+            socket.on('message', (data: any) => {
                 console.log(data.message)
                 console.log(data.room)
-                chatNameSpace.to(data.room).emit("message",{name:data.name,message:data.message,userID:data.userID})
-                this.save(data.message,data.room ,data.userID)
+                chatNameSpace.to(data.room).emit("message", { name: data.name, message: data.message, userID: data.userID, user: { id: data.userID, name: data.name } })
+                this.save(data.message, data.room, data.userID)
             })
 
             socket.on('disconnect', () => {
@@ -42,16 +42,16 @@ export default class ChatController {
         });
     }
 
-    save(message: string, projectID: string, userID: number){
-        const savedMsg = async ()=>{
-            const result = await ChatService.save(message,projectID,userID)
+    save(message: string, projectID: string, userID: number) {
+        const savedMsg = async () => {
+            const result = await ChatService.save(message, projectID, userID)
             return result;
         }
         savedMsg();
     }
 
 
-    getRooms(){
+    getRooms() {
         return this.rooms
     }
 

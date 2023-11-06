@@ -10,6 +10,7 @@ interface Chat {
     message: string;
     userID: string;
     timestamp: string;
+    user:any;
 }
 
 function ChatActions({scrollDown ,scrollUp}:any) {
@@ -130,12 +131,12 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     // chats previousily saved in db
                     prevChats != null && prevChats.map((chat: any, index: number) => {
                         const date: string = convDate(chat.timestamp);
-                        return (<div key={index} className={userID == chat.userID ? "chat chat-start " : "chat chat-end"}>
+                        return (<div key={index} className={userID == chat.user.id? "chat chat-start " : "chat chat-end"}>
                             <div className="chat-header">
                                 {chat.user.name}#{chat.user.id}
                                 <time className="text-xs opacity-50">{date}</time>
                             </div>
-                            <div className={userID == chat.userID ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
+                            <div className={userID == chat.user.id? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
 
                         </div>)
                     }
@@ -146,12 +147,12 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     chatHistory.map((chat, index) => {
                         const rightNowDate = new Date()
                         const date: string = convDate(rightNowDate.toISOString());
-                        return (<div key={index} className={userID == chat.userID ? "chat chat-start  " : "chat chat-end"}>
+                        return (<div key={index} className={userID == chat.user.id ? "chat chat-start  " : "chat chat-end"}>
                             <div className="chat-header">
-                                {chat.name}#{chat.userID}
+                                {chat.user.name}#{chat.user.id}
                                 <time className="text-xs opacity-50">{date}</time>
                             </div>
-                            <div className={userID == chat.userID ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
+                            <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
 
                         </div>)
                     }
