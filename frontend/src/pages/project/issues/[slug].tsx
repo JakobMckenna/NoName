@@ -93,8 +93,14 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [filteredOpen, setFilteredOpen] = useState([])
     const [filteredClosed, setFilteredClosed] = useState([])
 
+    const searchLabel =(issues:any[] ,search:string)=>{
+
+    }
+
     const handleLabel = (event:React.ChangeEvent<HTMLInputElement>) => {
         const label = event.target.value;
+        searchLabel(openIssues,label)
+   
 
 
     }
