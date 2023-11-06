@@ -93,17 +93,35 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [filteredOpen, setFilteredOpen] = useState([])
     const [filteredClosed, setFilteredClosed] = useState([])
 
-    const searchLabel =(issues:any[] ,search:string)=>{
-        return  _.filter(issues,(issue)=>{
-            return _.some(issue.labels,(label)=>label.name.toLowerCase().includes(search.toLowerCase()))
+    const searchLabel = (issues: any[], search: string) => {
+        return _.filter(issues, (issue) => {
+            return _.some(issue.labels, (label) => label.name.toLowerCase().includes(search.toLowerCase()))
         })
-           
+
     }
 
-    const handleLabel = (event:React.ChangeEvent<HTMLInputElement>) => {
+    const seachMilestone = (issues: any[], search: string) => {
+        return _.filter(issues,(issue) => {
+            return issue.milestone.title.toLowerCase().includes(search.toLowerCase())
+        })
+
+    }
+
+    const handleLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
         const label = event.target.value;
         console.log(label)
-        let list =searchLabel(openIssues,label)
+        let list = searchLabel(openIssues, label)
+        console.log(list)
+
+
+    }
+
+    const handleMilestone = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const milestone = event.target.value;
+        console.log(milestone)
+        let list =seachMilestone(openIssues, milestone)
+
+        // let list =searchLabel(openIssues,label)
         console.log(list)
 
 
@@ -148,7 +166,12 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
                         className="input input-bordered w-1/3 max-w-xs"
                         onChange={handleLabel}
                     />
-                    <input type="text" placeholder="Milestone" className="input input-bordered w-1/3 max-w-xs" />
+                    <input
+                        type="text"
+                        placeholder="Milestone"
+                        className="input input-bordered w-1/3 max-w-xs"
+                        onChange={handleMilestone}
+                    />
                 </div>
             </div>
             <div>
