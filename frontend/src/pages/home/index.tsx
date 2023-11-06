@@ -124,11 +124,7 @@ export default function LandingPage() {
             if (user) {
                 const projects = async () => {
                     const results = await getProjects(user.id)
-                    console.log("members")
-                    console.log(results.member)
                     setProjectList(results.member);
-                    console.log(`list ${projectList}`)
-
                     return results.project;
                 }
                 if(refresh)
