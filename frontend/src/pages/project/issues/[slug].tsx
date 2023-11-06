@@ -5,6 +5,7 @@ import { use, useEffect, useState } from "react";
 import Navbar from "~/components/navbar";
 import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
+import { list } from "postcss";
 
 
 interface Label {
@@ -19,7 +20,7 @@ interface Label {
 
 }
 
-function Issue({ title, label, assigned, milestone, dueDate, avatar }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string }) {
+function Issue({ title, label, assigned, milestone, dueDate, avatar, addLabel }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string, addLabel: Function }) {
     const convDate = (date: string) => {
         const result = new Date(date)
         return ` ${result.toDateString()}`
@@ -33,6 +34,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar }: { title: 
                 {
                     label.map(
                         (data, index) => {
+
                             return (
                                 <p key={index} className="badge">{data.name} </p>
                             )
@@ -50,8 +52,13 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar }: { title: 
 }
 
 function Issues({ issues, type }: any) {
+    const [labels, setLabels] = useState<any>([])
+    const addLabel = (data: string) => {
+        setLabels((list: any) => [...list, data])
+    }
     return (
         <>
+
             {
 
                 issues && issues.map(
@@ -61,8 +68,10 @@ function Issues({ issues, type }: any) {
                         const dueOn = issue.milestone?.due_on
                         const labels = issue.labels
                         const avatar = issue.assignee?.avatar_url
+                        // setLabels((list:any)=>[...list,labels])
+
                         return (
-                            <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar} />
+                            <Issue key={index} title={issue.title} label={labels} assigned={name} milestone={milestone} dueDate={dueOn} avatar={avatar} addLabel={addLabel} />
                         )
                     }
                 )
@@ -81,7 +90,22 @@ function Issues({ issues, type }: any) {
 
 function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [show, setShow] = useState(true);
-    const [filteredOpen, setFilteredOpen] = useState()
+    const [filteredOpen, setFilteredOpen] = useState([])
+    const [filteredClosed, setFilteredClosed] = useState([])
+
+    const handleOpen = ()=>{
+        
+    }
+
+
+
+    useEffect(
+        ()=>{
+            setFilteredOpen(prev=>openIssues)
+
+            setFilteredClosed(prev=>closedIssues)
+        },[filteredOpen,filteredClosed]
+    )
     return (
         <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center  mb-10  ">
             <div className="flex flex-row justify-between w-100 mb-5">
@@ -99,14 +123,21 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
                         () => {
                             refresh(true);
                             setShow(false);
-                            
+
                         }
-                    }>Recently Closed Issues</button>
+                    }>Recently Closed Issues
+                </button>
+            </div>
+            <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between w-10/12">
+                    <input type="text" placeholder="Label" className="input input-bordered w-1/3 max-w-xs" />
+                    <input type="text" placeholder="Milestone" className="input input-bordered w-1/3 max-w-xs" />
+                </div>
             </div>
             <div>
 
                 {
-                    show ? <Issues issues={openIssues} type={""} /> : <Issues issues={closedIssues} type={"recently closed"} />
+                    show ? <Issues issues={filteredOpen} type={""} /> : <Issues issues={filteredClosed} type={"recently closed"} />
                 }
 
 

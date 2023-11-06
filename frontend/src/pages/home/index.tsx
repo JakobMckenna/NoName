@@ -156,7 +156,7 @@ export default function LandingPage() {
                     <MenuCard />
                 </div>
             </main>
-            <ProjectModal userID={user?.id} />
+            <ProjectModal userID={user?.id} refresh={(val:boolean)=>setRefresh(val)} />
         </div>
     )
 } 
