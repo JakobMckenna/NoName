@@ -20,7 +20,7 @@ interface Label {
 
 }
 
-function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string, clickLabel: Function }) {
+function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel, clickMilestone }: { title: string, label: Label[], assigned: string, milestone: string, dueDate: string, avatar: string, clickLabel: Function, clickMilestone: Function }) {
     const convDate = (date: string) => {
         const result = new Date(date)
         return ` ${result.toDateString()}`
@@ -52,15 +52,22 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel 
             </div>
             <div className=" w-32"> {assigned && (<><Image src={avatar} height={20} width={20} alt={""} /><p>{assigned}</p> </>)}</div>
             <div className="w-32 ">
-                <p className="badge badge-secondary badge-outline"> {milestone} </p>
+                <button
+                    className="badge badge-secondary badge-outline"
+                    onClick={
+                        () => clickMilestone(milestone)
+                    }
+                >
+                    {milestone}
+                </button>
             </div>
             <p className="w-32">{date}</p>
         </div>
     )
 }
 
-function Issues({ issues, type, clickLabel }: any) {
-    const [labels, setLabels] = useState<any>([])
+function Issues({ issues, type, clickLabel, clickMilestone }: any) {
+    
 
     return (
         <>
@@ -85,6 +92,7 @@ function Issues({ issues, type, clickLabel }: any) {
                                 dueDate={dueOn}
                                 avatar={avatar}
                                 clickLabel={clickLabel}
+                                clickMilestone={clickMilestone}
                             />
                         )
                     }
@@ -145,7 +153,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const handleMilestone = (event: React.ChangeEvent<HTMLInputElement>) => {
         const milestone = event.target.value;
         let list;
-       
+
         if (show) {
             list = searchMilestone(openIssues, milestone);
             setFilteredOpen(list);
@@ -177,7 +185,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
         //   handleLabel()
     }
 
-    const clickMilestone =(milestone:string)=>{
+    const clickMilestone = (milestone: string) => {
         let list;
         if (milestoneTxt && milestoneTxt.current) {
             milestoneTxt.current.value = milestone
@@ -241,7 +249,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
             <div>
 
                 {
-                    show ? <Issues issues={filteredOpen} type={""} clickLabel={(val: string) => clickLabel(val)} /> : <Issues issues={filteredClosed} type={"recently closed"} clickLabel={(val: string) => clickLabel(val)} />
+                    show ? <Issues issues={filteredOpen} type={""} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} /> : <Issues issues={filteredClosed} type={"recently closed"} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} />
                 }
 
 
@@ -256,11 +264,11 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 export default function IssuesPage() {
     const router = useRouter();
     const [user, loading] = useUser();
-    const [refresh, setRefresh] = useState(true)
-    const [projectData, setProjectData] = useState<any>();
+    const [refresh, setRefresh] = useState(true);
     const projectID: string | string[] | null | undefined = router.query.slug;
     const [openIssues, setOpenIssues] = useState();
-    const [closedIssues, setClosedIssues] = useState()
+    const [closedIssues, setClosedIssues] = useState();
+
     const getIssues = async (owner: string, repo: string) => {
         let result = true;
         const reqUrlOpen = `http://localhost:5001/github/issues/${owner}/${repo}`
