@@ -104,7 +104,8 @@ function Issues({ issues, type, clickLabel }: any) {
 
 function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [show, setShow] = useState(true);
-    const labelTxt = useRef<HTMLInputElement>(null)
+    const labelTxt = useRef<HTMLInputElement>(null);
+    const milestoneTxt = useRef<HTMLInputElement>(null)
     const [filteredOpen, setFilteredOpen] = useState<any[]>(openIssues)
     const [filteredClosed, setFilteredClosed] = useState<any[]>(closedIssues)
 
@@ -118,7 +119,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
     }
 
-    const seachMilestone = (issues: any[], search: string) => {
+    const searchMilestone = (issues: any[], search: string) => {
         return _.filter(issues, (issue) => {
             return issue.milestone.title.toLowerCase().includes(search.toLowerCase())
         })
@@ -146,12 +147,12 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
         let list;
         // console.log(milestone)
         if (show) {
-            list = seachMilestone(openIssues, milestone)
+            list = searchMilestone(openIssues, milestone)
             setFilteredOpen(list)
             // let list =searchLabel(openIssues,label)
             // console.log(list)
         } else {
-            list = seachMilestone(closedIssues, milestone)
+            list = searchMilestone(closedIssues, milestone)
             setFilteredClosed(list)
         }
 
@@ -163,7 +164,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
         let list;
         if (labelTxt && labelTxt.current) {
             labelTxt.current.value = label
-          //  labelTxt.current.
+            //  labelTxt.current.
         }
 
         if (show) {
@@ -174,11 +175,27 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
             list = searchLabel(closedIssues, label)
             setFilteredClosed(list)
         }
-     
-     //   handleLabel()
+
+        //   handleLabel()
     }
 
+    const clickMilestone =(milestone:string)=>{
+        let list;
+        if (milestoneTxt && milestoneTxt.current) {
+            milestoneTxt.current.value = milestone
+            //  labelTxt.current.
+        }
 
+        if (show) {
+            list = searchMilestone(openIssues, milestone);
+            setFilteredOpen(list);
+            //console.log(list)
+        } else {
+            list = searchMilestone(closedIssues, milestone);
+            setFilteredClosed(list);
+        }
+
+    }
 
 
     return (
@@ -214,6 +231,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
                     />
 
                     <input
+                        ref={milestoneTxt}
                         type="text"
                         placeholder="Milestone"
                         className="input input-bordered w-1/3 max-w-xs"
