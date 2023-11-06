@@ -145,15 +145,13 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const handleMilestone = (event: React.ChangeEvent<HTMLInputElement>) => {
         const milestone = event.target.value;
         let list;
-        // console.log(milestone)
+       
         if (show) {
-            list = searchMilestone(openIssues, milestone)
-            setFilteredOpen(list)
-            // let list =searchLabel(openIssues,label)
-            // console.log(list)
+            list = searchMilestone(openIssues, milestone);
+            setFilteredOpen(list);
         } else {
-            list = searchMilestone(closedIssues, milestone)
-            setFilteredClosed(list)
+            list = searchMilestone(closedIssues, milestone);
+            setFilteredClosed(list);
         }
 
 
