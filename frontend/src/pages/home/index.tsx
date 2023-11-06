@@ -13,7 +13,7 @@ import ProjectModal from "~/components/projectmdl";
 
 import useUser from "~/hooks/use_user";
 
-function RepoCard({ projects }: any) {
+function RepoCard({ projects ,refresh }: any) {
     //console.log(projects)
     return (
         <div className="card bg-neutral-focus  w-80  shadow-xl mr-12 max-h-64 m-4">
@@ -36,9 +36,10 @@ function RepoCard({ projects }: any) {
                 </ul>
                 <div className="card-actions justify-start">
                     <button className="btn btn-secondary  btn-link" onClick={() => {
-                       const modalElement:any= document.getElementById('my_modal_3')
+                       const modalElement:any= document.getElementById('my_modal_3');
                        if(modalElement){
-                        modalElement?.showModal()
+                        modalElement?.showModal();
+                        refresh(true);
                        }
                        
                     }
@@ -123,14 +124,15 @@ export default function LandingPage() {
           
             if (user) {
                 const projects = async () => {
-                    const results = await getProjects(user.id)
+                    const results = await getProjects(user.id);
                     setProjectList(results.member);
                     return results.project;
                 }
                 if(refresh)
                 {
-                    projects()
-                    setRefresh(false)
+                    projects();
+                    // clean up page refresh
+                    setRefresh(false);
                 }
                
             }
@@ -148,7 +150,7 @@ export default function LandingPage() {
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container flex flex-wrap justify-center items-center mx-auto">
                 <div className="flex flex-row mb-10 items-center">
-                    <RepoCard projects={projectList} />
+                    <RepoCard projects={projectList} refresh={(val:boolean)=>setRefresh(val)} />
                     <TaskCard />
                 </div>
                 <div className="flex flex-row items-center">
