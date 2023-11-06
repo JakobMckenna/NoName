@@ -42,9 +42,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                     <div>
                         <Link href={`/project/issues/${projectID}`} className="btn btn-link">see issues</Link>
                     </div>
-                    <div>
-                        <Link href={`/project/commits/${projectID}`} className="btn btn-link">see pull requests</Link>
-                    </div>
+                   
                 </div>
             </div>
         </div>
