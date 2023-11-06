@@ -308,6 +308,7 @@ export default function IssuesPage() {
         }
 
     }
+    
     const isRefreshing = () => {
         return refresh === true;
     }
