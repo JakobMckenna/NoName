@@ -106,7 +106,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
             <div>
 
                 {
-                    show ? <Issues issues={openIssues} type={""} /> : <Issues issues={closedIssues} type={"closed"} />
+                    show ? <Issues issues={openIssues} type={""} /> : <Issues issues={closedIssues} type={"recently closed"} />
                 }
 
 

@@ -111,6 +111,10 @@ export default function LandingPage() {
         return results.data.user
 
     }
+    const isRefreshing = () => {
+        return refresh === true;
+    }
+
 
  
 
@@ -136,7 +140,7 @@ export default function LandingPage() {
             }
 
 
-        }
+        },[isRefreshing]
     )
     return (
         <div className = "w-full mx-auto">
