@@ -1,8 +1,11 @@
 import axios from "axios";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { use, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "~/components/navbar";
 import SprintModal from "~/components/sprintmdl";
+import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
 function Form({ projectID }: { projectID: string }) {
@@ -149,7 +152,24 @@ function MilestoneHero() {
 }
 
 export default function SprintPage() {
-    const [user, loading] = useUser()
+    const router = useRouter();
+    const [user, loading] = useUser();
+    const [sprints, setID] = useSprint();
+    const projectID: string | string[] | null | undefined = router.query.slug;
+
+    useEffect(
+    ()=>{
+        if (projectID != null && setID && projectID != undefined  )  {
+           // const results = await getProjectData(projectID);
+           // if (results && setID != null) {
+                setID(String(projectID))
+               // setProjectData(results);
+               // setGithub(results.github);
+
+            }
+    },[projectID,setID,user]
+        
+    )
     return (
         <div>
             <Head>
