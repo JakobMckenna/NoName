@@ -42,7 +42,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                     <div>
                         <Link href={`/project/issues/${projectID}`} className="btn btn-link">see issues</Link>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -72,33 +72,11 @@ function SprintCard({ projectID, sprints }: { projectID: string, sprints: any })
         <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Sprint</h2>
-                <div>
-                    {
-                        sprints && sprints.map(
-                            (sprint: any) => {
-                                return (
-                                    <div>
-                                        Current: {sprint.name}
-                                    </div>
-                                )
-                            }
-                        )
-                    }
+                <h2 className="card-title">Milestones/Sprints</h2>
+                <p>Setup your project's milestone's here</p>
+                <Link className="btn btn-link" href={`/project/sprint/${projectID}`}  >setup </Link>
 
-                </div>
-                {(sprints === null || sprints.length == 0) &&
-                    (
-                        <div>
-                            <button onClick={() => {
-                                const modal: any = document.getElementById('sprint_modal')
-                                if (modal) {
-                                    modal?.showModal()
-                                }
-
-                            }} className="btn btn-link">Add Sprint</button>
-                        </div>)
-                }
+             
 
             </div>
 
