@@ -66,7 +66,7 @@ function ResearchCard({ projectID }: { projectID: string }) {
     )
 }
 
-function SprintCard({ projectID, sprints }: { projectID: string, sprints: any }) {
+function SprintCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
         <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
@@ -179,7 +179,7 @@ export default function Project() {
                         <div className=" grid grid-cols-2 justify-items-center gap-y-8 gap-x-5  ">
 
                             <MenuCard github={github} projectID={projectID} />
-                            <SprintCard projectID={projectID} sprints={sprints} />
+                            <SprintCard projectID={projectID}  />
 
 
                             {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
