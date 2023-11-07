@@ -11,21 +11,31 @@ import useUser from "~/hooks/use_user";
 
 
 function Sprints({ sprints }: any) {
-   // console.log(sprints)
+    // console.log(sprints)
+    const convDate = (date: string) => {
+        const result = new Date(date)
+        return result.toLocaleDateString();
+    }
     return (
         <div className="flex flex-col">
 
             <h1 className="text-2xl text-center uppercase mb-2 ">Sprints</h1>
             {
                 sprints && sprints.map(
+
                     (sprint: any) => {
+                        const start = convDate(sprint.start)
+                        const end = convDate(sprint.deadline)
                         return (<div className="collapse collapse-arrow w-80 bg-base-200">
                             <input type="radio" name="my-accordion-2" checked={true} />
                             <div className="collapse-title text-xl font-medium">
-                               {sprint.name}
+                                {sprint.name}
                             </div>
                             <div className="collapse-content">
-                                <p>hello</p>
+                                <div className="flex flex-row justify-between">
+                                    <p>start: {start}</p>
+                                    <p>end: {end}</p>
+                                </div>
                             </div>
                         </div>)
                     })
@@ -36,7 +46,7 @@ function Sprints({ sprints }: any) {
 
 function MilestoneHero({ sprints }: any) {
     return (
-        <div className="flex flex-row justify-evenly ">
+        <div className="flex  flex-col justify-evenly md:flex-row ">
             <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Create Sprint/Milestone</h2>
