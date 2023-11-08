@@ -1,7 +1,7 @@
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "~/components/navbar";
 import SprintModal from "~/components/sprintmdl";
@@ -26,8 +26,8 @@ function Sprints({ sprints }: any) {
                     (sprint: any) => {
                         const start = convDate(sprint.start)
                         const end = convDate(sprint.deadline)
-                        return (<div className="collapse collapse-arrow w-80 bg-base-200">
-                            <input type="radio" name="my-accordion-2" checked={true} />
+                        return (<div key={sprint.id} className="collapse collapse-arrow w-80 bg-base-200">
+                            <input type="radio" name="my-accordion-2"  />
                             <div className="collapse-title text-xl font-medium">
                                 {sprint.name}
                             </div>
@@ -76,10 +76,14 @@ export default function SprintPage() {
     const [user, loading] = useUser();
     const [sprints, setID] = useSprint();
     const projectID: string | string[] | null | undefined = router.query.slug;
+    const [refresh ,setRefesh] = useState(true)
+    const isRefresh =()=>{
+        return refresh === true;
+    }
 
     useEffect(
         () => {
-            if (projectID != null && setID && projectID != undefined) {
+            if (refresh && projectID != null && setID && projectID != undefined ) {
                 // const results = await getProjectData(projectID);
                 // if (results && setID != null) {
                 setID(String(projectID))
@@ -87,7 +91,14 @@ export default function SprintPage() {
                 // setGithub(results.github);
 
             }
-        }, [projectID, setID, user]
+
+            if(sprints && setID){
+                console.log("is refreshing")
+                // setProjectData(results);
+                setID(String(projectID))
+                setRefesh(false)
+            }
+        }, [isRefresh, refresh]
 
     )
     return (
@@ -103,7 +114,7 @@ export default function SprintPage() {
                     <MilestoneHero sprints={sprints} />
                 </div>
             </main>
-            <SprintModal projectID={String(projectID)} />
+            <SprintModal projectID={String(projectID)}  refresh={(val:boolean)=>setRefesh(val)}/>
         </div>
     )
 }

@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-function Form({ projectID }: { projectID: string }) {
+function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
     const {
         register,
         handleSubmit,
@@ -30,10 +30,11 @@ function Form({ projectID }: { projectID: string }) {
                     'Content-Type': 'application/json',
                 },
             });
-
+            
             console.log(responseSprint.data)
             const modalElement: any = document.getElementById('sprint_modal')
             modalElement.close()
+            refresh(true)
         } catch (error) {
             console.log(error)
         }
@@ -72,7 +73,7 @@ function Form({ projectID }: { projectID: string }) {
     )
 }
 
-const SprintModal = ({ projectID }: { projectID: string }) => {
+const SprintModal = ({ projectID ,refresh }: { projectID: string , refresh:Function }) => {
     return (
         <dialog id="sprint_modal" className="modal">
             <div className="modal-box">
@@ -80,7 +81,7 @@ const SprintModal = ({ projectID }: { projectID: string }) => {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form projectID={projectID} />
+                <Form projectID={projectID}  refresh={refresh}/>
             </div>
         </dialog>
     );

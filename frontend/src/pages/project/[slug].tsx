@@ -73,10 +73,11 @@ function SprintCard({ projectID }: { projectID: string }) {
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Milestones/Sprints</h2>
-                <p>Setup your project's milestone's here</p>
-                <Link className="btn btn-link" href={`/project/sprint/${projectID}`}  >setup </Link>
+                <div>
+                    <p>Setup your project's milestone's here</p>
+                    <Link className="btn btn-link" href={`/project/sprint/${projectID}`}  >setup/see </Link>
+                </div>
 
-             
 
             </div>
 
@@ -179,7 +180,7 @@ export default function Project() {
                         <div className=" grid grid-cols-2 justify-items-center gap-y-8 gap-x-5  ">
 
                             <MenuCard github={github} projectID={projectID} />
-                            <SprintCard projectID={projectID}  />
+                            <SprintCard projectID={projectID} />
 
 
                             {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}

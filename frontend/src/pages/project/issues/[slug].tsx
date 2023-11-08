@@ -38,7 +38,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
                             return (
                                 <button
                                     key={index}
-                                    className="badge"
+                                    className="badge hover:badge-secondary"
                                     onClick={
                                         () => clickLabel(data.name)
                                     }
