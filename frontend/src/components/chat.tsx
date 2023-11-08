@@ -1,13 +1,13 @@
 /* eslint-disable */
 
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
 import usePrevChat from "~/hooks/use_prev_chat";
 
-interface User{
-    id:string;
-    name:string;
+interface User {
+    id: string;
+    name: string;
 }
 
 
@@ -16,16 +16,39 @@ interface Chat {
     message: string;
     userID: string;
     timestamp: string;
-    user:User;
+    user: User;
 }
 
-function ChatActions({scrollDown ,scrollUp}:{scrollDown:Function , scrollUp:Function} ){
+function ChatActions({ scrollDown, scrollUp, searchMessage }: { scrollDown: Function, scrollUp: Function, searchMessage: Function }) {
+    const [typing, setTyping] = useState(false);
     return (
         <div className="flex flex-row justify-between items-end w-full mb-4">
-            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" />
+            <div className="dropdown dropdown-hover">
+                <input
+                    tabIndex={0}
+                    type="text"
+                    placeholder="Search message"
+                    className="input input-bordered input-primary w-full max-w-xs"
+                    onChange={
+                        (event: ChangeEvent<HTMLInputElement>) => {
+                            const message = event.target.value
+                            searchMessage(message);
+                            setTyping(true);
+                            if(message == ""){
+                                setTyping(false);
+                            }
+                        }
+                    }
+                />
+                {
+                    typing && (<ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a>Item 1</a></li>
+                        <li><a>Item 2</a></li>
+                    </ul>)}
+            </div>
             <div className="flex flex-row justify-end">
-                <button className="btn btn-sm btn-success mr-4" onClick={()=>scrollDown()}>Latest Messages</button>
-                <button className="btn btn-sm btn-info" onClick={()=>scrollUp()}>Oldest Messages</button>
+                <button className="btn btn-sm btn-success mr-4" onClick={() => scrollDown()}>Latest Messages</button>
+                <button className="btn btn-sm btn-info" onClick={() => scrollUp()}>Oldest Messages</button>
             </div>
 
 
@@ -84,13 +107,22 @@ function Form({ sendMessage }: { sendMessage: any }) {
 const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectID: string, name: string, userID: string }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
     const [prevChats, isLoading] = usePrevChat(projectID);
-    const chatBox = useRef<HTMLDivElement | null>(null)
-    const topChatBox = useRef<HTMLDivElement | null>(null)
+    const [search, setSearch] = useState("");
+    const chatBox = useRef<HTMLDivElement | null>(null);
+    const topChatBox = useRef<HTMLDivElement | null>(null);
+
+
+    const searchMessage = (msg: string) => {
+        setSearch(msg);
+    }
+
+
 
     const messageEvent = (data: Chat) => {
         console.log(data);
-        setChatHistory((messages) => [...messages, data])
-       // scroll()
+        setChatHistory((messages) => [...messages, data]);
+        // scroll()
+        scrollDown();
     }
     const scrollDown = () => {
         if (chatBox.current) {
@@ -119,7 +151,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
     useEffect(() => {
         // scroll()
-        setChatHistory((prev)=>[...prevChats])
+        setChatHistory((prev) => [...prevChats])
         scrollDown()
         socket.on("message", messageEvent)
         return () => {
@@ -130,10 +162,10 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
-            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP}  />
+            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} searchMessage={searchMessage}  />
             <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
                 <span ref={topChatBox} />
-            
+
                 {
                     // chats live on socket
                     chatHistory.map((chat, index) => {
@@ -150,7 +182,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     }
                     )
                 }
-                <div className="mb-24" ref={chatBox} />
+                <div className="mt-24" ref={chatBox} />
             </div>
             <div className="flex flex-row w-full h-1/5 overflow-y-none">
                 <Form sendMessage={sendMessage} />
