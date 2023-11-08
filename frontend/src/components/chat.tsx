@@ -19,10 +19,10 @@ interface Chat {
     user:User;
 }
 
-function ChatActions({scrollDown ,scrollUp}:any) {
+function ChatActions({scrollDown ,scrollUp}:{scrollDown:Function , scrollUp:Function} ){
     return (
         <div className="flex flex-row justify-between items-end w-full mb-4">
-            <span />
+            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" />
             <div className="flex flex-row justify-end">
                 <button className="btn btn-sm btn-success mr-4" onClick={()=>scrollDown()}>Latest Messages</button>
                 <button className="btn btn-sm btn-info" onClick={()=>scrollUp()}>Oldest Messages</button>
