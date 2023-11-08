@@ -6,41 +6,43 @@ let userID2: number | undefined
 let userID3: number | undefined
 let userID4: number | undefined
 
-test('user created', async () => {
+//Create new users
+test('User 1 created', async () => {
     const data1 = await createUserPasswordData("john1","john889@email.com","password1");
     userID1 = data1?.id
     expect(data1?.email).toBe("john889@email.com");
   });
 
-  test('user created', async () => {
+  test('User 2 created', async () => {
     const data2 = await createUserPasswordData("john2","john999@email.com","password2");
     userID2 = data2?.id
     expect(data2?.name).toBe("john2");
   });
  
-  test('user created', async () => {
+  test('User 3 created', async () => {
     const data3 = await createUserPasswordData("john3","john978@email.com","password3");
     userID3 = data3?.id
     expect(data3?.email).toBe("john978@email.com")
   });
 
-  test('user created', async () => {
+  test('User 4 created', async () => {
     const data9 = await createUserPasswordData("john31","john9771@email.com","password31");
     userID4 = data9?.id
     expect(data9).toBeTruthy
   });
 
-  test('no pass', async () => {
+  //Test passwords
+  test('Testing wrong password', async () => {
     const data4 = await getUserPassword("john912@gmail.com");
     expect(data4).toBeNull();
   });
 
-  test('should have pass', async () => {
+  test('Testing correct password', async () => {
     const data5 = await getUserPassword("john999@email.com");
     expect(data5?.userPassword?.password).toBe("password2");
   });
 
-  //delete users when done
+  //Delete users
   test('delete user by ID', async () => {
      let data6 = null
     if(userID1 !== undefined){
@@ -65,7 +67,7 @@ test('user created', async () => {
  expect(data8).toBeNull();
 });
 
-test('delete user by ID3', async () => {
+test('delete user by ID4', async () => {
   let data9 = null
  if(userID4 !== undefined){
    data9 = await deleteUserByID(userID4);

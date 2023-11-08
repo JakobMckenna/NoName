@@ -4,12 +4,12 @@ import {createUserPasswordData, deleteUserByID} from "../backend/data-access/use
 let userID: number | undefined
 let projID: string | undefined
 
-test('create user', async () => {
+test('Create a user', async () => {
   const newUser = await createUserPasswordData("ProjectUser", "PU1@gmail.com", "Pass");
   userID = newUser?.id
 });
 
-test('project created', async () => {
+test('Create a project', async () => {
     let data1 = null
     if(userID !== undefined){
         data1 = await createProject("Project test", userID);
@@ -18,7 +18,7 @@ test('project created', async () => {
     expect(data1?.name).toBe("Project test");
   });
 
-  test('project 2 created', async () => {
+  test('Project 2 created', async () => {
     let data2 = null
     if(userID !== undefined){
         data2 = await createProject("Project test 2", userID);
@@ -26,7 +26,7 @@ test('project created', async () => {
     expect(data2?.name).toBe("Project test 2");
   });
 
-  test('get project', async () => {
+  test('Get project data', async () => {
     let data4 = null
     if(projID !== undefined){
         data4 = await getProject(projID);
@@ -34,7 +34,7 @@ test('project created', async () => {
     expect(data4?.name).toBe("Project test");
   });
 
-  test('update project', async () => {
+  test('Update project 1', async () => {
     let data5 = null
     if(projID !== undefined && userID !== undefined){
         data5 = await updateProject(projID, "Project test new", userID);
@@ -42,7 +42,7 @@ test('project created', async () => {
     expect(data5?.name).toBe("Project test new");
   });
 
-  test('update project again', async () => {
+  test('Update project 1 again', async () => {
     let data6 = null
     if(projID !== undefined && userID !== undefined){
         data6 = await updateProject(projID, "Project test new2", userID);
@@ -50,7 +50,7 @@ test('project created', async () => {
     expect(data6?.name).toBe("Project test new2");
   });
 
-  test('get all projects', async () => {
+  test('Get all projects', async () => {
     let data8 = null
     if(projID !== undefined ){
         data8 = await getAllProjects();
@@ -58,7 +58,7 @@ test('project created', async () => {
     expect(data8).toBeTruthy();
   });
 
-  test('remove a member', async () => {
+  test('Remove a member', async () => {
     let data9 = null
     if(userID !== undefined && projID !== undefined){
         data9 = await removeProjectMember(projID, userID);
@@ -66,7 +66,7 @@ test('project created', async () => {
     expect(data9).toBeTruthy();
   });
 
-  test('remove a project', async () => {
+  test('Remove a project', async () => {
     let data7 = null
     if(projID !== undefined){
         data7 = await removeProject(projID);
@@ -77,8 +77,7 @@ test('project created', async () => {
     expect(data7?.name).toBe(undefined);
   });
 
-
-  test('delete user by ID', async () => {
+  test('Delete user by ID', async () => {
     let data3 = null
    if(userID !== undefined){
      data3 = await deleteUserByID(userID);
