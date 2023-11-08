@@ -5,12 +5,18 @@ import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
 import usePrevChat from "~/hooks/use_prev_chat";
 
+interface User{
+    id:string;
+    name:string;
+}
+
+
 interface Chat {
     name: string;
     message: string;
     userID: string;
     timestamp: string;
-    user:any;
+    user:User;
 }
 
 function ChatActions({scrollDown ,scrollUp}:any) {
@@ -113,35 +119,21 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
     useEffect(() => {
         // scroll()
-       
+        setChatHistory((prev)=>[...prevChats])
         scrollDown()
         socket.on("message", messageEvent)
         return () => {
             socket.off("message", messageEvent);
         };
 
-    }, [isLoading])
+    }, [prevChats])
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
             <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} chatDB={prevChats} chatSocket={chatHistory} />
             <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
                 <span ref={topChatBox} />
-                {
-                    // chats previousily saved in db
-                    prevChats != null && prevChats.map((chat: any, index: number) => {
-                        const date: string = convDate(chat.timestamp);
-                        return (<div key={index} className={userID == chat.user.id? "chat chat-start " : "chat chat-end"}>
-                            <div className="chat-header">
-                                {chat.user.name}#{chat.user.id}
-                                <time className="text-xs opacity-50">{date}</time>
-                            </div>
-                            <div className={userID == chat.user.id? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
-
-                        </div>)
-                    }
-                    )
-                }
+            
                 {
                     // chats live on socket
                     chatHistory.map((chat, index) => {
@@ -158,7 +150,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                     }
                     )
                 }
-                <div className="mt-20" ref={chatBox} />
+                <div className="mb-24" ref={chatBox} />
             </div>
             <div className="flex flex-row w-full h-1/5 overflow-y-none">
                 <Form sendMessage={sendMessage} />
