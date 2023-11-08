@@ -31,7 +31,7 @@ export default class ChatController {
             socket.on('message', (data: any) => {
                 console.log(data.message)
                 console.log(data.room)
-                chatNameSpace.to(data.room).emit("message", { name: data.name, message: data.message, userID: data.userID, user: { id: data.userID, name: data.name } })
+                chatNameSpace.to(data.room).emit("message", {  message: data.message, user: { id: data.userID, name: data.name } })
                 this.save(data.message, data.room, data.userID)
             })
 

@@ -19,7 +19,13 @@ interface Chat {
     user: User;
 }
 
-function ChatActions({ scrollDown, scrollUp, searchMessage }: { scrollDown: Function, scrollUp: Function, searchMessage: Function }) {
+const convDate = (date: string) => {
+    const result = new Date(date)
+    return ` ${result.toLocaleDateString()} ${result.toLocaleTimeString()}`
+
+}
+
+function ChatActions({ scrollDown, scrollUp, searchMessage, messages }: { scrollDown: Function, scrollUp: Function, searchMessage: Function, messages: Chat[] }) {
     const [typing, setTyping] = useState(false);
     return (
         <div className="flex flex-row justify-between items-end w-full mb-4">
@@ -34,7 +40,7 @@ function ChatActions({ scrollDown, scrollUp, searchMessage }: { scrollDown: Func
                             const message = event.target.value
                             searchMessage(message);
                             setTyping(true);
-                            if(message == ""){
+                            if (message == "") {
                                 setTyping(false);
                             }
                         }
@@ -42,8 +48,23 @@ function ChatActions({ scrollDown, scrollUp, searchMessage }: { scrollDown: Func
                 />
                 {
                     typing && (<ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a>Item 1</a></li>
-                        <li><a>Item 2</a></li>
+                        {
+                            messages.map(
+                                (chat: Chat, index) => {
+                                    const date = convDate(chat.timestamp)
+                                    return (
+                                        <li className="flex flex-row justify-start" key={index}>
+                                            <div className="flex flex-col  p-2 ">
+                                                <div>
+                                                    <p>{chat.message} {chat.user.name}</p>
+                                                    <p>{date}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    )
+                                }
+                            )
+                        }
                     </ul>)}
             </div>
             <div className="flex flex-row justify-end">
@@ -107,13 +128,24 @@ function Form({ sendMessage }: { sendMessage: any }) {
 const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectID: string, name: string, userID: string }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
     const [prevChats, isLoading] = usePrevChat(projectID);
+    const [filteredMessages, setFilteredMessages] = useState<Chat[]>([])
     const [search, setSearch] = useState("");
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
 
+    const getMessages = (searchVal: string) => {
+        return chatHistory.filter((message: Chat) => {
+            return message.message.toLowerCase().includes(searchVal.toLowerCase())
+        })
+    }
 
     const searchMessage = (msg: string) => {
+        console.log(msg)
         setSearch(msg);
+        const messages = getMessages(msg);
+        setFilteredMessages(messages)
+        // console.log(messages)
+
     }
 
 
@@ -139,16 +171,12 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
 
     const sendMessage = (msg: string) => {
-        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
+        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID  });
         scrollDown()
     }
 
 
-    const convDate = (date: string) => {
-        const result = new Date(date)
-        return ` ${result.toLocaleDateString()} ${result.toLocaleTimeString()}`
-
-    }
+   
     useEffect(() => {
         // scroll()
         setChatHistory((prev) => [...prevChats])
@@ -162,7 +190,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
-            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} searchMessage={searchMessage}  />
+            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} searchMessage={searchMessage} messages={filteredMessages} />
             <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
                 <span ref={topChatBox} />
 
