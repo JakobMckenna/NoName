@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 
 const usePrevChat = (projectID: string) => {
-    const [response, setResponse] = useState<any>(null);
+    const [response, setResponse] = useState<any>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
     const getResponse = async () => {
         const reqUrl = `http://localhost:5001/projects/chat/${projectID}`
