@@ -27,7 +27,7 @@ function Sprints({ sprints }: any) {
                         const start = convDate(sprint.start)
                         const end = convDate(sprint.deadline)
                         return (<div key={sprint.id} className="collapse collapse-arrow w-80 bg-base-200">
-                            <input type="radio" name="my-accordion-2"  />
+                            <input type="radio" name="my-accordion-2" />
                             <div className="collapse-title text-xl font-medium">
                                 {sprint.name}
                             </div>
@@ -74,30 +74,42 @@ function MilestoneHero({ sprints }: any) {
 export default function SprintPage() {
     const router = useRouter();
     const [user, loading] = useUser();
-    const [sprints, setID] = useSprint();
+    //const [sprints, setID] = useSprint();
+    const [sprints ,setSprints] = useState([])
     const projectID: string | string[] | null | undefined = router.query.slug;
-    const [refresh ,setRefesh] = useState(true)
-    const isRefresh =()=>{
+    const [refresh, setRefesh] = useState(true)
+    const isRefresh = () => {
         return refresh === true;
+    }
+
+    const getSprints = async () => {
+        try {
+            const reqUrl = `http://localhost:5001/projects/sprint/${projectID}`
+            console.log("url")
+            console.log(`url ${reqUrl}`);
+            if (refresh) {
+                const results = await axios.get(reqUrl)
+                console.log(results.data.sprints)
+                setSprints((prev):any=>[...results.data.sprints])
+            }
+            setRefesh(false);
+            //setSprints(results.data.sprints)
+        } catch (error) {
+            //we failed to get notes for some reason
+            //  setSprints(null);
+        }
+
     }
 
     useEffect(
         () => {
-            if (refresh && projectID != null && setID && projectID != undefined ) {
-                // const results = await getProjectData(projectID);
-                // if (results && setID != null) {
-                setID(String(projectID))
-                // setProjectData(results);
-                // setGithub(results.github);
+            if (refresh && projectID != null && projectID != undefined) {
+          
+                getSprints()
 
             }
 
-            if(sprints && setID){
-                console.log("is refreshing")
-                // setProjectData(results);
-                setID(String(projectID))
-                setRefesh(false)
-            }
+        
         }, [isRefresh, refresh]
 
     )
@@ -114,7 +126,7 @@ export default function SprintPage() {
                     <MilestoneHero sprints={sprints} />
                 </div>
             </main>
-            <SprintModal projectID={String(projectID)}  refresh={(val:boolean)=>setRefesh(val)}/>
+            <SprintModal projectID={String(projectID)} refresh={(val: boolean) => setRefesh(val)} />
         </div>
     )
 }
