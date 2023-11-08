@@ -130,7 +130,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
-            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} chatDB={prevChats} chatSocket={chatHistory} />
+            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP}  />
             <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
                 <span ref={topChatBox} />
             
