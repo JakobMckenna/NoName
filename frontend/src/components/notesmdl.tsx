@@ -15,7 +15,7 @@ function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: st
         console.log("submit")
         console.log(data.sprint)
         try {
-            const response = await axios.post('http://localhost:5001/projects/notes', { title: data.title, details: "", projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
+            const response = await axios.post('http://localhost:5001/projects/notes', { title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -56,6 +56,13 @@ function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: st
                     <span className="label-text">Title</span>
                 </label>
                 <input {...register("title")} type="text" placeholder="title" className="input input-bordered" required />
+            </div>
+            
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Details</span>
+                </label>
+                <input {...register("details")} type="text" placeholder="details" className="input input-bordered" required />
             </div>
 
             <div className="form-control">
