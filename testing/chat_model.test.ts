@@ -1,7 +1,6 @@
 import {getAllMessages, saveMessage, deleteMessage, } from "../backend/data-access/chat_model"
 import {createUserPasswordData, deleteUserByID} from "../backend/data-access/user_model"
 import {createProject, getProject, removeProject} from "../backend/data-access/project_model"
-import {save, getRooms} from "../backend/controller/chat_controller"
 
 let userID: number | undefined
 let projID: string | undefined
@@ -27,6 +26,22 @@ test('Get all messages', async () => {
         const msg = await getAllMessages(projID);
     }
     expect(msg).toBeNull()
+  });
+
+  test('Save a message', async () => {
+    let msg1
+    if(projID !== undefined && userID !== undefined){
+        const msg1 = await saveMessage("Hello", projID, userID);
+    } 
+      expect(msg1).toBeTruthy()  
+  });
+
+  test('Get message added', async () => {
+    let msg2 = null
+    if(projID !== undefined){
+        const msg2 = await getAllMessages(projID);
+    }
+    expect(msg2).toBeTruthy()
   });
 
 
