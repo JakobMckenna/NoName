@@ -133,7 +133,7 @@ export default function LandingPage() {
                 if(refresh)
                 {
                     projects()
-                    setRefresh(false)
+                   // setRefresh(false)
                 }
                
             }
