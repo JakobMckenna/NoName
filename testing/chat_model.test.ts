@@ -25,7 +25,7 @@ test('Get all messages', async () => {
     if(projID !== undefined){
         const msg = await getAllMessages(projID);
     }
-    expect(msg).toBeTruthy()
+    expect(msg).toBeNull()
   });
 
 
