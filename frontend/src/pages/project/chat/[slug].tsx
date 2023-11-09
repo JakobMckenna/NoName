@@ -47,7 +47,7 @@ export default function ChatPage() {
             </Head>
             <div className="">
                 <Navbar userName={`${user?.name}#${user?.id}`} />
-                <div className="container px-72 h-screen  min-h-full overflow-y-none">
+                <div className="container px-72  h-screen  min-h-full overflow-y-none">
                     {socket && <ChatBox projectID={projectID} socket={socket as Socket} name={userName} userID={userID} />}
                 </div>
 
