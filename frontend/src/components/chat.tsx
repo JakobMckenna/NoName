@@ -25,7 +25,7 @@ const convDate = (date: string) => {
 
 }
 
-function ChatActions({ scrollDown, scrollUp, searchMessage, messages }: { scrollDown: Function, scrollUp: Function, searchMessage: Function, messages: Chat[] }) {
+function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, messages }: { scrollDown: Function, scrollUp: Function, searchMessage: Function, scrollToMsg: Function, messages: Chat[] }) {
     const [typing, setTyping] = useState(false);
     return (
         <div className="flex flex-row justify-between items-end w-full mb-4">
@@ -34,7 +34,7 @@ function ChatActions({ scrollDown, scrollUp, searchMessage, messages }: { scroll
                     tabIndex={0}
                     type="text"
                     placeholder="Search message"
-                    className="input input-bordered input-primary w-full max-w-xs"
+                    className="input input-bordered input-primary w-full max-w-xs py-5"
                     onChange={
                         (event: ChangeEvent<HTMLInputElement>) => {
                             const message = event.target.value
@@ -54,7 +54,13 @@ function ChatActions({ scrollDown, scrollUp, searchMessage, messages }: { scroll
                                     const date = convDate(chat.timestamp)
                                     return (
                                         <li className="flex flex-row justify-start" key={index}>
-                                            <div className="flex flex-col  p-2 ">
+                                            <div onClick={
+                                                () => {
+                                                    setTyping(false);
+                                                    scrollToMsg(String(chat.timestamp));
+
+                                                }}
+                                                className="flex flex-col w-full  p-2 ">
                                                 <div>
                                                     <p>{chat.message} {chat.user.name}</p>
                                                     <p>{date}</p>
@@ -132,6 +138,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     const [search, setSearch] = useState("");
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
+    const messages = useRef<HTMLDivElement | null>(null);
 
     const getMessages = (searchVal: string) => {
         return chatHistory.filter((message: Chat) => {
@@ -158,7 +165,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
     const scrollDown = () => {
         if (chatBox.current) {
-            chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
+            chatBox.current.scrollIntoView({ behavior: "smooth", block:"nearest" })
 
         }
     }
@@ -171,12 +178,20 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
 
     const sendMessage = (msg: string) => {
-        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID  });
-        scrollDown()
+        
+        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
+      //  scrollDown();
+    }
+
+    const scrollToMessage = (time: string) => {
+        const message = document.getElementById(time)
+
+        message?.scrollIntoView({ behavior: 'smooth' });
+
+
     }
 
 
-   
     useEffect(() => {
         // scroll()
         setChatHistory((prev) => [...prevChats])
@@ -190,29 +205,47 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
-            <ChatActions scrollDown={scrollDown} scrollUp={scrollUP} searchMessage={searchMessage} messages={filteredMessages} />
-            <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5 ">
+            <ChatActions
+                scrollDown={scrollDown}
+                scrollUp={scrollUP}
+                searchMessage={searchMessage}
+                messages={filteredMessages}
+                scrollToMsg={scrollToMessage}
+            />
+            <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
                 <span ref={topChatBox} />
+               
 
-                {
-                    // chats live on socket
-                    chatHistory.map((chat, index) => {
-                        const rightNowDate = new Date()
-                        const date: string = convDate(rightNowDate.toISOString());
-                        return (<div key={index} className={userID == chat.user.id ? "chat chat-start  " : "chat chat-end"}>
-                            <div className="chat-header">
-                                {chat.user.name}#{chat.user.id}
-                                <time className="text-xs opacity-50">{date}</time>
-                            </div>
-                            <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
+                    {
+                        // chats live on socket
+                        chatHistory.map((chat, index) => {
+                            const rightNowDate = new Date()
+                          //  const date: string = convDate(rightNowDate.toISOString());
+                          const timestamp = chat?.timestamp;
+                          const date = convDate(timestamp);
+                          const currDate = convDate(rightNowDate.toISOString());
+                            return (
+                                <div key={index} id={`${chat.timestamp}`} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
+                                    <div className="chat-header">
+                                        {chat.user.name}#{chat.user.id}
+                                        <time className="text-xs opacity-50">{timestamp?date:currDate}</time>
+                                    </div>
+                                    <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
 
-                        </div>)
+                                </div>
+                            )
+                        }
+                         
+                        )
+                        
                     }
-                    )
-                }
-                <div className="mt-24" ref={chatBox} />
+                
+                <span className="flex flex-row mt-60"  ref={chatBox}>
+                    <span />
+                </span>
             </div>
-            <div className="flex flex-row w-full h-1/5 overflow-y-none">
+            
+            <div className="flex flex-row  w-full h-1/4   overflow-y-none">
                 <Form sendMessage={sendMessage} />
             </div>
         </div>

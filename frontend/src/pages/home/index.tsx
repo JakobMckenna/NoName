@@ -23,7 +23,7 @@ function RepoCard({ projects }: any) {
                 <ul>
                     {
                         projects.map(
-                            (project: any) => {
+                            (project: any ,index:number) => {
                                 return (
                                     <li key ={project.project.id}>
                                       <Link href={`/project/${project.project.id}`} className="btn   btn-link"> {project.project.name} </Link>
@@ -107,12 +107,15 @@ export default function LandingPage() {
         const reqUrl = `http://localhost:5001/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
+        setRefresh(false);
        
         return results.data.user
 
     }
 
- 
+    const isRefresh = ()=>{
+        return refresh == true
+    }
 
     useEffect(
         () => {
@@ -130,13 +133,13 @@ export default function LandingPage() {
                 if(refresh)
                 {
                     projects()
-                    setRefresh(false)
+                   // setRefresh(false)
                 }
                
             }
 
 
-        }
+        },[isRefresh]
     )
     return (
         <div className = "w-full mx-auto">
