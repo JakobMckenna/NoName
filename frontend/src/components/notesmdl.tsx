@@ -62,7 +62,7 @@ function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: st
                 <label className="label">
                     <span className="label-text">Details</span>
                 </label>
-                <input {...register("details")} type="text" placeholder="details" className="input input-bordered" required />
+                <textarea  {...register("details")} placeholder="type the main things you learnt" className="textarea textarea-bordered" required />
             </div>
 
             <div className="form-control">
