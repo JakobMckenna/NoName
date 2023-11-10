@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Navbar = ({userName}:{userName:string}) => {
   return (
-    <div className="navbar bg-base-100 mb-16">
+    <div className="navbar bg-base-100 mb-5">
       <div className="navbar-start">
        <Drawer />
       </div>

@@ -11,7 +11,7 @@ const useUserProjects = ({ userID }:any) => {
     const getResponse = async () => {
         const reqUrl = `http://localhost:5001/users/projects${userID}`
         const results = await axios.get(reqUrl)
-        console.log(results.data)
+        console.log(results.data.user)
         setResponse(results.data)
     }
     useEffect(
@@ -22,7 +22,7 @@ const useUserProjects = ({ userID }:any) => {
 
         }, [],
     )
-    return response;
+    return [response.member];
 }
 
 export default useUserProjects;

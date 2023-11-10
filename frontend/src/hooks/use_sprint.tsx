@@ -34,7 +34,11 @@ const useSprint = () => {
                 const results = await getResponse()
                 console.log(results)
             }
-            sprints()
+            if(projectID)
+            {
+                sprints()
+            }
+           
 
         }, [projectID]);
         

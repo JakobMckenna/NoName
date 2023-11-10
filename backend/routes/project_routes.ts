@@ -16,7 +16,7 @@ projectRoutes.post("/member",ProjectController.addProjectMember);
 
 projectRoutes.delete("/:id",ProjectController.removeProject);
 
-projectRoutes.delete("/member",ProjectController.addProjectMember);
+projectRoutes.delete("/member/:project/:user",ProjectController.removeMember);
 
 projectRoutes.post("/repo",ProjectController.addRepo);
 
@@ -38,5 +38,6 @@ projectRoutes.post("/task",ProjectController.addTask);
 
 projectRoutes.delete("/task/:id",ProjectController.removeTask);
 
+projectRoutes.get("/chat/:id",ProjectController.getPrevMessages);
 
 export default projectRoutes;

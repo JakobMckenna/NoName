@@ -36,6 +36,8 @@ const ProjectService = {
             if (exists === null) {
                 const projects = await createProject(name, userID);
                 if (projects) {
+                    console.log("here")
+                    console.log(projects)
                     const addProjectManager = await addProjectMember(projects.id, userID)
                     console.log(addProjectManager)
                 }

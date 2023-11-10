@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useForm } from "react-hook-form";
 
 
-function Form({userID}:{userID:number}) {
+function Form({userID,refresh}:{userID:number,refresh:any}) {
     const {
         register,
         handleSubmit,
@@ -21,6 +21,7 @@ function Form({userID}:{userID:number}) {
                 },
             });
             console.log('Login successful', response.data);
+            refresh(true)
             const modalElement: any = document.getElementById('my_modal_3')
             modalElement.close()
          
@@ -46,7 +47,7 @@ function Form({userID}:{userID:number}) {
     )
 }
 
-const ProjectModal = ({userID}:{userID:number}) => {
+const ProjectModal = ({userID, refresh}:{userID:number, refresh:any}) => {
     return (
         <dialog id="my_modal_3" className="modal">
             <div className="modal-box">
@@ -54,7 +55,7 @@ const ProjectModal = ({userID}:{userID:number}) => {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form userID={userID} />
+                <Form userID={userID} refresh={refresh} />
             </div>
         </dialog>
     );

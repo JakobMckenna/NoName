@@ -6,12 +6,12 @@ let userID: number | undefined
 let projID: string | undefined
 let repoID: string | undefined
 
-test('create user', async () => {
+test('Create test user', async () => {
     const newUser = await createUserPasswordData("ProjectUser2", "PU12@gmail.com", "Pass2");
     userID = newUser?.id
   });
   
-  test('project created', async () => {
+  test('Create test project', async () => {
       let data1 = null
       if(userID !== undefined){
           data1 = await createProject("Project test 22", userID);
@@ -20,7 +20,7 @@ test('create user', async () => {
       expect(data1?.name).toBe("Project test 22");
     });
 
-    test('create a repo', async () => {
+    test('Create a new repo', async () => {
         let data5 = null
         if(projID !== undefined){
             data5 = await createRepo(projID, "JakobMcKenna","NoName");
@@ -28,7 +28,7 @@ test('create user', async () => {
         expect(data5).toBeTruthy();
       });
 
-      test('get a repo', async () => {
+      test('Get the new repo', async () => {
         let data6 = null
         if(projID !== undefined){
             data6 = await getRepo(projID);
@@ -37,7 +37,7 @@ test('create user', async () => {
         expect(data6).toBeTruthy();
       });
 
-      test('update a bad repo', async () => {
+      test('Update a non-existant repo', async () => {
         let data7 = null
         if(projID !== undefined && repoID !== undefined){
             data7 = await updateRepo(repoID, projID, "JakobMcKenna", "NoNameExists");
@@ -45,7 +45,7 @@ test('create user', async () => {
         expect(data7).toBeNull();
       });
 
-    test('remove a project', async () => {
+    test('Remove a project', async () => {
         let data7 = null
         if(projID !== undefined){
             data7 = await removeProject(projID);
@@ -57,7 +57,7 @@ test('create user', async () => {
       });
     
     
-      test('delete user by ID', async () => {
+      test('Delete user by ID', async () => {
         let data3 = null
        if(userID !== undefined){
          data3 = await deleteUserByID(userID);

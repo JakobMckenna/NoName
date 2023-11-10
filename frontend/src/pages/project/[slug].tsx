@@ -8,11 +8,12 @@ import RepoModal from "~/components/repomdl";
 import Link from "next/link";
 import SprintModal from "~/components/sprintmdl";
 import useSprint from "~/hooks/use_sprint";
+import Head from "next/head";
 
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
         return (
-            <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+            <div className="card  bg-neutral-focus w-80 shadow-xl  h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Github</h2>
                     <div className="card-actions justify-start">
@@ -31,11 +32,17 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     console.log(github);
 
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl  h-56 ">
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
-                <div>
-                    <Link href={`/project/commits/${projectID}`} className="btn btn-link">see commits</Link>
+                <div className="flex flex-col">
+                    <div>
+                        <Link href={`/project/commits/${projectID}`} className="btn btn-link">see commits</Link>
+                    </div>
+                    <div>
+                        <Link href={`/project/issues/${projectID}`} className="btn btn-link">see issues</Link>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -45,7 +52,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
 function ResearchCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl  h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
@@ -59,45 +66,46 @@ function ResearchCard({ projectID }: { projectID: string }) {
     )
 }
 
-function SprintCard({ projectID, sprints }: { projectID: string, sprints: any }) {
+function SprintCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  glass w-96  shadow-xl mr-12 h-56 ">
+        <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Sprint</h2>
+                <h2 className="card-title">Milestones/Sprints</h2>
                 <div>
-                    {
-                       sprints && sprints.map(
-                            (sprint: any) => {
-                               return (
-                                    <div>
-                                        Current: {sprint.name}
-                                    </div>
-                                )
-                            }
-                        )
-                    }
-                   
+                    <p>Setup your project's milestone's here</p>
+                    <Link className="btn btn-link" href={`/project/sprint/${projectID}`}  >setup/see </Link>
                 </div>
-                {(sprints===null || sprints.length==0)  &&
-                    (
-                        <div>
-                            <button onClick={() => {
-                                const modal: any = document.getElementById('sprint_modal')
-                                if (modal) {
-                                    modal?.showModal()
-                                }
 
-                            }} className="btn btn-link">Add Sprint</button>
-                        </div>)
-                }
 
             </div>
 
         </div>
     )
 }
+
+function ChatCard({ projectID }: { projectID: string }) {
+    // console.log(github);
+    return (
+        <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
+
+            <div className="card-body items-center text-center h-full">
+                <h2 className="card-title"> Info/Communication</h2>
+                <div>
+                    <Link href={`/project/chat/${projectID}`} className="btn btn-link">See Chat</Link>
+                </div>
+                <div>
+                    <Link href={`/project/member/${projectID}`} className="btn btn-link">Add/See Member</Link>
+
+                </div>
+
+            </div>
+
+        </div>
+    )
+}
+
 
 export default function Project() {
     const router = useRouter();
@@ -136,7 +144,7 @@ export default function Project() {
                             setID(projectID)
                             setProjectData(results);
                             setGithub(results.github);
-                           
+
                         }
                     }
                 }
@@ -151,26 +159,40 @@ export default function Project() {
         }, [projectID, user, setID]);
 
     return (
-        <div>
-            <Navbar userName={user?.email} />
+        <>
+            <Head>
+                <title>DevDiaries | Project</title>
+                <meta name="description" content="Generated by create-t3-app" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <div className="overscroll-x-none">
+                <Navbar userName={`${user?.name}#${user?.id}`} />
+                <main className="container mb-10  ">
+                    <div className="flex flex-col justify-center items-center">
+                        <div>
+                            <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
+                            <div>
+                                <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commits</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="container max-w-full px-72 ml-6  ">
+                        <div className=" grid grid-cols-2 justify-items-center gap-y-8 gap-x-5  ">
 
-            <main className="container ml-80 pl-10">
-                <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
-                <div>
-                    <p className="text-xl mb-2">Add Sprint to access research notes and setup github to see commites</p>
-                </div>
-                <div className="flex flex-row mb-5">
-                    <MenuCard github={github} projectID={projectID} />
-                    <SprintCard projectID={projectID} sprints={sprints} />
+                            <MenuCard github={github} projectID={projectID} />
+                            <SprintCard projectID={projectID} />
 
-                </div>
-                <div className="flex flex-row">
-                    {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
-                </div>
-            </main>
-            <RepoModal projectID={projectID} />
-            <SprintModal projectID={projectID} />
-        </div>
+
+                            {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
+                            <ChatCard projectID={projectID} />
+
+                        </div>
+                    </div>
+                </main>
+                <SprintModal projectID={projectID} />
+                <RepoModal projectID={projectID} />
+            </div>
+        </>
     )
 
 }

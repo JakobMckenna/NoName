@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "~/components/navbar";
-import RepoModal from "~/components/repomdl";
+
 import Spinner from "~/components/spinner";
 import useCommits from "~/hooks/use_commits";
 import useUser from "~/hooks/use_user";
@@ -31,7 +31,9 @@ function CommitsList({ commits }: any) {
                                     <td>{commitData.author.date}</td>
                                     <td className="mr-2 max-w-xs">{commitData.message}</td>
                                     <td>{commitData.author.name}</td>
-                                    <td>{commit.html_url}</td>
+                                    <td>
+                                        <a className="btn btn-link " href={commit.html_url}>see commit</a>
+                                    </td>
                                 </tr>
                             )
                         }
@@ -61,6 +63,7 @@ export default function Project() {
             return results.data.projects
 
         } catch (error) {
+            //setGithub()
             router.push("/home")
         }
 
@@ -97,12 +100,14 @@ export default function Project() {
 
     return (
         <div>
-            <Navbar userName={user?.email} />
+            <Navbar userName={`${user?.name}#${user?.id}`} />
 
-            <main className="container ml-80 pl-10">
-                <h1 className="text-4xl uppercase mb-3">{projectData?.name} PROJECT Commits</h1>
-                {!commits && (<Spinner />)}
-                {commits != null && (<CommitsList commits={commits} />)}
+            <main className="container w-full">
+                <div className="flex flex-col justify-center items-center pl-24 ">
+                    <h1 className="text-4xl uppercase mb-3">{projectData?.name} PROJECT Commits</h1>
+                    {!commits && (<Spinner />)}
+                    {commits != null && (<CommitsList commits={commits} />)}
+                </div>
             </main>
 
         </div>

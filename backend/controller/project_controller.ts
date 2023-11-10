@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ProjectService from '../services/project_service';
+import ChatService from '../services/chat_service';
 
 const ProjectController = {
     getProject:async (req: Request, res: Response) => {
@@ -90,8 +91,8 @@ const ProjectController = {
     },
     removeMember: async (req: Request, res: Response) => {
         try {
-            const projectID: string = req.params.projectID;
-            const userID: string = req.params.userID;
+            const projectID: string = req.params.project;
+            const userID: string = req.params.user;
             const userIdNum = parseInt(userID);
             if (isNaN(userIdNum)) {
                 res.status(400).json({ "user": null, message: "query string should be number" });
@@ -200,6 +201,15 @@ const ProjectController = {
         }
     },
     
+    getPrevMessages:async(req: Request, res: Response)=>{
+        try {
+            const projectID: string = req.params.id;
+            const result = await ChatService.getAll(projectID);
+            res.status(200).json({"messages":result})
+        } catch (error) {
+            res.status(400).json({"messages":null})
+        }
+    }
 
 }
 
