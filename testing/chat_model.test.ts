@@ -4,6 +4,7 @@ import {createProject, getProject, removeProject} from "../backend/data-access/p
 
 let userID: number | undefined
 let projID: string | undefined
+//let msg1: string | undefined
 
 test('Create a user', async () => {
     const newUser = await createUserPasswordData("ProjectUserNew", "PU1N@gmail.com", "PassNew");
@@ -20,7 +21,7 @@ test('Create a user', async () => {
   });
 
 
-test('Get all messages', async () => {
+test('Get all messages (none added)', async () => {
     let msg = null
     if(projID !== undefined){
         const msg = await getAllMessages(projID);
@@ -29,19 +30,19 @@ test('Get all messages', async () => {
   });
 
   test('Save a message', async () => {
-    let msg1
     if(projID !== undefined && userID !== undefined){
-        const msg1 = await saveMessage("Hello", projID, userID);
+        let msg1 = await saveMessage("Hello", projID, userID);
+        expect(msg1).toBeTruthy()  
     } 
-      expect(msg1).toBeTruthy()  
+      
   });
 
   test('Get message added', async () => {
-    let msg2 = null
     if(projID !== undefined){
-        const msg2 = await getAllMessages(projID);
+        let msg2 = await getAllMessages(projID);
+        expect(msg2).toBeTruthy()
     }
-    expect(msg2).toBeTruthy()
+   
   });
 
 
