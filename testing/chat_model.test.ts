@@ -45,6 +45,15 @@ test('Get all messages (none added)', async () => {
    
   });
 
+  test('Delete a msg not there', async () => {
+    if(projID !== undefined){
+        let msg3 = await deleteMessage(projID);
+        expect(msg3).toBeNull()
+    }
+   
+  });
+
+
 
   test('Remove a project', async () => {
     let data2 = null
