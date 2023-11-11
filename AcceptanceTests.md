@@ -28,9 +28,9 @@
 > Make sure that you are logged in        
 > To log out:
 
-> Click the menu in the top left
-> Select "Logout"
-> You should be back to the login page
+> Click the menu in the top left       
+> Select "Logout"      
+> You should be back to the login page       
 
 ## Test 4: Trying to reuse an email
 
@@ -38,7 +38,7 @@
 > You should see a login page, asking for an email and password     
 > Click the sign up button in the bottom right      
 > Enter a name, email, and password, and make sure the email is the one you used for the previous tests     
-> Note: This should give you an error for reusing the email
+> Note: This should give you an error for reusing the email    
 
 
 # Acceptance tests for feature 2: GitHub updates
