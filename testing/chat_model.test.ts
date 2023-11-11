@@ -53,8 +53,6 @@ test('Get all messages (none added)', async () => {
    
   });
 
-
-
   test('Remove a project', async () => {
     let data2 = null
     if(projID !== undefined){
