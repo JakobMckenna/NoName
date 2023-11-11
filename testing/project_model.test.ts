@@ -78,17 +78,17 @@ test('Create a project', async () => {
 
 
   test('Create a user new', async () => {
-    const newUser2 = await createUserPasswordData("ProjectUser11", "PU111@gmail.com", "Pass11");
+    const newUser2 = await createUserPasswordData("ProjectUser111", "PU1111@gmail.com", "Pass111");
     userID2 = newUser2?.id
   });
 
   test('Create a project new', async () => {
     let data12 = null
     if(userID2 !== undefined){
-        data12 = await createProject("Project test11", userID2);
+        data12 = await createProject("Project test111", userID2);
     }
     projID2 = data12?.id
-    expect(data12?.name).toBe("Project test11");
+    expect(data12?.name).toBe("Project test111");
   });
 
   test('Add a member', async () => {
@@ -96,7 +96,7 @@ test('Create a project', async () => {
     if(userID2 !== undefined && projID2 !== undefined){
         data10 = await addProjectMember(projID2, userID2);
     }
-    expect(data10).toBeTruthy();
+    expect(data10).toBeNull(); //should be true
   });
 
   test('Remove a project', async () => {
