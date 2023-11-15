@@ -12,8 +12,8 @@ services:
   frontend:
     build:
       context: ./frontend
-    env_file:
-      - ./frontend/.env.local
+    # env_file:
+    #   - ./frontend/.env.local
     ports:
       - "3000:3000"
     # depends_on:
