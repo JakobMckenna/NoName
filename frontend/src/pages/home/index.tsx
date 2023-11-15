@@ -13,6 +13,8 @@ import ProjectModal from "~/components/projectmdl";
 
 import useUser from "~/hooks/use_user";
 
+import config from "config";
+
 function RepoCard({ projects }: any) {
     //console.log(projects)
     return (
@@ -104,7 +106,7 @@ export default function LandingPage() {
     const [refresh,setRefresh] = useState(true)
 
     const getProjects = async (userID: number) => {
-        const reqUrl = `http://localhost:5001/users/projects/${userID}`
+        const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
         setRefresh(false);

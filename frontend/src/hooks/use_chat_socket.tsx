@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client"
 
+import config from "config";
 interface ChatSocket{
     socket:Socket,
     loading:boolean
@@ -14,7 +15,7 @@ const useChatSocket = (projectID:string)  => {
         () => {
             if(projectID!==undefined || !socket)
             {
-                const chatSocket = io("http://localhost:5001/chat");
+                const chatSocket = io(`${config.backendApiUrl}/chat`);
                 setSocket(chatSocket)
                 chatSocket.emit("join", projectID);
                 setLoading(false)

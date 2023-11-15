@@ -8,6 +8,7 @@ import Spinner from "~/components/spinner";
 import useCommits from "~/hooks/use_commits";
 import useUser from "~/hooks/use_user";
 
+import config from "config";
 
 function CommitsList({ commits }: any) {
     return (
@@ -53,7 +54,7 @@ export default function Project() {
     const projectID: string = String(router.query.slug);
 
     const getProjectData = async (id: string) => {
-        const reqUrl = `http://localhost:5001/projects/${id}`
+        const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
             if (!id) {
                 router.push("/")

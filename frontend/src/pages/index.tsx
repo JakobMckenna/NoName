@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
+import config from "config";
+
 function SignIn({ handleSignIn, message }: any) {
 
   const {
@@ -86,7 +88,7 @@ export default function Home() {
     
     let resMessage:string = "Failed to login or user does not exist,please try again";
     try {
-      const response = await axios.post('http://localhost:5001/users/auth', { email: data.email, password: data.password }, {
+      const response = await axios.post(`${config.backendApiUrl}/users/auth`, { email: data.email, password: data.password }, {
         headers: {
           'Content-Type': 'application/json',
         },
