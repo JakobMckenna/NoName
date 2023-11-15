@@ -19,6 +19,7 @@ const UserController = {
     },
 
     createUser: async (req: Request, res: Response) => {
+        console.log(req)
         const userBody = req.body;
         const name: string = userBody.name;
         const email: string = userBody.email;

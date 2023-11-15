@@ -12,6 +12,12 @@ import Chat from "./sockets/chat";
 dotenv.config();
 
 const app: Express = express();
+const corsOptions = {
+  origin: 'http://localhost:3000', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true 
+};
+app.use(cors(corsOptions));
 
 const server = http.createServer(app)
 
@@ -24,7 +30,7 @@ const io = new Server(server,{
 const port = 5001;
 
 
-app.use(cors());
+
 app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/github', githubRoutes);
