@@ -89,7 +89,7 @@ export default function Register() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                //withCredentials: false,
+                withCredentials: false,
             });
             console.log('Login successful', response.data);
             localStorage.setItem("userData", JSON.stringify(response.data.user))
