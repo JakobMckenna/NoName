@@ -84,7 +84,6 @@ export default function Register() {
 
 
     const handleSignUp = async (data: { email: string, password: string, name: string }) => {
-        console.log("TESTING NEXT_PUBLIC!!!!")
         try {
             const response = await axios.post(`${config.backendApiUrl}/users`, { name: data.name, email: data.email, password: data.password }, {
                 headers: {
