@@ -1,9 +1,6 @@
 name: Build and Push Docker
 
 on:
-  pull_request: 
-    branches:
-      - main
   workflow_dispatch:
 
 
