@@ -191,7 +191,7 @@ export default function Project() {
                         </div>
                     </div>
                 </main>
-                <SprintModal projectID={projectID} />
+                {/* <SprintModal projectID={projectID} /> */}
                 <RepoModal projectID={projectID} />
             </div>
         </>

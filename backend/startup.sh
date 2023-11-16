@@ -7,7 +7,11 @@ echo "Waiting for MySQL to be ready..."
 
 # Run Prisma migration
 npx prisma migrate dev --schema prisma/schema.prisma
+npx prisma db push
 npm run postinstall
 
-# Start your application
-npm run dev
+# Build the project
+npm run build
+
+# Start the application
+npm run start
