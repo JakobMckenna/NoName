@@ -2,24 +2,16 @@ version: '3'
 
 services:
   backend:
-    build:
-      context: ./backend
+    image: noname4350/backend:latest
     ports:
       - "5001:5001"
     depends_on:
       - mysql
 
   frontend:
-    build:
-      context: ./frontend
-    # env_file:
-    #   - ./frontend/.env.local
+    image: noname4350/frontend:latest
     ports:
       - "3000:3000"
-    # depends_on:
-    #   - backend
-    # networks:
-    #   - mynetwork
 
   mysql:
     image: mysql
@@ -29,8 +21,3 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
-    # networks:
-    #   - mynetwork 
-      
-# networks:
-#   mynetwork:
