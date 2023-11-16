@@ -443,31 +443,6 @@ I. Finish up CD pipeline
 
 II. Add more acceptence tests
 
-
-## Date: November 7th, 2023
-
-*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
-
-*Location:* ECE E2 330
-
-**Agenda**
-
-I. Graded other peoples presentations
-
-II. Handed in technique seminar and marks for other groups
-
-III. Discussed what we have left to finish sprint 3
-
-**Next Steps**
-
-I. Jakob will continue working on testing
-
-II. Susie will continue working on the CD
-
-III. Tehillah will make sure the features work well
-
-IV. Isabelle will work on the frontend
-
     
 
 <br>
