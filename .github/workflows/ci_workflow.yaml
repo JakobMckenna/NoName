@@ -81,7 +81,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./backend  # Specify the backend directory
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
           push: true
           tags: noname4350/backend:latest
           
@@ -89,6 +89,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./frontend  # Specify the frontend directory
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
           push: true
           tags: noname4350/frontend:latest
