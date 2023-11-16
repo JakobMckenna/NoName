@@ -2,7 +2,7 @@
 
 echo "Waiting for MySQL to be ready..."
 # Wait for MySQL to be available
-/usr/local/bin/wait-for-it.sh -t 45 mysql:3306
+/usr/local/bin/wait-for-it.sh -t 45 localhost:3306
 echo "Waiting for MySQL to be ready..."
 
 # Run Prisma migration
