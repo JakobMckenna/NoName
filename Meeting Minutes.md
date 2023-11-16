@@ -396,6 +396,7 @@ III. Isabelle will look into notifications/multi-team members
 IV. Tehillah will look into a few small issues
 
 
+
 ## Date: November 7th, 2023
 
 *Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
@@ -420,13 +421,30 @@ III. Tehillah will make sure the features work well
 
 IV. Isabelle will work on the frontend
 
+
+
+## Date: November 15th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
+
+*Location:* Online
+
+**Agenda**
+
+I. Looked over sprint 3 rubric
+
+II. Scheduled a time to meet with the TA on Friday
+
+III. Discussed what we have left to finish sprint 3
+
+**Next Steps**
+
+I. Finish up CD pipeline
+
+II. Add more acceptence tests
+
     
-<br>
 
-> Written with [StackEdit](https://stackedit.io/).
-
-
-    
 <br>
 
 > Written with [StackEdit](https://stackedit.io/).
