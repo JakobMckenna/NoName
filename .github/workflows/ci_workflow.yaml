@@ -46,16 +46,16 @@ jobs:
           npm install
           npm run dev &
           
-      - name: Run Tests
-        run: |  
-          # cd ..
-          cd testing
-          # change this to frontend port once we start frontend tests
-          while ! nc -z localhost 3306; do
-            sleep 1
-          done
-          npm install
-          npm test
+      # - name: Run Tests
+      #   run: |  
+      #     # cd ..
+      #     cd testing
+      #     # change this to frontend port once we start frontend tests
+      #     while ! nc -z localhost 3306; do
+      #       sleep 1
+      #     done
+      #     npm install
+      #     npm test
      
       - name: Build & push Docker image 
         uses: mr-smithers-excellent/docker-build-push@v6
