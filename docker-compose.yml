@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mysql
+
+  frontend:
+    build:
+      context: ./frontend
+    # env_file:
+    #   - ./frontend/.env.local
+    ports:
+      - "3000:3000"
+    # depends_on:
+    #   - backend
+    # networks:
+    #   - mynetwork
+
+  mysql:
+    image: mysql
+    env_file:
+      - ./backend/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    # networks:
+    #   - mynetwork 
+      
+# networks:
+#   mynetwork:

@@ -10,6 +10,8 @@ import SprintModal from "~/components/sprintmdl";
 import useSprint from "~/hooks/use_sprint";
 import Head from "next/head";
 
+import config from "config";
+
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
         return (
@@ -116,7 +118,7 @@ export default function Project() {
     const projectID = String(router.query.slug);
 
     const getProjectData = async (id: string) => {
-        const reqUrl = `http://localhost:5001/projects/${id}`
+        const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
             if (!id) {
                 router.push("/")
