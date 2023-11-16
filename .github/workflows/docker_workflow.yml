@@ -33,7 +33,7 @@ jobs:
           context: ./backend  # Specify the backend directory
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: noname4350/backend:test
+          tags: noname4350/backend:latest
           
       - name: Build and push Frontend Docker image
         uses: docker/build-push-action@v5
@@ -41,4 +41,4 @@ jobs:
           context: ./frontend  # Specify the frontend directory
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: noname4350/frontend:test
+          tags: noname4350/frontend:latest
