@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  backend:
+    image: noname4350/backend:latest
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mysql
+
+  frontend:
+    image: noname4350/frontend:latest
+    ports:
+      - "3000:3000"
+
+  mysql:
+    image: mysql
+    env_file:
+      - ./backend/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"

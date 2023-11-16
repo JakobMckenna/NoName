@@ -2,8 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
-
+import config from "config";
 
 const useCommits = () => {
     const [commits, setCommits] = useState(null);
@@ -20,7 +19,7 @@ const useCommits = () => {
     }
     const getCommits = () => {
 
-        const url = `http://localhost:5001/github/commits/${maintainer}/${project}`
+        const url = `${config.backendApiUrl}/github/commits/${maintainer}/${project}`
 
         axios
             .get(url)

@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
+import config from "config";
 
 
 const useNotes = () => {
@@ -19,7 +19,7 @@ const useNotes = () => {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5001/projects/notes/${projectID}`
+            const reqUrl = `${config.backendApiUrl}/projects/notes/${projectID}`
             const results = await axios.get(reqUrl)
 
             console.log(results.data)

@@ -2,13 +2,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
+import config from "config";
 
 const usePrevChat = (projectID: string) => {
     const [response, setResponse] = useState<any>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
     const getResponse = async () => {
-        const reqUrl = `http://localhost:5001/projects/chat/${projectID}`
+        const reqUrl = `${config.backendApiUrl}/projects/chat/${projectID}`
         const results = await axios.get(reqUrl)
         console.log("why")
         console.log(results.data.messages)

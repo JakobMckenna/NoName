@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -7,6 +8,7 @@ import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
 import * as _ from 'lodash';
 
+import config from "config";
 
 interface Label {
 
@@ -271,8 +273,8 @@ export default function IssuesPage() {
 
     const getIssues = async (owner: string, repo: string) => {
         let result = true;
-        const reqUrlOpen = `http://localhost:5001/github/issues/${owner}/${repo}`
-        const reqUrlClosed = `http://localhost:5001/github/closedissues/${owner}/${repo}`
+        const reqUrlOpen = `${config.backendApiUrl}/github/issues/${owner}/${repo}`
+        const reqUrlClosed = `${config.backendApiUrl}/github/closedissues/${owner}/${repo}`
         try {
 
             const resultsOpen = await axios.get(reqUrlOpen);
@@ -292,7 +294,7 @@ export default function IssuesPage() {
     }
 
     const getProjectData = async (id: string) => {
-        const reqUrl = `http://localhost:5001/projects/${id}`
+        const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
             if (!id) {
                 router.push("/")

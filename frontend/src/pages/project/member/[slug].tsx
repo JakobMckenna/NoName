@@ -10,6 +10,7 @@ import Navbar from "~/components/navbar";
 
 import useUser from "~/hooks/use_user";
 
+import config from "config";
 
 function Form({ projectID, changeError, refresh, users }: { projectID: string, changeError: any, refresh: any, users: any }) {
     const {
@@ -23,7 +24,7 @@ function Form({ projectID, changeError, refresh, users }: { projectID: string, c
     const handleCreateProject = async (data: any) => {
         console.log("submit")
         try {
-            const response = await axios.post('http://localhost:5001/projects/member', { userID: parseInt(data.userID), projectID: projectID }, {
+            const response = await axios.post(`${config.backendApiUrl}/projects/member`, { userID: parseInt(data.userID), projectID: projectID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -69,7 +70,7 @@ function Form({ projectID, changeError, refresh, users }: { projectID: string, c
 function Member({ name, email, projectID, userID, owner, refresh }: any) {
     const removeMember = async (projectID: string, userID: number) => {
         try {
-            const reqUrl = `http://localhost:5001/projects/member/${projectID}/${userID}`
+            const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`
             const results = await axios.delete(reqUrl)
             if (results.data && results.data.members) {
                 // console.log(results.data.projects.members)
@@ -154,7 +155,7 @@ export default function MemberPage({ userList }: any) {
 
     const getResponse = async (userID: string) => {
         try {
-            const reqUrl = `http://localhost:5001/projects/member/${userID}`
+            const reqUrl = `${config.backendApiUrl}/projects/member/${userID}`
             const results = await axios.get(reqUrl)
             if (results.data && results.data.members && results.data.members.user) {
                 console.log(results.data.members.user)
@@ -207,7 +208,7 @@ export default function MemberPage({ userList }: any) {
 }
 
 // export async function getStaticPaths() {
-//     const res = await fetch("http://localhost:5001/projects");
+//     const res = await fetch(`${config.backendApiUrl}/projects`);
 //     const projects = await res.json();
 //     const paths =  projects.projects.map(
 //         (project:any)=>{
@@ -225,7 +226,7 @@ export default function MemberPage({ userList }: any) {
 
 
 // export async function getStaticProps(){
-//     const res = await fetch("http://localhost:5001/users");
+//     const res = await fetch(`${config.backendApiUrl}/users`);
 //     const users = await res.json();
 //    // console.log(users);
 //     return{
@@ -236,7 +237,7 @@ export default function MemberPage({ userList }: any) {
 // }
 
 export async function getServerSideProps() {
-    const res = await fetch("http://localhost:5001/users");
+    const res = await fetch(`${config.backendApiUrl}/users`);
     const users = await res.json();
     const userList = users.users
     return {

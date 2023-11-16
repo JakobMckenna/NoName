@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
+import config from "config";
 
 
 const useSprint = () => {
@@ -15,7 +15,7 @@ const useSprint = () => {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5001/projects/sprint/${projectID}`
+            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID}`
             console.log("url")
             console.log(`url ${reqUrl}`);
             const results = await axios.get(reqUrl)
