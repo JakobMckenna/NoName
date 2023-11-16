@@ -42,3 +42,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: noname4350/frontend:latest
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            GIT_TOKEN=${{ secrets.GIT_TOKEN }}
+            TOKEN_SECRET=${{ secrets.TOKEN_SECRET }}
