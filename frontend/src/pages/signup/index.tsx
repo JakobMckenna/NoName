@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { registrationValidation } from "../../validations_schemas/user_registration";
 
+import config from "config";
+
 function SignIn({ handleSignUp }: any) {
 
     const {
@@ -82,12 +84,12 @@ export default function Register() {
 
 
     const handleSignUp = async (data: { email: string, password: string, name: string }) => {
-        //console.log(data)
         try {
-            const response = await axios.post('http://localhost:5001/users', { name: data.name, email: data.email, password: data.password }, {
+            const response = await axios.post(`${config.backendApiUrl}/users`, { name: data.name, email: data.email, password: data.password }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                withCredentials: false,
             });
             console.log('Login successful', response.data);
             localStorage.setItem("userData", JSON.stringify(response.data.user))

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 
+import config from 'config';
 
 function Form({userID,refresh}:{userID:number,refresh:any}) {
     const {
@@ -15,7 +16,7 @@ function Form({userID,refresh}:{userID:number,refresh:any}) {
     const handleCreateProject = async (data:any) => {
         console.log("submit")
         try{
-            const response = await axios.post('http://localhost:5001/projects', { name: data.name ,userID:userID }, {
+            const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name ,userID:userID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
