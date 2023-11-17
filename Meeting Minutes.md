@@ -2,6 +2,7 @@
 # Meeting Minutes
 
 
+
 ## Date: September 14th, 2023
 
 *Attendees:* Isabelle, Kushaan, Kush, Jakob, TK
