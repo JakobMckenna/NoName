@@ -189,7 +189,6 @@ export default function Project() {
                         </div>
                     </div>
                 </main>
-                <SprintModal projectID={projectID} />
                 <RepoModal projectID={projectID} />
             </div>
         </>
