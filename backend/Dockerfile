@@ -12,13 +12,10 @@ COPY . .
 # Expose the port this will run on
 EXPOSE 5001
 
-# Copy startup script
-COPY startup.sh /app/startup.sh
-RUN chmod +x /app/startup.sh
+RUN npm run postinstall
 
-# Download wait-for-it.sh
-RUN curl -o /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-RUN chmod +x /usr/local/bin/wait-for-it.sh
+# Build the project
+RUN npm run build
 
-# Start the application using the startup script
-CMD ["/app/startup.sh"]
+# Start the application
+CMD ["npm", "run", "start"]

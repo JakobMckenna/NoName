@@ -22,17 +22,10 @@ jobs:
         run: |
           cd backend
           npm install
-          docker --version
-          sudo service docker start # Start Docker daemon
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} > .env
+          echo SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }} >> .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
           echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
-          docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
-          retries=5
-          until npx prisma migrate dev --name init npx prisma db push || [ $retries -eq 0 ]; do
-            sleep 10
-            retries=$((retries-1))
-          done
           npm run build
           npm run postinstall
           npm run dev &
@@ -51,7 +44,7 @@ jobs:
           # cd ..
           cd testing
           # change this to frontend port once we start frontend tests
-          while ! nc -z localhost 3306; do
+          while ! nc -z localhost 5001; do
             sleep 1
           done
           npm install
