@@ -142,6 +142,7 @@ function MemberBoard({ members, projectID, owner, error, changeError, refresh, u
 export default function MemberPage({ userList }: any) {
     const router = useRouter();
     const [user, loading] = useUser()
+    const [users , setUsers] = useState([])
 
     // const [user, loading] = useUser();
     const [members, setMembers] = useState([])

@@ -9,6 +9,6 @@ services:
       - "5001:5001"
 
   frontend:
-    image: noname4350/frontend:latest
+    image: noname4350/frontend:newdb
     ports:
       - "3000:3000"
