@@ -2,15 +2,15 @@ version: '3'
 
 services:
   backend:
-    # image: noname4350/backend:latest
-    image: noname4350/backend:newdb
+    image: noname4350/backend:latest
+    # image: noname4350/backend:newdb
     env_file:
       - ./backend/.env
     ports:
       - "5001:5001"
 
   frontend:
-    # image: noname4350/frontend:latest
-    image: noname4350/frontend:newdb
+    image: noname4350/frontend:latest
+    # image: noname4350/frontend:newdb
     ports:
       - "3000:3000"
