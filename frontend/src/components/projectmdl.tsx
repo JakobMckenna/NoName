@@ -22,9 +22,10 @@ function Form({userID,refresh}:{userID:number,refresh:any}) {
                 },
             });
             console.log('Login successful', response.data);
-            refresh(true)
+           
             const modalElement: any = document.getElementById('my_modal_3')
             modalElement.close()
+            refresh(true)
          
         }catch(error){
             console.log(error)
