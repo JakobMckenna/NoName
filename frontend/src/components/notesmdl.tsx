@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
+import config from "config";
+
 function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: string, userID: string, sprintID: string, sprints: any ,refresh:any }) {
     const {
         register,
@@ -15,7 +17,7 @@ function Form({ projectID, userID, sprintID, sprints ,refresh }: { projectID: st
         console.log("submit")
         console.log(data.sprint)
         try {
-            const response = await axios.post('http://localhost:5001/projects/notes', { title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
+            const response = await axios.post(`${config.backendApiUrl}/projects/notes`, { title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

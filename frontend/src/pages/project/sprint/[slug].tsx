@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -8,7 +9,7 @@ import SprintModal from "~/components/sprintmdl";
 import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
-
+import config from "config";
 
 function Sprints({ sprints }: any) {
     // console.log(sprints)
@@ -84,7 +85,7 @@ export default function SprintPage() {
 
     const getSprints = async () => {
         try {
-            const reqUrl = `http://localhost:5001/projects/sprint/${projectID}`
+            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID}`
             console.log("url")
             console.log(`url ${reqUrl}`);
             if (refresh) {

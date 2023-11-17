@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
+import config from "config";
+
 function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
     const {
         register,
@@ -19,7 +21,7 @@ function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
         try {
             const startDate = new Date(data.start);
             const deadlineDate = new Date(data.deadline);
-            const responseSprint = await axios.post('http://localhost:5001/projects/sprint', {
+            const responseSprint = await axios.post(`${config.backendApiUrl}/projects/sprint`, {
                 sprintID: null,
                 projectID: projectID,
                 name: data.name,
