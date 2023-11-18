@@ -1,11 +1,11 @@
 /* eslint-disable */
 
 import axios from "axios";
-
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { themeChange } from 'theme-change'
 
 
 import Navbar from "~/components/navbar";
@@ -110,6 +110,7 @@ export default function LandingPage() {
 
     useEffect(
         () => {
+            themeChange(false)
 
             if (user) {
                 const projects = async () => {
