@@ -8,4 +8,14 @@ export default {
   plugins: [
     require("daisyui"),
   ],
+  daisyui: {
+    styled: true,
+    themes: ['lofi','garden','dark'],
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "",
+  //  darkTheme: "dark",
+  },
 } satisfies Config;
