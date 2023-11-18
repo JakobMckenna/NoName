@@ -17,7 +17,7 @@ import config from "config";
 
 function LoadingTile() {
     return (
-        <div className="card skeleton w-96 bg-primary glass text-primary-content shadow-xlw-full mb-2 hover:-translate-y-3 hover:-skew-y-3">
+        <div className="card skeleton w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10">
             <div className="card-body">
                 <h2 className="skeleton h-4 w-28"> </h2>
                 <p className="skeleton h-4 w-28"></p>
@@ -29,7 +29,7 @@ function LoadingTile() {
 
 function Tile({ id, name, user }: { id: string, name: string, user: string }) {
     return (
-        <Link href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-2 hover:-translate-y-3 hover:-skew-y-3">
+        <Link href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10 hover:-translate-y-3 hover:-skew-y-3 duration-75">
             <div className="card-body">
                 <h2 className="card-title">{name} </h2>
                 <p> Created by {user} </p>
@@ -43,8 +43,18 @@ function ProjectHero({ projects }: { projects: any }) {
         <div className="hero  bg-base-100">
             <div className="hero-content ">
                 <div className="max-w-lg">
-                    <h1 className="text-5xl font-bold">Your Projects</h1>
-                    <p className="py-6">List of projects</p>
+                    <h1 className="text-5xl font-bold">Dev Diaries</h1>
+                    <button
+                        className="btn btn-primary my-6"
+                        onClick={
+                            () => {
+                                const modalElement: any = document.getElementById('my_modal_3')
+                                if (modalElement) {
+                                    modalElement?.showModal()
+                                }
+                            }
+                        }
+                    >Add Project</button>
                     {
                         projects.length > 0 ? projects.map(
                             (project: any, index: number) => {
@@ -68,7 +78,7 @@ function ProjectHero({ projects }: { projects: any }) {
 
 
                     }
-                    <button className="btn btn-primary">Get Started</button>
+
                 </div>
             </div>
         </div>
