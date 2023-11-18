@@ -3,11 +3,13 @@ import useTheme from "~/hooks/use_theme";
 import Drawer from "./drawer";
 import Link from "next/link";
 
+const setLocal=()=>{
+  
+}
 
 
-
-const Navbar = ({ userName ,defaultTheme }: { userName: string ,defaultTheme:string}) => {
-  const [theme, setTheme] = useTheme(defaultTheme)
+const Navbar = ({ userName  }: { userName: string }) => {
+  const [theme, setTheme] = useTheme()
   return (
     <div className="navbar bg-base-100 mb-5">
       <div className="navbar-start">
@@ -21,7 +23,7 @@ const Navbar = ({ userName ,defaultTheme }: { userName: string ,defaultTheme:str
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           {
             theme === "dark" ? <input
-              type="checkbox" value="retro" className="toggle theme-controller"
+              type="checkbox" value="retro" className="toggle "
               onClick={
                 () => {
                   if (setTheme && typeof setTheme !== "string")
@@ -32,7 +34,7 @@ const Navbar = ({ userName ,defaultTheme }: { userName: string ,defaultTheme:str
              
 
             /> : <input
-              type="checkbox" value="retro" className="toggle theme-controller"
+              type="checkbox" value="dark" className="toggle "
               onClick={
                 () => {
                   if (setTheme && typeof setTheme !== "string")

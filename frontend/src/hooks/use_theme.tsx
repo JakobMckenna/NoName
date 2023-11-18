@@ -3,40 +3,48 @@ import { useEffect, useState } from "react";
 
 const getItem = () => {
     let result = "dark"
-    let localTheme :string|null = null;
-    if(typeof window !== 'undefined' && window.localStorage){
+    let localTheme: string | null = null;
+    if (typeof window !== 'undefined' && window.localStorage) {
         localTheme = localStorage.getItem("theme");
     }
-    
-   
 
-    if (localTheme!= null) {
+
+
+    if (localTheme != null) {
         result = localTheme;
     }
     return result;
 }
 
 
-const useTheme = (defaultTheme:string) => {
 
-    const [theme, setTheme] = useState<string>(defaultTheme)
 
+const useTheme = () => {
+
+    const [theme, setTheme] = useState<string>()
+
+    const themeChange = (theme: string) => {
+        const element = document.querySelector("html")
+        if (element) {
+            element.setAttribute("data-theme", theme)
+        }
+    }
     useEffect(
         () => {
-            const localTheme = localStorage.getItem("theme");
-            localStorage.setItem("theme", theme);
+            setTheme(getItem)
+            //console.log(theme)
+            //if(theme)
 
-            // add custom data-theme attribute to html tag required to update theme using DaisyUI
-            const element = document.querySelector("html")
-            if (localTheme) {
-                element?.setAttribute("data-theme", theme)
-               // setTheme(localTheme)
-            } else {
-                element?.setAttribute("data-theme", "dark")
-               // setTheme("dark")
+            if (theme != null && theme != undefined) {
+                localStorage.setItem("theme", theme)
+
             }
-            
 
+            if (theme == "dark") {
+                themeChange("dark")
+            } else if (theme == "retro") {
+                themeChange("retro")
+            }
 
         }
         , [theme]
