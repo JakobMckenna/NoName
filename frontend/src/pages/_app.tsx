@@ -4,7 +4,7 @@ import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <html data-theme="lofi" lang="en">
+    <html data-theme="retro" lang="en">
       <Component {...pageProps} />
     </html>
   );

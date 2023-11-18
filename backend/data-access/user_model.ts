@@ -128,7 +128,8 @@ export async function getUserProjects(userID: number) {
                 project: {
                     include: {
                         github: true,
-                        sprint: true
+                        sprint: true,
+                        user:true
                     }
                 },
                 member: {
