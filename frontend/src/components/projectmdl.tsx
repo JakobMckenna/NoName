@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import config from 'config';
 
-function Form({userID,refresh}:{userID:number,refresh:any}) {
+function Form({userID,refresh,addProject}:{userID:number,refresh:any,addProject:Function}) {
     const {
         register,
         handleSubmit,
@@ -21,7 +21,13 @@ function Form({userID,refresh}:{userID:number,refresh:any}) {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log('Login successful', response.data);
+            console.log('added project', response.data);
+            const project =  response.data.projects;
+            addProject({project:{
+                id:project.id,
+                name:project.name,
+                user:"you"
+            }})
            
             const modalElement: any = document.getElementById('my_modal_3')
             modalElement.close()
@@ -49,7 +55,7 @@ function Form({userID,refresh}:{userID:number,refresh:any}) {
     )
 }
 
-const ProjectModal = ({userID, refresh}:{userID:number, refresh:any}) => {
+const ProjectModal = ({userID, refresh,addProject}:{userID:number, refresh:any ,addProject:Function}) => {
     return (
         <dialog id="my_modal_3" className="modal">
             <div className="modal-box">
@@ -57,7 +63,7 @@ const ProjectModal = ({userID, refresh}:{userID:number, refresh:any}) => {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form userID={userID} refresh={refresh} />
+                <Form userID={userID} refresh={refresh} addProject={addProject} />
             </div>
         </dialog>
     );
