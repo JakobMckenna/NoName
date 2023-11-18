@@ -4,9 +4,9 @@ import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <html data-theme="garden" lang="en">
+    <html data-theme="lofi" lang="en">
       <Component {...pageProps} />
-  </html>
+    </html>
   );
 };
 

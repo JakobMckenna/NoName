@@ -10,7 +10,7 @@ export default {
   ],
   daisyui: {
     styled: true,
-    themes: ['lofi','garden','dark'],
+    themes: ['lofi','garden','dark','retro'],
     base: true,
     utils: true,
     logs: true,

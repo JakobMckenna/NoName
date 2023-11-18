@@ -18,7 +18,7 @@ import config from "config";
 function RepoCard({ projects }: any) {
     //console.log(projects)
     return (
-        <div className="card bg-neutral-focus  w-80  shadow-xl mr-12 max-h-64 m-4">
+        <div className="card bg-base-200  w-80  shadow-xl mr-12 max-h-64 m-4">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Projects</h2>
