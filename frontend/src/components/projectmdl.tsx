@@ -23,14 +23,15 @@ function Form({userID,addProject}:{userID:number,addProject:Function}) {
             });
             console.log('added project', response.data);
             const project =  response.data.projects;
+          
+           
+            const modalElement: any = document.getElementById('my_modal_3')
+            modalElement.close()
             addProject({project:{
                 id:project.id,
                 name:project.name,
                 user:"you"
             }})
-           
-            const modalElement: any = document.getElementById('my_modal_3')
-            modalElement.close()
            // refresh(true)
          
         }catch(error){

@@ -5,8 +5,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { themeChange } from 'theme-change'
 
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import Navbar from "~/components/navbar";
 import ProjectModal from "~/components/projectmdl";
@@ -15,6 +15,7 @@ import useUser from "~/hooks/use_user";
 
 import config from "config";
 import useCurrentTheme from "~/hooks/use_current_theme";
+import { Ref } from "react-hook-form";
 
 function LoadingTile() {
     return (
@@ -28,9 +29,9 @@ function LoadingTile() {
     )
 }
 
-function Tile({ id, name, user }: { id: string, name: string, user: string }) {
+function Tile({ id, name, user ,parent }: { id: string, name: string, user: string ,parent:any }) {
     return (
-        <Link  href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10 hover:-translate-y-3 hover:-skew-y-3 duration-75">
+        <Link ref={parent}  href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10 hover:-translate-y-3 hover:-skew-y-3 duration-75">
             <div className="card-body">
                 <h2 className="card-title">{name} </h2>
                 <p> Created by {user} </p>
@@ -39,7 +40,9 @@ function Tile({ id, name, user }: { id: string, name: string, user: string }) {
         </Link>
     )
 }
-function ProjectHero({ projects }: { projects: any }) {
+
+function ProjectHero({ projects ,parent }: { projects: any ,parent:Ref }) {
+
     return (
         <div className="hero  bg-base-100">
             <div className="hero-content ">
@@ -65,7 +68,7 @@ function ProjectHero({ projects }: { projects: any }) {
 
                                 return (
 
-                                    <Tile key={id} id={id} name={projectName} user={user} />
+                                    <Tile  key={id} parent={parent}  id={id} name={projectName} user={user} />
                                 )
                             }
                         ) : (
@@ -96,6 +99,7 @@ export default function LandingPage() {
     const [refresh, setRefresh] = useState(true)
     const [currentTheme,loadingTheme] = useCurrentTheme()
     const [theme ,setTheme]= useState<string>()
+    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
 
     const addProject =(project:any)=>{
         setProjectList((prev)=>[project,...prev])
@@ -153,7 +157,7 @@ export default function LandingPage() {
             </Head>
             <Navbar userName={`${user?.name}#${user?.id}`}  />
             <main>
-                <ProjectHero projects={projectList} />
+                <ProjectHero projects={projectList}  parent={parent}/>
             </main>
             <ProjectModal userID={user?.id}  addProject={addProject} />
         </div>
