@@ -98,7 +98,7 @@ export default function LandingPage() {
     const [theme ,setTheme]= useState<string>()
 
     const addProject =(project:any)=>{
-        setProjectList((prev)=>[...prev,project])
+        setProjectList((prev)=>[project,...prev])
     }
 
     const getProjects = async (userID: number) => {
@@ -138,7 +138,7 @@ export default function LandingPage() {
             }
 
 
-        }, [projectList]
+        }, [projectList,isRefresh]
     )
     return (
         <div className="w-full mx-auto">
@@ -151,7 +151,7 @@ export default function LandingPage() {
             <main>
                 <ProjectHero projects={projectList} />
             </main>
-            <ProjectModal userID={user?.id} refresh={(val: boolean) => setRefresh(val)} addProject={addProject} />
+            <ProjectModal userID={user?.id}  addProject={addProject} />
         </div>
     )
 } 
