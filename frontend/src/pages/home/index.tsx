@@ -96,12 +96,12 @@ function MenuCard() {
     )
 }
 
-function Tile({id,name}:{id:string ,name:string}){
+function Tile({id,name,user}:{id:string ,name:string,user:string}){
     return(
-        <Link href={`/project/${id}`} className="card w-96 bg-base-200 glass shadow-xlw-full mb-2 ">
+        <Link href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-2 hover:-translate-y-3 hover:-skew-y-3">
             <div className="card-body">
                 <h2 className="card-title">{name} </h2>
-                <p> Created by </p>
+                <p> Created by {user} </p>
             </div>
 
         </Link>
@@ -115,11 +115,15 @@ function ProjectHero({projects}:{projects:any}) {
                     <h1 className="text-5xl font-bold">Your Projects</h1>
                     <p className="py-6">List of projects</p>
                     {
-                        projects.map(
+                        projects && projects.map(
                             (project: any, index: number) => {
+                                const id = project.project.id;
+                                const user =project.project.user?.name;
+                                const projectName = project.project.name;
+                                
                                 return (
                                     
-                                    <Tile id={project.project.id} name={project.project.name} />
+                                    <Tile id={id} name={projectName} user={user} />
                                 )
                             }
                         )

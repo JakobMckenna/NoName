@@ -135,8 +135,10 @@ export async function getUserProjects(userID: number) {
                 member: {
                     include: {
                         project: {
+                        
                             include: {
                                 members: true,
+                                user:true
                             },
                         },
                     },
