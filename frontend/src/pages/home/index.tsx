@@ -42,6 +42,7 @@ function Tile({ id, name, user, parent }: { id: string, name: string, user: stri
 }
 
 function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,search:Function }) {
+   // console.log(projects)
 
     return (
         <div className="hero  bg-base-100">
@@ -72,12 +73,11 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
                         />
                     </div>
                     {
-                        projects.length > 0 ? projects.map(
+                        projects.length > -1 ? projects.map(
                             (project: any, index: number) => {
                                 const id = project.project.id;
                                 const user = project.project.user?.name;
                                 const projectName = project.project.name;
-
                                 return (
 
                                     <Tile key={id} parent={parent} id={id} name={projectName} user={user} />
@@ -85,6 +85,9 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
                             }
                         ) : (
                             <>
+                                <LoadingTile />
+                                <LoadingTile />
+                                <LoadingTile />
                                 <LoadingTile />
                                 <LoadingTile />
                                 <LoadingTile />
@@ -103,8 +106,6 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
 
 
 export default function LandingPage() {
-    //const [loading ,setLoading] = useState(true)
-    // const [user ,setUser] =useState<any>(null)
     const router = useRouter();
     const [user, loading] = useUser()
     const [projectList, setProjectList] = useState<any[]>([])
@@ -113,9 +114,11 @@ export default function LandingPage() {
     const [theme, setTheme] = useState<string>()
     const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
     const [filteredList , setFilteredList] = useState<any[]>([])
+    
 
     const addProject = (project: any) => {
-        setProjectList((prev) => [project, ...prev])
+        setFilteredList((prev) => [project, ...prev]);
+        setProjectList((prev)=>[project,...prev]);
     }
 
     const getProjects = async (userID: number) => {
@@ -132,6 +135,7 @@ export default function LandingPage() {
         return refresh == true
     }
 
+    // filter projects by project name
     const searchProjects=(projectName:string)=>{
         const results =  projectList.filter((project)=>{
             return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase())
@@ -142,25 +146,25 @@ export default function LandingPage() {
     useEffect(
         () => {
 
-
+            //only get data when user data is loaded
             if (user) {
                 const projects = async () => {
                     const results = await getProjects(user.id)
                     console.log("members")
                     console.log(results.member)
                     setProjectList(results.member);
-                    
-                    //console.log(`list ${projectList}`)
-
+                    setFilteredList(results.member)
                     return results.project;
                 }
+
+
                 if (refresh) {
                     projects();
-                    setFilteredList((prev)=>[...prev,projectList]);
+                    //created filtered list  from project list
+                    //setFilteredList((prev)=>[...prev,projectList]);
 
-                    // setRefresh(false)
                 }
-
+                //set current theme
                 if (currentTheme != null) {
                     setTheme(currentTheme as unknown as string)
                 }
@@ -168,7 +172,7 @@ export default function LandingPage() {
             }
 
 
-        }, [theme, projectList, isRefresh]
+        }, [theme, filteredList, isRefresh]
     )
     return (
         <div className="w-full mx-auto">
