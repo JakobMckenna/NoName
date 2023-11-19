@@ -26,7 +26,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                             if (modal) {
                                 modal?.showModal();
                             }
-                        }} className="btn btn-secondary  btn-link">setup github</button>
+                        }} className="link">setup github</button>
                     </div>
                 </div>
             </div>
