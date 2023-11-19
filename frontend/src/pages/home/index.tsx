@@ -41,7 +41,7 @@ function Tile({ id, name, user, parent }: { id: string, name: string, user: stri
     )
 }
 
-function ProjectHero({ projects, parent }: { projects: any, parent: Ref }) {
+function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,search:Function }) {
 
     return (
         <div className="hero  bg-base-100">
@@ -60,7 +60,16 @@ function ProjectHero({ projects, parent }: { projects: any, parent: Ref }) {
                                 }
                             }
                         >Add Project</button>
-                        <input type="text" placeholder="Find Project" className="input input-bordered w-full max-w-xs" />
+                        <input
+                            type="text"
+                            placeholder="Find Project"
+                            className="input input-bordered w-full max-w-xs"
+                            onChange={
+                                (event:React.ChangeEvent<HTMLInputElement>)=>{
+                                    search(event.target.value)
+                                }
+                            }
+                        />
                     </div>
                     {
                         projects.length > 0 ? projects.map(
@@ -103,6 +112,7 @@ export default function LandingPage() {
     const [currentTheme, loadingTheme] = useCurrentTheme()
     const [theme, setTheme] = useState<string>()
     const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+    const [filteredList , setFilteredList] = useState<any[]>([])
 
     const addProject = (project: any) => {
         setProjectList((prev) => [project, ...prev])
@@ -122,6 +132,13 @@ export default function LandingPage() {
         return refresh == true
     }
 
+    const searchProjects=(projectName:string)=>{
+        const results =  projectList.filter((project)=>{
+            return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase())
+        })
+        setFilteredList(results)
+    }
+
     useEffect(
         () => {
 
@@ -132,12 +149,14 @@ export default function LandingPage() {
                     console.log("members")
                     console.log(results.member)
                     setProjectList(results.member);
-                    console.log(`list ${projectList}`)
+                    
+                    //console.log(`list ${projectList}`)
 
                     return results.project;
                 }
                 if (refresh) {
-                    projects()
+                    projects();
+                    setFilteredList((prev)=>[...prev,projectList]);
 
                     // setRefresh(false)
                 }
@@ -160,7 +179,7 @@ export default function LandingPage() {
             </Head>
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main>
-                <ProjectHero projects={projectList} parent={parent} />
+                <ProjectHero projects={filteredList} parent={parent} search={searchProjects} />
             </main>
             <ProjectModal userID={user?.id} addProject={addProject} />
         </div>
