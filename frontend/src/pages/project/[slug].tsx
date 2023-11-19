@@ -194,7 +194,7 @@ export default function Project() {
 
                                     <h1 className="text-4xl uppercase mb-2">{projectData?.name} PROJECT</h1>
                                     {
-                                      userID && owner &&  (<div className="tooltip tooltip-right" data-tip="Delete Project">
+                                      userID && owner &&  (<div className="tooltip tooltip-right" data-tip={userID === owner?"Delete Project":"Only Owner Can Delete This Project"}>
                                             <button
                                                 className=" btn btn-primary   
                                     btn-square btn-outline btn-sm ml-5"
