@@ -41,6 +41,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: Function })
                             async () => {
                                 try {
                                     setDeleting(true)
+
                                     const deletedProject = await deleteProject();
                                     setDeleting(false)
 
