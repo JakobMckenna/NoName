@@ -185,8 +185,8 @@ export default function Project() {
             </Head>
             <div className="overscroll-x-none">
                 <Navbar userName={`${user?.name}#${user?.id}`} />
-                <main className="container mb-10 w-screen  ">
-                    <div className="flex flex-col justify-center items-center  w-screen ">
+                <main className="container mb-10   ">
+                    <div className="flex flex-col justify-center items-center ">
                     <BackPage link="/home" name="Back To Home Page" />
                         <div className="flex flex-col justify-start " >
                             
