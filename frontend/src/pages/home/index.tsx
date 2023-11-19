@@ -73,7 +73,7 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
                         />
                     </div>
                     {
-                        projects.length > -1 ? projects.map(
+                        projects.length > 0 ? projects.map(
                             (project: any, index: number) => {
                                 const id = project.project.id;
                                 const user = project.project.user?.name;
