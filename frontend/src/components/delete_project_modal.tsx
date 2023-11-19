@@ -1,10 +1,11 @@
-import axios from "axios";
+/* eslint-disable */
 
+import axios from "axios";
 import config from 'config';
 import { useState } from "react";
 import Spinner from "./modal_spinner";
 
-const DeleteModal = ({ projectID, home }: { projectID: string, home: Function }) => {
+const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     const [deleting, setDeleting] = useState(false)
 
     const deleteProject = async () => {

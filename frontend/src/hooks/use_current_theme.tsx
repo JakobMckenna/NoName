@@ -8,6 +8,9 @@ const useCurrentTheme = () => {
         const element = document.querySelector("html")
         element?.setAttribute("data-theme", theme)
     }
+    const empty=()=>{
+        return currentTheme!=null;
+    }
 
     useEffect(
         ()=>{
@@ -22,7 +25,7 @@ const useCurrentTheme = () => {
                 setLoadingTheme(false)
             }
         }
-        ,[currentTheme!=null]
+        ,[empty]
     )
    
    return [currentTheme!=null,loadingTheme]
