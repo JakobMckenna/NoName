@@ -111,13 +111,13 @@ function ChatCard({ projectID }: { projectID: string }) {
 
 function Header({ projectData, userID, owner }: { projectData: any, userID: number | null, owner: number | null }) {
     return (
-        <div className="ml-12 mt-3 md:ml-0 md:mt-0  prose  ">
+        <div className="ml-10 mt-3 md:ml-0 md:mt-0  prose  ">
              <BackPage link="/home" name="Back To Home Page" />
-            <div className="flex flex-col justify-start ">
+            <div className="flex flex-col justify-start max-w-xl ">
                
-                <div className="flex flex-col md:flex-row items-baseline">
+                <div className="flex flex-col md:flex-row items-baseline max-w-lg text-center">
 
-                    <h1 className="uppercase mb-2">{projectData ? `${projectData.name} PROJECT` : (<div className="skeleton h-9 w-72"></div>)} </h1>
+                    <h1 className="uppercase mb-2">{projectData ? `${projectData.name} PROJECT` : (<div className="skeleton h-9 w-96"></div>)} </h1>
                     {
                         userID && owner && (<div className="tooltip tooltip-right" data-tip={userID === owner ? "Delete Project" : "Only Owner Can Delete This Project"}>
                             <button
