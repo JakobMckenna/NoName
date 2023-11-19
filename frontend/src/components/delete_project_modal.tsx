@@ -1,8 +1,11 @@
 import axios from "axios";
 
 import config from 'config';
+import { useState } from "react";
+import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: Function }) => {
+    const [deleting, setDeleting] = useState(false)
 
     const deleteProject = async () => {
         try {
@@ -23,6 +26,8 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: Function })
 
         } catch (error) {
             console.log(error)
+            throw new Error()
+
         }
     }
     return (
@@ -34,12 +39,23 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: Function })
                         className="btn  btn-warning btn-lg"
                         onClick={
                             async () => {
-                                await deleteProject();
+                                try {
+                                    setDeleting(true)
+                                    const deletedProject = await deleteProject();
+                                    setDeleting(false)
+
+                                } catch (error) {
+                                    console.log(error);
+                                }
 
                             }
                         }
+                        disabled={deleting}
                     >
-                        yes
+                        {deleting&&(
+                            <Spinner />
+                        )}
+                        {deleting?"delting":"yes"}
                     </button>
                     <button
                         className="btn btn-neutral btn-lg"
@@ -49,6 +65,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: Function })
                                 modalElement.close()
                             }
                         }
+                        disabled={deleting}
                     >
                         no
                     </button>
