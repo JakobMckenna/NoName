@@ -1,12 +1,12 @@
 /* eslint-disable */
 
 import axios from "axios";
-
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import Navbar from "~/components/navbar";
 import ProjectModal from "~/components/projectmdl";
@@ -14,83 +14,91 @@ import ProjectModal from "~/components/projectmdl";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
+import useCurrentTheme from "~/hooks/use_current_theme";
+import { Ref } from "react-hook-form";
 
-function RepoCard({ projects }: any) {
-    //console.log(projects)
+function LoadingTile() {
     return (
-        <div className="card bg-neutral-focus  w-80  shadow-xl mr-12 max-h-64 m-4">
+        <div className="card skeleton w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10">
+            <div className="card-body">
+                <h2 className="skeleton h-4 w-28"> </h2>
+                <p className="skeleton h-4 w-28"></p>
+            </div>
 
-            <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Projects</h2>
-                <ul>
+        </div>
+    )
+}
+
+function Tile({ id, name, user, parent }: { id: string, name: string, user: string, parent: any }) {
+    return (
+        <Link ref={parent} href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10 hover:-translate-y-3 hover:-skew-y-3 duration-75">
+            <div className="card-body">
+                <h2 className="card-title">{name} </h2>
+                <p> Created by {user} </p>
+            </div>
+
+        </Link>
+    )
+}
+
+function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,search:Function }) {
+   // console.log(projects)
+
+    return (
+        <div className="hero  bg-base-100">
+            <div className="hero-content ">
+                <div className="max-w-lg">
+                    <h1 className="text-5xl font-bold">Dev Diaries</h1>
+                    <div className="flex flex-row-reverse justify-between items-center">
+                        <button
+                            className="btn btn-primary my-6 ml-5"
+                            onClick={
+                                () => {
+                                    const modalElement: any = document.getElementById('my_modal_3')
+                                    if (modalElement) {
+                                        modalElement?.showModal()
+                                    }
+                                }
+                            }
+                        >Add Project</button>
+                        <input
+                            type="text"
+                            placeholder="Find Project"
+                            className="input input-bordered w-full max-w-xs"
+                            onChange={
+                                (event:React.ChangeEvent<HTMLInputElement>)=>{
+                                    search(event.target.value)
+                                }
+                            }
+                        />
+                    </div>
                     {
-                        projects.map(
-                            (project: any ,index:number) => {
+                        projects.length > 0 ? projects.map(
+                            (project: any, index: number) => {
+                                const id = project.project.id;
+                                const user = project.project.user?.name;
+                                const projectName = project.project.name;
                                 return (
-                                    <li key ={project.project.id}>
-                                      <Link href={`/project/${project.project.id}`} className="btn   btn-link"> {project.project.name} </Link>
-                                    </li>
+
+                                    <Tile key={id} parent={parent} id={id} name={projectName} user={user} />
                                 )
                             }
+                        ) : (
+                            <>
+                                <LoadingTile />
+                                <LoadingTile />
+                                <LoadingTile />
+                                <LoadingTile />
+                                <LoadingTile />
+                                <LoadingTile />
+                            </>
                         )
 
+
+
                     }
-                </ul>
-                <div className="card-actions justify-start">
-                    <button className="btn btn-secondary  btn-link" onClick={() => {
-                       const modalElement:any= document.getElementById('my_modal_3')
-                       if(modalElement){
-                        modalElement?.showModal()
-                       }
-                       
-                    }
-                    }>Add Project</button>
+
                 </div>
-            </div>
-        </div>
-    )
-}
-
-function TaskCard() {
-    return (
-        <div className="card bg-neutral-focus w-80  shadow-xl mr-12 max-h-64 m-4">
-
-            <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Tasks</h2>
-                <ul>
-
-                </ul>
-                <div className="card-actions justify-start">
-                    <button className="btn btn-secondary  btn-link">Add Task</button>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function StatsCard() {
-    return (
-        <div className="card bg-neutral-focus w-80  shadow-xl mr-12 max-h-64 m-4">
-
-            <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Statistics</h2>
-                <ul>
-
-                </ul>
-            </div>
-        </div>
-    )
-}
-
-function MenuCard() {
-    return (
-        <div className="card  bg-neutral-focus w-80  shadow-xl mr-12 max-h-56 m-4">
-
-            <div className="card-body items-center text-center h-full">
-                <h2 className="card-title">Research Links</h2>
-                <ul>
-
-                </ul>
             </div>
         </div>
     )
@@ -98,70 +106,86 @@ function MenuCard() {
 
 
 export default function LandingPage() {
-    //const [loading ,setLoading] = useState(true)
-    // const [user ,setUser] =useState<any>(null)
     const router = useRouter();
     const [user, loading] = useUser()
-    const [projectList, setProjectList] = useState([])
-    const [refresh,setRefresh] = useState(true)
+    const [projectList, setProjectList] = useState<any[]>([])
+    const [refresh, setRefresh] = useState(true)
+    const [currentTheme, loadingTheme] = useCurrentTheme()
+    const [theme, setTheme] = useState<string>()
+    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+    const [filteredList , setFilteredList] = useState<any[]>([])
+    
+
+    const addProject = (project: any) => {
+        setFilteredList((prev) => [project, ...prev]);
+        setProjectList((prev)=>[project,...prev]);
+    }
 
     const getProjects = async (userID: number) => {
         const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
         setRefresh(false);
-       
+
         return results.data.user
 
     }
 
-    const isRefresh = ()=>{
+    const isRefresh = () => {
         return refresh == true
+    }
+
+    // filter projects by project name
+    const searchProjects=(projectName:string)=>{
+        const results =  projectList.filter((project)=>{
+            return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase())
+        })
+        setFilteredList(results)
     }
 
     useEffect(
         () => {
-          
+
+            //only get data when user data is loaded
             if (user) {
                 const projects = async () => {
                     const results = await getProjects(user.id)
                     console.log("members")
                     console.log(results.member)
                     setProjectList(results.member);
-                    console.log(`list ${projectList}`)
-
+                    setFilteredList(results.member)
                     return results.project;
                 }
-                if(refresh)
-                {
-                    projects()
-                   // setRefresh(false)
+
+
+                if (refresh) {
+                    projects();
+                    //created filtered list  from project list
+                    //setFilteredList((prev)=>[...prev,projectList]);
+
                 }
-               
+                //set current theme
+                if (currentTheme != null) {
+                    setTheme(currentTheme as unknown as string)
+                }
+
             }
 
 
-        },[isRefresh]
+        }, [theme, filteredList, isRefresh]
     )
     return (
-        <div className = "w-full mx-auto">
+        <div className="w-full mx-auto">
             <Head>
                 <title>DevDiaries | user</title>
                 <meta name="description" content="Generated by create-t3-app" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container flex flex-wrap justify-center items-center mx-auto">
-                <div className="flex flex-row mb-10 items-center">
-                    <RepoCard projects={projectList} />
-                    <TaskCard />
-                </div>
-                <div className="flex flex-row items-center">
-                    <StatsCard />
-                    <MenuCard />
-                </div>
+            <main>
+                <ProjectHero projects={filteredList} parent={parent} search={searchProjects} />
             </main>
-            <ProjectModal userID={user?.id} refresh={(val:boolean)=>setRefresh(val)} />
+            <ProjectModal userID={user?.id} addProject={addProject} />
         </div>
     )
 } 
