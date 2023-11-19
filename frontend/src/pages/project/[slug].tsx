@@ -133,7 +133,8 @@ export default function Project() {
             return results.data.projects
 
         } catch (error) {
-            router.push("/home")
+           // router.push("/home")
+           //
         }
 
     }
@@ -163,7 +164,7 @@ export default function Project() {
             }
 
 
-        }, [projectID, user, setID]);
+        }, [projectID, user]);
 
     return (
         <>
