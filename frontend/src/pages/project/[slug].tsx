@@ -16,7 +16,7 @@ import DeleteModal from "~/components/delete_project_modal";
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
         return (
-            <div className="card  bg-neutral-focus w-80 shadow-xl  h-56 ">
+            <div className="card bg-primary glass text-primary-content  w-80 shadow-xl  h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Github</h2>
                     <div className="card-actions justify-start">
@@ -35,15 +35,15 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     console.log(github);
 
     return (
-        <div className="card  bg-neutral-focus w-80  shadow-xl  h-56 ">
+        <div className="card bg-primary glass text-primary-content  w-80  shadow-xl  h-56 ">
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div className="flex flex-col">
                     <div>
-                        <Link href={`/project/commits/${projectID}`} className="btn btn-link">see commits</Link>
+                        <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
                     </div>
                     <div>
-                        <Link href={`/project/issues/${projectID}`} className="btn btn-link">see issues</Link>
+                        <Link href={`/project/issues/${projectID}`} className="link">see issues</Link>
                     </div>
 
                 </div>
@@ -55,12 +55,12 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
 function ResearchCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  bg-neutral-focus w-80  shadow-xl  h-56 ">
+        <div className="card bg-primary glass text-primary-content  w-80  shadow-xl  h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
                 <div>
-                    <Link href={`/project/research/${projectID}`} className="btn btn-link">See Bookmarks</Link>
+                    <Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>
                 </div>
 
             </div>
@@ -72,13 +72,13 @@ function ResearchCard({ projectID }: { projectID: string }) {
 function SprintCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
+        <div className="card  bg-primary glass text-primary-content w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Milestones/Sprints</h2>
                 <div>
                     <p>Setup your project's milestone's here</p>
-                    <Link className="btn btn-link" href={`/project/sprint/${projectID}`}  >setup/see </Link>
+                    <Link className="link" href={`/project/sprint/${projectID}`}  >setup/see </Link>
                 </div>
 
 
@@ -91,15 +91,15 @@ function SprintCard({ projectID }: { projectID: string }) {
 function ChatCard({ projectID }: { projectID: string }) {
     // console.log(github);
     return (
-        <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
+        <div className="card  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title"> Info/Communication</h2>
                 <div>
-                    <Link href={`/project/chat/${projectID}`} className="btn btn-link">See Chat</Link>
+                    <Link href={`/project/chat/${projectID}`} className="link">See Chat</Link>
                 </div>
                 <div>
-                    <Link href={`/project/member/${projectID}`} className="btn btn-link">Add/See Member</Link>
+                    <Link href={`/project/member/${projectID}`} className="link">Add/See Member</Link>
 
                 </div>
 
@@ -118,7 +118,7 @@ export default function Project() {
     const [sprints, setID] = useSprint()
     const projectID = String(router.query.slug);
 
-    const goToHome = ()=>{
+    const goToHome = () => {
         router.push("/home")
     }
 
