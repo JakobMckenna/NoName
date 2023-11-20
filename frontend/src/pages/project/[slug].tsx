@@ -1,3 +1,8 @@
+/**
+ * @fileoverview This is the project page for individual project pages and is dynaically rendered depending on url's params
+ * if a user who has not logged in tries to login to this page they'll be sent back to sign up page
+ */
+
 /* eslint-disable */
 import useUser from "~/hooks/use_user"
 import { useRouter } from 'next/router'
@@ -111,9 +116,9 @@ function ChatCard({ projectID }: { projectID: string }) {
 function Header({ projectData, userID, owner }: { projectData: any, userID: number | null, owner: number | null }) {
     return (
         <div className="ml-10 mt-3 md:ml-0 md:mt-0  prose  ">
-             <BackPage link="/home" name="Back To Home Page" />
+            <BackPage link="/home" name="Back To Home Page" />
             <div className="flex flex-col justify-start max-w-xl ">
-               
+
                 <div className="flex flex-col md:flex-row items-baseline max-w-lg text-center">
 
                     <h1 className="uppercase mb-2">{projectData ? `${projectData.name} PROJECT` : (<div className="skeleton h-9 w-96"></div>)} </h1>
@@ -176,12 +181,12 @@ export default function Project() {
                 router.push("/");
             }
             const results = await axios.get(reqUrl);
-           // save owner's user ID to compare  with the logged in user's ID
+            // save owner's user ID to compare  with the logged in user's ID
             setOwner(results.data.projects.userId);
             return results.data.projects;
 
         } catch (error) {
-           console.log(error);
+            console.log(error);
             throw new Error("failed to get project");
         }
 
