@@ -168,20 +168,23 @@ export default function Project() {
         router.push("/home")
     }
 
+
+    // Retrieve project data from backend with project ID from the url params
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
             if (!id) {
-                router.push("/")
+                //user is not logged in , send them back to login
+                router.push("/");
             }
-            const results = await axios.get(reqUrl)
-            //  console.log(results.data.projects)
-            setOwner(results.data.projects.userId)
-            return results.data.projects
+            const results = await axios.get(reqUrl);
+           // save owner's user ID to compare  with the logged in user's ID
+            setOwner(results.data.projects.userId);
+            return results.data.projects;
 
         } catch (error) {
-            // router.push("/home")
-            //
+           console.log(error);
+            throw new Error("failed to get project");
         }
 
     }
