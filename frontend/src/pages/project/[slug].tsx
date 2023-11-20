@@ -17,13 +17,14 @@ import config from "config";
 import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
 import InfoCard from "~/components/info_card";
+import UpdateRepoModal from "~/components/update_repo_modal";
 
 
 function LoadingCard() {
     return (
         <div className="card  skeleton  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
             <div className="card-body items-center text-center h-full">
-                <h2 className="card-title skeleton h-4   w-32"></h2>        
+                <h2 className="card-title skeleton h-4   w-32"></h2>
             </div>
         </div>
     )
@@ -67,6 +68,15 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                         <Link href={`/project/issues/${projectID}`} className="link">see issues</Link>
                     </div>
 
+                </div>
+                <div className="card-actions justify-center">
+
+                    <button onClick={() => {
+                        const modal: any = document.getElementById('update_repo');
+                        if (modal) {
+                            modal?.showModal();
+                        }
+                    }} className="link">update github repo info</button>
                 </div>
             </div>
         </div>
@@ -174,7 +184,7 @@ export default function Project() {
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
     const [projectIDstr, setProjectIDstr] = useState<string>("")
-    const [github, setGithub] = useState(null);
+    const [github, setGithub] = useState<any>(null);
     const [sprints, setID] = useSprint();
     const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
@@ -274,6 +284,7 @@ export default function Project() {
             </main >
             <RepoModal projectID={projectIDstr} />
             <DeleteModal projectID={projectIDstr} home={goToHome} />
+            <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
 
         </div>
     )
