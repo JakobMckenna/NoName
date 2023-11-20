@@ -60,7 +60,17 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div className="flex flex-col">
-                    <p className="mb-3">Check recent updates from Github and code progress or updata</p>
+                    <p className="mb-3 ">Check recent updates from Github and code progress or 
+                    <span className=" bg-secondary glass tooltip  ml-1 mr-1 px-1" data-tip="click here to update repo info">
+                            <button onClick={() => {
+                                const modal: any = document.getElementById('update_repo');
+                                if (modal) {
+                                    modal?.showModal();
+                                }
+                            }} className="link">update </button>
+                        </span>
+                         repo info
+                    </p>
                     <div className="mb-1">
                         <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
                     </div>
@@ -69,15 +79,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                     </div>
 
                 </div>
-                <div className="card-actions justify-center">
 
-                    <button onClick={() => {
-                        const modal: any = document.getElementById('update_repo');
-                        if (modal) {
-                            modal?.showModal();
-                        }
-                    }} className="link">update github repo info</button>
-                </div>
             </div>
         </div>
     );
