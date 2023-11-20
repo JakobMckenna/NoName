@@ -13,10 +13,16 @@ import RepoModal from "~/components/repomdl";
 import Link from "next/link";
 import useSprint from "~/hooks/use_sprint";
 import Head from "next/head";
-
 import config from "config";
 import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
+
+
+function LoadingCard(){
+    return(
+
+    )
+}
 
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
@@ -93,7 +99,6 @@ function SprintCard({ projectID }: { projectID: string }) {
 }
 
 function ChatCard({ projectID }: { projectID: string }) {
-    // console.log(github);
     return (
         <div className="card  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
 
