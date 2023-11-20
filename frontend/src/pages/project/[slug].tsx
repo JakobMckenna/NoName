@@ -74,18 +74,15 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
 }
 
 function ResearchCard({ projectID }: { projectID: string }) {
-    // console.log(github);
     return (
         <div className="card bg-primary glass text-primary-content  w-80  shadow-xl  h-56 ">
-
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
                 <div>
+                    <p className="mb-3">Organize your research here for you and your mates</p>
                     <Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>
                 </div>
-
             </div>
-
         </div>
     )
 }
@@ -219,7 +216,7 @@ export default function Project() {
                 // retrieves with project ID project data
                 const getData = async () => {
                     try {
-                        setProjectIDstr(String(projectID))
+                        
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
                         if (results && setID != null) {
@@ -227,6 +224,7 @@ export default function Project() {
                             setProjectData(results);
                             setGithub(results.github);
                         }
+                        setProjectIDstr(String(projectID))
                     } catch (error) {
                         alert("Project does not exist anymore or the server is down,contact your project owner");
                         router.push("/home");
@@ -258,7 +256,7 @@ export default function Project() {
                     <SprintCard projectID={projectIDstr} />
 
 
-                    {sprints && sprints.length > 0 ? (<ResearchCard projectID={projectIDstr} />) : <LoadingCard />}
+                    {sprints? (<ResearchCard projectID={projectIDstr} />) : <LoadingCard />}
                     <ChatCard projectID={projectIDstr} />
 
                 </div>
