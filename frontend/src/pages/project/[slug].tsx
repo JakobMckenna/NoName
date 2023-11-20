@@ -23,14 +23,7 @@ function LoadingCard() {
     return (
         <div className="card  skeleton  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
             <div className="card-body items-center text-center h-full">
-                <h2 className="card-title skeleton h-4   w-28"></h2>
-                <div>
-                    <p className="link skeleton h-4   w-28"></p>
-                </div>
-                <div>
-                    <p className="link skeleton h-4   w-28"></p>
-                </div>
-
+                <h2 className="card-title skeleton h-4   w-32"></h2>        
             </div>
         </div>
     )
@@ -268,7 +261,7 @@ export default function Project() {
                 <Header projectData={projectData} userID={userID} owner={owner} />
                 <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 pl-5 md:pl-24  ">
 
-                    <MenuCard github={github} projectID={projectIDstr} />
+                    {projectData != null ? (<MenuCard github={github} projectID={projectIDstr} />) : <LoadingCard />}
                     <SprintCard projectID={projectIDstr} />
 
 
