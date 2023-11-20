@@ -26,7 +26,7 @@ function Form({projectID ,githubID}:{projectID:string,githubID:string}) {
                 },
             });
             console.log('create repo', response.data);
-            const modalElement: any = document.getElementById('my_modal_4');
+            const modalElement: any = document.getElementById('update_repo');
             setLoading(false)
             modalElement.close();
 

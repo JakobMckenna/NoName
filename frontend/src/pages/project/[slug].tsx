@@ -60,7 +60,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div className="flex flex-col">
-                    <p className="mb-3">Check recent updates from Github and code progress.</p>
+                    <p className="mb-3">Check recent updates from Github and code progress or updata</p>
                     <div className="mb-1">
                         <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
                     </div>
