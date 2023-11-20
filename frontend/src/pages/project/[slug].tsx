@@ -274,11 +274,11 @@ export default function Project() {
                 <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 pl-5 md:pl-24  ">
 
                     {projectData != null ? (<MenuCard github={github} projectID={projectIDstr} />) : <LoadingCard />}
-                    <SprintCard projectID={projectIDstr} />
+                    {projectData != null ? (<SprintCard projectID={projectIDstr} />) : <LoadingCard />}
 
 
                     {sprints != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
-                    <ChatCard projectID={projectIDstr} />
+                    {projectData != null ? (<ChatCard projectID={projectIDstr} />) : <LoadingCard />}
 
                 </div>
 
