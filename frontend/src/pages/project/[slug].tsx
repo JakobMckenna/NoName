@@ -194,7 +194,6 @@ export default function Project() {
 
     useEffect(
         () => {
-
             // retrieve data but only if user data is stored in browser local storage
             if (user != null && user != undefined && projectID != null && projectID != undefined) {
                 // store user ID from local storage
@@ -216,11 +215,9 @@ export default function Project() {
 
                 }
 
+                // retrieve project data  from server and save it in state
                 getData();
-
             }
-
-
         }, [projectID, user]);
 
     return (
