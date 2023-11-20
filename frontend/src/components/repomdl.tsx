@@ -34,13 +34,13 @@ function Form({projectID}:{projectID:string}) {
         <form onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text">Name</span>
+                    <span className="label-text">Owner</span>
                 </label>
                 <input {...register("owner")} type="text" placeholder="owner" className="input input-bordered" required />
             </div>
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text">Name</span>
+                    <span className="label-text">Repo Name</span>
                 </label>
                 <input {...register("repo")} type="text" placeholder="repo name" className="input input-bordered" required />
              
@@ -57,7 +57,16 @@ function Form({projectID}:{projectID:string}) {
 const RepoModal = ({projectID}:{projectID:string}) => {
     return (
         <dialog id="my_modal_4" className="modal">
-            <div className="modal-box">
+            <div className="modal-box ">
+                <h2 className="font-bold text-lg uppercase">Add Github Repository</h2>
+                <p>Enter data base on GitHub Repository URL</p>
+                <div className="flex flex-row items-center  ">
+                    <p className="text-info">https://github.com</p>
+                    <p className="text-info">/</p>
+                    <p className=" text-primary underline">owner</p>
+                    <p className="text-info">/</p>
+                    <p className=" text-secondary underline">repo</p>
+                </div>
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
