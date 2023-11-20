@@ -210,7 +210,7 @@ export default function Project() {
 
         } catch (error) {
             console.log(error);
-            alert(typeof id)
+           // alert(typeof id)
             throw new Error("failed to get project");
         }
 
@@ -247,7 +247,7 @@ export default function Project() {
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                        alert("Project does not exist anymore or the server is down,contact your project owner");
+                       // alert("Project does not exist anymore or the server is down,contact your project owner");
                         router.push("/home");
                     }
 

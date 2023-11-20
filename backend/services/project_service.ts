@@ -98,12 +98,13 @@ const ProjectService = {
             let results = null;
            
             let exists = null;
-            if (projectID!= null){
+            if (repoID!= null){
                 exists = await getRepo(projectID)
 
             }
             if (exists === null)
             {
+                //console.log("here")
                 const projRepo = await createRepo(projectID, owner,repo)
                 results = projRepo;
             }else{
