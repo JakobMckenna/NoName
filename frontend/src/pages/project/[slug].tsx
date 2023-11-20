@@ -160,7 +160,6 @@ export default function Project() {
     const [github, setGithub] = useState(null);
     const [sprints, setID] = useSprint();
     const projectID = String(router.query.slug);
-    const [isOwner, setIsOwner] = useState(false);
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)
     const goToHome = () => {
