@@ -196,20 +196,24 @@ export default function Project() {
         () => {
 
             // retrieve data but only if user data is stored in browser local storage
-            if (user != null && user != undefined && projectID != null && projectID!= undefined) {
+            if (user != null && user != undefined && projectID != null && projectID != undefined) {
                 // store user ID from local storage
                 setUserID(user.id)
                 // retrieves with project ID project data
                 const getData = async () => {
+                    try {
                         const results = await getProjectData(projectID);
                         // if results  is valid fom serve we will store it in react state
                         if (results && setID != null) {
                             setID(projectID)
                             setProjectData(results);
                             setGithub(results.github);
-
                         }
-                    
+                    } catch (error) {
+                        alert("Project does not exist anymore or the server is down,contact your project owner");
+                        router.push("/home");
+                    }
+
                 }
 
                 getData();
