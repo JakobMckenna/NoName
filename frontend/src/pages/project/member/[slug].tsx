@@ -73,7 +73,7 @@ function Form({
                 </select>
             </div>
             <div className="form-control">
-                <button className="btn">Add Member</button>
+                <button className="btn  btn-accent">Add Member</button>
             </div>
         </form>
     );
@@ -140,7 +140,7 @@ function MemberBoard({
     users,
 }: any) {
     return (
-        <div className="m-6 flex h-96 min-h-min w-[425px] flex-col  rounded-md border-black bg-neutral-focus p-6">
+        <div className="m-6 flex h-96 min-h-min w-[425px] flex-col  rounded-md border-black bg-base-200  p-6">
             <div className="mb-3 flex flex-col px-3">
                 <Form
                     projectID={projectID}

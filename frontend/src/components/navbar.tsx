@@ -20,7 +20,7 @@ const Navbar = ({ userName }: { userName: string }) => {
         <Drawer />
       </div>
       <div className="navbar-center">
-        <Link href={"/home"} className="btn btn-ghost normal-case text-xl">{userName}  DEV DIARY</Link>
+        <Link href={"/home"} className="btn btn-ghost normal-case text-xl">{userName!=null ||userName!=undefined||userName!="undefined"?`${userName} DEV DIARY`:(<p className="skeleton h-4 w-28"></p>)} </Link>
       </div>
       <div className="navbar-end">
         <label className="flex cursor-pointer gap-2">
