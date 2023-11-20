@@ -16,6 +16,7 @@ import Head from "next/head";
 import config from "config";
 import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
+import InfoCard from "~/components/info_card";
 
 
 function LoadingCard() {
@@ -24,10 +25,10 @@ function LoadingCard() {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title skeleton h-4   w-28"></h2>
                 <div>
-                    <p  className="link skeleton h-4   w-28"></p>
+                    <p className="link skeleton h-4   w-28"></p>
                 </div>
                 <div>
-                    <p  className="link skeleton h-4   w-28"></p>
+                    <p className="link skeleton h-4   w-28"></p>
                 </div>
 
             </div>
@@ -73,14 +74,14 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     );
 }
 
-function ResearchCard({ projectID }: { projectID: string }) {
+function ResearchCard({ projectID, numSprints }: { projectID: string, numSprints: number }) {
     return (
         <div className="card bg-primary glass text-primary-content  w-80  shadow-xl  h-56 ">
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
                 <div>
                     <p className="mb-3">Organize your research here for you and your mates</p>
-                    <Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>
+                    {numSprints > 0 ? (<Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>) : (<InfoCard message="Add Milestones/Sprints first" tip={"Milestones are needed to create bookmarks"} />)}
                 </div>
             </div>
         </div>
@@ -88,7 +89,6 @@ function ResearchCard({ projectID }: { projectID: string }) {
 }
 
 function SprintCard({ projectID }: { projectID: string }) {
-    // console.log(github);
     return (
         <div className="card  bg-primary glass text-primary-content w-80  shadow-xl h-56 ">
 
@@ -171,7 +171,7 @@ export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
-    const [projectIDstr ,setProjectIDstr] = useState<string>("")
+    const [projectIDstr, setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState(null);
     const [sprints, setID] = useSprint();
     const projectID = router.query.slug;
@@ -186,13 +186,12 @@ export default function Project() {
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
-          
-            if(id != null || id !=undefined)
-            {
-            const results = await axios.get(reqUrl);
-            // save owner's user ID to compare  with the logged in user's ID
-            setOwner(results.data.projects.userId);
-            return results.data.projects;
+
+            if (id != null || id != undefined) {
+                const results = await axios.get(reqUrl);
+                // save owner's user ID to compare  with the logged in user's ID
+                setOwner(results.data.projects.userId);
+                return results.data.projects;
             }
 
         } catch (error) {
@@ -203,8 +202,16 @@ export default function Project() {
 
     }
 
-    const isProjectIdReady =()=>{
-        return projectID!= null || projectID!=undefined
+    const isProjectIdReady = () => {
+        return projectID != null || projectID != undefined
+    }
+
+    const getSprintSize = () => {
+        let result = 0;
+        if (sprints) {
+            result = sprints.length;
+        }
+        return result;
     }
 
     useEffect(
@@ -216,7 +223,7 @@ export default function Project() {
                 // retrieves with project ID project data
                 const getData = async () => {
                     try {
-                        
+
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
                         if (results && setID != null) {
@@ -256,7 +263,7 @@ export default function Project() {
                     <SprintCard projectID={projectIDstr} />
 
 
-                    {sprints? (<ResearchCard projectID={projectIDstr} />) : <LoadingCard />}
+                    {sprints != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
                     <ChatCard projectID={projectIDstr} />
 
                 </div>
