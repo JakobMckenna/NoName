@@ -42,13 +42,18 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card bg-primary glass text-primary-content  w-80 shadow-xl  h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Github</h2>
-                    <div className="card-actions justify-start">
-                        <button onClick={() => {
-                            const modal: any = document.getElementById('my_modal_4');
-                            if (modal) {
-                                modal?.showModal();
-                            }
-                        }} className="link">setup github</button>
+                    <div className="flex flex-col justify-center">
+                        <p className="mb-3">Link your project to Github and see updates from your repo</p>
+
+                        <div className="card-actions justify-center">
+
+                            <button onClick={() => {
+                                const modal: any = document.getElementById('my_modal_4');
+                                if (modal) {
+                                    modal?.showModal();
+                                }
+                            }} className="link">setup github</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +66,8 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div className="flex flex-col">
-                    <div>
+                    <p className="mb-3">Check recent updates from Github and code progress.</p>
+                    <div className="mb-1">
                         <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
                     </div>
                     <div>
@@ -80,7 +86,7 @@ function ResearchCard({ projectID, numSprints }: { projectID: string, numSprints
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
                 <div>
-                    <p className="mb-3">Organize your research here for you and your mates</p>
+                    <p className="mb-3">Organize your research here for you and your mates.</p>
                     {numSprints > 0 ? (<Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>) : (<InfoCard message="Add Milestones/Sprints first" tip={"Milestones are needed to create bookmarks"} />)}
                 </div>
             </div>
@@ -95,7 +101,7 @@ function SprintCard({ projectID }: { projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Milestones/Sprints</h2>
                 <div>
-                    <p>Setup your project's milestone's here</p>
+                    <p>Setup your project's milestone's here.</p>
                     <Link className="link" href={`/project/sprint/${projectID}`}  >setup/see </Link>
                 </div>
 
@@ -111,11 +117,14 @@ function ChatCard({ projectID }: { projectID: string }) {
         <div className="card  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title"> Info/Communication</h2>
-                <div>
-                    <Link href={`/project/chat/${projectID}`} className="link">See Chat</Link>
-                </div>
-                <div>
-                    <Link href={`/project/member/${projectID}`} className="link">Add/See Member</Link>
+                <div className="flex flex-col">
+                    <p className="mb-1">Check recent updates from Github and code progress.</p>
+                    <div className="mb-1">
+                        <Link href={`/project/chat/${projectID}`} className="link">See Chat</Link>
+                    </div>
+                    <div>
+                        <Link href={`/project/member/${projectID}`} className="link">Add/See Member</Link>
+                    </div>
                 </div>
             </div>
         </div>
