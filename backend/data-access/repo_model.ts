@@ -61,7 +61,7 @@ export async function updateRepo(repoID :string ,projectID: string, owner: strin
                     id:repoID
                 },
                 data: {
-                    projectID: projectID,
+                  //  projectID: projectID,
                     owner: owner,
                     repoName: repo,
                 }

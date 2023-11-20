@@ -1,3 +1,8 @@
+/**
+ * @fileoverview This is the project page for individual project pages and is dynaically rendered depending on url's params
+ * if a user who has not logged in tries to login to this page they'll be sent back to sign up page
+ */
+
 /* eslint-disable */
 import useUser from "~/hooks/use_user"
 import { useRouter } from 'next/router'
@@ -6,13 +11,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RepoModal from "~/components/repomdl";
 import Link from "next/link";
-import SprintModal from "~/components/sprintmdl";
 import useSprint from "~/hooks/use_sprint";
 import Head from "next/head";
-
 import config from "config";
 import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
+import InfoCard from "~/components/info_card";
+import UpdateRepoModal from "~/components/update_repo_modal";
+
+
+function LoadingCard() {
+    return (
+        <div className="card  skeleton  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
+            <div className="card-body items-center text-center h-full">
+                <h2 className="card-title skeleton h-4   w-32"></h2>
+            </div>
+        </div>
+    )
+}
 
 function MenuCard({ github, projectID }: { github: any, projectID: string }) {
     if (github === null) {
@@ -20,13 +36,18 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card bg-primary glass text-primary-content  w-80 shadow-xl  h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Github</h2>
-                    <div className="card-actions justify-start">
-                        <button onClick={() => {
-                            const modal: any = document.getElementById('my_modal_4');
-                            if (modal) {
-                                modal?.showModal();
-                            }
-                        }} className="link">setup github</button>
+                    <div className="flex flex-col justify-center">
+                        <p className="mb-3">Link your project to Github and see updates from your repo</p>
+
+                        <div className="card-actions justify-center">
+
+                            <button onClick={() => {
+                                const modal: any = document.getElementById('my_modal_4');
+                                if (modal) {
+                                    modal?.showModal();
+                                }
+                            }} className="link">setup github</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,7 +60,18 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div className="flex flex-col">
-                    <div>
+                    <p className="mb-3 ">Check recent updates from Github and code progress or 
+                    <span className=" bg-secondary glass tooltip  ml-1 mr-1 px-1" data-tip="click here to update repo info">
+                            <button onClick={() => {
+                                const modal: any = document.getElementById('update_repo');
+                                if (modal) {
+                                    modal?.showModal();
+                                }
+                            }} className="link">update </button>
+                        </span>
+                         repo info
+                    </p>
+                    <div className="mb-1">
                         <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
                     </div>
                     <div>
@@ -47,37 +79,34 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                     </div>
 
                 </div>
+
             </div>
         </div>
     );
 }
 
-function ResearchCard({ projectID }: { projectID: string }) {
-    // console.log(github);
+function ResearchCard({ projectID, numSprints }: { projectID: string, numSprints: number }) {
     return (
         <div className="card bg-primary glass text-primary-content  w-80  shadow-xl  h-56 ">
-
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Research</h2>
                 <div>
-                    <Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>
+                    <p className="mb-3">Organize your research here for you and your mates.</p>
+                    {numSprints > 0 ? (<Link href={`/project/research/${projectID}`} className="link">See Bookmarks</Link>) : (<InfoCard message="Add Milestones/Sprints first" tip={"Milestones are needed to create bookmarks"} />)}
                 </div>
-
             </div>
-
         </div>
     )
 }
 
 function SprintCard({ projectID }: { projectID: string }) {
-    // console.log(github);
     return (
         <div className="card  bg-primary glass text-primary-content w-80  shadow-xl h-56 ">
 
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Milestones/Sprints</h2>
                 <div>
-                    <p>Setup your project's milestone's here</p>
+                    <p>Setup your project's milestone's here.</p>
                     <Link className="link" href={`/project/sprint/${projectID}`}  >setup/see </Link>
                 </div>
 
@@ -89,22 +118,20 @@ function SprintCard({ projectID }: { projectID: string }) {
 }
 
 function ChatCard({ projectID }: { projectID: string }) {
-    // console.log(github);
     return (
         <div className="card  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
-
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title"> Info/Communication</h2>
-                <div>
-                    <Link href={`/project/chat/${projectID}`} className="link">See Chat</Link>
+                <div className="flex flex-col">
+                    <p className="mb-1">Check recent updates from Github and code progress.</p>
+                    <div className="mb-1">
+                        <Link href={`/project/chat/${projectID}`} className="link">See Chat</Link>
+                    </div>
+                    <div>
+                        <Link href={`/project/member/${projectID}`} className="link">Add/See Member</Link>
+                    </div>
                 </div>
-                <div>
-                    <Link href={`/project/member/${projectID}`} className="link">Add/See Member</Link>
-
-                </div>
-
             </div>
-
         </div>
     )
 }
@@ -112,9 +139,9 @@ function ChatCard({ projectID }: { projectID: string }) {
 function Header({ projectData, userID, owner }: { projectData: any, userID: number | null, owner: number | null }) {
     return (
         <div className="ml-10 mt-3 md:ml-0 md:mt-0  prose  ">
-             <BackPage link="/home" name="Back To Home Page" />
+            <BackPage link="/home" name="Back To Home Page" />
             <div className="flex flex-col justify-start max-w-xl ">
-               
+
                 <div className="flex flex-col md:flex-row items-baseline max-w-lg text-center">
 
                     <h1 className="uppercase mb-2">{projectData ? `${projectData.name} PROJECT` : (<div className="skeleton h-9 w-96"></div>)} </h1>
@@ -158,65 +185,78 @@ export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
-    const [github, setGithub] = useState(null);
+    const [projectIDstr, setProjectIDstr] = useState<string>("")
+    const [github, setGithub] = useState<any>(null);
     const [sprints, setID] = useSprint();
-    const projectID = String(router.query.slug);
-    const [isOwner, setIsOwner] = useState(false);
+    const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)
     const goToHome = () => {
         router.push("/home")
     }
 
+
+    // Retrieve project data from backend with project ID from the url params
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
-            if (!id) {
-                router.push("/")
+
+            if (id != null || id != undefined) {
+                const results = await axios.get(reqUrl);
+                // save owner's user ID to compare  with the logged in user's ID
+                setOwner(results.data.projects.userId);
+                return results.data.projects;
             }
-            const results = await axios.get(reqUrl)
-            //  console.log(results.data.projects)
-            setOwner(results.data.projects.userId)
-            return results.data.projects
 
         } catch (error) {
-            // router.push("/home")
-            //
+            console.log(error);
+           // alert(typeof id)
+            throw new Error("failed to get project");
         }
 
     }
 
+    const isProjectIdReady = () => {
+        return projectID != null || projectID != undefined
+    }
+
+    const getSprintSize = () => {
+        let result = 0;
+        if (sprints) {
+            result = sprints.length;
+        }
+        return result;
+    }
+
     useEffect(
         () => {
-
-
-            if (user != null && user != undefined) {
-                // console.log
-                //  console.log("user id")
+            // retrieve data but only if user data is stored in browser local storage
+            if (user != null && user != undefined && projectID != null && projectID != undefined) {
+                // store user ID from local storage
                 setUserID(user.id)
+                // retrieves with project ID project data
                 const getData = async () => {
-                    if (projectID != null) {
-                        const results = await getProjectData(projectID);
+                    try {
 
-
+                        const results = await getProjectData(String(projectID));
+                        // if results  is valid fom serve we will store it in react state
                         if (results && setID != null) {
-                            setID(projectID)
+                            setID(String(projectID));
                             setProjectData(results);
                             setGithub(results.github);
-
                         }
+                        setProjectIDstr(String(projectID))
+                    } catch (error) {
+                       // alert("Project does not exist anymore or the server is down,contact your project owner");
+                        router.push("/home");
                     }
+
                 }
 
+                // retrieve project data  from server and save it in state
                 getData();
-
-
-                // console.log(projectData)
-
             }
-
-
-        }, [projectID, user]);
+        }, [isProjectIdReady, user]);
 
     return (
         <div>
@@ -233,19 +273,20 @@ export default function Project() {
                 <Header projectData={projectData} userID={userID} owner={owner} />
                 <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 pl-5 md:pl-24  ">
 
-                    <MenuCard github={github} projectID={projectID} />
-                    <SprintCard projectID={projectID} />
+                    {projectData != null ? (<MenuCard github={github} projectID={projectIDstr} />) : <LoadingCard />}
+                    {projectData != null ? (<SprintCard projectID={projectIDstr} />) : <LoadingCard />}
 
 
-                    {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
-                    <ChatCard projectID={projectID} />
+                    {sprints != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
+                    {projectData != null ? (<ChatCard projectID={projectIDstr} />) : <LoadingCard />}
 
                 </div>
 
 
             </main >
-            <RepoModal projectID={projectID} />
-            <DeleteModal projectID={projectID} home={goToHome} />
+            <RepoModal projectID={projectIDstr} />
+            <DeleteModal projectID={projectIDstr} home={goToHome} />
+            <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
 
         </div>
     )
