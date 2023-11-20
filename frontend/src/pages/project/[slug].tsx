@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RepoModal from "~/components/repomdl";
 import Link from "next/link";
-import SprintModal from "~/components/sprintmdl";
 import useSprint from "~/hooks/use_sprint";
 import Head from "next/head";
 
