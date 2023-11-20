@@ -18,9 +18,20 @@ import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
 
 
-function LoadingCard(){
-    return(
+function LoadingCard() {
+    return (
+        <div className="card  skeleton  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
+            <div className="card-body items-center text-center h-full">
+                <h2 className="card-title skeleton h-4   w-28"></h2>
+                <div>
+                    <p  className="link skeleton h-4   w-28"></p>
+                </div>
+                <div>
+                    <p  className="link skeleton h-4   w-28"></p>
+                </div>
 
+            </div>
+        </div>
     )
 }
 
@@ -101,7 +112,6 @@ function SprintCard({ projectID }: { projectID: string }) {
 function ChatCard({ projectID }: { projectID: string }) {
     return (
         <div className="card  bg-primary glass text-primary-content  w-80  shadow-xl h-56 ">
-
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title"> Info/Communication</h2>
                 <div>
@@ -109,11 +119,8 @@ function ChatCard({ projectID }: { projectID: string }) {
                 </div>
                 <div>
                     <Link href={`/project/member/${projectID}`} className="link">Add/See Member</Link>
-
                 </div>
-
             </div>
-
         </div>
     )
 }
@@ -167,9 +174,10 @@ export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
+    const [projectIDstr ,setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState(null);
     const [sprints, setID] = useSprint();
-    const projectID = String(router.query.slug);
+    const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)
     const goToHome = () => {
@@ -181,20 +189,25 @@ export default function Project() {
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
-            if (!id) {
-                //user is not logged in , send them back to login
-                router.push("/");
-            }
+          
+            if(id != null || id !=undefined)
+            {
             const results = await axios.get(reqUrl);
             // save owner's user ID to compare  with the logged in user's ID
             setOwner(results.data.projects.userId);
             return results.data.projects;
+            }
 
         } catch (error) {
             console.log(error);
+            alert(typeof id)
             throw new Error("failed to get project");
         }
 
+    }
+
+    const isProjectIdReady =()=>{
+        return projectID!= null || projectID!=undefined
     }
 
     useEffect(
@@ -206,10 +219,11 @@ export default function Project() {
                 // retrieves with project ID project data
                 const getData = async () => {
                     try {
-                        const results = await getProjectData(projectID);
+                        setProjectIDstr(String(projectID))
+                        const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
                         if (results && setID != null) {
-                            setID(projectID)
+                            setID(String(projectID));
                             setProjectData(results);
                             setGithub(results.github);
                         }
@@ -223,7 +237,7 @@ export default function Project() {
                 // retrieve project data  from server and save it in state
                 getData();
             }
-        }, [projectID, user]);
+        }, [isProjectIdReady, user]);
 
     return (
         <div>
@@ -240,19 +254,19 @@ export default function Project() {
                 <Header projectData={projectData} userID={userID} owner={owner} />
                 <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 pl-5 md:pl-24  ">
 
-                    <MenuCard github={github} projectID={projectID} />
-                    <SprintCard projectID={projectID} />
+                    <MenuCard github={github} projectID={projectIDstr} />
+                    <SprintCard projectID={projectIDstr} />
 
 
-                    {sprints && sprints.length > 0 && (<ResearchCard projectID={projectID} />)}
-                    <ChatCard projectID={projectID} />
+                    {sprints && sprints.length > 0 ? (<ResearchCard projectID={projectIDstr} />) : <LoadingCard />}
+                    <ChatCard projectID={projectIDstr} />
 
                 </div>
 
 
             </main >
-            <RepoModal projectID={projectID} />
-            <DeleteModal projectID={projectID} home={goToHome} />
+            <RepoModal projectID={projectIDstr} />
+            <DeleteModal projectID={projectIDstr} home={goToHome} />
 
         </div>
     )
