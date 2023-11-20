@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useForm } from "react-hook-form";
 
 import config from 'config';
+import { useState } from 'react';
+import Spinner from './modal_spinner';
 
 function Form({projectID}:{projectID:string}) {
     const {
@@ -11,9 +13,11 @@ function Form({projectID}:{projectID:string}) {
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
+    const [loading ,setLoading] = useState(false);
 
 
     const handleCreateProject = async (data:any) => {
+        setLoading(true)
         console.log("submit")
         try{
             const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner ,repoName:data.repo,projectID:projectID}, {
@@ -21,9 +25,10 @@ function Form({projectID}:{projectID:string}) {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log('Login successful', response.data);
-            const modalElement: any = document.getElementById('my_modal_4')
-            modalElement.close()
+            console.log('create repo', response.data);
+            const modalElement: any = document.getElementById('my_modal_4');
+            setLoading(false)
+            modalElement.close();
 
         }catch(error){
             console.log(error)
@@ -34,22 +39,27 @@ function Form({projectID}:{projectID:string}) {
         <form onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text">Owner</span>
+                    <span className="label-text text-primary">Owner</span>
                 </label>
                 <input {...register("owner")} type="text" placeholder="owner" className="input input-bordered" required />
             </div>
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text">Repo Name</span>
+                    <span className="label-text text-secondary ">Repo Name</span>
                 </label>
                 <input {...register("repo")} type="text" placeholder="repo name" className="input input-bordered" required />
              
 
             </div>
             <div className="form-control mt-6">
-                    <button className="btn btn-primary">Add Repo</button>
+                    <button className="btn btn-primary" disabled={loading}>
+                    {loading && (
+                            <Spinner />
+                        )}
+                       {loading?"Adding Repo":"Add Repo"}
+                    </button>
 
-                </div>
+            </div>
         </form>
     )
 }
