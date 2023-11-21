@@ -12,19 +12,15 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
         register,
         handleSubmit,
         setError,
-        formState: { errors, isSubmitSuccessful, isSubmitting },
+        formState: { errors , isSubmitting },
         clearErrors,
-        reset
+        setValue
     } = useForm();
 
     const [adding, setAdding] = useState(false);
-    //  const [error , setError] = useState()
-
-
+    
 
     const handleCreateProject = async (data: any) => {
-        //console.log("submit")
-
         try {
             setAdding(true);
             const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name, userID: userID }, {
@@ -47,7 +43,8 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
             })
             // refresh(true)
             setAdding(false);
-
+            
+           // reset();
         } catch (error) {
             console.log(error)
 
@@ -73,6 +70,9 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
             }
             setAdding(false);
+        }finally{
+            //reset();
+            setValue("name","");
         }
     }
 
@@ -81,14 +81,15 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
             <div className="form-control">
                 {errors.project && (<FormAlert message={String(errors.project.message)} />)}
                 <label className="label">
-                    <span className="label-text">Name</span>
+                    <span className="label-text">Project Name</span>
                 </label>
                 <input
                     {...register("name")}
                     onChange={() => clearErrors("project")}
                     type="text"
-                    placeholder="Name"
+                    placeholder="Project Name"
                     className="input input-bordered"
+                    disabled={isSubmitting}
                     required
                    
                 />
