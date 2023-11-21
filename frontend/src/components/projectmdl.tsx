@@ -73,7 +73,9 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 const ProjectModal = ({ userID, addProject }: { userID: number, addProject: Function }) => {
     return (
         <dialog id="my_modal_3" className="modal">
-            <div className="modal-box">
+            <div className="modal-box prose">
+            <h2 className="font-bold text-2lg uppercase">Create Project</h2>
+            <p>Please give your projects unique names i.e If you have a project called demo you can not make another called demo.</p>
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
