@@ -11,12 +11,12 @@ import useUser from "~/hooks/use_user";
 
 import config from "config";
 
-function NoteList({ list ,refresh }: { list: any , refresh:any }) {
+function NoteList({ list, refresh }: { list: any, refresh: any }) {
     const deleteNote = async (id: string) => {
         try {
             const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
             console.log(`deleted ${deletedNote}`);
-             refresh(true)
+            refresh(true)
         } catch (error) {
             console.log(error);
         }
@@ -28,20 +28,21 @@ function NoteList({ list ,refresh }: { list: any , refresh:any }) {
             {
                 list && list.map(
                     (note: any) => (
-                        <div className="flex flex-row justify-between w-72 bg-primary p-4 border mb-4" key={note.id}>
-                            <div>
-                                <h3 className="text-2lg text-white font-bold"> {note.title}</h3>
-                                <p className="text-white">{note.details}</p>
-                                <a className="btn btn-link text-white" target="_blank" href={note.link[0].url}>Link</a>
-                            </div>
-                            <div>
+                        <div className="flex flex-row   prose  bg-base-300  w-full  p-4 border mb-4" key={note.id}>
+                            <div className="flex flex-row justify-center  decoration-2 w-full ">
+                                <div>
+                                    <h3 className="text-2lg font-bold"> {note.title}</h3>
+                                    <p className=" ">{note.details}</p>
+                                    <a className="btn btn-ghost" target="_blank" href={note.link[0].url}>Link</a>
+                                </div>
                                 <button onClick={
                                     () => {
                                         deleteNote(note.id)
 
                                     }
-                                } className="btn btn-link text-gray-100">delete</button>
+                                } className="btn btn-ghost ">delete</button>
                             </div>
+                            
                         </div>
                     )
                 )
@@ -92,11 +93,11 @@ export default function Research() {
                 getResponse()
             }
 
-        }, [projectID,refresh])
+        }, [projectID, refresh])
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto">
+            <main className="container mx-auto max-w-lg">
                 <div className="flex flex-row row-gap-2 mb-10">
                     <button onClick={
                         () => {
@@ -108,10 +109,10 @@ export default function Research() {
 
                 </div>
                 <div className="container">
-                    <NoteList list={notes} refresh={(val:boolean)=>setRefresh(val)} />
+                    <NoteList list={notes} refresh={(val: boolean) => setRefresh(val)} />
                 </div>
             </main>
-            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints}  refresh={(val:boolean)=>setRefresh(val)}  />
+            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
         </div>
     )
 }
