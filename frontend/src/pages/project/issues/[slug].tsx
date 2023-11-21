@@ -31,7 +31,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
     }
     const date = convDate(dueDate)
     return (
-        <div className="flex flex-row justify-between py-2 border-b-2  mb-5">
+        <div className="flex flex-row w-full justify-between py-2 border-b-2  mb-5">
             <p className="w-36">{title}</p>
             <div className="flex flex-col w-32">
                 {
@@ -249,7 +249,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
                 </div>
             </div>
-            <div className="h-80 overflow-y-auto w-full">
+            <div className="md:h-80 md:overflow-y-auto w-full">
 
                 {
                     show ? <Issues issues={filteredOpen} type={""} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} /> : <Issues issues={filteredClosed} type={"recently closed"} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} />
@@ -352,11 +352,11 @@ export default function IssuesPage() {
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
                
-            <main className="container mx-auto ">
+            <main className="container mx-auto md:w-1/2 mt-5 ">
                 {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`}/>): (<div className="skeleton h-9 w-96 mb-5"></div>)}
             
                 <h1 className="text-4xl uppercase mb-2 text-center">Issues</h1>
-                <div className="flex flex-row justify-center ">
+                <div className="flex flex-row justify-center px-5 ">
                     {!openIssues && (<Spinner />)}
                     {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} refresh={(val: boolean) => setRefresh(val)} />}
                 </div>
