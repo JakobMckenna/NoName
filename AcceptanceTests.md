@@ -104,3 +104,14 @@ This is a sample project to be used for testing: https://github.com/JakobMckenna
 # Acceptance tests for feature 4: Info/Communication
 
 ## Test 1: Testing chat
+> From the projects page, under the Info/Communication, click "See chat"       
+> Type a message in the message box (ex: "HI!")      
+> Click the "Send button      
+> Your message should appear in the chat
+
+## Test 2: Searching chat
+> To begin this test, type atleast 10 different messages in the chat, these can be anything      
+> Click "oldest messages", this should take you back to the top of the chat     
+> Click "newest messages", this should take you back to the bottom of the chat     
+> In the search message tab, enter any message you have typed and it will take you too it
+

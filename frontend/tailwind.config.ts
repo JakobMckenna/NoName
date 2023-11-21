@@ -6,6 +6,17 @@ export default {
     extend: {},
   },
   plugins: [
+    require("@tailwindcss/typography"),
     require("daisyui"),
   ],
+  daisyui: {
+    styled: true,
+    themes: ['lofi','garden','dark','retro'],
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "",
+  //  darkTheme: "dark",
+  },
 } satisfies Config;
