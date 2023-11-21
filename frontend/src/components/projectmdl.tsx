@@ -42,7 +42,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                 project: {
                     id: project.id,
                     name: project.name,
-                    user: "you"
+                    user:{name: "you"}
                 }
             })
             // refresh(true)
@@ -50,6 +50,9 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
         } catch (error) {
             console.log(error)
+
+            
+            //user input was wrong type of input
             if (axios.isAxiosError(error) && error.response) {
 
                 console.log(error.response.status);
