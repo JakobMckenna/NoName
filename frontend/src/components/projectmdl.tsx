@@ -5,15 +5,18 @@ import { useForm } from "react-hook-form";
 import config from 'config';
 import { useState } from 'react';
 import Spinner from './modal_spinner';
+import FormAlert from './form_alert';
 
 function Form({ userID, addProject }: { userID: number, addProject: Function }) {
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
-    const [adding, setAdding] = useState(false)
+    const [adding, setAdding] = useState(false);
+  //  const [error , setError] = useState()
 
 
 
@@ -45,16 +48,33 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
         } catch (error) {
             console.log(error)
+            if (axios.isAxiosError(error) && error.response){
+
+                console.log(error.response.status);
+                console.log(error.response.data);
+                setError("project",
+                {
+                    type:"server",
+                    message:"You already have a project with that name"
+                }
+
+                );
+                setAdding(false);
+                
+                
+            }
         }
     }
 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
+                {errors.project&&(<FormAlert message={String(errors.project.message)}/>)}
                 <label className="label">
                     <span className="label-text">Name</span>
                 </label>
                 <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
+               
                 <div className="form-control mt-6">
                     <button className="btn btn-primary" disabled={adding}>
                         {adding && (
@@ -62,9 +82,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                         )}
                        {adding?"Creating Project":"Create Project"}
                     </button>
-
                 </div>
-
             </div>
         </form>
     )
