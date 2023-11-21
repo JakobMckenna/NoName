@@ -13,10 +13,12 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
         handleSubmit,
         setError,
         formState: { errors, isSubmitSuccessful, isSubmitting },
+        clearErrors,
+        reset
     } = useForm();
 
     const [adding, setAdding] = useState(false);
-  //  const [error , setError] = useState()
+    //  const [error , setError] = useState()
 
 
 
@@ -48,39 +50,52 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
         } catch (error) {
             console.log(error)
-            if (axios.isAxiosError(error) && error.response){
+            if (axios.isAxiosError(error) && error.response) {
 
                 console.log(error.response.status);
                 console.log(error.response.data);
                 setError("project",
-                {
-                    type:"server",
-                    message:"You already have a project with that name"
-                }
+                    {
+                        type: "server",
+                        message: `You already have a project named ${data.name}`
+                    }
 
                 );
-                setAdding(false);
-                
-                
+            } else {
+                setError("project",
+                    {
+                        type: "server",
+                        message: "Server is either down or not working"
+                    });
+
             }
+            setAdding(false);
         }
     }
 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
-                {errors.project&&(<FormAlert message={String(errors.project.message)}/>)}
+                {errors.project && (<FormAlert message={String(errors.project.message)} />)}
                 <label className="label">
                     <span className="label-text">Name</span>
                 </label>
-                <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
-               
+                <input
+                    {...register("name")}
+                    onChange={() => clearErrors("project")}
+                    type="text"
+                    placeholder="Name"
+                    className="input input-bordered"
+                    required
+                   
+                />
+
                 <div className="form-control mt-6">
                     <button className="btn btn-primary" disabled={adding}>
                         {adding && (
                             <Spinner />
                         )}
-                       {adding?"Creating Project":"Create Project"}
+                        {adding ? "Creating Project" : "Create Project"}
                     </button>
                 </div>
             </div>
@@ -92,8 +107,8 @@ const ProjectModal = ({ userID, addProject }: { userID: number, addProject: Func
     return (
         <dialog id="my_modal_3" className="modal">
             <div className="modal-box prose">
-            <h2 className="font-bold text-2lg uppercase">Create Project</h2>
-            <p>Please give your projects unique names i.e If you have a project called demo you can not make another called demo.</p>
+                <h2 className="font-bold text-2lg uppercase">Create Project</h2>
+                <p>Please give your projects unique names i.e If you have a project called demo you can not make another called demo.</p>
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
