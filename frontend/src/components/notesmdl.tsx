@@ -4,12 +4,15 @@ import { useForm } from "react-hook-form";
 
 import config from "config";
 import Spinner from "./modal_spinner";
+import FormAlert from "./form_alert";
 
 function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprintID: string, sprints: any, addNotes: any, refresh: any }) {
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors, isSubmitting },
+        setValue
     } = useForm();
 
 
@@ -23,6 +26,19 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
                 },
             });
             console.log('added Notes', response.data);
+            //const note = response.data.notes
+            if (response.data.notes == null) {
+                console.log("bad input")
+                setError("notes",
+                    {
+                        type: "server",
+                        message: `Bad input, details or Title might be too long`
+                    }
+                )
+                throw new Error("")
+                //return null
+
+            }
             const note = response.data.notes
             addNotes(
                 {
@@ -37,7 +53,36 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
             modalElement.close()
 
         } catch (error) {
-            console.log(error)
+            if (axios.isAxiosError(error)) {
+
+                //console.log(error.response.status);
+                //  console.log(error.response.data);
+                if (error.response) {
+                    setError("notes",
+                        {
+                            type: "server",
+                            message: `failed . Details or Title might be too long`
+                        }
+
+
+                    )
+                } else {
+                    setError("notes",
+                        {
+                            type: "server",
+                            message: `Bad input`
+                        }
+
+
+                    )
+                }
+            }
+            //setAdding(false);
+        } finally {
+            setValue("sprint", "");
+            setValue("title", "");
+            setValue("details", "");
+            setValue("url", "");
         }
     }
 
@@ -96,15 +141,16 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
                 />
             </div>
 
+            {errors.notes && (<div className="mt-6"><FormAlert message={String(errors.notes.message)} /></div>)}
             <div className="form-control mt-6">
                 <button
                     className="btn btn-primary"
                     disabled={isSubmitting}
                 >
-                        {isSubmitting && (
-                            <Spinner />
-                        )}
-                        {isSubmitting ? "Creating Note" : "Create Note"}
+                    {isSubmitting && (
+                        <Spinner />
+                    )}
+                    {isSubmitting ? "Creating Note" : "Create Note"}
                 </button>
 
             </div>

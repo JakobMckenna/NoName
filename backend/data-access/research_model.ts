@@ -56,7 +56,11 @@ export async function createResearchNote(title: string, details: string, userID:
                     link:true
                 }
             }
-        )
+        );
+        if(notes==null){
+            throw new Error("invalid input was given")
+        }
+        console.log("here")
 
         return notes;
     } catch (err: any) {
