@@ -11,13 +11,15 @@ import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
+import Spinner from "~/components/spinner";
+import BackPage from "~/components/back_navigation";
 
 function Note({ noteID, title, details, links, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any }) {
     return (
         <li className="card w-96 bg-primary text-primary-content prose glass shadow-xl">
             <div className="card-body">
                 <div className="flex w-full justify-between">
-                    <h2 className="card-title text-primary-content">{title}</h2>
+                    <h2 className="card-title capitalize text-primary-content">{title}</h2>
                     <div className="dropdown">
                         <label tabIndex={0} className="btn m-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -55,8 +57,8 @@ function Note({ noteID, title, details, links, deleteNote }: { noteID: string, t
     )
 }
 
-function NoteList({ list,remove, refresh }: { list: any,remove:any, refresh: any }) {
-    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+function NoteList({ list, remove, refresh }: { list: any, remove: any, refresh: any }) {
+    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
     const deleteNote = async (id: string) => {
         try {
             const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
@@ -83,7 +85,7 @@ function NoteList({ list,remove, refresh }: { list: any,remove:any, refresh: any
                             noteID={note.id}
                             title={note.title}
                             details={note.details}
-                            
+
                             deleteNote={deleteNote}
                             links={note.link}
                         />
@@ -100,7 +102,7 @@ export default function Research() {
     const router = useRouter()
     const projectID: string = String(router.query.slug);
     const [user, loading] = useUser()
-    const [notes, setNotes] = useState<any[]>([])
+    const [notes, setNotes] = useState<any[] | null>(null)
     // const [notes, changeID] = useNotes()
     const [sprints, setID] = useSprint()
     const [refresh, setRefresh] = useState(true)
@@ -122,12 +124,14 @@ export default function Research() {
         }
     }
     const addNotes = (note: any) => {
-        setNotes((prev) => [ ...prev,note])
+
+        setNotes((prev: any) => [...prev, note])
     }
 
-    const removeNotes =(noteID:any)=>{
-       const noteList =notes.filter((note)=>note.id !== noteID);
-       setNotes(noteList);
+    const removeNotes = (noteID: any) => {
+        const noteList = notes?.filter((note) => note.id !== noteID);
+        if (noteList)
+            setNotes(noteList);
     }
 
     useEffect(
@@ -148,7 +152,8 @@ export default function Research() {
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto ">
+            <main className="container mx-auto px-7 ">
+                {!refresh ? (<BackPage link={`/project/${projectID}`} name={`Back to Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                 <div className="flex flex-row mx-auto row-gap-2 mb-10">
                     <button onClick={
                         () => {
@@ -159,8 +164,9 @@ export default function Research() {
                     } className="btn btn-primary">Add Note</button>
 
                 </div>
+
                 <div className="container  mx-auto mb-24">
-                    <NoteList list={notes} remove={removeNotes} refresh={(val: boolean) => setRefresh(val)} />
+                    {notes != null ? (<NoteList list={notes} remove={removeNotes} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
                 </div>
             </main>
             <NotesModal projectID={projectID} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
