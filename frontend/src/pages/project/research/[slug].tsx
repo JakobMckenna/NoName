@@ -99,10 +99,12 @@ function NoteList({ list, remove, refresh }: { list: any, remove: any, refresh: 
 }
 
 function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMilestone, reset }: { search: any, changeTopic: any, milestone: string, topic: string, sprints: any, changeMilestone: any, reset: any }) {
-    const selectRef =useRef<HTMLSelectElement|null>(null)
+    const selectRef =useRef<HTMLSelectElement|null>(null);
+    const inputRef = useRef<HTMLInputElement|null>(null);
     return (
         <div className="flex flex-col px-7 md:flex-row justify-between w-full md:w-3/4">
             <input
+                ref={inputRef}
                 type="text"
                 placeholder="search for bookmark"
                 className="input input-bordered w-full max-w-xs mr-5"
@@ -140,8 +142,11 @@ function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMiles
                  onClick={
                     () =>{
                         reset();
+                        if(inputRef && inputRef.current){
+                            inputRef.current.value="";
+                        }
                         if(selectRef &&selectRef.current){
-                            selectRef.current.value=""
+                            selectRef.current.value="";
                         }
                     }
                 }
