@@ -18,7 +18,7 @@ import BackPage from "~/components/back_navigation";
 
 function Note({ noteID, title, details, links, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any }) {
     return (
-        <li className="card w-96 bg-primary text-primary-content prose glass shadow-xl">
+        <li className="card w-96 h-80 bg-primary text-primary-content prose glass shadow-xl">
             <div className="card-body">
                 <div className="flex w-full justify-between">
                     <h2 className="card-title capitalize text-primary-content">{title}</h2>
@@ -121,7 +121,7 @@ function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMiles
                     }
                 }
             >
-                <option disabled selected>changeTopic by Sprint</option>
+                <option disabled selected>Filter  by Sprint</option>
                 <option value={""}>Any Sprint</option>
                 {
                     sprints?.map(
@@ -182,19 +182,11 @@ export default function Research() {
 
     const search = () => {
         let results
-       if(searchTopic && searchTopic!=="" && searchMilestone!=""  ){
-            results = notes?.filter((note) => {
-                return note.sprintID==searchMilestone&&(note.title.toLowerCase().includes(searchTopic.toLowerCase()) || note.details.toLowerCase().includes(searchTopic.toLowerCase()));
-            });
-        }else if (searchTopic!=="" && searchMilestone ==""){
-            results = notes?.filter((note) => {
-                return note.title.toLowerCase().includes(searchTopic.toLowerCase()) || note.details.toLowerCase().includes(searchTopic.toLowerCase());
-            });
-        }else if(searchTopic=="" && searchMilestone!=""){
-            results = notes?.filter((note) => {
-                return note.sprintID==searchMilestone
-             });
-        }
+        results = notes?.filter((note)=>{
+            return(
+                (note.title.toLowerCase().includes(searchTopic.toLowerCase()) ||  note.details.toLowerCase().includes(searchTopic.toLowerCase()) ) && note.sprintID.toLowerCase().includes(searchMilestone)
+            )
+        })
         
 
 
@@ -211,30 +203,16 @@ export default function Research() {
     const changeTopic = (topic: string) => {
 
         setSearchTopic(topic)
-        // const results = changeTopicedNotes.changeTopic((note) => {
-        //     return note.title.toLowerCase().includes(topic.toLowerCase()) || note.details.toLowerCase().includes(topic.toLowerCase());
-        // });
-        // if (results) {
-        //     setchangeTopicedNotes(results);
-        // }
+        if(topic==""){
+            reset();
+        }
     }
 
     const changeMilestone = (milestone: string) => {
         setSearchMilestone(milestone);
-        // if (changeTopicedNotes.length > 0) {
-        //     const results = changeTopicedNotes.changeTopic((note) => {
-        //         return note.sprintID == milestone;
-        //     })
-
-        //     setchangeTopicedNotes(results);
-        // } else if (changeTopicedNotes.length == 0 && notes) {
-        //     const results = notes.changeTopic((note) => {
-        //         return note.sprintID == milestone;
-        //     })
-
-        //     setchangeTopicedNotes(results);
-        // }
-
+        if(milestone==""){
+            reset();
+        }
     }
 
 
