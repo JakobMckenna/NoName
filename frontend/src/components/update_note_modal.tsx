@@ -6,7 +6,7 @@ import config from "config";
 import Spinner from "./modal_spinner";
 import FormAlert from "./form_alert";
 
-function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) {
+function Form({ id,projectID, userID, sprints, addNotes, refresh }: { id:string,projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) {
     const {
         register,
         handleSubmit,
@@ -21,7 +21,8 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
     const handleCreateProject = async (data: any) => {
 
         try {
-            const response = await axios.post(`${config.backendApiUrl}/projects/notes`, { title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
+
+            const response = await axios.post(`${config.backendApiUrl}/projects/notes`, { noteID:id,title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -170,7 +171,7 @@ const UpdateNote = ({ noteID,projectID, userID, sprints, addNotes, refresh }: { 
     <dialog id="update_note" className="modal">
       <div className="modal-box">
         <h2 className="font-bold text-2lg uppercase">Update Note</h2>
-        <Form projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
+        <Form id={noteID} projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
