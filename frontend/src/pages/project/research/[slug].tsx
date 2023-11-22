@@ -13,10 +13,10 @@ import config from "config";
 
 function Note({ noteID, title, details, links, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any }) {
     return (
-        <div className="card w-96 bg-base-200 glass shadow-xl">
+        <div className="card w-96 bg-primary text-primary-content prose glass shadow-xl">
             <div className="card-body">
                 <div className="flex w-full justify-between">
-                    <h2 className="card-title">{title}</h2>
+                    <h2 className="card-title text-primary-content">{title}</h2>
                     <div className="dropdown">
                         <label tabIndex={0} className="btn m-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -28,7 +28,7 @@ function Note({ noteID, title, details, links, deleteNote }: { noteID: string, t
                             <li > <a onClick={
                                 async () => {
                                     const result = await deleteNote(noteID);
-                                    console.log(result);
+                                    console.log(result.data);
 
                                 }
                             } >delete</a></li>
@@ -54,11 +54,13 @@ function Note({ noteID, title, details, links, deleteNote }: { noteID: string, t
     )
 }
 
-function NoteList({ list, refresh }: { list: any, refresh: any }) {
+function NoteList({ list,remove, refresh }: { list: any,remove:any, refresh: any }) {
     const deleteNote = async (id: string) => {
         try {
             const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
-            console.log(`deleted ${deletedNote}`);
+            //console.log(`deleted ${deletedNote}`);
+            const note = deletedNote.data.notes;
+            remove(note.id)
             return deleteNote;
             // refresh(true)
         } catch (error) {
@@ -121,6 +123,11 @@ export default function Research() {
         setNotes((prev) => [ ...prev,note])
     }
 
+    const removeNotes =(noteID:any)=>{
+       const noteList =notes.filter((note)=>note.id !== noteID);
+       setNotes(noteList);
+    }
+
     useEffect(
         () => {
             if (user != null && projectID != null && setID != null) {
@@ -150,8 +157,8 @@ export default function Research() {
                     } className="btn btn-primary">Add Note</button>
 
                 </div>
-                <div className="container  mx-auto">
-                    <NoteList list={notes} refresh={(val: boolean) => setRefresh(val)} />
+                <div className="container  mx-auto mb-24">
+                    <NoteList list={notes} remove={removeNotes} refresh={(val: boolean) => setRefresh(val)} />
                 </div>
             </main>
             <NotesModal projectID={projectID} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
