@@ -3,7 +3,7 @@ import Head from "next/head";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import Navbar from "~/components/navbar";
 import NotesModal from "~/components/notesmdl";
@@ -99,6 +99,7 @@ function NoteList({ list, remove, refresh }: { list: any, remove: any, refresh: 
 }
 
 function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMilestone, reset }: { search: any, changeTopic: any, milestone: string, topic: string, sprints: any, changeMilestone: any, reset: any }) {
+    const selectRef =useRef<HTMLSelectElement|null>(null)
     return (
         <div className="flex flex-col px-7 md:flex-row justify-between w-full md:w-3/4">
             <input
@@ -114,6 +115,7 @@ function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMiles
             />
             <select
                 className="select select-bordered w-full max-w-xs"
+                ref={selectRef}
                 onChange={
                     (event: React.ChangeEvent<HTMLSelectElement>) => {
                         const milestoneTxt = event.target.value;
@@ -133,7 +135,18 @@ function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMiles
             </select>
             <div className="flex flex-row w-1/5 justify-between ">
                 <button className="btn  btn-accent  " onClick={() => search()}>Search</button>
-                <button className="btn" onClick={() => reset()}>reset filter</button>
+                <button
+                 className="btn" 
+                 onClick={
+                    () =>{
+                        reset();
+                        if(selectRef &&selectRef.current){
+                            selectRef.current.value=""
+                        }
+                    }
+                }
+                 >reset filter
+                 </button>
             </div>
         </div>
     )

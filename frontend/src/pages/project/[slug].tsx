@@ -188,7 +188,6 @@ export default function Project() {
     const [projectIDstr, setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState<any>(null);
     //const [sprints, setID] = useSprint();
-    const [sprints ,setSpirints] = useState<any[]|null>(null)
     const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)

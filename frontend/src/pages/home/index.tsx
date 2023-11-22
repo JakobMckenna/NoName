@@ -49,9 +49,9 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
             <div className="hero-content ">
                 <div className="max-w-lg">
                     <h1 className="text-5xl font-bold">Dev Diaries</h1>
-                    <div className="flex flex-row-reverse justify-between items-center">
+                    <div className="flex flex-col  items-start mb-5">
                         <button
-                            className="btn btn-primary my-6 ml-5"
+                            className="btn btn-primary my-6 "
                             onClick={
                                 () => {
                                     const modalElement: any = document.getElementById('my_modal_3')
