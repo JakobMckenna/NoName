@@ -50,7 +50,7 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
                 }
             )
             // refresh(true);
-            const modalElement: any = document.getElementById('my_modal_2')
+            const modalElement: any = document.getElementById('update_note')
             modalElement.close()
 
         } catch (error) {
