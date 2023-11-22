@@ -15,6 +15,7 @@ import config from "config";
 import Spinner from "~/components/spinner";
 import BackPage from "~/components/back_navigation";
 import UpdateNote from "~/components/update_note_modal";
+import { boolean } from "yup";
 
 
 function Note({ noteID, title, details, links, update, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any, update: any }) {
@@ -73,7 +74,7 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
     )
 }
 
-function NoteList({ list, remove, refresh, updateNotes }: { list: any, remove: any, refresh: any, updateNotes: any }) {
+function NoteList({ list, remove, refresh, setUpdateNote }: { list: any, remove: any, refresh: any, setUpdateNote: any }) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
     const deleteNote = async (id: string) => {
         try {
@@ -101,7 +102,7 @@ function NoteList({ list, remove, refresh, updateNotes }: { list: any, remove: a
                             noteID={note.id}
                             title={note.title}
                             details={note.details}
-                            update={updateNotes}
+                            update={setUpdateNote}
                             deleteNote={deleteNote}
                             links={note.link}
                         />
@@ -184,6 +185,7 @@ export default function Research() {
     const [searchMilestone, setSearchMilestone] = useState<string>("")
     const [projectIDstr, setProjectIDstr] = useState("")
     const [editNoteID, setEditNoteID] = useState("")
+    const [noteEdit , setNoteEdit]= useState<any>(null)
 
     const getResponse = async () => {
         try {
@@ -208,8 +210,15 @@ export default function Research() {
         setNotes((prev: any) => [...prev, note])
     }
 
-    const updateNotes = (noteID: string) => {
+    const setUpdateNote = (noteID: string) => {
         setEditNoteID(noteID)
+        const note = notes?.filter((editNote)=>{
+            return editNote.id == noteID;
+        })
+        if (note?.length==1){
+            console.log(note[0]);
+            setNoteEdit(note[0])
+        }
     }
 
     const removeNotes = (noteID: any) => {
@@ -218,6 +227,9 @@ export default function Research() {
             setNotes(noteList);
     }
 
+    
+
+    
 
     const search = () => {
         let results
@@ -271,11 +283,11 @@ export default function Research() {
 
             }
 
-            if (refresh) {
+            if (notes) {
                 getResponse()
             }
 
-        }, [projectID, notes])
+        }, [notes])
     return (
         <div >
             <Head>
@@ -306,11 +318,11 @@ export default function Research() {
                 </div>
 
                 <div className="container bg-base-100  mx-auto mb-24 px-7">
-                    {notes != null ? (<NoteList list={filteredNotes} remove={removeNotes} updateNotes={updateNotes} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
+                    {notes != null ? (<NoteList list={filteredNotes} remove={removeNotes} setUpdateNote={setUpdateNote} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
                 </div>
             </main>
             <NotesModal projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
-            <UpdateNote noteID={editNoteID} projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
+            <UpdateNote noteID={editNoteID} note={noteEdit} projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
         </div>
     )
 }
