@@ -3,19 +3,19 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 
 import config from "config";
+import Spinner from "./modal_spinner";
 
-function Form({ projectID, userID, sprintID, sprints ,addNotes ,refresh }: { projectID: string, userID: string, sprintID: string, sprints: any,addNotes:any ,refresh:any }) {
+function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprintID: string, sprints: any, addNotes: any, refresh: any }) {
     const {
         register,
         handleSubmit,
-        formState: { },
+        formState: { errors, isSubmitting },
     } = useForm();
 
 
 
     const handleCreateProject = async (data: any) => {
-        console.log("submit")
-        console.log(data.sprint)
+
         try {
             const response = await axios.post(`${config.backendApiUrl}/projects/notes`, { title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
                 headers: {
@@ -26,13 +26,13 @@ function Form({ projectID, userID, sprintID, sprints ,addNotes ,refresh }: { pro
             const note = response.data.notes
             addNotes(
                 {
-                    id:note.id,
-                    title:note.title,
-                    details:note.details,
-                    link:note.link
+                    id: note.id,
+                    title: note.title,
+                    details: note.details,
+                    link: note.link
                 }
             )
-           // refresh(true);
+            // refresh(true);
             const modalElement: any = document.getElementById('my_modal_2')
             modalElement.close()
 
@@ -47,44 +47,65 @@ function Form({ projectID, userID, sprintID, sprints ,addNotes ,refresh }: { pro
                 <label className="label">
                     <span className="label-text">Sprint</span>
                 </label>
-                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs" required>
+                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs" disabled={isSubmitting} required>
                     {
-                     sprints &&  sprints.map((sprint:any)=>{
-                            return(
+                        sprints && sprints.map((sprint: any) => {
+                            return (
                                 <option key={sprint.id} value={sprint.id}>{sprint.name}</option>
                             )
                         })
                     }
-                   
-                   
+
+
                 </select>
             </div>
 
-           
+
 
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">Title</span>
                 </label>
-                <input {...register("title")} type="text" placeholder="title" className="input input-bordered" required />
+                <input {...register("title")} type="text" placeholder="title" className="input input-bordered" disabled={isSubmitting} required />
             </div>
-            
+
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">Details</span>
                 </label>
-                <textarea  {...register("details")} placeholder="type the main things you learnt" className="textarea textarea-bordered" required />
+                <textarea
+                    {...register("details")}
+                    placeholder="type the main things you learnt"
+                    className="textarea textarea-bordered"
+                    disabled={isSubmitting}
+                    required
+                />
             </div>
 
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">Url</span>
                 </label>
-                <input {...register("url")} type="text" placeholder="url" className="input input-bordered" required />
+                <input
+                    {...register("url")}
+                    type="text"
+                    placeholder="url"
+                    className="input input-bordered"
+                    disabled={isSubmitting}
+                    required
+                />
             </div>
 
             <div className="form-control mt-6">
-                <button className="btn btn-primary">Create Note</button>
+                <button
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                >
+                        {isSubmitting && (
+                            <Spinner />
+                        )}
+                        {isSubmitting ? "Creating Note" : "Create Note"}
+                </button>
 
             </div>
         </form>
@@ -96,7 +117,7 @@ function Form({ projectID, userID, sprintID, sprints ,addNotes ,refresh }: { pro
 
 
 
-const NotesModal = ({ projectID, userID, sprints,addNotes ,refresh}: { projectID: string, userID: string, sprints: any,addNotes:any ,refresh:any }) => {
+const NotesModal = ({ projectID, userID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) => {
     // const sprint = sprints[0].id;
     let sprint: string = "";
     console.log("sprints");
