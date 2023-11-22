@@ -165,22 +165,18 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
 
 
 
-
-const NotesModal = ({ projectID, userID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) => {
-    // const sprint = sprints[0].id;
-
-    return (
-
-        <dialog id="my_modal_2" className="modal">
-            <div className="modal-box">
-            <h2 className="font-bold text-2lg uppercase">Create Note</h2>
-                <Form projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
-            </div>
-            <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-            </form>
-        </dialog>
-    );
+const UpdateNote = ({ noteID,projectID, userID, sprints, addNotes, refresh }: { noteID:string,projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) => {
+  return (
+    <dialog id="update_note" className="modal">
+      <div className="modal-box">
+        <h2 className="font-bold text-2lg uppercase">Update Note</h2>
+        <Form projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
+      </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+  );
 }
 
-export default NotesModal;
+export default UpdateNote;
