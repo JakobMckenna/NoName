@@ -98,7 +98,7 @@ function NoteList({ list, remove, refresh }: { list: any, remove: any, refresh: 
     )
 }
 
-function SearchBar({ search, filter, milestone, topic, sprints, changeMilestone, reset }: { search: any, filter: any, milestone: string, topic: string, sprints: any, changeMilestone: any, reset: any }) {
+function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMilestone, reset }: { search: any, changeTopic: any, milestone: string, topic: string, sprints: any, changeMilestone: any, reset: any }) {
     return (
         <div className="flex flex-col md:flex-row justify-between w-full md:w-3/4">
             <input
@@ -108,7 +108,7 @@ function SearchBar({ search, filter, milestone, topic, sprints, changeMilestone,
                 onChange={
                     (event: React.ChangeEvent<HTMLInputElement>) => {
                         const topicTxt = event.target.value;
-                        filter(topicTxt, milestone);
+                        changeTopic(topicTxt);
                     }
                 }
             />
@@ -121,7 +121,8 @@ function SearchBar({ search, filter, milestone, topic, sprints, changeMilestone,
                     }
                 }
             >
-                <option disabled selected>Filter by Sprint</option>
+                <option disabled selected>changeTopic by Sprint</option>
+                <option value={""}>Any Sprint</option>
                 {
                     sprints?.map(
                         (sprint: any) => (
@@ -131,7 +132,7 @@ function SearchBar({ search, filter, milestone, topic, sprints, changeMilestone,
                 }
             </select>
             <div className="flex flex-row w-1/5 justify-between ">
-                <button className="btn  btn-accent  " onClick={() => reset()}>Search</button>
+                <button className="btn  btn-accent  " onClick={() => search()}>Search</button>
                 <button className="btn" onClick={() => reset()}>reset filter</button>
             </div>
         </div>
@@ -180,44 +181,63 @@ export default function Research() {
 
 
     const search = () => {
+        let results
+       if(searchTopic && searchTopic!=="" && searchMilestone!=""  ){
+            results = notes?.filter((note) => {
+                return note.sprintID==searchMilestone&&(note.title.toLowerCase().includes(searchTopic.toLowerCase()) || note.details.toLowerCase().includes(searchTopic.toLowerCase()));
+            });
+        }else if (searchTopic!=="" && searchMilestone ==""){
+            results = notes?.filter((note) => {
+                return note.title.toLowerCase().includes(searchTopic.toLowerCase()) || note.details.toLowerCase().includes(searchTopic.toLowerCase());
+            });
+        }else if(searchTopic=="" && searchMilestone!=""){
+            results = notes?.filter((note) => {
+                return note.sprintID==searchMilestone
+             });
+        }
+        
 
-        let results = notes?.filter((note) => {
-            return note.sprintID == searchMilestone
-        })
+
+
+
         if (results) {
+            // setchangeTopicedNotes(results);
             setFilteredNotes(results);
         }
+
 
     }
 
-    const filter = (topic: string, milestone: string) => {
+    const changeTopic = (topic: string) => {
 
-
-        const results = filteredNotes.filter((note) => {
-            return note.title.toLowerCase().includes(topic.toLowerCase()) || note.details.toLowerCase().includes(topic.toLowerCase());
-        });
-        if (results) {
-            setFilteredNotes(results);
-        }
+        setSearchTopic(topic)
+        // const results = changeTopicedNotes.changeTopic((note) => {
+        //     return note.title.toLowerCase().includes(topic.toLowerCase()) || note.details.toLowerCase().includes(topic.toLowerCase());
+        // });
+        // if (results) {
+        //     setchangeTopicedNotes(results);
+        // }
     }
 
     const changeMilestone = (milestone: string) => {
-        // setSearchMilestone(milestone);
-        if (filteredNotes.length > 0) {
-            const results = filteredNotes.filter((note) => {
-                return note.sprintID == milestone;
-            })
+        setSearchMilestone(milestone);
+        // if (changeTopicedNotes.length > 0) {
+        //     const results = changeTopicedNotes.changeTopic((note) => {
+        //         return note.sprintID == milestone;
+        //     })
 
-            setFilteredNotes(results);
-        } else if (filteredNotes.length == 0 && notes) {
-            const results = notes.filter((note) => {
-                return note.sprintID == milestone;
-            })
+        //     setchangeTopicedNotes(results);
+        // } else if (changeTopicedNotes.length == 0 && notes) {
+        //     const results = notes.changeTopic((note) => {
+        //         return note.sprintID == milestone;
+        //     })
 
-            setFilteredNotes(results);
-        }
+        //     setchangeTopicedNotes(results);
+        // }
 
     }
+
+
 
     const reset = () => {
         if (notes)
@@ -263,7 +283,7 @@ export default function Research() {
                             Add Note
                         </button>
                     </div>
-                    <SearchBar sprints={sprints} filter={filter} search={search} changeMilestone={changeMilestone} milestone={searchMilestone} topic={searchTopic} reset={reset} />
+                    <SearchBar sprints={sprints} changeTopic={changeTopic} search={search} changeMilestone={changeMilestone} milestone={searchMilestone} topic={searchTopic} reset={reset} />
 
                 </div>
 
