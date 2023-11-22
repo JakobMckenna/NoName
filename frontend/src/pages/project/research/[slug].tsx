@@ -3,6 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 import { useState, useEffect, useMemo } from "react";
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import Navbar from "~/components/navbar";
 import NotesModal from "~/components/notesmdl";
 
@@ -13,7 +14,7 @@ import config from "config";
 
 function Note({ noteID, title, details, links, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any }) {
     return (
-        <div className="card w-96 bg-primary text-primary-content prose glass shadow-xl">
+        <li className="card w-96 bg-primary text-primary-content prose glass shadow-xl">
             <div className="card-body">
                 <div className="flex w-full justify-between">
                     <h2 className="card-title text-primary-content">{title}</h2>
@@ -50,11 +51,12 @@ function Note({ noteID, title, details, links, deleteNote }: { noteID: string, t
 
                 </div>
             </div>
-        </div>
+        </li>
     )
 }
 
 function NoteList({ list,remove, refresh }: { list: any,remove:any, refresh: any }) {
+    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
     const deleteNote = async (id: string) => {
         try {
             const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
@@ -72,7 +74,7 @@ function NoteList({ list,remove, refresh }: { list: any,remove:any, refresh: any
 
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 justify-center">
+        <ul ref={parent} className="grid grid-cols-1 md:grid-cols-3 gap-y-10 justify-center">
             {
                 list && list.map(
                     (note: any) => (
@@ -88,7 +90,7 @@ function NoteList({ list,remove, refresh }: { list: any,remove:any, refresh: any
                     )
                 )
             }
-        </div>
+        </ul>
     )
 }
 
