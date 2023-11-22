@@ -12,6 +12,7 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
         handleSubmit,
         setError,
         formState: { errors, isSubmitting },
+        clearErrors,
         setValue
     } = useForm();
 
@@ -92,7 +93,7 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
                 <label className="label">
                     <span className="label-text">Sprint</span>
                 </label>
-                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs" disabled={isSubmitting} required>
+                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs" onChange={() => clearErrors("notes")} disabled={isSubmitting} required>
                     {
                         sprints && sprints.map((sprint: any) => {
                             return (
@@ -111,7 +112,7 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
                 <label className="label">
                     <span className="label-text">Title</span>
                 </label>
-                <input {...register("title")} type="text" placeholder="title" className="input input-bordered" disabled={isSubmitting} required />
+                <input {...register("title")} type="text" placeholder="title" className="input input-bordered" onChange={() => clearErrors("notes")} disabled={isSubmitting} required />
             </div>
 
             <div className="form-control">
@@ -122,6 +123,7 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
                     {...register("details")}
                     placeholder="type the main things you learnt"
                     className="textarea textarea-bordered"
+                    onChange={() => clearErrors("notes")}
                     disabled={isSubmitting}
                     required
                 />
@@ -136,6 +138,7 @@ function Form({ projectID, userID, sprintID, sprints, addNotes, refresh }: { pro
                     type="text"
                     placeholder="url"
                     className="input input-bordered"
+                    onChange={() => clearErrors("notes")}
                     disabled={isSubmitting}
                     required
                 />
@@ -177,6 +180,7 @@ const NotesModal = ({ projectID, userID, sprints, addNotes, refresh }: { project
 
         <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
+            <h2 className="font-bold text-2lg uppercase">Create Note</h2>
                 <Form projectID={projectID} userID={userID} sprintID={sprint} sprints={sprints} addNotes={addNotes} refresh={refresh} />
             </div>
             <form method="dialog" className="modal-backdrop">
