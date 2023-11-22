@@ -52,7 +52,9 @@ export async function createResearchNote(title: string, details: string, userID:
                     },
                   
                 },
-
+                include:{
+                    link:true
+                }
             }
         )
 

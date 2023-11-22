@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Navbar from "~/components/navbar";
 import NotesModal from "~/components/notesmdl";
 
@@ -11,39 +11,78 @@ import useUser from "~/hooks/use_user";
 
 import config from "config";
 
+function Note({ noteID, title, details, links, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any }) {
+    return (
+        <div className="card w-96 bg-base-200 glass shadow-xl">
+            <div className="card-body">
+                <div className="flex w-full justify-between">
+                    <h2 className="card-title">{title}</h2>
+                    <div className="dropdown">
+                        <label tabIndex={0} className="btn m-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </label>
+                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box  justify-start w-24">
+                            <li><a>Edit</a></li>
+                            <li > <a onClick={
+                                async () => {
+                                    const result = await deleteNote(noteID);
+                                    console.log(result);
+
+                                }
+                            } >delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p>{details}</p>
+                <div className="card-actions ">
+
+                    {
+                        links.map((link, index) => {
+                            //useMemo(index)
+                            return (
+                                <a key={index} href={link.url} className="btn btn-primary">link {index}</a>
+                            )
+                        })
+                    }
+
+                </div>
+            </div>
+        </div>
+    )
+}
+
 function NoteList({ list, refresh }: { list: any, refresh: any }) {
     const deleteNote = async (id: string) => {
         try {
             const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
             console.log(`deleted ${deletedNote}`);
-            refresh(true)
+            return deleteNote;
+            // refresh(true)
         } catch (error) {
             console.log(error);
         }
 
-    }
+    };
+
+
 
     return (
-        <div className="grid grid-cols-2 justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 justify-center">
             {
                 list && list.map(
                     (note: any) => (
-                        <div className="flex flex-row   prose  bg-base-300  w-full  p-4 border mb-4" key={note.id}>
-                            <div className="flex flex-row justify-center  decoration-2 w-full ">
-                                <div>
-                                    <h3 className="text-2lg font-bold"> {note.title}</h3>
-                                    <p className=" ">{note.details}</p>
-                                    <a className="btn btn-ghost" target="_blank" href={note.link[0].url}>Link</a>
-                                </div>
-                                <button onClick={
-                                    () => {
-                                        deleteNote(note.id)
-
-                                    }
-                                } className="btn btn-ghost ">delete</button>
-                            </div>
+                        <Note
+                            key={note.id}
+                            noteID={note.id}
+                            title={note.title}
+                            details={note.details}
                             
-                        </div>
+                            deleteNote={deleteNote}
+                            links={note.link}
+                        />
                     )
                 )
             }
@@ -57,7 +96,7 @@ export default function Research() {
     const router = useRouter()
     const projectID: string = String(router.query.slug);
     const [user, loading] = useUser()
-    const [notes, setNotes] = useState([])
+    const [notes, setNotes] = useState<any[]>([])
     // const [notes, changeID] = useNotes()
     const [sprints, setID] = useSprint()
     const [refresh, setRefresh] = useState(true)
@@ -78,6 +117,9 @@ export default function Research() {
 
         }
     }
+    const addNotes = (note: any) => {
+        setNotes((prev) => [ ...prev,note])
+    }
 
     useEffect(
         () => {
@@ -93,12 +135,12 @@ export default function Research() {
                 getResponse()
             }
 
-        }, [projectID, refresh])
+        }, [projectID, notes])
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto max-w-lg">
-                <div className="flex flex-row row-gap-2 mb-10">
+            <main className="container mx-auto ">
+                <div className="flex flex-row mx-auto row-gap-2 mb-10">
                     <button onClick={
                         () => {
                             const modalElement: any = document.getElementById('my_modal_2')
@@ -108,11 +150,11 @@ export default function Research() {
                     } className="btn btn-primary">Add Note</button>
 
                 </div>
-                <div className="container">
+                <div className="container  mx-auto">
                     <NoteList list={notes} refresh={(val: boolean) => setRefresh(val)} />
                 </div>
             </main>
-            <NotesModal projectID={projectID} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
+            <NotesModal projectID={projectID} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
         </div>
     )
 }
