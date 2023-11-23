@@ -191,7 +191,8 @@ export default function MemberPage() {
     const [parent, enableAnimations] = useAutoAnimate()
 
 
-    const projectID: string = String(router.query.slug);
+
+    const projectID = router.query.slug;
 
     const updateMemberList = (members: any[]) => {
         setMembers(members)
@@ -202,12 +203,12 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/users`;
             const results = await axios.get(reqUrl);
             if (results.data && results.data.users) {
-                console.log(results.data.users);
+               // console.log(results.data.users);
                 // setMembers(results.data.members.user);
                 setUsers(results.data.users)
             }
 
-            console.log(results.data);
+          //  console.log(results.data);
             //setRefresh(false);
             return results.data;
         } catch (error) {
@@ -221,7 +222,7 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/projects/member/${userID}`;
             const results = await axios.get(reqUrl);
             if (results.data && results.data.members && results.data.members.user) {
-                console.log(results.data.members.user);
+             //   console.log(results.data.members.user);
                 setMembers(results.data.members.user);
             }
             if (
@@ -231,7 +232,7 @@ export default function MemberPage() {
             ) {
                 setOwnerID(results.data.members.project.userId);
             }
-            console.log(results.data);
+           // console.log(results.data);
             setRefresh(false);
             return results.data.members.user;
         } catch (error) {
@@ -244,7 +245,7 @@ export default function MemberPage() {
         if (projectID != null && projectID != undefined) {
             const projects = async () => {
                 const results = await getResponse(String(router.query.slug));
-                console.log("members");
+               // console.log("members");
                 return results
             };
             if (refresh) {
@@ -259,7 +260,7 @@ export default function MemberPage() {
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container h-screen mx-auto ">
                 <MemberBoard
-                    projectID={projectID}
+                    projectID={projectID as string}
                     members={members}
                     owner={ownerID}
                     users={users}
