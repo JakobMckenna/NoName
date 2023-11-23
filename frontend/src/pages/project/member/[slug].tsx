@@ -12,15 +12,16 @@ import useUser from "~/hooks/use_user";
 
 import config from "config";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import Spinner from "~/components/modal_spinner";
 
 function Form({
     projectID,
-    
+
     update,
     users,
 }: {
     projectID: string;
-   
+
     update: any;
     users: any;
 }) {
@@ -30,7 +31,7 @@ function Form({
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
-    const handleCreateProject = async (data: any) => {
+    const handleMemberAdd = async (data: any) => {
         console.log("submit");
         try {
             const response = await axios.post(
@@ -42,10 +43,10 @@ function Form({
                     },
                 },
             );
-          //  console.log("Login successful", response.data);
-          //  const members = response.data.members.
+            //  console.log("Login successful", response.data);
+            //  const members = response.data.members.
             update(response.data.projects.user)
-            
+
         } catch (error) {
             console.log(error);
             //changeError("user does not exists ");
@@ -55,7 +56,7 @@ function Form({
     return (
         <form
             className="flex flex-row"
-            onSubmit={handleSubmit(handleCreateProject)}
+            onSubmit={handleSubmit(handleMemberAdd)}
         >
             <div className="form-control">
                 <select
@@ -75,13 +76,18 @@ function Form({
                 </select>
             </div>
             <div className="form-control">
-                <button className="btn  btn-accent">Add Member</button>
+                <button className="btn  btn-accent" disabled={isSubmitting}>
+                    {isSubmitting && (
+                        <Spinner />
+                    )}
+                    {isSubmitting ? "Adding Member" : "Add Member"}
+                </button>
             </div>
         </form>
     );
 }
 
-function Member({ name, email, projectID, userID, owner ,update }: any) {
+function Member({ name, email, projectID, userID, owner, update }: any) {
     const removeMember = async (projectID: string, userID: number) => {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`;
@@ -91,7 +97,7 @@ function Member({ name, email, projectID, userID, owner ,update }: any) {
                 //  setMembers(results.data.members)
             }
             update(results.data.projects.members);
-           // refresh(true);
+            // refresh(true);
             return results.data;
         } catch (error) {
             console.log("failed");
@@ -139,20 +145,20 @@ function MemberBoard({
     update,
     users,
     animate,
-}: {members:any[],projectID:string , owner:number , update:any ,users:any,animate:RefCallback<Element>}) {
+}: { members: any[], projectID: string, owner: number, update: any, users: any, animate: RefCallback<Element> }) {
     return (
-        <div className="m-6 flex h-96 min-h-min w-[425px] flex-col  rounded-md border-black bg-base-200  p-6">
+        <div className="m-6 flex h-5/6  w-[425px] flex-col  rounded-md border-black bg-base-200  p-6">
             <div className="mb-3 flex flex-col px-3">
                 <Form
                     projectID={projectID}
-                   // changeError={changeError}
+                    // changeError={changeError}
                     update={update}
-                    
+
                     users={users}
                 />
-               
+
             </div>
-            <div ref={animate} className="overflow-auto">
+            <div ref={animate} className="h-3/4 overflow-auto">
                 {members.map((member: any) => {
                     return (
                         <Member
@@ -163,7 +169,7 @@ function MemberBoard({
                             projectID={projectID}
                             owner={owner}
                             update={update}
-                            
+
                         />
                     );
                 })}
@@ -182,12 +188,12 @@ export default function MemberPage() {
     const [ownerID, setOwnerID] = useState<number>(0);
     const [error, setError] = useState("");
     const [refresh, setRefresh] = useState(true);
-    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
- 
+    const [parent, enableAnimations] = useAutoAnimate()
+
 
     const projectID: string = String(router.query.slug);
 
-    const updateMemberList =(members:any[])=>{
+    const updateMemberList = (members: any[]) => {
         setMembers(members)
     }
 
@@ -197,10 +203,10 @@ export default function MemberPage() {
             const results = await axios.get(reqUrl);
             if (results.data && results.data.users) {
                 console.log(results.data.users);
-               // setMembers(results.data.members.user);
-               setUsers(results.data.users)
+                // setMembers(results.data.members.user);
+                setUsers(results.data.users)
             }
-           
+
             console.log(results.data);
             //setRefresh(false);
             return results.data;
@@ -239,28 +245,28 @@ export default function MemberPage() {
             const projects = async () => {
                 const results = await getResponse(String(router.query.slug));
                 console.log("members");
-                return results 
+                return results
             };
             if (refresh) {
                 getUsers()
                 projects();
             }
         }
-    }, [projectID,members]);
+    }, [projectID, members]);
 
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto">
+            <main className="container h-screen mx-auto ">
                 <MemberBoard
                     projectID={projectID}
                     members={members}
                     owner={ownerID}
                     users={users}
-                  //  error={error}
+                    //  error={error}
                     update={updateMemberList}
                     animate={parent}
-                
+
                 />
             </main>
         </div>
