@@ -89,23 +89,8 @@ function Form({
     );
 }
 
-function Member({ name, email, projectID, userID, signInUser, owner, update }: any) {
-    const removeMember = async (projectID: string, userID: number) => {
-        try {
-            const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`;
-            const results = await axios.delete(reqUrl);
-            if (results.data && results.data.members) {
-                // console.log(results.data.projects.members)
-                //  setMembers(results.data.members)
-            }
-            update(results.data.projects.members);
-            // refresh(true);
-            return results.data;
-        } catch (error) {
-            console.log("failed");
-            return null;
-        }
-    };
+function Member({ name, email, projectID, userID, signInUser, owner ,removeMember }: any) {
+  
     const isSignedUser:boolean = signInUser== userID;
     return (
         <>
@@ -144,10 +129,11 @@ function MemberBoard({
     projectID,
     owner,
     update,
+    removeMember,
     users,
     userID,
     animate,
-}: { members: any[], projectID: string, owner: number, update: any,userID:number, users: any, animate: RefCallback<Element> }) {
+}: { members: any[], projectID: string, owner: number, update: any,userID:number,removeMember:any, users: any, animate: RefCallback<Element> }) {
     return (
         <div className="m-6 flex h-5/6  w-[420px] flex-col   rounded-md border-black bg-base-200  p-6 ">
             <div className="mb-3 flex flex-col px-3">
@@ -170,8 +156,8 @@ function MemberBoard({
                             userID={member.id}
                             projectID={projectID}
                             owner={owner}
-                            update={update}
-                            signInUser={userID}
+                            signInUser={userID} 
+                            removeMember={removeMember}
 
                         />
                     );
@@ -245,6 +231,23 @@ export default function MemberPage() {
         }
     };
 
+    const removeMember = async (projectID: string, userID: number) => {
+        try {
+            const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`;
+            const results = await axios.delete(reqUrl);
+            if (results.data && results.data.members) {
+                // console.log(results.data.projects.members)
+                //  setMembers(results.data.members)
+            }
+            setMembers(results.data.projects.members);
+            // refresh(true);
+            return results.data;
+        } catch (error) {
+            console.log("failed");
+            return null;
+        }
+    };
+
     useEffect(() => {
         if (projectID != null && projectID != undefined && user!=null) {
             const projects = async () => {
@@ -278,6 +281,7 @@ export default function MemberPage() {
                     userID={userID}
                     //  error={error}
                     update={updateMemberList}
+                    removeMember={removeMember}
                     animate={parent}
 
                 />
