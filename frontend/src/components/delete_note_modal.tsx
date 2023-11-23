@@ -38,6 +38,12 @@ const DeleteNote = ({id , remove}:{id:string , remove:any}) => {
 
                             } catch (error) {
                                 console.log(error);
+                                if(axios.isAxiosError(error)){
+                                    if(error.response){
+                                        ("item has already been deleted")
+                                        remove(id)
+                                    }
+                                }
                             }
 
                         }

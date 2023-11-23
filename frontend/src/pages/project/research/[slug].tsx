@@ -282,6 +282,7 @@ export default function Research() {
 
 
     const reset = () => {
+        
         if (notes)
             setFilteredNotes(notes)
     }
@@ -296,14 +297,14 @@ export default function Research() {
 
             }
 
-            if (notes==null || filteredNotes.length==0) {
+            if (notes==null) {
                 getResponse()
             }else{
                 if(notes)
                     setFilteredNotes(notes);
             }
 
-        }, [notes])
+        }, [projectID,notes ])
     return (
         <div >
             <Head>
