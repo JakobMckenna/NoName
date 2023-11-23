@@ -3,7 +3,7 @@
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { RefCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Navbar from "~/components/navbar";
@@ -11,6 +11,7 @@ import Navbar from "~/components/navbar";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 function Form({
     projectID,
@@ -137,7 +138,8 @@ function MemberBoard({
     owner,
     update,
     users,
-}: {members:any[],projectID:string , owner:number , update:any ,users:any}) {
+    animate,
+}: {members:any[],projectID:string , owner:number , update:any ,users:any,animate:RefCallback<Element>}) {
     return (
         <div className="m-6 flex h-96 min-h-min w-[425px] flex-col  rounded-md border-black bg-base-200  p-6">
             <div className="mb-3 flex flex-col px-3">
@@ -150,7 +152,7 @@ function MemberBoard({
                 />
                
             </div>
-            <div className="overflow-auto">
+            <div ref={animate} className="overflow-auto">
                 {members.map((member: any) => {
                     return (
                         <Member
@@ -180,6 +182,8 @@ export default function MemberPage() {
     const [ownerID, setOwnerID] = useState<number>(0);
     const [error, setError] = useState("");
     const [refresh, setRefresh] = useState(true);
+    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
+ 
 
     const projectID: string = String(router.query.slug);
 
@@ -255,6 +259,7 @@ export default function MemberPage() {
                     users={users}
                   //  error={error}
                     update={updateMemberList}
+                    animate={parent}
                 
                 />
             </main>
