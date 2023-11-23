@@ -71,7 +71,7 @@ export async function createResearchNote(title: string, details: string, userID:
     }
 }
 
-export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
+export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: any) {
     const prisma = new PrismaClient()
     try {
 
@@ -85,15 +85,13 @@ export async function updateResearchNote(noteID: string, title: string, details:
                     title: title,
                     userID: userID,
                     details: details,
-                    link: {
-                        createMany: {
-                            data: urlList
-                        },
-                    }
+                 
                 },
 
             }
         )
+        
+        console.log(notes)
 
         return notes;
     } catch (err: any) {

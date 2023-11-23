@@ -224,7 +224,12 @@ export default function Research() {
     const removeNotes = (noteID: any) => {
         const noteList = notes?.filter((note) => note.id !== noteID);
         if (noteList)
+        {
+            
             setNotes(noteList);
+            
+        }
+        
     }
 
     
@@ -283,8 +288,10 @@ export default function Research() {
 
             }
 
-            if (notes) {
+            if (!notes) {
                 getResponse()
+            }else{
+                setFilteredNotes(notes);
             }
 
         }, [notes])

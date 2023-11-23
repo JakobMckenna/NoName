@@ -22,7 +22,16 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
 
     try {
 
-      const response = await axios.patch(`${config.backendApiUrl}/projects/notes`, { noteID: id, title: data.title, details: data.details, projectID: projectID, userID: userID, sprintID: data.sprint, urlList: [{ url: data.url }] }, {
+      const response = await axios.patch(`${config.backendApiUrl}/projects/notes`,
+        {
+          noteID: id,
+          title: data.title==""?note?.title:data.title,
+          details: data.details==""?note?.details:data.details,
+          projectID: projectID,
+          userID: userID,
+          sprintID: data.sprint,
+          urlList: [{ url: data.url }]
+        }, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -41,8 +50,9 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
         //return null
 
       }
-      const note = response.data.notes
-      
+      const updatedNote = response.data.notes
+      console.log(updatedNote)
+
       // refresh(true);
       const modalElement: any = document.getElementById('update_note')
       modalElement.close()
@@ -75,7 +85,7 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
       //setAdding(false);
     } finally {
       setValue("sprint", "");
-      setValue("title", "");
+      //setValue("title", "");
       setValue("details", "");
       setValue("url", "");
     }
@@ -106,7 +116,17 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
         <label className="label">
           <span className="label-text">Title</span>
         </label>
-        <input {...register("title")} defaultValue={note?.title} type="text" placeholder="title" className="input input-bordered" onChange={() => clearErrors("notes")} disabled={isSubmitting} required />
+        <input
+          defaultValue={note?.title}
+          {...register("title")}
+
+          type="text"
+          placeholder="title"
+          className="input input-bordered"
+          onChange={() => clearErrors("notes")}
+          disabled={isSubmitting}
+          required
+        />
       </div>
 
       <div className="form-control">
@@ -114,9 +134,10 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
           <span className="label-text">Details</span>
         </label>
         <textarea
+          defaultValue={note?.details}
           {...register("details")}
           placeholder="type the main things you learnt"
-          defaultValue={note?.details}
+
           className="textarea textarea-bordered"
           onChange={() => clearErrors("notes")}
           disabled={isSubmitting}
