@@ -44,6 +44,7 @@ const DeleteNote = ({id , remove}:{id:string , remove:any}) => {
                                         ("item has already been deleted")
                                         remove(id)
                                     }
+                                    remove(id)
                                 }
                             }
 

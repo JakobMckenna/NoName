@@ -236,7 +236,7 @@ export default function MemberPage() {
                 projects();
             }
         }
-    }, [refresh]);
+    }, [projectID,members]);
 
     return (
         <div>

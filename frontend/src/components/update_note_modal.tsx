@@ -13,7 +13,6 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
     setError,
     formState: { errors, isSubmitting },
     clearErrors,
-    setValue
   } = useForm();
 
   const webLink = note?.link[0].url;
