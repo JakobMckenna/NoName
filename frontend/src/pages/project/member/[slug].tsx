@@ -89,13 +89,14 @@ function Form({
     );
 }
 
-function Member({ name, email, projectID, userID, signInUser, owner ,removeMember }: any) {
-  
-    const isSignedUser:boolean = signInUser== userID;
+function Member({ name, email, projectID, userID, signInUser, owner, removeMember, changeLoading }: any) {
+
+    const [clicked ,setClicked] = useState(false);
+    const isSignedUser: boolean = signInUser == userID;
     return (
         <>
-            
-            <div className="mb-10 flex flex-row justify-between px-6">
+
+            <div className="mt-10 flex flex-row justify-between px-6">
                 <>
                     <div className="w-54 max-w-max ">
                         <p>{name}</p>
@@ -104,10 +105,22 @@ function Member({ name, email, projectID, userID, signInUser, owner ,removeMembe
                     <div>
                         {owner !== userID ? (
                             <button
-                                disabled={isSignedUser}
+                                disabled={isSignedUser||clicked}
                                 onClick={async () => {
-                                    if(signInUser!= userID){
-                                        await removeMember(projectID, userID);
+                                    if (signInUser != userID) {
+                                        try {
+                                            setClicked(true);
+                                            changeLoading(true);
+                                            await removeMember(projectID, userID);
+                                            //changeLoading(false)
+                                        } catch (error) {
+                                            console.log(error);
+
+                                        } finally {
+                                            setClicked(false);
+                                            changeLoading(false);
+                                        }
+
                                     }
                                 }}
                                 className="btn btn-primary"
@@ -133,10 +146,11 @@ function MemberBoard({
     users,
     userID,
     animate,
-}: { members: any[], projectID: string, owner: number, update: any,userID:number,removeMember:any, users: any, animate: RefCallback<Element> }) {
+}: { members: any[], projectID: string, owner: number, update: any, userID: number, removeMember: any, users: any, animate: RefCallback<Element> }) {
+    const [loading, setLoading] = useState(false)
     return (
         <div className="m-6 flex h-5/6  w-[420px] flex-col   rounded-md border-black bg-base-200  p-6 ">
-            <div className="mb-3 flex flex-col px-3">
+            <div className="mb-0 flex flex-col px-3">
                 <Form
                     projectID={projectID}
                     // changeError={changeError}
@@ -146,7 +160,7 @@ function MemberBoard({
                 />
 
             </div>
-            <div ref={animate} className="h-3/4 overflow-auto">
+            <div ref={animate} className="h-3/4 overflow-auto" >
                 {members.map((member: any) => {
                     return (
                         <Member
@@ -156,13 +170,23 @@ function MemberBoard({
                             userID={member.id}
                             projectID={projectID}
                             owner={owner}
-                            signInUser={userID} 
+                            signInUser={userID}
                             removeMember={removeMember}
+                            changeLoading={
+                                (val: boolean) => setLoading(val)
+                            }
 
                         />
                     );
                 })}
             </div>
+            {
+
+                loading && (<div className="flex flex-row justify-center text-center">
+                    <Spinner />
+                    <p>Removing user</p>
+                </div>)
+            }
         </div>
     );
 }
@@ -178,7 +202,7 @@ export default function MemberPage() {
     const [error, setError] = useState("");
     const [refresh, setRefresh] = useState(true);
     const [parent, enableAnimations] = useAutoAnimate()
-    const [userID , setUserID] = useState<number>(0)
+    const [userID, setUserID] = useState<number>(0)
 
 
 
@@ -249,7 +273,7 @@ export default function MemberPage() {
     };
 
     useEffect(() => {
-        if (projectID != null && projectID != undefined && user!=null) {
+        if (projectID != null && projectID != undefined && user != null) {
             const projects = async () => {
                 const results = await getResponse(String(router.query.slug));
                 // console.log("members");
@@ -261,7 +285,7 @@ export default function MemberPage() {
                 projects();
             }
         }
-    }, [user,projectID, members]);
+    }, [user, projectID, members]);
 
     return (
         <div>
