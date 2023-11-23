@@ -1,0 +1,46 @@
+name: Build and Push Docker
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  build-and-push-docker:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+      - name: Build and push Backend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend  # Specify the backend directory
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: noname4350/backend:latest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          
+      - name: Build and push Frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend  # Specify the frontend directory
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: noname4350/frontend:latest

@@ -212,7 +212,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 messages={filteredMessages}
                 scrollToMsg={scrollToMessage}
             />
-            <div className="bg-neutral-focus h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
+            <div className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
                 <span ref={topChatBox} />
                
 

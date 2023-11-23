@@ -2,6 +2,7 @@
 # Meeting Minutes
 
 
+
 ## Date: September 14th, 2023
 
 *Attendees:* Isabelle, Kushaan, Kush, Jakob, TK
@@ -442,6 +443,26 @@ III. Discussed what we have left to finish sprint 3
 I. Finish up CD pipeline
 
 II. Add more acceptence tests
+
+
+## Date: November 23th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
+
+*Location:* In Class
+
+**Agenda**
+
+I. Looked over sprint 4 rubric
+
+II. Discussed load testing, security scanning, and finishing off the system
+
+
+**Next Steps**
+
+I. Jakob will work on the load testing
+
+II. Tehillah will polish the frontend and make sure nothing breaks 
 
     
 

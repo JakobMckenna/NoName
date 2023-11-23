@@ -6,7 +6,7 @@ import config from 'config';
 import { useState } from 'react';
 import Spinner from './modal_spinner';
 
-function Form({projectID}:{projectID:string}) {
+function Form({projectID ,githubID}:{projectID:string,githubID:string}) {
     const {
         register,
         handleSubmit,
@@ -18,15 +18,15 @@ function Form({projectID}:{projectID:string}) {
 
     const handleCreateProject = async (data:any) => {
         setLoading(true)
-        console.log("submit")
+        console.log(githubID)
         try{
-            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner ,repoName:data.repo,projectID:projectID}, {
+            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner ,repoName:data.repo,projectID:projectID,repoID:githubID}, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             console.log('create repo', response.data);
-            const modalElement: any = document.getElementById('my_modal_4');
+            const modalElement: any = document.getElementById('update_repo');
             setLoading(false)
             modalElement.close();
 
@@ -64,11 +64,11 @@ function Form({projectID}:{projectID:string}) {
     )
 }
 
-const RepoModal = ({projectID}:{projectID:string}) => {
+const UpdateRepoModal = ({projectID , githubID}:{projectID:string ,githubID:string}) => {
     return (
-        <dialog id="my_modal_4" className="modal">
+        <dialog id="update_repo" className="modal">
             <div className="modal-box ">
-                <h2 className="font-bold text-lg uppercase">Add Github Repository</h2>
+                <h2 className="font-bold text-lg uppercase">Update Github Repository</h2>
                 <p>Enter data base on GitHub Repository URL</p>
                 <div className="flex flex-row items-center  ">
                     <p className="text-info">https://github.com</p>
@@ -81,10 +81,10 @@ const RepoModal = ({projectID}:{projectID:string}) => {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form projectID={projectID} />
+                <Form projectID={projectID} githubID={githubID} />
             </div>
         </dialog>
     );
 }
 
-export default RepoModal;
+export default UpdateRepoModal;

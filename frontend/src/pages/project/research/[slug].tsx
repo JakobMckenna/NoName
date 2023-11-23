@@ -9,10 +9,12 @@ import NotesModal from "~/components/notesmdl";
 import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
+import config from "config";
+
 function NoteList({ list ,refresh }: { list: any , refresh:any }) {
     const deleteNote = async (id: string) => {
         try {
-            const deletedNote = await axios.delete(`http://localhost:5001/projects/notes/${id}`);
+            const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
             console.log(`deleted ${deletedNote}`);
              refresh(true)
         } catch (error) {
@@ -61,7 +63,7 @@ export default function Research() {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5001/projects/notes/${projectID}`
+            const reqUrl = `${config.backendApiUrl}/projects/notes/${projectID}`
             const results = await axios.get(reqUrl)
 
             console.log(results.data)

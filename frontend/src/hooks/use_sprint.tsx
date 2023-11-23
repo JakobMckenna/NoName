@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
+import config from "config";
 
 
 const useSprint = () => {
@@ -15,11 +15,10 @@ const useSprint = () => {
 
     const getResponse = async () => {
         try {
-            const reqUrl = `http://localhost:5001/projects/sprint/${projectID}`
-            console.log("url")
-            console.log(`url ${reqUrl}`);
+            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID}`
+           
             const results = await axios.get(reqUrl)
-            console.log(results.data.sprints)
+           // console.log(results.data.sprints)
             setSprints(results.data.sprints)
         } catch (error) {
             //we failed to get notes for some reason
@@ -29,7 +28,7 @@ const useSprint = () => {
     }
     useEffect(
         () => {
-            console.log(projectID)
+           // console.log(projectID)
             const sprints = async () => {
                 const results = await getResponse()
                 console.log(results)

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -7,6 +8,8 @@ import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
 import * as _ from 'lodash';
 
+import config from "config";
+import BackPage from "~/components/back_navigation";
 
 interface Label {
 
@@ -28,7 +31,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
     }
     const date = convDate(dueDate)
     return (
-        <div className="flex flex-row justify-between py-2 border-b-2  mb-5">
+        <div className="flex flex-row w-full justify-between py-2 border-b-2  mb-5">
             <p className="w-36">{title}</p>
             <div className="flex flex-col w-32">
                 {
@@ -205,8 +208,8 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
 
     return (
-        <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-max justify-center  mb-10  ">
-            <div className="flex flex-row justify-between w-100 mb-5">
+        <div className="flex flex-col  border bg-neutral border-rose-400 p-10 w-full justify-center  mb-10  ">
+            <div className="flex flex-col md:flex-row justify-between w-100 mb-5">
                 <button
                     className="btn btn-info"
                     onClick={
@@ -227,7 +230,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
                 </button>
             </div>
             <div className="flex flex-row justify-between">
-                <div className="flex flex-row justify-between w-10/12">
+                <div className="flex flex-col md:flex-row justify-between w-10/12">
                     <input
                         ref={labelTxt}
                         type="text"
@@ -246,7 +249,7 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
 
                 </div>
             </div>
-            <div className="h-80 overflow-y-auto">
+            <div className="md:h-80 md:overflow-y-auto w-full">
 
                 {
                     show ? <Issues issues={filteredOpen} type={""} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} /> : <Issues issues={filteredClosed} type={"recently closed"} clickLabel={(val: string) => clickLabel(val)} clickMilestone={(val: string) => clickMilestone(val)} />
@@ -271,8 +274,8 @@ export default function IssuesPage() {
 
     const getIssues = async (owner: string, repo: string) => {
         let result = true;
-        const reqUrlOpen = `http://localhost:5001/github/issues/${owner}/${repo}`
-        const reqUrlClosed = `http://localhost:5001/github/closedissues/${owner}/${repo}`
+        const reqUrlOpen = `${config.backendApiUrl}/github/issues/${owner}/${repo}`
+        const reqUrlClosed = `${config.backendApiUrl}/github/closedissues/${owner}/${repo}`
         try {
 
             const resultsOpen = await axios.get(reqUrlOpen);
@@ -292,7 +295,7 @@ export default function IssuesPage() {
     }
 
     const getProjectData = async (id: string) => {
-        const reqUrl = `http://localhost:5001/projects/${id}`
+        const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
             if (!id) {
                 router.push("/")
@@ -348,9 +351,12 @@ export default function IssuesPage() {
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto ">
+               
+            <main className="container mx-auto md:w-1/2 mt-5 ">
+                {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`}/>): (<div className="skeleton h-9 w-96 mb-5"></div>)}
+            
                 <h1 className="text-4xl uppercase mb-2 text-center">Issues</h1>
-                <div className="flex flex-row justify-center ">
+                <div className="flex flex-row justify-center px-5 ">
                     {!openIssues && (<Spinner />)}
                     {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} refresh={(val: boolean) => setRefresh(val)} />}
                 </div>
