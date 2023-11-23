@@ -210,6 +210,18 @@ export default function Research() {
         setNotes((prev: any) => [...prev, note])
     }
 
+    const updateNotes = (updateNote:any)=>{
+        if(notes){
+            const index = notes.findIndex((note)=>note.id== updateNote.id)
+            console.log(index)
+            if(index!=-1){
+                const updatedList = [...notes];
+                updatedList[index] = updateNote;
+                setNotes(updatedList);
+            }
+        }
+    }
+
     const setUpdateNote = (noteID: string) => {
         setEditNoteID(noteID)
         const note = notes?.filter((editNote)=>{
@@ -330,7 +342,7 @@ export default function Research() {
                 </div>
             </main>
             <NotesModal projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
-            <UpdateNote noteID={editNoteID} note={noteEdit} projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
+            <UpdateNote noteID={editNoteID} note={noteEdit} projectID={projectIDstr} update={updateNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
         </div>
     )
 }

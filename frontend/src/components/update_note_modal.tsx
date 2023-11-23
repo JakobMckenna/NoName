@@ -6,7 +6,7 @@ import config from "config";
 import Spinner from "./modal_spinner";
 import FormAlert from "./form_alert";
 
-function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id: string, note: any, projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) {
+function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: string, note: any, projectID: string, userID: string, sprints: any, update: any, refresh: any }) {
   const {
     register,
     handleSubmit,
@@ -51,7 +51,7 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
 
       }
       const updatedNote = response.data.notes
-      console.log(updatedNote)
+      update(updatedNote)
 
       // refresh(true);
       const modalElement: any = document.getElementById('update_note')
@@ -165,7 +165,7 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
           {isSubmitting && (
             <Spinner />
           )}
-          {isSubmitting ? "Creating Note" : "Create Note"}
+          {isSubmitting ? "Updating Note" : "UpdateNote"}
         </button>
 
       </div>
@@ -177,12 +177,12 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
 
 
 
-const UpdateNote = ({ noteID, note, projectID, userID, sprints, addNotes, refresh }: { noteID: string, note: any, projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) => {
+const UpdateNote = ({ noteID, note, projectID, userID, sprints, update, refresh }: { noteID: string, note: any, projectID: string, userID: string, sprints: any, update: any, refresh: any }) => {
   return (
     <dialog id="update_note" className="modal">
       <div className="modal-box">
         <h2 className="font-bold text-2lg uppercase">Update Note</h2>
-        <Form id={noteID} note={note} projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
+        <Form id={noteID} note={note} projectID={projectID} userID={userID} sprints={sprints} update={update} refresh={refresh} />
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
