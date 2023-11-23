@@ -41,7 +41,7 @@ function Tile({ id, name, user, parent }: { id: string, name: string, user: stri
     )
 }
 
-function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,search:Function }) {
+function ProjectHero({ projects, parent ,search ,projectsInit }: { projects: any, parent: Ref,search:any ,projectsInit:any }) {
    // console.log(projects)
 
     return (
@@ -49,9 +49,9 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
             <div className="hero-content ">
                 <div className="max-w-lg">
                     <h1 className="text-5xl font-bold">Dev Diaries</h1>
-                    <div className="flex flex-row-reverse justify-between items-center">
+                    <div className="flex flex-col  items-start mb-5">
                         <button
-                            className="btn btn-primary my-6 ml-5"
+                            className="btn btn-primary my-6 "
                             onClick={
                                 () => {
                                     const modalElement: any = document.getElementById('my_modal_3')
@@ -73,7 +73,7 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
                         />
                     </div>
                     {
-                        projects.length > 0 ? projects.map(
+                        projectsInit ? projects.map(
                             (project: any, index: number) => {
                                 const id = project.project.id;
                                 const user = project.project.user?.name;
@@ -108,7 +108,7 @@ function ProjectHero({ projects, parent ,search }: { projects: any, parent: Ref,
 export default function LandingPage() {
     const router = useRouter();
     const [user, loading] = useUser()
-    const [projectList, setProjectList] = useState<any[]>([])
+    const [projectList, setProjectList] = useState<any[]|null>(null)
     const [refresh, setRefresh] = useState(true)
     const [currentTheme, loadingTheme] = useCurrentTheme()
     const [theme, setTheme] = useState<string>()
@@ -118,7 +118,7 @@ export default function LandingPage() {
 
     const addProject = (project: any) => {
         setFilteredList((prev) => [project, ...prev]);
-        setProjectList((prev)=>[project,...prev]);
+       setProjectList((prev:any)=>[project,...prev]);
     }
 
     const getProjects = async (userID: number) => {
@@ -137,10 +137,11 @@ export default function LandingPage() {
 
     // filter projects by project name
     const searchProjects=(projectName:string)=>{
-        const results =  projectList.filter((project)=>{
+        const results =  projectList?.filter((project)=>{
             return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase())
         })
-        setFilteredList(results)
+        if(results)
+            setFilteredList(results)
     }
 
     useEffect(
@@ -172,7 +173,7 @@ export default function LandingPage() {
             }
 
 
-        }, [theme, filteredList, isRefresh]
+        }, [theme, projectList, isRefresh]
     )
     return (
         <div className="w-full mx-auto">
@@ -183,7 +184,7 @@ export default function LandingPage() {
             </Head>
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main>
-                <ProjectHero projects={filteredList} parent={parent} search={searchProjects} />
+                <ProjectHero projects={filteredList} parent={parent} search={searchProjects} projectsInit={projectList}  />
             </main>
             <ProjectModal userID={user?.id} addProject={addProject} />
         </div>

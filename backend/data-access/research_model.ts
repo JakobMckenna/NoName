@@ -52,9 +52,15 @@ export async function createResearchNote(title: string, details: string, userID:
                     },
                   
                 },
-
+                include:{
+                    link:true
+                }
             }
-        )
+        );
+        if(notes==null){
+            throw new Error("invalid input was given")
+        }
+        console.log("here")
 
         return notes;
     } catch (err: any) {
@@ -65,10 +71,10 @@ export async function createResearchNote(title: string, details: string, userID:
     }
 }
 
-export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
+export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: any) {
     const prisma = new PrismaClient()
     try {
-
+        console.log(urlList)
         const notes = await prisma.researchNote.update(
             {
                 where: {
@@ -79,15 +85,31 @@ export async function updateResearchNote(noteID: string, title: string, details:
                     title: title,
                     userID: userID,
                     details: details,
-                    link: {
-                        createMany: {
-                            data: urlList
-                        },
+                    link:{
+                        update:{
+                            where:{
+                                id:urlList.id
+                            },
+                            data:{
+                                url:urlList.url
+                            }
+                        }
                     }
+                    
+                  
+                    
+                 
                 },
+                include:{
+                    link:true
+                }
 
             }
         )
+        
+        console.log(notes)
+       
+      
 
         return notes;
     } catch (err: any) {

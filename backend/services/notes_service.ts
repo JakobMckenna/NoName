@@ -31,8 +31,8 @@ const NotesService = {
     update:async (noteID: string, title: string, details: string, userID: number, sprint: string, urlList: Url[]) => {
         try{
             let result = null;
-            const deletedNote = await updateResearchNote(noteID,title,details,userID,sprint,urlList);
-            result = deletedNote;
+            const updateNote = await updateResearchNote(noteID,title,details,userID,sprint,urlList);
+            result = updateNote;
             return result;
         }catch(error){
             throw new Error("faield to create note")

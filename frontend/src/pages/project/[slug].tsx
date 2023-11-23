@@ -187,7 +187,7 @@ export default function Project() {
     const [projectData, setProjectData] = useState<any>();
     const [projectIDstr, setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState<any>(null);
-    const [sprints, setID] = useSprint();
+    //const [sprints, setID] = useSprint();
     const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)
@@ -222,8 +222,8 @@ export default function Project() {
 
     const getSprintSize = () => {
         let result = 0;
-        if (sprints) {
-            result = sprints.length;
+        if (projectData.sprint) {
+            result = projectData.sprint.length;
         }
         return result;
     }
@@ -240,8 +240,8 @@ export default function Project() {
 
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
-                        if (results && setID != null) {
-                            setID(String(projectID));
+                        if (results) {
+                           // setID(String(projectID));
                             setProjectData(results);
                             setGithub(results.github);
                         }
@@ -277,7 +277,7 @@ export default function Project() {
                     {projectData != null ? (<SprintCard projectID={projectIDstr} />) : <LoadingCard />}
 
 
-                    {sprints != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
+                    {projectData != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
                     {projectData != null ? (<ChatCard projectID={projectIDstr} />) : <LoadingCard />}
 
                 </div>
