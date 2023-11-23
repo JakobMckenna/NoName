@@ -62,8 +62,9 @@ function Form({
                 <select
                     {...register("userID")}
                     className="select select-bordered w-full max-w-xs"
+                    defaultValue={"init"}
                 >
-                    <option disabled selected>
+                    <option value={"init"} disabled >
                         Pick a user
                     </option>
                     {users.map((user: any) => {
