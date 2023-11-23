@@ -41,7 +41,7 @@ function Form({
                     },
                 },
             );
-            console.log("Login successful", response.data);
+          //  console.log("Login successful", response.data);
           //  const members = response.data.members.
             update(response.data.projects.user)
             
@@ -80,7 +80,7 @@ function Form({
     );
 }
 
-function Member({ name, email, projectID, userID, owner }: any) {
+function Member({ name, email, projectID, userID, owner ,update }: any) {
     const removeMember = async (projectID: string, userID: number) => {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`;
@@ -89,7 +89,7 @@ function Member({ name, email, projectID, userID, owner }: any) {
                 // console.log(results.data.projects.members)
                 //  setMembers(results.data.members)
             }
-            console.log(results.data);
+            update(results.data.projects.members);
            // refresh(true);
             return results.data;
         } catch (error) {
@@ -160,6 +160,7 @@ function MemberBoard({
                             userID={member.id}
                             projectID={projectID}
                             owner={owner}
+                            update={update}
                             
                         />
                     );

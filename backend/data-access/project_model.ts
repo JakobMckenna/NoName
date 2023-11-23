@@ -259,12 +259,15 @@ export async function removeProjectMember(projectID: string, userID: number) {
                                 id:userID
                             }
                         }
+                    },
+                    include:{
+                        user:true
                     }
                 }
             )
         }
         console.log(members)
-        return {userID:userID ,projectID:projectID};
+        return {userID:userID ,projectID:projectID ,members:result?.user};
     } catch (err: any) {
         console.log(err)
         return null;
