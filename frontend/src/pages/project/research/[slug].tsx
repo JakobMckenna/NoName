@@ -288,10 +288,11 @@ export default function Research() {
 
             }
 
-            if (!notes) {
+            if (notes==null || filteredNotes.length==0) {
                 getResponse()
             }else{
-                setFilteredNotes(notes);
+                if(notes)
+                    setFilteredNotes(notes);
             }
 
         }, [notes])

@@ -30,7 +30,7 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
           projectID: projectID,
           userID: userID,
           sprintID: data.sprint,
-          urlList: [{ url: data.url }]
+          urlList: { id:note?.link[0]?.id, url: data.url==""?note.link.url:data.url }
         }, {
         headers: {
           'Content-Type': 'application/json',
@@ -83,12 +83,7 @@ function Form({ id, note, projectID, userID, sprints, addNotes, refresh }: { id:
         }
       }
       //setAdding(false);
-    } finally {
-      setValue("sprint", "");
-      //setValue("title", "");
-      setValue("details", "");
-      setValue("url", "");
-    }
+    } 
   }
 
   return (
