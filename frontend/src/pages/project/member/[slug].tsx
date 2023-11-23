@@ -14,13 +14,13 @@ import config from "config";
 
 function Form({
     projectID,
-    changeError,
-    refresh,
+    
+    update,
     users,
 }: {
     projectID: string;
-    changeError: any;
-    refresh: any;
+   
+    update: any;
     users: any;
 }) {
     const {
@@ -42,11 +42,12 @@ function Form({
                 },
             );
             console.log("Login successful", response.data);
-
-            refresh(true);
+          //  const members = response.data.members.
+            update(response.data.projects.user)
+            
         } catch (error) {
             console.log(error);
-            changeError("user does not exists ");
+            //changeError("user does not exists ");
         }
     };
 
@@ -79,7 +80,7 @@ function Form({
     );
 }
 
-function Member({ name, email, projectID, userID, owner, refresh }: any) {
+function Member({ name, email, projectID, userID, owner }: any) {
     const removeMember = async (projectID: string, userID: number) => {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`;
@@ -89,7 +90,7 @@ function Member({ name, email, projectID, userID, owner, refresh }: any) {
                 //  setMembers(results.data.members)
             }
             console.log(results.data);
-            refresh(true);
+           // refresh(true);
             return results.data;
         } catch (error) {
             console.log("failed");
@@ -134,21 +135,20 @@ function MemberBoard({
     members,
     projectID,
     owner,
-    error,
-    changeError,
-    refresh,
+    update,
     users,
-}: any) {
+}: {members:any[],projectID:string , owner:number , update:any ,users:any}) {
     return (
         <div className="m-6 flex h-96 min-h-min w-[425px] flex-col  rounded-md border-black bg-base-200  p-6">
             <div className="mb-3 flex flex-col px-3">
                 <Form
                     projectID={projectID}
-                    changeError={changeError}
-                    refresh={refresh}
+                   // changeError={changeError}
+                    update={update}
+                    
                     users={users}
                 />
-                <div className="text-color-red">{error}</div>
+               
             </div>
             <div className="overflow-auto">
                 {members.map((member: any) => {
@@ -160,7 +160,7 @@ function MemberBoard({
                             userID={member.id}
                             projectID={projectID}
                             owner={owner}
-                            refresh={refresh}
+                            
                         />
                     );
                 })}
@@ -175,12 +175,16 @@ export default function MemberPage() {
     const [users, setUsers] = useState([]);
 
     // const [user, loading] = useUser();
-    const [members, setMembers] = useState([]);
-    const [ownerID, setOwnerID] = useState();
+    const [members, setMembers] = useState<any[]>([]);
+    const [ownerID, setOwnerID] = useState<number>(0);
     const [error, setError] = useState("");
     const [refresh, setRefresh] = useState(true);
 
     const projectID: string = String(router.query.slug);
+
+    const updateMemberList =(members:any[])=>{
+        setMembers(members)
+    }
 
     const getUsers = async () => {
         try {
@@ -218,7 +222,7 @@ export default function MemberPage() {
             }
             console.log(results.data);
             setRefresh(false);
-            return results.data;
+            return results.data.members.user;
         } catch (error) {
             console.log("failed");
             return null;
@@ -230,6 +234,7 @@ export default function MemberPage() {
             const projects = async () => {
                 const results = await getResponse(String(router.query.slug));
                 console.log("members");
+                return results 
             };
             if (refresh) {
                 getUsers()
@@ -247,12 +252,9 @@ export default function MemberPage() {
                     members={members}
                     owner={ownerID}
                     users={users}
-                    error={error}
-                    refresh={(val: boolean) => {
-                        setRefresh(val);
-                        return val;
-                    }}
-                    changeError={(msg: string) => setError(msg)}
+                  //  error={error}
+                    update={updateMemberList}
+                
                 />
             </main>
         </div>

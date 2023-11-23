@@ -161,7 +161,7 @@ export async function addProjectMember(projectID: string, userId: number) {
         )
             
         if(members){
-            await prisma.projectMember.update(
+           const result = await prisma.projectMember.update(
                 {
                     where:{
                         id:members.id
@@ -172,9 +172,13 @@ export async function addProjectMember(projectID: string, userId: number) {
                                 id:userId
                             }
                         }
+                    },
+                    include:{
+                        user:true
                     }
                 }
             )
+         return result;
         }else{
             await prisma.projectMember.create(
                 {
@@ -186,7 +190,7 @@ export async function addProjectMember(projectID: string, userId: number) {
             addProjectMember(projectID,userId)
         }
 
-        return members;
+       // return members;
     } catch (err: any) {
         console.log(err)
         return null;
