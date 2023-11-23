@@ -13,6 +13,7 @@ import useUser from "~/hooks/use_user";
 import config from "config";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Spinner from "~/components/modal_spinner";
+import BackPage from "~/components/back_navigation";
 
 function Form({
     projectID,
@@ -148,7 +149,7 @@ function MemberBoard({
     animate,
 }: { members: any[], projectID: string, owner: number, update: any, users: any, animate: RefCallback<Element> }) {
     return (
-        <div className="m-6 flex h-5/6  w-[425px] flex-col  rounded-md border-black bg-base-200  p-6">
+        <div className="m-6 flex h-5/6  w-[420px] flex-col   rounded-md border-black bg-base-200  p-6 ">
             <div className="mb-3 flex flex-col px-3">
                 <Form
                     projectID={projectID}
@@ -259,7 +260,8 @@ export default function MemberPage() {
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container h-screen mx-auto ">
+            <main className="container h-screen mx-auto mr-5">
+                <BackPage link={`/project/${projectID}`} name="Back To Project Page" />
                 <MemberBoard
                     projectID={projectID as string}
                     members={members}
