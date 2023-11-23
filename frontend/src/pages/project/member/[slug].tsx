@@ -191,6 +191,7 @@ export default function MemberPage() {
     const [error, setError] = useState("");
     const [refresh, setRefresh] = useState(true);
     const [parent, enableAnimations] = useAutoAnimate()
+    const [userID , setUserID] = useState<number>(0)
 
 
 
@@ -205,12 +206,12 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/users`;
             const results = await axios.get(reqUrl);
             if (results.data && results.data.users) {
-               // console.log(results.data.users);
+                // console.log(results.data.users);
                 // setMembers(results.data.members.user);
                 setUsers(results.data.users)
             }
 
-          //  console.log(results.data);
+            //  console.log(results.data);
             //setRefresh(false);
             return results.data;
         } catch (error) {
@@ -224,7 +225,7 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/projects/member/${userID}`;
             const results = await axios.get(reqUrl);
             if (results.data && results.data.members && results.data.members.user) {
-             //   console.log(results.data.members.user);
+                //   console.log(results.data.members.user);
                 setMembers(results.data.members.user);
             }
             if (
@@ -234,7 +235,7 @@ export default function MemberPage() {
             ) {
                 setOwnerID(results.data.members.project.userId);
             }
-           // console.log(results.data);
+            // console.log(results.data);
             setRefresh(false);
             return results.data.members.user;
         } catch (error) {
@@ -244,24 +245,25 @@ export default function MemberPage() {
     };
 
     useEffect(() => {
-        if (projectID != null && projectID != undefined) {
+        if (projectID != null && projectID != undefined && user!=null) {
             const projects = async () => {
                 const results = await getResponse(String(router.query.slug));
-               // console.log("members");
+                // console.log("members");
                 return results
             };
             if (refresh) {
+                setUserID(user.id)
                 getUsers()
                 projects();
             }
         }
-    }, [projectID, members]);
+    }, [user,projectID, members]);
 
     return (
         <div>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container h-screen mx-auto mr-5">
-                <BackPage link={`/project/${projectID}`} name="Back To Project Page" />
+            <main ref={parent} className="container h-screen mx-auto mr-5">
+                {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                 <MemberBoard
                     projectID={projectID as string}
                     members={members}
