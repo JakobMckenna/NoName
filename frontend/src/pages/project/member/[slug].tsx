@@ -149,7 +149,7 @@ function MemberBoard({
 }: { members: any[], projectID: string, owner: number, update: any, userID: number, removeMember: any, users: any, animate: RefCallback<Element> }) {
     const [loading, setLoading] = useState(false)
     return (
-        <div className="m-6 flex h-5/6  w-[420px] flex-col   rounded-md border-black bg-base-200  p-6 ">
+        <div className=" flex  flex-col  h-5/6  w-[420px] ml-2.5  rounded-md border-black bg-base-200  p-6 md:ml-0">
             <div className="mb-0 flex flex-col px-3">
                 <Form
                     projectID={projectID}
