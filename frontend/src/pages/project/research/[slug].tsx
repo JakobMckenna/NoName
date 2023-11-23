@@ -16,6 +16,7 @@ import Spinner from "~/components/spinner";
 import BackPage from "~/components/back_navigation";
 import UpdateNote from "~/components/update_note_modal";
 import { boolean } from "yup";
+import DeleteNote from "~/components/delete_note_modal";
 
 
 function Note({ noteID, title, details, links, update, deleteNote }: { noteID: string, title: string, details: string, links: any[], deleteNote: any, update: any }) {
@@ -46,9 +47,11 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                             <li >
                                 <a
                                     onClick={
-                                        async () => {
-                                            const result = await deleteNote(noteID);
-                                            console.log(result.data);
+                                        () => {
+                                            deleteNote(noteID);
+                                           // console.log(result.data);
+                                           const modalElement: any = document.getElementById('del_note')
+                                           modalElement.showModal()
 
                                         }
                                     } >delete</a></li>
@@ -76,19 +79,7 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
 
 function NoteList({ list, remove, refresh, setUpdateNote }: { list: any, remove: any, refresh: any, setUpdateNote: any }) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
-    const deleteNote = async (id: string) => {
-        try {
-            const deletedNote = await axios.delete(`${config.backendApiUrl}/projects/notes/${id}`);
-            //console.log(`deleted ${deletedNote}`);
-            const note = deletedNote.data.notes;
-            remove(note.id)
-            return deleteNote;
-            // refresh(true)
-        } catch (error) {
-            console.log(error);
-        }
-
-    };
+ 
 
 
 
@@ -103,7 +94,7 @@ function NoteList({ list, remove, refresh, setUpdateNote }: { list: any, remove:
                             title={note.title}
                             details={note.details}
                             update={setUpdateNote}
-                            deleteNote={deleteNote}
+                            deleteNote={remove}
                             links={note.link}
                         />
                     )
@@ -185,6 +176,7 @@ export default function Research() {
     const [searchMilestone, setSearchMilestone] = useState<string>("")
     const [projectIDstr, setProjectIDstr] = useState("")
     const [editNoteID, setEditNoteID] = useState("")
+    const [deleteNoteID, setDeleteNoteID] = useState("")
     const [noteEdit , setNoteEdit]= useState<any>(null)
 
     const getResponse = async () => {
@@ -242,6 +234,10 @@ export default function Research() {
             
         }
         
+    }
+
+    const deleteNote =(id:string)=>{
+        setDeleteNoteID(id);
     }
 
     
@@ -338,11 +334,12 @@ export default function Research() {
                 </div>
 
                 <div className="container bg-base-100  mx-auto mb-24 px-7">
-                    {notes != null ? (<NoteList list={filteredNotes} remove={removeNotes} setUpdateNote={setUpdateNote} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
+                    {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
                 </div>
             </main>
             <NotesModal projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
             <UpdateNote noteID={editNoteID} note={noteEdit} projectID={projectIDstr} update={updateNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
+            <DeleteNote id={deleteNoteID} remove={removeNotes} />
         </div>
     )
 }
