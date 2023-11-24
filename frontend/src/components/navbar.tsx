@@ -15,7 +15,7 @@ const Navbar = ({ userName }: { userName: string }) => {
     },[isChecked ,theme]
   )
   return (
-    <div className="navbar bg-base-100 mb-2">
+    <div className="navbar bg-base-100 mb-2 top-0">
       <div className="navbar-start">
         <Drawer />
       </div>

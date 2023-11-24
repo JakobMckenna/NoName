@@ -186,8 +186,8 @@ function Header({ projectData, userID, owner }: { projectData: any, userID: numb
                             }
                             disabled={userID !== owner}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
     </svg>
 
 
@@ -209,14 +209,15 @@ export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
-    const [projectIDstr, setProjectIDstr] = useState<string>("")
+    const [projectIDstr, setProjectIDstr] = useState<string>("");
+    const [projectName, setProjectName] = useState<string>("");
     const [github, setGithub] = useState<any>(null);
     const [sprints, setID] = useSprint();
     const projectID = router.query.slug;
-    const [owner, setOwner] = useState<number | null>(null)
-    const [userID, setUserID] = useState<number | null>(null)
+    const [owner, setOwner] = useState<number | null>(null);
+    const [userID, setUserID] = useState<number | null>(null);
     const goToHome = () => {
-        router.push("/home")
+        router.push("/home");
     }
 
 
@@ -229,6 +230,7 @@ export default function Project() {
                 const results = await axios.get(reqUrl);
                 // save owner's user ID to compare  with the logged in user's ID
                 setOwner(results.data.projects.userId);
+                setProjectName(results.data.projects.name);
                 return results.data.projects;
             }
 
@@ -310,7 +312,7 @@ export default function Project() {
             </main >
             <RepoModal projectID={projectIDstr} />
             <DeleteModal projectID={projectIDstr} home={goToHome} />
-            <RenameModal projectID={projectIDstr} projectName={"Test"} /> {/*{projectData.name} /> */}
+            <RenameModal projectID={projectIDstr} projectName={projectName} /> 
             <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
 
         </div>

@@ -33,9 +33,9 @@ const RenameModal = ({ projectID, projectName }: { projectID: string, projectNam
     }
     return (
         <dialog id="rename_proj" className="modal">
-            <div className="modal-box">
+            <div className="modal-box  flex flex-col items-center space-y-4">
             <input type="text" placeholder={projectName} className="input input-bordered w-full max-w-xs" />
-                <div className="flex flex-row justify-around">
+                <div className="flex flex-row space-x-4">
                     <button
                         className="btn  btn-primary btn-sm"
                         onClick={
@@ -57,10 +57,10 @@ const RenameModal = ({ projectID, projectName }: { projectID: string, projectNam
                         {renamed&&(
                             <Spinner />
                         )}
-                        {renamed?"renamed":"yes"}
+                        {renamed?"renamed":"Rename"}
                     </button>
                     <button
-                        className="btn btn-neutral btn-lg"
+                        className="btn btn-neutral btn-sm"
                         onClick={
                             () => {
                                 const modalElement: any = document.getElementById('rename_proj')
@@ -69,7 +69,7 @@ const RenameModal = ({ projectID, projectName }: { projectID: string, projectNam
                         }
                         disabled={renamed}
                     >
-                        no
+                        Cancel
                     </button>
                 </div>
 
