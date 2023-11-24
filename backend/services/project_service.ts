@@ -122,14 +122,14 @@ const ProjectService = {
             let results = null;
            
             let exists = null;
-            if (projectID!= null)
+            if (sprintID!= null)
                 exists = await getSprint(sprintID)
             if (exists === null)
             {
                 const sprint = await createSprint(projectID, name,start,deadline)
                 results = sprint;
             }else{
-                const sprint = await updateSprint(exists.id,projectID, name,start,deadline)
+                const sprint = await updateSprint(sprintID,projectID, name,start,deadline)
                 results = sprint;
             }
             return results;

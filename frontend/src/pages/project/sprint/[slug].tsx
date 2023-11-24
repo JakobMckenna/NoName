@@ -133,9 +133,7 @@ export default function SprintPage() {
         const sprintList = sprints.filter((sprint) =>sprint.id !== sprintID);
         if (sprintList )
         {
-            
-            setSprints(sprintList );
-            
+            setSprints(sprintList ); 
         }
         
     }
@@ -160,7 +158,7 @@ useEffect(
     () => {
         if (projectID != null && refresh) {
 
-            getSprints()
+            getSprints();
 
         }
 
