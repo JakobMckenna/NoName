@@ -2,11 +2,41 @@
 
 import axios from "axios";
 import config from 'config';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
-    const [deleting, setDeleting] = useState(false)
+    const [deleting, setDeleting] = useState(false);
+    const [projectName, setProjectName] = useState("");
+
+    useEffect(() => {
+        // Fetch project name when component mounts
+        const fetchData = async () => {
+            try {
+                const name = await getProjectData(projectID);
+                setProjectName(name);
+            } catch (error) {
+                console.log(error);
+                // Handle error if needed
+            }
+        };
+
+        fetchData();
+    }, [projectID]);
+
+    const getProjectData = async (id: string) => {
+        const reqUrl = `${config.backendApiUrl}/projects/${id}`;
+
+        try {
+            if (id != null || id != undefined) {
+                const results = await axios.get(reqUrl);
+                return results.data.projects.name;
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error("failed to get project");
+        }
+    };
 
     const deleteProject = async () => {
         try {
@@ -33,11 +63,11 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     }
     return (
         <dialog id="del_proj" className="modal">
-            <div className="modal-box">
-                <h3 className="font-bold text-lg">Are you sure you want to delete this project!</h3>
-                <div className="flex flex-row justify-around">
+            <div className="modal-box flex flex-col items-center space-y-4">
+                <h3 className="text-lg">Delete project <b>{projectName}</b>?</h3>
+                <div className="flex flex-row space-x-4">
                     <button
-                        className="btn  btn-warning btn-lg"
+                        className="btn btn-warning btn-md"
                         onClick={
                             async () => {
                                 try {
@@ -57,10 +87,10 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         {deleting&&(
                             <Spinner />
                         )}
-                        {deleting?"delting":"yes"}
+                        {deleting?"deleting":"Delete"}
                     </button>
                     <button
-                        className="btn btn-neutral btn-lg"
+                        className="btn btn-neutral btn-md"
                         onClick={
                             () => {
                                 const modalElement: any = document.getElementById('del_proj')
@@ -69,7 +99,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         }
                         disabled={deleting}
                     >
-                        no
+                        Cancel
                     </button>
                 </div>
 
