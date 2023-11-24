@@ -8,16 +8,21 @@ import Spinner from "./modal_spinner";
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     const [deleting, setDeleting] = useState(false);
     const [projectName, setProjectName] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Fetch project name when component mounts
         const fetchData = async () => {
             try {
                 const name = await getProjectData(projectID);
-                setProjectName(name);
+                if (name !== undefined) {
+                    setProjectName(name);
+                } 
+                setLoading(false);
             } catch (error) {
                 console.log(error);
                 // Handle error if needed
+                setLoading(false);
             }
         };
 
@@ -52,9 +57,6 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
             const modalElement: any = document.getElementById('del_proj')
             modalElement.close()
 
-
-            // refresh(true)
-
         } catch (error) {
             console.log(error)
             throw new Error()
@@ -64,6 +66,10 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     return (
         <dialog id="del_proj" className="modal">
             <div className="modal-box flex flex-col items-center space-y-4">
+            {loading ? (
+                    <p>Loading project data...</p>
+                ) : (
+                    <>
                 <h3 className="text-lg">Delete project <b>{projectName}</b>?</h3>
                 <div className="flex flex-row space-x-4">
                     <button
@@ -102,7 +108,8 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         Cancel
                     </button>
                 </div>
-
+                </>
+                )}
             </div>
             <form method="dialog" className="modal-backdrop">
                 {/* if there is a button in form, it will close the modal */}
