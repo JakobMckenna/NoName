@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import config from "config";
 
-function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
+function Form({ projectID, add }: { projectID: string, add: any }) {
     const {
         register,
         handleSubmit,
@@ -17,7 +17,7 @@ function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
     const submitSprint = async (data: any) => {
         const startDate = new Date(data.start);
         const deadlineDate = new Date(data.deadline);
-        
+
         try {
             const startDate = new Date(data.start);
             const deadlineDate = new Date(data.deadline);
@@ -32,11 +32,11 @@ function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
                     'Content-Type': 'application/json',
                 },
             });
-            
-            console.log(responseSprint.data)
+
+            add(responseSprint.data.sprint)
             const modalElement: any = document.getElementById('sprint_modal')
             modalElement.close()
-            refresh(true)
+            //refresh(true)
         } catch (error) {
             console.log(error)
         }
@@ -75,7 +75,7 @@ function Form({ projectID ,refresh}: { projectID: string , refresh:Function }) {
     )
 }
 
-const SprintModal = ({ projectID ,refresh }: { projectID: string , refresh:Function }) => {
+const SprintModal = ({ projectID, add }: { projectID: string, add: any }) => {
     return (
         <dialog id="sprint_modal" className="modal">
             <div className="modal-box">
@@ -83,7 +83,10 @@ const SprintModal = ({ projectID ,refresh }: { projectID: string , refresh:Funct
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form projectID={projectID}  refresh={refresh}/>
+                <Form
+                    projectID={projectID}
+                    add={add}
+                />
             </div>
         </dialog>
     );

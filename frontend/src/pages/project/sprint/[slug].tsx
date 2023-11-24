@@ -6,7 +6,6 @@ import { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "~/components/navbar";
 import SprintModal from "~/components/sprintmdl";
-import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
@@ -77,8 +76,8 @@ export default function SprintPage() {
     const router = useRouter();
     const [user, loading] = useUser();
     //const [sprints, setID] = useSprint();
-    const [sprints, setSprints] = useState([])
-    const projectID: string | string[] | null | undefined = router.query.slug;
+    const [sprints, setSprints] = useState<any[]>([])
+    const projectID = router.query.slug;
     const [refresh, setRefesh] = useState(true)
     const isRefresh = () => {
         return refresh === true;
@@ -86,10 +85,10 @@ export default function SprintPage() {
 
     const getSprints = async () => {
         try {
-            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID}`
+            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID as string}`
             console.log("url")
             console.log(`url ${reqUrl}`);
-            if (refresh) {
+            if (projectID!=null) {
                 const results = await axios.get(reqUrl)
                 console.log(results.data.sprints)
                 setSprints((prev): any => [...results.data.sprints])
@@ -103,9 +102,14 @@ export default function SprintPage() {
 
     }
 
+    const addSprint = (sprint:any)=>{
+        setSprints((prev)=>[...prev,sprint])
+
+    }
+
     useEffect(
         () => {
-            if (!sprints && !projectID) {
+            if (projectID!=null && refresh) {
 
                 getSprints()
 
@@ -130,7 +134,7 @@ export default function SprintPage() {
                     <MilestoneHero sprints={sprints} />
                 </div>
             </main>
-            <SprintModal projectID={String(projectID)} refresh={(val: boolean) => setRefesh(val)} />
+            <SprintModal projectID={projectID as string}  add={addSprint} />
         </div>
     )
 }
