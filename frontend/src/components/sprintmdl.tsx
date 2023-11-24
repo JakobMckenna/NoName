@@ -3,6 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 
 import config from "config";
+import Spinner from "./modal_spinner";
 
 function Form({ projectID, add }: { projectID: string, add: any }) {
     const {
@@ -47,7 +48,14 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
                 <label className="label">
                     <span className="label-text">Name</span>
                 </label>
-                <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
+                <input
+                    {...register("name")}
+                    disabled={isSubmitting}
+                    type="text"
+                    placeholder="Name"
+                    className="input input-bordered"
+                    required
+                />
             </div>
 
 
@@ -57,19 +65,38 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
                 <label className="label">
                     <span className="label-text">start</span>
                 </label>
-                <input {...register("start")} type="date" placeholder="Start" className="input input-bordered" required />
+                <input
+                    {...register("start")}
+                    disabled={isSubmitting}
+                    type="date"
+                    placeholder="Start"
+                    className="input input-bordered"
+                    required
+                />
 
             </div>
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">deadline</span>
                 </label>
-                <input {...register("deadline")} type="date" placeholder="Name" className="input input-bordered" required />
+                <input
+                    {...register("deadline")}
+                    disabled={isSubmitting}
+                    type="date"
+                    placeholder="Name"
+                    className="input input-bordered"
+                    required
+                />
 
             </div>
 
             <div className="form-control mt-6">
-                <button className="btn btn-primary">Add Sprint</button>
+                <button
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? (<><Spinner />{"Adding Sprint"}</>) : "Add Sprint"}
+                </button>
             </div>
         </form>
     )

@@ -29,10 +29,11 @@ function Sprints({ sprints }: any) {
                         const end = convDate(sprint.deadline)
                         return (<div key={sprint.id} className="collapse collapse-arrow w-80 bg-base-200">
                             <input type="radio" name="my-accordion-2" />
-                            <div className="collapse-title text-xl font-medium">
+                            <div className="collapse-title capitalize text-xl font-medium">
                                 {sprint.name}
                             </div>
                             <div className="collapse-content">
+                                <button className="btn  btn-primary">Delete Sprint</button>
                                 <div className="flex flex-row justify-between">
                                     <p>start: {start}</p>
                                     <p>end: {end}</p>
@@ -104,6 +105,10 @@ export default function SprintPage() {
 
     const addSprint = (sprint:any)=>{
         setSprints((prev)=>[...prev,sprint])
+
+    }
+
+    const deleteSprint = (sprintID:string)=>{
 
     }
 
