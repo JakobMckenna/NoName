@@ -105,14 +105,14 @@ export default function SprintPage() {
 
     useEffect(
         () => {
-            if (refresh && projectID != null && projectID != undefined) {
+            if (!sprints && !projectID) {
 
                 getSprints()
 
             }
 
 
-        }, [user, isRefresh, refresh]
+        }, [sprints,projectID]
 
     )
     return (
