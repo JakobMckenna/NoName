@@ -134,7 +134,7 @@ model Chat {
   projectID String
   timestamp DateTime @default(now())
   project   Project @relation(fields: [projectID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User    @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User?    @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([projectID])
   @@index([userID])
