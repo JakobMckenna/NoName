@@ -18,11 +18,8 @@ const Drawer = () => {
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
-                    <li><Link className="text-3xl" href="/">Overview</Link></li>
-                    <li><Link className="text-3xl" href="/">Projects</Link></li>
-                    <li><Link className="text-3xl" href="/">Tasks</Link></li>
-                    <li><Link className="text-3xl" href="/">Research</Link></li>
-                    <li><Link className="text-3xl" href="/">Settings</Link></li> {/* href = "/settings"*/}
+                    <li><Link className="text-3xl" href="/home">home</Link></li>
+                    <li><Link className="text-3xl" href="/Settings">Settings</Link></li> 
                     <li>
                         <a className="text-3xl" onClick={
                             () => {

@@ -97,7 +97,7 @@ function Member({ name, email, projectID, userID, signInUser, owner, removeMembe
     return (
         <>
 
-            <div className="mt-10 flex flex-row justify-between px-6">
+            <div className="mt-10 flex flex-row overflow-y-hidden justify-between px-6 ">
                 <>
                     <div className="w-54 max-w-max ">
                         <p>{name}</p>
@@ -122,7 +122,7 @@ function Member({ name, email, projectID, userID, signInUser, owner, removeMembe
                                             changeLoading(false);
                                         }
 
-                                    }else{
+                                    } else {
                                         const modalElement: any = document.getElementById('del_mem')
                                         modalElement.showModal()
                                     }
@@ -153,8 +153,8 @@ function MemberBoard({
 }: { members: any[], projectID: string, owner: number, update: any, userID: number, removeMember: any, users: any, animate: RefCallback<Element> }) {
     const [loading, setLoading] = useState(false)
     return (
-        <div className=" flex  flex-col  h-5/6  w-[420px] ml-2.5  rounded-md border-black bg-base-200  px-6 py-4 md:ml-0">
-            <div className="mb-0 flex flex-col px-3">
+        <div className=" flex  flex-col h-3/4   overscroll-none overflow-x-none  overflow-y-hidden  w-[420px] ml-2.5  rounded-md border-black bg-base-200  px-6 py-4 md:ml-0">
+            <div className="flex flex-col h-fit  mb-0  px-3">
                 <Form
                     projectID={projectID}
                     // changeError={changeError}
@@ -164,7 +164,7 @@ function MemberBoard({
                 />
 
             </div>
-            <div ref={animate} className="h-fit overflow-y-auto overflow-x-hidden" >
+            <div ref={animate} className=" h-full overflow-y-auto overflow-x-none " >
                 {members.map((member: any) => {
                     return (
                         <Member
@@ -183,82 +183,81 @@ function MemberBoard({
                         />
                     );
                 })}
-                {
 
-                    members.length == 0 && (<div className="flex  flex-row h-1/6 mt-6 justify-center text-center">
-                        <Spinner />
-                        <p>{members.length != 0 ? "Removing user" : "loading"}</p>
-                    </div>)
-                }
+                <div className="flex flex-row h-1/6 overflow-x-none overscroll-none   justify-center items-end text-center">
+                    {
+                        loading && (<><Spinner />
+                            <p>{members.length != 0 ? "Removing user" : "loading"}</p></>)
+                    }
+                </div>
+
             </div>
-            {
 
-                loading && (<div className="flex  flex-row mt-6 justify-center text-center">
-                    <Spinner />
-                    <p>{members.length != 0 ? "Removing user" : "loading"}</p>
-                </div>)
-            }
+
+
+
 
         </div>
     );
 }
 
-function RemoveModal({deleteMember,projectID , userID,goHome}:{deleteMember:any,projectID:string,userID:number,goHome:any}){
+function RemoveModal({ deleteMember, projectID, userID, goHome }: { deleteMember: any, projectID: string, userID: number, goHome: any }) {
     const [deleting, setDeleting] = useState(false);
-    const modalElement: any = document.getElementById('del_mem');
-    return(
+
+    return (
         <dialog id="del_mem" className="modal">
-        <div className="modal-box prose">
-            <h3 className="font-bold text-lg">Are you sure you want to leave this project</h3>
-            <div className="flex flex-row justify-around">
-                <button
-                    className="btn  btn-warning btn-lg"
-                    onClick={
-                        async () => {
-                            try {
-                                setDeleting(true)
-                                const deletedProject = await deleteMember(projectID,userID);
-                                setDeleting(false)
-                                goHome()
-                                modalElement.close()
+            <div className="modal-box prose">
+                <h3 className="font-bold text-lg">Are you sure you want to leave this project</h3>
+                <div className="flex flex-row justify-around">
+                    <button
+                        className="btn  btn-warning btn-lg"
+                        onClick={
+                            async () => {
+                                const modalElement: any = document.getElementById('del_mem');
+                                try {
+                                    setDeleting(true)
+                                    const deletedProject = await deleteMember(projectID, userID);
+                                    setDeleting(false)
+                                    goHome()
+                                    modalElement.close()
 
 
-                            } catch (error) {
-                                console.log(error);
-                                
+                                } catch (error) {
+                                    console.log(error);
+
+                                }
+
                             }
+                        }
+                        disabled={deleting}
+                    >
+                        {deleting && (
+                            <Spinner />
+                        )}
+                        {deleting ? "delting" : "yes"}
+                    </button>
+                    <button
+                        className="btn btn-neutral btn-lg"
+                        onClick={
+                            () => {
+                                const modalElement: any = document.getElementById('del_note')
+                                modalElement.close()
+                            }
+                        }
+                        disabled={deleting}
+                    >
+                        no
+                    </button>
+                </div>
 
-                        }
-                    }
-                    disabled={deleting}
-                >
-                    {deleting&&(
-                        <Spinner />
-                    )}
-                    {deleting?"delting":"yes"}
-                </button>
-                <button
-                    className="btn btn-neutral btn-lg"
-                    onClick={
-                        () => {
-                            const modalElement: any = document.getElementById('del_note')
-                            modalElement.close()
-                        }
-                    }
-                    disabled={deleting}
-                >
-                    no
-                </button>
             </div>
-
-        </div>
-        <form method="dialog" className="modal-backdrop">
-            {/* if there is a button in form, it will close the modal */}
-            <button>close</button>
-        </form>
+            <form method="dialog" className="modal-backdrop">
+                {/* if there is a button in form, it will close the modal */}
+                <button>close</button>
+            </form>
 
 
-    </dialog>
+        </dialog>
     )
 }
 
@@ -274,11 +273,11 @@ export default function MemberPage() {
     const [refresh, setRefresh] = useState(true);
     const [parent, enableAnimations] = useAutoAnimate()
     const [userID, setUserID] = useState<number>(0)
-    
+
 
     const projectID = router.query.slug;
 
-    const goToHome =()=>{
+    const goToHome = () => {
         router.push("/home");
     }
 
