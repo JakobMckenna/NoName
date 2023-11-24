@@ -10,6 +10,7 @@ import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
+import BackPage from "~/components/back_navigation";
 
 function Sprints({ sprints }: any) {
     // console.log(sprints)
@@ -76,7 +77,7 @@ export default function SprintPage() {
     const router = useRouter();
     const [user, loading] = useUser();
     //const [sprints, setID] = useSprint();
-    const [sprints ,setSprints] = useState([])
+    const [sprints, setSprints] = useState([])
     const projectID: string | string[] | null | undefined = router.query.slug;
     const [refresh, setRefesh] = useState(true)
     const isRefresh = () => {
@@ -91,7 +92,7 @@ export default function SprintPage() {
             if (refresh) {
                 const results = await axios.get(reqUrl)
                 console.log(results.data.sprints)
-                setSprints((prev):any=>[...results.data.sprints])
+                setSprints((prev): any => [...results.data.sprints])
             }
             setRefesh(false);
             //setSprints(results.data.sprints)
@@ -105,13 +106,13 @@ export default function SprintPage() {
     useEffect(
         () => {
             if (refresh && projectID != null && projectID != undefined) {
-          
+
                 getSprints()
 
             }
 
-        
-        }, [isRefresh, refresh]
+
+        }, [user, isRefresh, refresh]
 
     )
     return (
@@ -123,6 +124,8 @@ export default function SprintPage() {
             </Head>
             <Navbar userName={`${user?.name}#${user?.id}`} />
             <main className="container mx-auto">
+                {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
+
                 <div >
                     <MilestoneHero sprints={sprints} />
                 </div>
