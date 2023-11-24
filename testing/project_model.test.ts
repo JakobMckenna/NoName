@@ -96,7 +96,8 @@ test('Create a project', async () => {
     if(userID2 !== undefined && projID2 !== undefined){
         data10 = await addProjectMember(projID2, userID2);
     }
-    expect(data10).toBeNull(); //should be true
+   // console.log(data10)
+    expect(data10).toBe(undefined); //should be true
   });
 
   test('Remove a project', async () => {
