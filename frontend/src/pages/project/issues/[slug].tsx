@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 
 import config from "config";
 import BackPage from "~/components/back_navigation";
+import Drawer from "~/components/drawer";
 
 interface Label {
 
@@ -70,7 +71,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
 }
 
 function Issues({ issues, type, clickLabel, clickMilestone }: any) {
-    
+
 
     return (
         <>
@@ -345,22 +346,23 @@ export default function IssuesPage() {
             }
 
 
-        }, [isRefreshing]
+        }, [user,isRefreshing]
     )
 
     return (
         <div>
-            <Navbar userName={`${user?.name}#${user?.id}`} />
-               
-            <main className="container mx-auto md:w-1/2 mt-5 ">
-                {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`}/>): (<div className="skeleton h-9 w-96 mb-5"></div>)}
-            
-                <h1 className="text-4xl uppercase mb-2 text-center">Issues</h1>
-                <div className="flex flex-row justify-center px-5 ">
-                    {!openIssues && (<Spinner />)}
-                    {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} refresh={(val: boolean) => setRefresh(val)} />}
-                </div>
-            </main>
+            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+
+                <main className="container mx-auto md:w-1/2 mt-5 ">
+                    {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
+
+                    <h1 className="text-4xl uppercase mb-2 text-center">Issues</h1>
+                    <div className="flex flex-row justify-center px-5 ">
+                        {!openIssues && (<Spinner />)}
+                        {openIssues && <IssueList openIssues={openIssues} closedIssues={closedIssues} refresh={(val: boolean) => setRefresh(val)} />}
+                    </div>
+                </main>
+            </Drawer>
         </div>
     )
 }
