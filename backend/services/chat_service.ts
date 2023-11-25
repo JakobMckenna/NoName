@@ -30,6 +30,10 @@ const ChatService = {
     },
     randomChatID:()=>{
         return crypto.randomBytes(10).toString("hex").slice(0, 10);
+    },
+    sendTime:()=>{
+        const result = new Date();
+        return result.toISOString()
     }
 }
 
