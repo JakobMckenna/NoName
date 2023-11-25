@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
@@ -148,11 +149,14 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     const topChatBox = useRef<HTMLDivElement | null>(null);
     const messages = useRef<HTMLDivElement | null>(null);
 
+    const [parent, enableAnimations] = useAutoAnimate()
+
     const getMessages = (searchVal: string) => {
         return chatHistory.filter((message: Chat) => {
             return message.message.toLowerCase().includes(searchVal.toLowerCase())
         })
     }
+
 
     const searchMessage = (msg: string) => {
         console.log(msg)
@@ -220,7 +224,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 messages={filteredMessages}
                 scrollToMsg={scrollToMessage}
             />
-            <div className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
+            <div ref={parent} className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
                 <span ref={topChatBox} />
 
 
