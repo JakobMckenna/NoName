@@ -41,8 +41,8 @@ function Tile({ id, name, user, parent }: { id: string, name: string, user: stri
     )
 }
 
-function ProjectHero({ projects, parent ,search ,projectsInit }: { projects: any, parent: Ref,search:any ,projectsInit:any }) {
-   // console.log(projects)
+function ProjectHero({ projects, parent, search, projectsInit }: { projects: any, parent: Ref, search: any, projectsInit: any }) {
+    // console.log(projects)
 
     return (
         <div className="hero  bg-base-100">
@@ -60,13 +60,21 @@ function ProjectHero({ projects, parent ,search ,projectsInit }: { projects: any
                                     }
                                 }
                             }
-                        >Add Project</button>
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clipRule="evenodd" />
+                            </svg>
+
+
+                            Add Project
+
+                        </button>
                         <input
                             type="text"
                             placeholder="Find Project"
                             className="input input-bordered w-full max-w-xs"
                             onChange={
-                                (event:React.ChangeEvent<HTMLInputElement>)=>{
+                                (event: React.ChangeEvent<HTMLInputElement>) => {
                                     search(event.target.value)
                                 }
                             }
@@ -108,17 +116,17 @@ function ProjectHero({ projects, parent ,search ,projectsInit }: { projects: any
 export default function LandingPage() {
     const router = useRouter();
     const [user, loading] = useUser()
-    const [projectList, setProjectList] = useState<any[]|null>(null)
+    const [projectList, setProjectList] = useState<any[] | null>(null)
     const [refresh, setRefresh] = useState(true)
     const [currentTheme, loadingTheme] = useCurrentTheme()
     const [theme, setTheme] = useState<string>()
     const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
-    const [filteredList , setFilteredList] = useState<any[]>([])
-    
+    const [filteredList, setFilteredList] = useState<any[]>([])
+
 
     const addProject = (project: any) => {
         setFilteredList((prev) => [project, ...prev]);
-       setProjectList((prev:any)=>[project,...prev]);
+        setProjectList((prev: any) => [project, ...prev]);
     }
 
     const getProjects = async (userID: number) => {
@@ -136,11 +144,11 @@ export default function LandingPage() {
     }
 
     // filter projects by project name
-    const searchProjects=(projectName:string)=>{
-        const results =  projectList?.filter((project)=>{
+    const searchProjects = (projectName: string) => {
+        const results = projectList?.filter((project) => {
             return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase())
         })
-        if(results)
+        if (results)
             setFilteredList(results)
     }
 
@@ -183,8 +191,8 @@ export default function LandingPage() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main>
-                <ProjectHero projects={filteredList} parent={parent} search={searchProjects} projectsInit={projectList}  />
+            <main className="container mx-auto">
+                <ProjectHero projects={filteredList} parent={parent} search={searchProjects} projectsInit={projectList} />
             </main>
             <ProjectModal userID={user?.id} addProject={addProject} />
         </div>
