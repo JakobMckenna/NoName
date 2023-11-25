@@ -1,5 +1,5 @@
 import { deleteMessage, getAllMessages, saveMessage } from "../data-access/chat_model";
-
+import * as crypto from 'crypto';
 const ChatService = {
     save: async (message: string, projectID: string, userID: number) => {
         try {
@@ -28,6 +28,9 @@ const ChatService = {
             return null;
         }
     },
+    randomChatID:()=>{
+        return crypto.randomBytes(10).toString("hex").slice(0, 10);
+    }
 }
 
 export default ChatService;

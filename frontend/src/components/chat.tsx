@@ -12,6 +12,7 @@ interface User {
 
 
 interface Chat {
+    id:string ;
     name: string;
     message: string;
     userID: string;
@@ -57,7 +58,7 @@ function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, message
                                             <div onClick={
                                                 () => {
                                                     setTyping(false);
-                                                    scrollToMsg(String(chat.timestamp));
+                                                    scrollToMsg(chat.id);
 
                                                 }}
                                                 className="flex flex-col w-full  p-2 ">
@@ -225,7 +226,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                           const date = convDate(timestamp);
                           const currDate = convDate(rightNowDate.toISOString());
                             return (
-                                <div key={index} id={`${chat.timestamp}`} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
+                                <div key={index} id={chat.id} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
                                     <div className="chat-header">
                                         {chat.user.name}#{chat.user.id}
                                         <time className="text-xs opacity-50">{timestamp?date:currDate}</time>
