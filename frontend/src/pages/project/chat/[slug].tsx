@@ -48,7 +48,7 @@ export default function ChatPage() {
             </Head>
             <div className="h-screen">
                 <Navbar userName={`${user?.name}#${user?.id}`} />
-                <div className="container px-72  h-1/2  min-h-full overflow-y-none">
+                <div className="container flex flex-col justify-center items-center  min-h-full overflow-y-none">
                     {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
 
                     {socket && <ChatBox projectID={projectID as string} socket={socket as Socket} name={userName} userID={userID} />}
