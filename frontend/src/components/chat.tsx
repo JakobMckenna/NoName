@@ -201,7 +201,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
             socket.off("message", messageEvent);
         };
 
-    }, [prevChats])
+    }, [projectID,prevChats])
     return (
 
         <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">

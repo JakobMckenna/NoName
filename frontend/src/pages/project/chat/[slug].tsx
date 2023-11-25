@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 
 import { Socket, io } from "socket.io-client"
+import BackPage from "~/components/back_navigation";
 import ChatBox from "~/components/chat";
 import Navbar from "~/components/navbar";
 import useChatSocket from "~/hooks/use_chat_socket";
@@ -13,8 +14,8 @@ import useUser from "~/hooks/use_user";
 export default function ChatPage() {
     const router = useRouter();
     const [user] = useUser();
-    const projectID = String(router.query.slug);
-    const [socket, loading] = useChatSocket(projectID);
+    const projectID =router.query.slug;
+    const [socket, loading] = useChatSocket(projectID as string);
     const [userName, setUserName] = useState("JohnDoe");
     const [userID, setUserID] = useState<string>("")
     // const [prevChats,isLoading]= usePrevChat(projectID)
@@ -36,7 +37,7 @@ export default function ChatPage() {
                 setUserName(user.name)
                 setUserID(user.id)
             }
-        }, [loading]
+        }, [projectID,loading]
     )
     return (
         <>
@@ -48,7 +49,9 @@ export default function ChatPage() {
             <div className="h-screen">
                 <Navbar userName={`${user?.name}#${user?.id}`} />
                 <div className="container px-72  h-1/2  min-h-full overflow-y-none">
-                    {socket && <ChatBox projectID={projectID} socket={socket as Socket} name={userName} userID={userID} />}
+                    {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
+
+                    {socket && <ChatBox projectID={projectID as string} socket={socket as Socket} name={userName} userID={userID} />}
                 </div>
 
             </div>
