@@ -75,7 +75,18 @@ const UserController = {
         }catch(error){
             res.status(400).json({"users":null});
         }
-    }
+    },
+    confirm:async(req:Request , res:Response)=>{
+        try{
+            const userID = req.params.id;
+            const users: any[] = await UserService.getAll();
+            const index = users.findIndex((user)=>user.id == userID);
+            res.status(200).json({"users":!(index==-1)});
+
+        }catch(error){
+            res.status(400).json({"users":null});
+        }
+    },
 }
 
 export default UserController;

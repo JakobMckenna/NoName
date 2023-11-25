@@ -6,7 +6,7 @@ import { useState } from "react";
 import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
-    const [deleting, setDeleting] = useState(false)
+    const [deleting, setDeleting] = useState(false);
 
     const deleteProject = async () => {
         try {
@@ -75,7 +75,6 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
 
             </div>
             <form method="dialog" className="modal-backdrop">
-                {/* if there is a button in form, it will close the modal */}
                 <button>close</button>
             </form>
 

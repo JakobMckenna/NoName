@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
@@ -12,6 +13,7 @@ interface User {
 
 
 interface Chat {
+    id: string;
     name: string;
     message: string;
     userID: string;
@@ -28,7 +30,7 @@ const convDate = (date: string) => {
 function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, messages }: { scrollDown: Function, scrollUp: Function, searchMessage: Function, scrollToMsg: Function, messages: Chat[] }) {
     const [typing, setTyping] = useState(false);
     return (
-        <div className="flex flex-row justify-between items-end w-full mb-4">
+        <div className="flex flex-col justify-start md:flex-row md:justify-between items-end w-full mb-4">
             <div className="dropdown dropdown-hover">
                 <input
                     tabIndex={0}
@@ -57,7 +59,7 @@ function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, message
                                             <div onClick={
                                                 () => {
                                                     setTyping(false);
-                                                    scrollToMsg(String(chat.timestamp));
+                                                    scrollToMsg(chat.id);
 
                                                 }}
                                                 className="flex flex-col w-full  p-2 ">
@@ -121,7 +123,14 @@ function Form({ sendMessage }: { sendMessage: any }) {
                     required />
             </div>
             <div className="form-control w-1/5 ">
-                <button className="btn btn-primary">Send</button>
+                <button className="btn btn-primary">
+                Send
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                    </svg>
+
+                    
+                </button>
 
             </div>
 
@@ -140,11 +149,14 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     const topChatBox = useRef<HTMLDivElement | null>(null);
     const messages = useRef<HTMLDivElement | null>(null);
 
+    const [parent, enableAnimations] = useAutoAnimate()
+
     const getMessages = (searchVal: string) => {
         return chatHistory.filter((message: Chat) => {
             return message.message.toLowerCase().includes(searchVal.toLowerCase())
         })
     }
+
 
     const searchMessage = (msg: string) => {
         console.log(msg)
@@ -165,7 +177,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
     const scrollDown = () => {
         if (chatBox.current) {
-            chatBox.current.scrollIntoView({ behavior: "smooth", block:"nearest" })
+            chatBox.current.scrollIntoView({ behavior: "smooth", block: "nearest" })
 
         }
     }
@@ -178,9 +190,9 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
 
     const sendMessage = (msg: string) => {
-        
+
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-      //  scrollDown();
+        //  scrollDown();
     }
 
     const scrollToMessage = (time: string) => {
@@ -201,10 +213,10 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
             socket.off("message", messageEvent);
         };
 
-    }, [prevChats])
+    }, [projectID, prevChats])
     return (
 
-        <div className="flex flex-col  mx-10 w-full h-full overflow-y-none">
+        <div className="flex flex-col  w-[405px] md:w-[512px]  max-w-lg h-screen overflow-y-none">
             <ChatActions
                 scrollDown={scrollDown}
                 scrollUp={scrollUP}
@@ -212,40 +224,40 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 messages={filteredMessages}
                 scrollToMsg={scrollToMessage}
             />
-            <div className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
+            <div ref={parent} className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
                 <span ref={topChatBox} />
-               
 
-                    {
-                        // chats live on socket
-                        chatHistory.map((chat, index) => {
-                            const rightNowDate = new Date()
-                          //  const date: string = convDate(rightNowDate.toISOString());
-                          const timestamp = chat?.timestamp;
-                          const date = convDate(timestamp);
-                          const currDate = convDate(rightNowDate.toISOString());
-                            return (
-                                <div key={index} id={`${chat.timestamp}`} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
-                                    <div className="chat-header">
-                                        {chat.user.name}#{chat.user.id}
-                                        <time className="text-xs opacity-50">{timestamp?date:currDate}</time>
-                                    </div>
-                                    <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
 
+                {
+                    // chats live on socket
+                    chatHistory.map((chat, index) => {
+                        const rightNowDate = new Date()
+                        //  const date: string = convDate(rightNowDate.toISOString());
+                        const timestamp = chat?.timestamp;
+                        const date = convDate(timestamp);
+                        const currDate = convDate(rightNowDate.toISOString());
+                        return (
+                            <div key={index} id={chat.id} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
+                                <div className="chat-header">
+                                    {chat.user.name}#{chat.user.id}
+                                    <time className="text-xs opacity-50">{timestamp ? date : currDate}</time>
                                 </div>
-                            )
-                        }
-                         
+                                <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
+
+                            </div>
                         )
-                        
                     }
-                
-                <span className="flex flex-row mt-60"  ref={chatBox}>
+
+                    )
+
+                }
+
+                <span className="flex flex-row mt-60" ref={chatBox}>
                     <span />
                 </span>
             </div>
-            
-            <div className="flex flex-row  w-full h-1/4   overflow-y-none">
+
+            <div className="flex flex-row  w-full    overflow-y-none">
                 <Form sendMessage={sendMessage} />
             </div>
         </div>
