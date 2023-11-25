@@ -19,7 +19,7 @@ const Drawer = () => {
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
                     <li><Link className="text-3xl" href="/home">Home</Link></li>
-                    <li><Link className="text-3xl" href="/Settings">Settings</Link></li> 
+                    <li><Link className="text-3xl" href="/settings">Settings</Link></li> 
                     <li>
                         <a className="text-3xl" onClick={
                             () => {
