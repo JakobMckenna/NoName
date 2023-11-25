@@ -12,6 +12,7 @@ import config from "config";
 import BackPage from "~/components/back_navigation";
 import SprintDelete from "~/components/delete_sprint_modal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+;
 
 function Sprints({ sprints, changeSelected, animate }: any) {
     // console.log(sprints)
@@ -36,22 +37,24 @@ function Sprints({ sprints, changeSelected, animate }: any) {
                                         {sprint.name}
                                     </div>
                                     <div className="collapse-content">
-                                        <button
-                                            className="btn  btn-primary"
-                                            onClick={
-                                                () => {
-                                                    changeSelected(sprint.id)
-                                                    const modal: any = document.getElementById('del_sprint')
-                                                    if (modal) {
-                                                        modal?.showModal()
+                                        <div className="flex flex-row w-3/4 justify-between">
+                                            <button
+                                                className="btn  btn-primary"
+                                                onClick={
+                                                    () => {
+                                                        changeSelected(sprint.id)
+                                                        const modal: any = document.getElementById('del_sprint')
+                                                        if (modal) {
+                                                            modal?.showModal()
+                                                        }
                                                     }
                                                 }
-                                            }
 
-
-                                        >
-                                            Delete Sprint
-                                        </button>
+                                            >
+                                                Delete
+                                            </button>
+                                      
+                                        </div>
                                         <div className="flex flex-row justify-between">
                                             <p>start: {start}</p>
                                             <p>end: {end}</p>
@@ -68,7 +71,7 @@ function Sprints({ sprints, changeSelected, animate }: any) {
 
 function MilestoneHero({ sprints, changeSelected, animate }: any) {
     return (
-        <div className="flex  flex-col justify-evenly md:flex-row ">
+        <div className="flex  flex-col justify-evenly px-16  md:flex-row md:px-0 ">
             <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Create Sprint/Milestone</h2>
@@ -101,10 +104,9 @@ export default function SprintPage() {
     const projectID = router.query.slug;
     const [refresh, setRefesh] = useState(true);
     const [selected, setSelected] = useState<string>("");
-    const [parent, enableAnimations] = useAutoAnimate({duration:300});
-    const isRefresh = () => {
-        return refresh === true;
-    }
+    const [selectedSprint , setSelectedSprint]=useState<any>(null)
+    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 });
+    
 
     const getSprints = async () => {
         try {
@@ -115,6 +117,8 @@ export default function SprintPage() {
                 const results = await axios.get(reqUrl)
                 console.log(results.data.sprints)
                 setSprints((prev): any => [...results.data.sprints])
+                setSelectedSprint(results.data.sprints[0])
+
             }
             setRefesh(false);
             //setSprints(results.data.sprints)
@@ -130,8 +134,18 @@ export default function SprintPage() {
 
     }
 
+
     const changeSelected = (sprintID: string) => {
+        setSelectedSprint(getSelectedSprint(sprintID));
         setSelected(sprintID);
+    
+      
+        
+    }
+
+    const getSelectedSprint = (sprintID:string) => {
+        const sprintList = sprints.filter((sprint) => sprint.id == sprintID);
+        return sprintList[0];
     }
 
     const removeSprint = (sprintID: string) => {
@@ -163,11 +177,11 @@ export default function SprintPage() {
             if (projectID != null && refresh) {
 
                 getSprints();
-
+               
             }
 
 
-        }, [sprints, projectID]
+        }, [selected,sprints, projectID]
 
     )
     return (
@@ -186,6 +200,7 @@ export default function SprintPage() {
                 </div>
             </main>
             <SprintModal projectID={projectID as string} add={addSprint} />
+         
             <SprintDelete deleteSprint={deleteSprint} />
         </div>
     )
