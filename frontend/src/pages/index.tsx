@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 
 import config from "config";
 
+
+
 function SignIn({ handleSignIn, message }: any) {
 
   const {
@@ -66,30 +68,13 @@ function SignIn({ handleSignIn, message }: any) {
 }
 
 
+
 export default function Home() {
   const router = useRouter();
-  const [login, setLogin] = useState(false)
-  const [failedMsg , setFailedMsg] = useState("")
+  const [login, setLogin] = useState(false);
+  const [failedMsg , setFailedMsg] = useState("");
 
-  useEffect(
-    () => {
-      const userData = localStorage.getItem('userData');
-      //const user = JSON.parse(userData)
-      if (userData ) {
-        //console.log(userData)
-        const user = JSON.parse(userData)
-        console.log(user);
-        if(user.id){
-          
-        }
-       // router.push("/home")
-        console.log('UserData from local storage:', userData);
-      }
-    }, [login]
-  )
-
-
-
+  
   const handleSignIn = async (data: { email: string, password: string }) => {
     //console.log(data)
     
@@ -109,6 +94,46 @@ export default function Home() {
       setFailedMsg(resMessage)
     }
   }
+
+  const userVerify =async (id:string,email:string)=>{
+    try {
+      const response = await axios.post(`${config.backendApiUrl}/users/verify`,{id:id ,email:email},  {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Login successful', response.data.users);
+      return response.data.users;
+      //localStorage.setItem("userData", JSON.stringify(response.data.user))
+     // setLogin(true)
+     // resMessage = response.data
+    } catch (error) {
+      console.error('Login failed', error);
+    //  setFailedMsg(resMessage)
+    }
+
+  }
+
+  useEffect(
+    () => {
+      const userData = localStorage.getItem('userData');
+      //const user = JSON.parse(userData)
+      if (userData ) {
+        //console.log(userData)
+        const user = JSON.parse(userData)
+        console.log(user);
+       
+        if(user.id){
+          userVerify(user.id,user.email)
+        }
+       // router.push("/home")
+        console.log('UserData from local storage:', userData);
+      }
+    }, [login]
+  )
+
+
+
 
   return (
     <>
