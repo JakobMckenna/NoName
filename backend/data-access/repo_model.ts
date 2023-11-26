@@ -1,7 +1,11 @@
 
 import { PrismaClient } from '@prisma/client'
 
-// repo
+/**
+ * Gets github repository object
+ * @param projectID project ID of github repository you want to retrieve
+ * @returns  github repository infomation object
+ */
 export async function getRepo(projectID: string) {
     const prisma = new PrismaClient()
     try {
@@ -27,6 +31,13 @@ export async function getRepo(projectID: string) {
 
 }
 
+/**
+ * Creates github repository record in the database
+ * @param projectID 
+ * @param owner name of the owner of the github repoistory
+ * @param repo name of the github repository
+ * @returns  created repo object
+ */
 export async function createRepo(projectID: string, owner: string, repo: string) {
     const prisma = new PrismaClient()
     try {
@@ -50,7 +61,15 @@ export async function createRepo(projectID: string, owner: string, repo: string)
     }
 
 }
-;
+
+/**
+ * Updates github repository infomation in the database
+ * @param repoID 
+ * @param projectID 
+ * @param owner 
+ * @param repo 
+ * @returns  updated github repository object
+ */
 export async function updateRepo(repoID :string ,projectID: string, owner: string, repo: string) {
     const prisma = new PrismaClient()
     try {
