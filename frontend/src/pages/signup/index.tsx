@@ -44,7 +44,7 @@ function SignUp({ handleSignUp }: any) {
                                     className="input input-bordered"
                                     required
                                 />
-                                {errors.name && (<div>{errors.name.message}</div>)}
+                                {errors.name && (<div className="text-red-500">{errors.name.message}</div>)}
                             </div>
 
                             <div className="form-control">
@@ -59,7 +59,7 @@ function SignUp({ handleSignUp }: any) {
                                     className="input input-bordered"
                                     required
                                 />
-                                {errors.email && (<div>{errors.email.message}</div>)}
+                                {errors.email && (<div className="text-red-500">{errors.email.message}</div>)}
                             </div>
                             <div className="form-control">
                                 <label className="label">
@@ -73,7 +73,7 @@ function SignUp({ handleSignUp }: any) {
                                     className="input input-bordered"
                                     required
                                 />
-                                {errors.password && (<div>{errors.password.message}</div>)}
+                                {errors.password && (<div className="text-red-500">{errors.password.message}</div>)}
                             </div>
                             <div className="form-control mt-6">
                                 <button className="btn btn-primary">
