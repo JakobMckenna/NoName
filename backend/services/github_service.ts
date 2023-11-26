@@ -1,3 +1,7 @@
+/**
+ * @fileoverview github service this communicates with the github api
+ */
+
 import axios from 'axios';
 
 
@@ -11,13 +15,17 @@ const hourBeforeTime = () => {
     return result;
 }
 
+/**
+ * GithubService is an object literal that handles github business logic
+ */
 const GithubService = {
 
-
-    // getMainCommits
-    // get main branch  commits
-    // owner - github user name , repoName - name of the github repo
-    // returns list of commits from the main branch or null if no commits or failed to retrieve github commits
+    /**
+     * getMainCommits gets commits from main branch
+     * @param owner github user name  of the owner of the repo 
+     * @param repoName name of the github repo
+     * @returns  commits from the  main branch of github repository
+     */
     getMainCommits: async (owner: string, repoName: string) => {
         let result: any = null;
         try {
@@ -37,10 +45,15 @@ const GithubService = {
         }
     },
 
-    // getBranchCommits
-    // gets a specified branch's  commits
-    // owner - github user name , repoName - name of the github repo , branchName - name of branch
-    // returns list of commits or null if no commits or failed to retrieve github commits
+
+    /**
+     * getBranchCommits 
+     * gets commits from a particular branch
+     * @param owner name of owner of the github repository
+     * @param repoName name of github repository
+     * @param branchName name of github  branch 
+     * @returns  commits from a specified branch of github repository
+     */
     getBranchCommits: async (owner: string, repoName: string, branchName: string) => {
         let result: any = null;
         try {
@@ -60,10 +73,15 @@ const GithubService = {
         }
     },
 
-    // getLatestCommits
-    // gets a specified branch's  commits
-    // owner - github user name , repoName - name of the github repo , branchName - name of branch
-    // returns list of commits or null if no commits or failed to retrieve github commits
+
+    /**
+     * getLatestCommits
+     * gets a specified branch's  commits made in the past hour
+     * @param owner name of owner of the github repository
+     * @param repoName name of github repository
+     * @param branchName branchName name of github  branch 
+     * @returns   commits from a specified branch of github repository made in the past hour
+     */
     getLatestCommits: async (owner: string, repoName: string, branchName: string) => {
         let result: any = null;
         const currentDate: Date = new Date()
@@ -90,10 +108,14 @@ const GithubService = {
         }
     },
 
-    // getAllBranches
-    // gets a specified branch's  commits
-    // owner - github user name , repoName - name of the github repo
-    // returns list of all branches on the repo
+
+    /**
+     * getAllBranches
+     * get all branches in a github repository
+     * @param owner name of owner of the github repository
+     * @param repoName name of github repository
+     * @returns  a list of branches
+     */
     getAllBranches: async (owner: string, repoName: string) => {
         let result: any = null;
         try {
@@ -113,6 +135,13 @@ const GithubService = {
         }
     },
 
+    /**
+     * getAllIssues
+     * gets all open issues in github repository
+     * @param owner  name of owner of the github repository
+     * @param repoName name of github repository
+     * @returns  list of all issues
+     */
     getAllIssues: async (owner: string, repoName: string) => {
         let result: any = null;
         try {
@@ -132,10 +161,13 @@ const GithubService = {
         }
     },
 
-    // getLatestClosedIssues
-    // gets all latest issues
-    // owner - github user name , repoName - name of the github repo , branchName - name of branch
-    // returns all latest issues 
+    /**
+     * getLatestClosedIssues
+     * gets all closed issues , closed in the past hour
+     * @param owner github user name 
+     * @param repoName name of the github repo
+     * @returns  a list of all issues closed in the past hour
+     */
     getLatestClosedIssues: async (owner: string, repoName: string) => {
         let result: any = null;
         const timeStamp: Date = hourBeforeTime();
@@ -159,7 +191,15 @@ const GithubService = {
             return result;
         }
     },
-    getPullRequests:async (owner: string, repoName: string)=>{
+
+    /**
+     * getPullRequests
+     * gets all open pull requests
+     * @param owner github user name 
+     * @param repoName name of the github repo
+     * @returns  a list of pull requests
+     */
+    getPullRequests: async (owner: string, repoName: string) => {
         let result: any = null;
         try {
             const url: string = `https://api.github.com/repos/${owner}/${repoName}/pulls`;

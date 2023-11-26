@@ -1,7 +1,15 @@
+/**
+ * @fileoverview  Sprint Model retrieves , updates sprints/milestones info made by users
+ */
+
 import { PrismaClient } from '@prisma/client'
 
-// Sprints
 
+/**
+ * Gets sprint/milestone info by ID
+ * @param sprintID 
+ * @returns  sprint/milestone object
+ */
 export async function getSprint(sprintID:string) {
     const prisma = new PrismaClient()
     try {
@@ -25,6 +33,11 @@ export async function getSprint(sprintID:string) {
 
 }
 
+/**
+ * Gets sprints of a project
+ * @param projectID 
+ * @returns  list of sprints of a project
+ */
 export async function getSprints(projectID: string) {
     console.log("get all sprints")
     const prisma = new PrismaClient()
@@ -49,6 +62,14 @@ export async function getSprints(projectID: string) {
 
 }
 
+/**
+ * Creates sprint/milestone
+ * @param projectID 
+ * @param name 
+ * @param start 
+ * @param deadline 
+ * @returns  created sprint
+ */
 export async function createSprint(projectID: string, name: string, start: string, deadline: string) {
     const prisma = new PrismaClient()
     try {
@@ -75,6 +96,15 @@ export async function createSprint(projectID: string, name: string, start: strin
     }
 }
 
+/**
+ * Updates sprint/milestone infomation in the database
+ * @param sprintID 
+ * @param projectID 
+ * @param name 
+ * @param start 
+ * @param deadline 
+ * @returns  updated sprint/milestone
+ */
 export async function updateSprint(sprintID :string,projectID: string, name: string, start: string, deadline: string) {
     const prisma = new PrismaClient()
     try {
@@ -104,7 +134,11 @@ export async function updateSprint(sprintID :string,projectID: string, name: str
     }
 }
 
-
+/**
+ * Removes sprint/milestone from the database
+ * @param sprintID 
+ * @returns  the deleted sprint/milestone object
+ */
 export async function removeSprint(sprintID: string) {
     const prisma = new PrismaClient()
     try {
