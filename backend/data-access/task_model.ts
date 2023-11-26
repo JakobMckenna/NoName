@@ -1,6 +1,19 @@
+/**
+ * @fileoverview  task Model retrieves , updates task info made by users
+ */
 import { PrismaClient } from '@prisma/client'
 
-
+/**
+ * Creates project task
+ * @param sprintID 
+ * @param name 
+ * @param details 
+ * @param deadline 
+ * @param assignedUser 
+ * @param authorUser 
+ * @param completed 
+ * @returns  task object
+ */
 export async function createProjectTask(sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) {
     const prisma = new PrismaClient()
     try {
@@ -30,6 +43,11 @@ export async function createProjectTask(sprintID: string, name: string, details:
 
 }
 
+/**
+ * Gets project task
+ * @param taskID 
+ * @returns  task object
+ */
 export async function getProjectTask(taskID:string) {
     const prisma = new PrismaClient()
     try {
@@ -52,6 +70,11 @@ export async function getProjectTask(taskID:string) {
 
 }
 
+/**
+ * Removes project task
+ * @param taskID 
+ * @returns  removed task object
+ */
 export async function removeProjectTask(taskID: string) {
     const prisma = new PrismaClient()
     try {
@@ -73,6 +96,18 @@ export async function removeProjectTask(taskID: string) {
     }
 }
 
+/**
+ * Updates project task
+ * @param taskID 
+ * @param sprintID 
+ * @param name 
+ * @param details 
+ * @param deadline 
+ * @param assignedUser 
+ * @param authorUser 
+ * @param completed 
+ * @returns  updated task object
+ */
 export async function updateProjectTask(taskID: string, sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) {
     const prisma = new PrismaClient()
     try {
