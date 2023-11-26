@@ -1,3 +1,8 @@
+/**
+ * @fileoverview chat model interacts with chats in the database including all message from sockets
+ */
+
+
 import { PrismaClient } from '@prisma/client'
 
 export async function getAllMessages(projectID:string) {
