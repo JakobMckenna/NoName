@@ -132,12 +132,19 @@ export default function LandingPage() {
     }
 
     const getProjects = async (userID: number) => {
+       try{ 
         const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`
         const results = await axios.get(reqUrl)
         console.log(results.data.user)
         setRefresh(false);
-
-        return results.data.user
+        return results.data.user}
+        catch{
+            var user = localStorage.getItem("userData")
+            localStorage.removeItem("userData");
+            console.log("Removed userData: ");
+            console.log(user);
+            router.push("/"); 
+        }
 
     }
 
@@ -180,6 +187,11 @@ export default function LandingPage() {
                     setTheme(currentTheme as unknown as string)
                 }
 
+            }
+            else{
+
+             console.log("No user");
+             router.push("/"); 
             }
 
 
