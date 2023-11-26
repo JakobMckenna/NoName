@@ -47,7 +47,7 @@ const useTheme = () => {
             }
 
         }
-        , [theme!=null]
+        , [theme]
     )
 
     return [theme, setTheme]
