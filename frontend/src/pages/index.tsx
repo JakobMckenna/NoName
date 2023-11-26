@@ -105,6 +105,8 @@ export default function Home() {
       console.log('user is verified', response.data.users);
       if(response.data.users==true){
         router.push("/home");
+      }else{
+        localStorage.removeItem('userData');
       }
       return response.data.users;
       //localStorage.setItem("userData", JSON.stringify(response.data.user))
@@ -123,12 +125,14 @@ export default function Home() {
       //const user = JSON.parse(userData)
       if (userData ) {
         //console.log(userData)
-        const user = JSON.parse(userData)
+        const user = JSON.parse(userData);
         console.log(user);
        
-        if(user.id){
+        if(user.id && user.email){
           const verified =  userVerify(user.id,user.email);
         
+        }else{
+          localStorage.removeItem('userData');
         }
        // router.push("/home")
         console.log('UserData from local storage:', userData);
