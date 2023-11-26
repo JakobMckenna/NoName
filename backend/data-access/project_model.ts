@@ -1,3 +1,8 @@
+/**
+ * @fileoverview  Project model interacts with project data in the database which includes
+ * project infomation and membes
+ */
+
 import { PrismaClient } from '@prisma/client'
 
 /**
@@ -232,6 +237,11 @@ export async function addProjectMember(projectID: string, userId: number) {
     }
 }
 
+/**
+ * Gets project members
+ * @param projectID 
+ * @returns  a list of members of a project
+ */
 export async function getProjectMembers(projectID: string) {
     const prisma = new PrismaClient()
     try {
@@ -260,6 +270,12 @@ export async function getProjectMembers(projectID: string) {
     }
 }
 
+/**
+ * Removes project member
+ * @param projectID 
+ * @param userID The id of the user being removed
+ * @returns  an updated list of current project members excluding the removed user
+ */
 export async function removeProjectMember(projectID: string, userID: number) {
     console.log(projectID)
     const prisma = new PrismaClient()
