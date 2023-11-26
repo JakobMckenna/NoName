@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import config from "config";
 import Spinner from "./modal_spinner";
 import FormAlert from "./form_alert";
+import { useEffect } from "react";
 
 function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: string, note: any, projectID: string, userID: string, sprints: any, update: any, refresh: any }) {
   const {
@@ -91,11 +92,11 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
         <label className="label">
           <span className="label-text">Sprint</span>
         </label>
-        <select value={note?.sprintID}  {...register("sprint")} className="select select-bordered w-full max-w-xs" onChange={() => clearErrors("notes")} disabled={isSubmitting} required>
+        <select defaultValue={note?.sprintID}  {...register("sprint")} className="select select-bordered w-full max-w-xs" onChange={() => clearErrors("notes")} disabled={isSubmitting} required>
           {
             sprints && sprints.map((sprint: any) => {
               return (
-                <option key={sprint.id} value={sprint.id}>{sprint.name}</option>
+                <option key={sprint.id} value={sprint.id} selected={note?.sprintID==sprint.id}>{sprint.name}</option>
               )
             })
           }
@@ -177,6 +178,7 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
 
 
 const UpdateNote = ({ noteID, note, projectID, userID, sprints, update, refresh }: { noteID: string, note: any, projectID: string, userID: string, sprints: any, update: any, refresh: any }) => {
+  useEffect(()=>{},[note])
   return (
     <dialog id="update_note" className="modal">
       <div className="modal-box">

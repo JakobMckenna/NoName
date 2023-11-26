@@ -6,12 +6,16 @@ import { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "~/components/navbar";
 import SprintModal from "~/components/sprintmdl";
-import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
+import BackPage from "~/components/back_navigation";
+import SprintDelete from "~/components/delete_sprint_modal";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import Drawer from "~/components/drawer";
+;
 
-function Sprints({ sprints }: any) {
+function Sprints({ sprints, changeSelected, animate }: any) {
     // console.log(sprints)
     const convDate = (date: string) => {
         const result = new Date(date)
@@ -21,33 +25,54 @@ function Sprints({ sprints }: any) {
         <div className="flex flex-col">
 
             <h1 className="text-2xl text-center uppercase mb-2 ">Sprints</h1>
-            {
-                sprints && sprints.map(
+            <ul ref={animate}>
+                {
+                    sprints && sprints.map(
+                        (sprint: any) => {
+                            const start = convDate(sprint.start)
+                            const end = convDate(sprint.deadline)
+                            return (
+                                <li key={sprint.id} className="collapse collapse-arrow w-80 bg-base-200">
+                                    <input type="radio" name="my-accordion-2" />
+                                    <div className="collapse-title capitalize text-xl font-medium">
+                                        {sprint.name}
+                                    </div>
+                                    <div className="collapse-content">
+                                        <div className="flex flex-row w-3/4 justify-between">
+                                            <button
+                                                className="btn  btn-primary"
+                                                onClick={
+                                                    () => {
+                                                        changeSelected(sprint.id)
+                                                        const modal: any = document.getElementById('del_sprint')
+                                                        if (modal) {
+                                                            modal?.showModal()
+                                                        }
+                                                    }
+                                                }
 
-                    (sprint: any) => {
-                        const start = convDate(sprint.start)
-                        const end = convDate(sprint.deadline)
-                        return (<div key={sprint.id} className="collapse collapse-arrow w-80 bg-base-200">
-                            <input type="radio" name="my-accordion-2" />
-                            <div className="collapse-title text-xl font-medium">
-                                {sprint.name}
-                            </div>
-                            <div className="collapse-content">
-                                <div className="flex flex-row justify-between">
-                                    <p>start: {start}</p>
-                                    <p>end: {end}</p>
-                                </div>
-                            </div>
-                        </div>)
-                    })
-            }
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </div>
+                                        <div className="flex flex-row justify-between">
+                                            <p>start: {start}</p>
+                                            <p>end: {end}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            )
+                        })
+                }
+            </ul>
         </div>
     )
 }
 
-function MilestoneHero({ sprints }: any) {
+function MilestoneHero({ sprints, changeSelected, animate }: any) {
     return (
-        <div className="flex  flex-col justify-evenly md:flex-row ">
+        <div className="flex  flex-col justify-evenly px-16  md:flex-row md:px-0 ">
             <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">
                 <div className="card-body items-center text-center h-full">
                     <h2 className="card-title">Create Sprint/Milestone</h2>
@@ -67,7 +92,7 @@ function MilestoneHero({ sprints }: any) {
                 </div>
 
             </div>
-            <Sprints sprints={sprints} />
+            <Sprints sprints={sprints} changeSelected={changeSelected} animate={animate} />
         </div>
     )
 }
@@ -76,22 +101,25 @@ export default function SprintPage() {
     const router = useRouter();
     const [user, loading] = useUser();
     //const [sprints, setID] = useSprint();
-    const [sprints ,setSprints] = useState([])
-    const projectID: string | string[] | null | undefined = router.query.slug;
-    const [refresh, setRefesh] = useState(true)
-    const isRefresh = () => {
-        return refresh === true;
-    }
+    const [sprints, setSprints] = useState<any[]>([]);
+    const projectID = router.query.slug;
+    const [refresh, setRefesh] = useState(true);
+    const [selected, setSelected] = useState<string>("");
+    const [selectedSprint, setSelectedSprint] = useState<any>(null)
+    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 });
+
 
     const getSprints = async () => {
         try {
-            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID}`
+            const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID as string}`
             console.log("url")
             console.log(`url ${reqUrl}`);
-            if (refresh) {
+            if (projectID != null) {
                 const results = await axios.get(reqUrl)
                 console.log(results.data.sprints)
-                setSprints((prev):any=>[...results.data.sprints])
+                setSprints((prev): any => [...results.data.sprints])
+                setSelectedSprint(results.data.sprints[0])
+
             }
             setRefesh(false);
             //setSprints(results.data.sprints)
@@ -102,16 +130,59 @@ export default function SprintPage() {
 
     }
 
+    const addSprint = (sprint: any) => {
+        setSprints((prev) => [...prev, sprint]);
+
+    }
+
+
+    const changeSelected = (sprintID: string) => {
+        setSelectedSprint(getSelectedSprint(sprintID));
+        setSelected(sprintID);
+
+
+
+    }
+
+    const getSelectedSprint = (sprintID: string) => {
+        const sprintList = sprints.filter((sprint) => sprint.id == sprintID);
+        return sprintList[0];
+    }
+
+    const removeSprint = (sprintID: string) => {
+        const sprintList = sprints.filter((sprint) => sprint.id !== sprintID);
+        if (sprintList) {
+            setSprints(sprintList);
+        }
+
+    }
+
+    const deleteSprint = async () => {
+        try {
+
+            const responseSprint = await axios.delete(`${config.backendApiUrl}/projects/sprint/${selected}`);
+            const sprint = responseSprint.data.sprint;
+            // add(responseSprint.data.sprint)
+            removeSprint(selected)
+            return responseSprint.data.sprint;
+            //refresh(true)
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
     useEffect(
         () => {
-            if (refresh && projectID != null && projectID != undefined) {
-          
-                getSprints()
+            if (projectID != null && refresh) {
+
+                getSprints();
 
             }
 
-        
-        }, [isRefresh, refresh]
+
+        }, [user,selected, sprints, projectID]
 
     )
     return (
@@ -121,13 +192,18 @@ export default function SprintPage() {
                 <meta name="description" content="Generated by create-t3-app" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Navbar userName={`${user?.name}#${user?.id}`} />
-            <main className="container mx-auto">
-                <div >
-                    <MilestoneHero sprints={sprints} />
-                </div>
-            </main>
-            <SprintModal projectID={String(projectID)} refresh={(val: boolean) => setRefesh(val)} />
+            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+                <main className="container mx-auto">
+                    {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
+
+                    <div ref={parent}>
+                        <MilestoneHero sprints={sprints} changeSelected={changeSelected} animate={parent} />
+                    </div>
+                </main>
+                <SprintModal projectID={projectID as string} add={addSprint} />
+
+                <SprintDelete deleteSprint={deleteSprint} />
+            </Drawer>
         </div>
     )
 }

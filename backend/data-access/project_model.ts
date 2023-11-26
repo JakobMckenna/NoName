@@ -1,16 +1,16 @@
 import { PrismaClient } from '@prisma/client'
 
 
-export async function createProject(name:string ,userID :number) {
+export async function createProject(name: string, userID: number) {
     const prisma = new PrismaClient()
     try {
 
         const project = await prisma.project.create(
             {
-                data:{
-                    name:name,
-                    userId:userID,
-                   
+                data: {
+                    name: name,
+                    userId: userID,
+
                 }
             }
         )
@@ -25,30 +25,30 @@ export async function createProject(name:string ,userID :number) {
 
 }
 
-export async function getProject(projectID:string,) {
+export async function getProject(projectID: string,) {
     const prisma = new PrismaClient()
     try {
         const project = await prisma.project.findFirst(
             {
-                where:{
-                    id:projectID
+                where: {
+                    id: projectID
                 },
-                include:{
-                    sprint:{
-                        include:{
-                            note:{
-                                include:{
-                                    link:true,
+                include: {
+                    sprint: {
+                        include: {
+                            note: {
+                                include: {
+                                    link: true,
                                 },
                             },
-                            task:true
+                            task: true
                         },
                     },
-                    github:true,
-                    members:true,
-                    
+                    github: true,
+                    members: true,
+
                 },
-    
+
             }
         )
 
@@ -61,17 +61,17 @@ export async function getProject(projectID:string,) {
     }
 }
 
-export async function updateProject(projectID:string,name:string ,userID :number) {
+export async function updateProject(projectID: string, name: string, userID: number) {
     const prisma = new PrismaClient()
     try {
         const project = await prisma.project.update(
             {
-                where:{
-                    id:projectID
+                where: {
+                    id: projectID
                 },
-                data:{
-                    name:name,
-                    userId:userID
+                data: {
+                    name: name,
+                    userId: userID
                 }
             }
         )
@@ -86,15 +86,15 @@ export async function updateProject(projectID:string,name:string ,userID :number
 
 }
 
-export async function removeProject(projectID:string,) {
+export async function removeProject(projectID: string,) {
     const prisma = new PrismaClient()
     try {
         const project = await prisma.project.delete(
             {
-                where:{
-                    id:projectID
+                where: {
+                    id: projectID
                 },
-    
+
             }
         )
 
@@ -147,46 +147,54 @@ export async function addProjectMember(projectID: string, userId: number) {
     const prisma = new PrismaClient()
     try {
 
-    
+        let result = null;
         const members = await prisma.projectMember.findFirst(
             {
-                where:{
-                 project:{
-                    id:projectID
-                 },
-             
+                where: {
+                    project: {
+                        id: projectID
+                    },
+
+
                 },
                
+
             }
         )
-            
-        if(members){
-            await prisma.projectMember.update(
+
+        if (members) {
+            result = await prisma.projectMember.update(
                 {
-                    where:{
-                        id:members.id
+                    where: {
+                        id: members.id
                     },
-                    data:{
-                        user:{
-                            connect:{
-                                id:userId
+                    data: {
+                        user: {
+                            connect: {
+                                id: userId
                             }
                         }
+                    },
+                    include: {
+                        user: true
                     }
                 }
             )
-        }else{
+           // console.log(members)
+           // console.log(result)
+           return result;
+        } else {
             await prisma.projectMember.create(
                 {
-                    data:{
-                        projectID:projectID
+                    data: {
+                        projectID: projectID
                     }
                 }
             )
-            addProjectMember(projectID,userId)
+            addProjectMember(projectID, userId)
         }
-
-        return members;
+        console.log(members)
+       // return result;
     } catch (err: any) {
         console.log(err)
         return null;
@@ -208,8 +216,9 @@ export async function getProjectMembers(projectID: string) {
                 },
                 include: {
                     user: true,
-                    project:true
-                }
+                    project: true
+                },
+
             }
         )
 
@@ -223,44 +232,47 @@ export async function getProjectMembers(projectID: string) {
 }
 
 export async function removeProjectMember(projectID: string, userID: number) {
-     console.log(projectID)
+    console.log(projectID)
     const prisma = new PrismaClient()
     try {
         let result = null;
         const members = await prisma.projectMember.findFirst(
             {
-                where:{
-                 project:{
-                    id:projectID
-                 },
-                 user:{
-                    some:{
-                        id:userID
+                where: {
+                    project: {
+                        id: projectID
+                    },
+                    user: {
+                        some: {
+                            id: userID
+                        }
                     }
-                 }
                 },
-               
+
             }
         )
 
-        if(members){
-           result = await prisma.projectMember.update(
+        if (members) {
+            result = await prisma.projectMember.update(
                 {
-                    where:{
-                        id:members.id
+                    where: {
+                        id: members.id
                     },
-                    data:{
-                        user:{
-                            disconnect:{
-                                id:userID
+                    data: {
+                        user: {
+                            disconnect: {
+                                id: userID
                             }
                         }
+                    },
+                    include: {
+                        user: true
                     }
                 }
             )
         }
         console.log(members)
-        return {userID:userID ,projectID:projectID};
+        return { userID: userID, projectID: projectID, members: result?.user };
     } catch (err: any) {
         console.log(err)
         return null;

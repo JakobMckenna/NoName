@@ -112,7 +112,6 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                 )}
             </div>
             <form method="dialog" className="modal-backdrop">
-                {/* if there is a button in form, it will close the modal */}
                 <button>close</button>
             </form>
 
