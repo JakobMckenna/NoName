@@ -1,4 +1,6 @@
-
+/**
+ * @fileoverview  Repo model retirieves and updates the github infomation in the database
+ */
 import { PrismaClient } from '@prisma/client'
 
 /**
