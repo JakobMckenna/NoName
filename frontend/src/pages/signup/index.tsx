@@ -9,8 +9,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { registrationValidation } from "../../validations_schemas/user_registration";
 
 import config from "config";
+import Spinner from "~/components/modal_spinner";
 
-function SignIn({ handleSignUp }: any) {
+function SignUp({ handleSignUp }: any) {
 
     const {
         register,
@@ -35,7 +36,14 @@ function SignIn({ handleSignUp }: any) {
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
+                                <input
+                                    {...register("name")}
+                                    disabled={isSubmitting}
+                                    type="text"
+                                    placeholder="Name"
+                                    className="input input-bordered"
+                                    required
+                                />
                                 {errors.name && (<div>{errors.name.message}</div>)}
                             </div>
 
@@ -43,18 +51,37 @@ function SignIn({ handleSignUp }: any) {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input {...register("email")} type="email" placeholder="email" className="input input-bordered" required />
+                                <input
+                                    {...register("email")}
+                                    disabled={isSubmitting}
+                                    type="email"
+                                    placeholder="email"
+                                    className="input input-bordered"
+                                    required
+                                />
                                 {errors.email && (<div>{errors.email.message}</div>)}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password")} type="password" placeholder="password" className="input input-bordered" required />
+                                <input
+                                    {...register("password")}
+                                    disabled={isSubmitting}
+                                    type="password"
+                                    placeholder="password"
+                                    className="input input-bordered"
+                                    required
+                                />
                                 {errors.password && (<div>{errors.password.message}</div>)}
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary">Create Account</button>
+                                <button className="btn btn-primary">
+                                    {isSubmitting && (
+                                        <Spinner />
+                                    )}
+                                    Create Account
+                                </button>
 
                             </div>
                         </form>
@@ -73,7 +100,7 @@ export default function Register() {
 
     useEffect(
         () => {
-           
+
             const userData = localStorage.getItem('userData');
             if (userData) {
                 router.push("/")
@@ -107,7 +134,7 @@ export default function Register() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <SignIn handleSignUp={handleSignUp} />
+                <SignUp handleSignUp={handleSignUp} />
             </main>
         </>
     );
