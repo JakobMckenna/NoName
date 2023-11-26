@@ -4,7 +4,7 @@ import Link from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import config from "config";
 import Spinner from "~/components/modal_spinner";

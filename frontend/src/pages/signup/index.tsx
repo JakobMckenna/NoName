@@ -4,7 +4,7 @@ import Head from "next/head";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { registrationValidation } from "../../validations_schemas/user_registration";
 
@@ -32,7 +32,7 @@ function SignUp({ handleSignUp }: any) {
                     <h1 className="text-5xl font-bold mb-5">SIGN UP</h1>
                     <div className="card  flex-shrink-0 w-full max-w-md shadow-2xl bg-base-300 ">
 
-                        <form className="card-body text-primary-content" onSubmit={handleSubmit(handleSignUp)}>
+                        <form className="card-body " onSubmit={handleSubmit(handleSignUp)}>
 
                             <div className="form-control">
                                 <label className="label">
@@ -78,11 +78,14 @@ function SignUp({ handleSignUp }: any) {
                                 {errors.password && (<div className="text-red-500">{errors.password.message}</div>)}
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary">
+                                <button 
+                                className="btn btn-primary"
+                                disabled={isSubmitting}
+                                >
                                     {isSubmitting && (
                                         <Spinner />
                                     )}
-                                    Create Account
+                                    {isSubmitting?"Creating Account":"Create Account"}
                                 </button>
 
                             </div>

@@ -3,12 +3,10 @@
 import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-
-import Navbar from "~/components/navbar";
 import ProjectModal from "~/components/projectmdl";
 
 import useUser from "~/hooks/use_user";
