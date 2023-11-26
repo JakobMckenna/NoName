@@ -1,3 +1,7 @@
+/**
+ * @fileoverview  Sprint Model retrieves , updates sprints/milestones info made by users
+ */
+
 import { PrismaClient } from '@prisma/client'
 
 
