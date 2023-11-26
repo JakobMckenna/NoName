@@ -102,7 +102,10 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
       });
-      console.log('Login successful', response.data.users);
+      console.log('user is verified', response.data.users);
+      if(response.data.users==true){
+        router.push("/home");
+      }
       return response.data.users;
       //localStorage.setItem("userData", JSON.stringify(response.data.user))
      // setLogin(true)
@@ -124,7 +127,8 @@ export default function Home() {
         console.log(user);
        
         if(user.id){
-          userVerify(user.id,user.email)
+          const verified =  userVerify(user.id,user.email);
+        
         }
        // router.push("/home")
         console.log('UserData from local storage:', userData);
