@@ -21,7 +21,7 @@ const getItem = () => {
 
 const useTheme = () => {
 
-    const [theme, setTheme] = useState<string>()
+    const [theme, setTheme] = useState<string|null>(null)
 
     const themeChange = (theme: string) => {
         const element = document.querySelector("html")
@@ -47,7 +47,7 @@ const useTheme = () => {
             }
 
         }
-        , [theme]
+        , [theme!=null]
     )
 
     return [theme, setTheme]

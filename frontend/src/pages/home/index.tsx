@@ -34,7 +34,7 @@ function Tile({ id, name, user, parent }: { id: string, name: string, user: stri
     return (
         <Link ref={parent} href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10 hover:-translate-y-3 hover:-skew-y-3 duration-75">
             <div className="card-body">
-                <h2 className="card-title">{name} </h2>
+                <h2 className="card-title capitalize">{name} </h2>
                 <p> Created by {user} </p>
             </div>
 

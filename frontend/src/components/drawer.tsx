@@ -39,27 +39,28 @@ const Drawer = ({ children, userName }: { children: ReactNode, userName: string 
                     <div className="navbar-end">
                         <label className="flex cursor-pointer gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                            {
+                                theme != null ? (<input
+                                    checked={isChecked}
+                                    type="checkbox" value="retro" className="toggle "
+                                    onClick={
+                                        () => {
+                                            if (setTheme && typeof setTheme !== "string" && (theme == "dark" || theme == null || theme == undefined)) {
 
-                            <input
-                                checked={isChecked}
-                                type="checkbox" value="retro" className="toggle "
-                                onClick={
-                                    () => {
-                                        if (setTheme && typeof setTheme !== "string" && (theme == "dark" || theme == null || theme == undefined)) {
+                                                setTheme("retro");
+                                                setIsChecked(true);
 
-                                            setTheme("retro");
-                                            setIsChecked(true);
-
-                                        } else if (setTheme && typeof setTheme !== "string" && theme == "retro") {
-                                            setTheme("dark");
-                                            setIsChecked(false);
+                                            } else if (setTheme && typeof setTheme !== "string" && theme == "retro") {
+                                                setTheme("dark");
+                                                setIsChecked(false);
+                                            }
                                         }
+
                                     }
 
-                                }
-
-                                readOnly
-                            />
+                                    readOnly
+                                />) : (<p className="skeleton h-4 w-28"></p>)
+                            }
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" /></svg>
 
                         </label>
@@ -74,7 +75,7 @@ const Drawer = ({ children, userName }: { children: ReactNode, userName: string 
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
 
                     <li>
-                        <Link className="btn btn-ghost btn-lg justify-start items-center text-3xl" href="/home">
+                        <Link className="btn btn-ghost btn-lg justify-start items-center text-3xl " href="/home">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                                 <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
                                 <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
