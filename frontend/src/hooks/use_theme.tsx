@@ -8,8 +8,6 @@ const getItem = () => {
         localTheme = localStorage.getItem("theme");
     }
 
-
-
     if (localTheme != null) {
         result = localTheme;
     }
@@ -32,13 +30,11 @@ const useTheme = () => {
     }
     useEffect(
         () => {
-            //setTheme(getItem)
-            //console.log(theme)
-            //if(theme)
+           
             const localTheme = getItem()
 
             if (localTheme != null && theme==null) {
-                //localStorage.setItem("theme",localTheme);
+              
                 setTheme(localTheme);
 
             }else if(localTheme==null && theme==null){
