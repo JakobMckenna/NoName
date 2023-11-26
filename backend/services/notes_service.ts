@@ -28,7 +28,7 @@ const NotesService = {
             throw new Error("faield to create note")
         }
     },
-    update:async (noteID: string, title: string, details: string, userID: number, sprint: string, urlList: Url[]) => {
+    update:async (noteID: string, title: string, details: string, userID: number, sprint: string, urlList: any) => {
         try{
             let result = null;
             const updateNote = await updateResearchNote(noteID,title,details,userID,sprint,urlList);
