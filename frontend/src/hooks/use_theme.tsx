@@ -28,16 +28,23 @@ const useTheme = () => {
         if (element) {
             element.setAttribute("data-theme", theme)
         }
+        localStorage.setItem("theme",theme);
     }
     useEffect(
         () => {
-            setTheme(getItem)
+            //setTheme(getItem)
             //console.log(theme)
             //if(theme)
+            const localTheme = getItem()
 
-            if (theme != null && theme != undefined) {
-                localStorage.setItem("theme", theme)
+            if (localTheme != null && theme==null) {
+                //localStorage.setItem("theme",localTheme);
+                setTheme(localTheme);
 
+            }else if(localTheme==null && theme==null){
+                setTheme("dark")
+            }else{
+                setTheme(theme)
             }
 
             if (theme == "dark") {
@@ -45,7 +52,8 @@ const useTheme = () => {
             } else if (theme == "retro") {
                 themeChange("retro")
             }
-
+           // if(them)
+            
         }
         , [theme]
     )
