@@ -1,7 +1,16 @@
+/**
+ * @fileoverview User Model interacts with the database and returns user
+ * related data
+ */
+
 import { PrismaClient } from '@prisma/client'
 
 
-
+/*
+    getAllUsers
+    gets all users 
+    returns all users
+*/
 export async function getAllUsers() {
     const prisma = new PrismaClient()
     try {
@@ -115,7 +124,12 @@ export async function deleteUserByID(userID: number) {
 
 }
 
-
+/*
+    getUserProjects
+    gets all projects user is a member of
+    @userID is a int
+    returns projects user is a member of
+*/
 export async function getUserProjects(userID: number) {
     const prisma = new PrismaClient()
     try {
@@ -157,6 +171,12 @@ export async function getUserProjects(userID: number) {
     }
 }
 
+/*
+    updateUser
+    this updates user info
+    @userID is a int
+    returns updated user
+*/
 export async function updateUser(userID: number, name: string, email: string, password: string) {
     const prisma = new PrismaClient()
     try {
