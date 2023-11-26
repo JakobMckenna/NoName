@@ -10,6 +10,7 @@ import { registrationValidation } from "../../validations_schemas/user_registrat
 
 import config from "config";
 import Spinner from "~/components/modal_spinner";
+import BackPage from "~/components/back_navigation";
 
 function SignUp({ handleSignUp }: any) {
 
@@ -24,13 +25,14 @@ function SignUp({ handleSignUp }: any) {
 
 
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="hero min-h-screen bg-base-100">
             <div className="hero-content text-center">
                 <div className="max-w-md">
+                <BackPage link="/" name="Back To Sign In Page" />
                     <h1 className="text-5xl font-bold mb-5">SIGN UP</h1>
-                    <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+                    <div className="card  flex-shrink-0 w-full max-w-md shadow-2xl bg-base-300 ">
 
-                        <form className="card-body" onSubmit={handleSubmit(handleSignUp)}>
+                        <form className="card-body text-primary-content" onSubmit={handleSubmit(handleSignUp)}>
 
                             <div className="form-control">
                                 <label className="label">
@@ -134,6 +136,7 @@ export default function Register() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+               
                 <SignUp handleSignUp={handleSignUp} />
             </main>
         </>
