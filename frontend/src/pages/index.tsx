@@ -74,8 +74,15 @@ export default function Home() {
   useEffect(
     () => {
       const userData = localStorage.getItem('userData');
-      if (userData) {
-        router.push("/home")
+      //const user = JSON.parse(userData)
+      if (userData ) {
+        //console.log(userData)
+        const user = JSON.parse(userData)
+        console.log(user);
+        if(user.id){
+          
+        }
+       // router.push("/home")
         console.log('UserData from local storage:', userData);
       }
     }, [login]
