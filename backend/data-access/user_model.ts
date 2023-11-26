@@ -6,18 +6,18 @@
 import { PrismaClient } from '@prisma/client'
 
 
-/*
-    getAllUsers
-    gets all users 
-    returns all users
-*/
+
+/**
+ * Gets all users
+ * @returns  all users
+ */
 export async function getAllUsers() {
     const prisma = new PrismaClient()
     try {
         console.log("find all users")
         const users = await prisma.user.findMany();
         console.log(users);
-      //  prisma.$disconnect()
+        //  prisma.$disconnect()
         return users;
     } catch (err: any) {
         console.log(err)
@@ -25,12 +25,14 @@ export async function getAllUsers() {
     }
 }
 
-/*
-    createUserPasswordData
-    creates user with a password
-    @name is a string @email is a string , @password is a string
-    returns user obbject with password
-*/
+
+/**
+ * Creates user password data
+ * @param name 
+ * @param email 
+ * @param password 
+ * @returns  user object
+ */
 export async function createUserPasswordData(name: string, email: string, password: string) {
     const prisma = new PrismaClient()
     try {
@@ -60,12 +62,12 @@ export async function createUserPasswordData(name: string, email: string, passwo
     }
 }
 
-/*
-    getUserPassword
-    confirms if an entered password is correct
-    @userEmail is a string , @userPassword is a string
-    returns user obbject with password
-*/
+
+/**
+ * Gets user password , gets the user password based on email
+ * @param userEmail 
+ * @returns  
+ */
 export async function getUserPassword(userEmail: string) {
     const prisma = new PrismaClient()
     try {
@@ -91,12 +93,12 @@ export async function getUserPassword(userEmail: string) {
 }
 
 
-/*
-    deleteUserByID
-    delete user by userID 
-    @userID is a int
-    returns deleted user obbject
-*/
+
+/**
+ * Deletes user by id
+ * @param userID this the ID of the user you want to delete
+ * @returns  user object
+ */
 export async function deleteUserByID(userID: number) {
     const prisma = new PrismaClient();
     try {
@@ -124,12 +126,12 @@ export async function deleteUserByID(userID: number) {
 
 }
 
-/*
-    getUserProjects
-    gets all projects user is a member of
-    @userID is a int
-    returns projects user is a member of
-*/
+
+/**
+ * Gets projects user is a member of
+ * @param userID 
+ * @returns  a list of projects a user is a member of
+ */
 export async function getUserProjects(userID: number) {
     const prisma = new PrismaClient()
     try {
@@ -143,16 +145,16 @@ export async function getUserProjects(userID: number) {
                     include: {
                         github: true,
                         sprint: true,
-                        user:true
+                        user: true
                     }
                 },
                 member: {
                     include: {
                         project: {
-                        
+
                             include: {
                                 members: true,
-                                user:true
+                                user: true
                             },
                         },
                     },
@@ -171,12 +173,15 @@ export async function getUserProjects(userID: number) {
     }
 }
 
-/*
-    updateUser
-    this updates user info
-    @userID is a int
-    returns updated user
-*/
+
+/**
+ * Updates user info 
+ * @param userID 
+ * @param name 
+ * @param email 
+ * @param password 
+ * @returns  user objecy
+ */
 export async function updateUser(userID: number, name: string, email: string, password: string) {
     const prisma = new PrismaClient()
     try {
