@@ -109,12 +109,10 @@ export default function Home() {
         localStorage.removeItem('userData');
       }
       return response.data.users;
-      //localStorage.setItem("userData", JSON.stringify(response.data.user))
-     // setLogin(true)
-     // resMessage = response.data
+    
     } catch (error) {
       console.error('Login failed', error);
-    //  setFailedMsg(resMessage)
+    
     }
 
   }
