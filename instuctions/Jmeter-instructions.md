@@ -7,7 +7,7 @@
 > And JMeter should be open.
 
 > Open and run Dev Diaries in localhost, using port 3000 (This will be automatic if you are using the docker image)         
-> Use the following credential to login:
+> Use the following credential to login:        
 > email: new@1       
 > password: 1 (I know, not a very strong passsword)
 
