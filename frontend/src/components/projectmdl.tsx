@@ -6,7 +6,8 @@ import config from 'config';
 import { useState } from 'react';
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
-
+import { yupResolver } from '@hookform/resolvers/yup'
+import { projectValidation } from '~/validations_schemas/project_create';
 function Form({ userID, addProject }: { userID: number, addProject: Function }) {
     const {
         register,
@@ -15,7 +16,9 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
         formState: { errors , isSubmitting },
         clearErrors,
         setValue
-    } = useForm();
+    } = useForm({
+        resolver: yupResolver(projectValidation)
+    });
 
     const [adding, setAdding] = useState(false);
     
@@ -54,7 +57,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
                 console.log(error.response.status);
                 console.log(error.response.data);
-                setError("project",
+                setError("name",
                     {
                         type: "server",
                         message: `You already have a project named ${data.name}`
@@ -62,7 +65,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
                 );
             } else {
-                setError("project",
+                setError("name",
                     {
                         type: "server",
                         message: "Server is either down or not working"
@@ -79,13 +82,13 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
             <div className="form-control">
-                {errors.project && (<FormAlert message={String(errors.project.message)} />)}
+                {errors.name && (<FormAlert message={String(errors.name.message)} />)}
                 <label className="label">
                     <span className="label-text">Project Name</span>
                 </label>
                 <input
                     {...register("name")}
-                    onChange={() => clearErrors("project")}
+                    onChange={() => clearErrors("name")}
                     type="text"
                     placeholder="Project Name"
                     className="input input-bordered"
@@ -95,11 +98,11 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                 />
 
                 <div className="form-control mt-6">
-                    <button className="btn btn-primary" disabled={adding}>
-                        {adding && (
+                    <button className="btn btn-primary" disabled={isSubmitting}>
+                        {isSubmitting && (
                             <Spinner />
                         )}
-                        {adding ? "Creating Project" : "Create Project"}
+                        {isSubmitting ? "Creating Project" : "Create Project"}
                     </button>
                 </div>
             </div>
