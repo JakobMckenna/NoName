@@ -47,7 +47,7 @@ function ProjectHero({ projects, parent, search, projectsInit }: { projects: any
         <div className="hero  bg-base-100">
             <div className="hero-content ">
                 <div className="max-w-lg">
-                    <h1 className="text-5xl font-bold">Dev Diaries</h1>
+                    <h1 className="text-5xl font-bold">My Projects</h1>
                     <div className="flex flex-col  items-start mb-5">
                         <button
                             className="btn btn-primary my-6 "
