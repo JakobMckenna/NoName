@@ -6,21 +6,21 @@ import config from 'config';
 import { useState } from 'react';
 import Spinner from './modal_spinner';
 
-function Form({projectID}:{projectID:string}) {
+function Form({ projectID }: { projectID: string }) {
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
-    const [loading ,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
-    const handleCreateProject = async (data:any) => {
+    const handleCreateProject = async (data: any) => {
         setLoading(true)
         console.log("submit")
-        try{
-            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner ,repoName:data.repo,projectID:projectID}, {
+        try {
+            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -30,7 +30,7 @@ function Form({projectID}:{projectID:string}) {
             setLoading(false)
             modalElement.close();
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -41,30 +41,42 @@ function Form({projectID}:{projectID:string}) {
                 <label className="label">
                     <span className="label-text text-primary">Owner</span>
                 </label>
-                <input {...register("owner")} type="text" placeholder="owner" className="input input-bordered" required />
+                <input
+                    {...register("owner")}
+                    type="text"
+                    placeholder="owner"
+                    className="input input-bordered"
+                    required
+                />
             </div>
             <div className="form-control">
                 <label className="label">
                     <span className="label-text text-secondary ">Repo Name</span>
                 </label>
-                <input {...register("repo")} type="text" placeholder="repo name" className="input input-bordered" required />
-             
+                <input
+                    {...register("repo")}
+                    type="text"
+                    placeholder="repo name"
+                    className="input input-bordered"
+                    required
+                />
+
 
             </div>
             <div className="form-control mt-6">
-                    <button className="btn btn-primary" disabled={loading}>
-                    {loading && (
-                            <Spinner />
-                        )}
-                       {loading?"Adding Repo":"Add Repo"}
-                    </button>
+                <button className="btn btn-primary" disabled={loading}>
+                    {isSubmitting && (
+                        <Spinner />
+                    )}
+                    {isSubmitting ? "Adding Repo" : "Add Repo"}
+                </button>
 
             </div>
         </form>
     )
 }
 
-const RepoModal = ({projectID}:{projectID:string}) => {
+const RepoModal = ({ projectID }: { projectID: string }) => {
     return (
         <dialog id="my_modal_4" className="modal">
             <div className="modal-box ">
