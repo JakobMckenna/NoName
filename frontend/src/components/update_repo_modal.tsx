@@ -1,15 +1,17 @@
 /* eslint-disable */
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-
 import config from 'config';
-import { useState } from 'react';
 import Spinner from './modal_spinner';
+import FormAlert from './form_alert';
 
 function Form({ projectID, githubID }: { projectID: string, githubID: string }) {
     const {
         register,
         handleSubmit,
+        setError,
+        clearErrors,
+        setValue,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
@@ -30,12 +32,24 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
             modalElement.close();
 
         } catch (error) {
-            console.log(error)
+            if(axios.isAxiosError(error) && error.response?.status==404){
+                console.log("repo does not exist")
+                setError("repo",{
+                    type:"server",
+                    message:"Repo does not exist , please enter a valid owner and repo name."
+                })
+            }
+
+            // clears inputs on form
+            setValue("owner","");
+            setValue("repo","");
+
         }
     }
 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
+            {errors.repo && (<FormAlert message={errors.repo?.message as string} />)}
             <div className="form-control">
                 <label className="label">
                     <span className="label-text text-primary">Owner</span>
@@ -61,8 +75,6 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
                     className="input input-bordered"
                     required
                 />
-
-
             </div>
             <div className="form-control mt-6">
                 <button className="btn btn-primary" disabled={isSubmitting}>
