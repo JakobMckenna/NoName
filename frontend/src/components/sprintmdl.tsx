@@ -1,16 +1,21 @@
 /* eslint-disable */
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup'
+
 
 import config from "config";
 import Spinner from "./modal_spinner";
+import { sprintValidation } from "~/validations_schemas/sprint_create";
 
 function Form({ projectID, add }: { projectID: string, add: any }) {
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitSuccessful, isSubmitting },
-    } = useForm();
+    } = useForm({
+        resolver:yupResolver(sprintValidation)
+    });
 
 
 
