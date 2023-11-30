@@ -1,9 +1,9 @@
+
+
 /* eslint-disable */
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-
 import config from 'config';
-import { useState } from 'react';
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 
@@ -12,13 +12,16 @@ function Form({ projectID }: { projectID: string }) {
         register,
         handleSubmit,
         setError,
-        formState: { errors, isSubmitSuccessful, isSubmitting },
+        formState: { errors, isSubmitting },
+        clearErrors,
+        setValue
     } = useForm();
 
     
 
 
     const handleCreateRepo = async (data: any) => {
+
        
         console.log("submit")
         try {
@@ -42,6 +45,10 @@ function Form({ projectID }: { projectID: string }) {
                 })
             }
 
+            // clears inputs on form
+            setValue("owner","");
+            setValue("repo","");
+
         }
     }
 
@@ -58,6 +65,11 @@ function Form({ projectID }: { projectID: string }) {
                     type="text"
                     placeholder="owner"
                     className="input input-bordered"
+                    onChange={
+                        ()=>{
+                            clearErrors();
+                        }
+                    }
                     required
                 />
             </div>
@@ -71,6 +83,11 @@ function Form({ projectID }: { projectID: string }) {
                     type="text"
                     placeholder="repo name"
                     className="input input-bordered"
+                    onChange={
+                        ()=>{
+                            clearErrors();
+                        }
+                    }
                     required
                 />
 
