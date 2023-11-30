@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import config from "config";
 import Spinner from "./modal_spinner";
 import FormAlert from "./form_alert";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { notesValidation } from "~/validations_schemas/notes_create";
 
 function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) {
     const {
@@ -14,7 +16,9 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
         formState: { errors, isSubmitting },
         clearErrors,
         setValue
-    } = useForm();
+    } = useForm({
+        resolver: yupResolver(notesValidation)
+    });
 
 
 
@@ -30,7 +34,7 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
             //const note = response.data.notes
             if (response.data.notes == null) {
                 console.log("bad input")
-                setError("notes",
+                setError("details",
                     {
                         type: "server",
                         message: `Bad input, details or Title might be too long`
@@ -59,7 +63,7 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
                 //console.log(error.response.status);
                 //  console.log(error.response.data);
                 if (error.response) {
-                    setError("notes",
+                    setError("details",
                         {
                             type: "server",
                             message: `failed . Details or Title might be too long`
@@ -68,7 +72,7 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
 
                     )
                 } else {
-                    setError("notes",
+                    setError("details",
                         {
                             type: "server",
                             message: `Bad input`
@@ -89,11 +93,23 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
+            {errors && errors.sprint && (<FormAlert message={errors.sprint.message as string} />)}
+            {errors && errors.title && (<FormAlert message={errors.title.message as string} />)}
+            {errors && errors.details && (<FormAlert message={errors.details.message as string} />)}
+            {errors && errors.url && (<FormAlert message={errors.url.message as string} />)}
+
+
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">Sprint</span>
                 </label>
-                <select  {...register("sprint")} className="select select-bordered w-full max-w-xs" onChange={() => clearErrors("notes")} disabled={isSubmitting} required>
+                <select
+                    {...register("sprint")}
+                    className="select select-bordered w-full max-w-xs"
+                    onChange={() => clearErrors()}
+                    disabled={isSubmitting}
+                    required
+                >
                     {
                         sprints && sprints.map((sprint: any) => {
                             return (
@@ -112,7 +128,15 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
                 <label className="label">
                     <span className="label-text">Title</span>
                 </label>
-                <input {...register("title")} type="text" placeholder="title" className="input input-bordered" onChange={() => clearErrors("notes")} disabled={isSubmitting} required />
+                <input
+                    {...register("title")}
+                    type="text"
+                    placeholder="title"
+                    className="input input-bordered"
+                    onChange={() => clearErrors()}
+                    disabled={isSubmitting}
+                    required
+                />
             </div>
 
             <div className="form-control">
@@ -123,7 +147,7 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
                     {...register("details")}
                     placeholder="type the main things you learnt"
                     className="textarea textarea-bordered"
-                    onChange={() => clearErrors("notes")}
+                    onChange={() => clearErrors()}
                     disabled={isSubmitting}
                     required
                 />
@@ -138,13 +162,12 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
                     type="text"
                     placeholder="url"
                     className="input input-bordered"
-                    onChange={() => clearErrors("notes")}
+                    onChange={() => clearErrors()}
                     disabled={isSubmitting}
                     required
                 />
             </div>
 
-            {errors.notes && (<div className="mt-6"><FormAlert message={String(errors.notes.message)} /></div>)}
             <div className="form-control mt-6">
                 <button
                     className="btn btn-primary"
@@ -173,7 +196,7 @@ const NotesModal = ({ projectID, userID, sprints, addNotes, refresh }: { project
 
         <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
-            <h2 className="font-bold text-2lg uppercase">Create Note</h2>
+                <h2 className="font-bold text-2lg uppercase">Create Note</h2>
                 <Form projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
             </div>
             <form method="dialog" className="modal-backdrop">

@@ -295,14 +295,15 @@ export default function Research() {
 
             }
 
-            if (notes == null) {
+            if (notes == null || notes.length==0) {
                 getResponse()
             } else {
                 if (notes)
                     setFilteredNotes(notes);
+                
             }
 
-        }, [user,projectID, notes])
+        }, [projectID,user, notes])
     return (
         <div >
             <Head>
