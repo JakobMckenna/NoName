@@ -35,15 +35,16 @@ const GithubService = {
                 }
             });
             result = true;
+            return result;
 
 
         } catch (error) {
             console.log(error);
             if (axios.isAxiosError(error) && error.response?.status == 404)
-                result = false;
-        } finally {
-            return result;
-        }
+            {
+                return result;
+            }
+        } 
 
     },
 
