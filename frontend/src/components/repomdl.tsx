@@ -7,7 +7,7 @@ import config from 'config';
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 
-function Form({ projectID , githubID }: { projectID: string ,githubID:string }) {
+function Form({ projectID , githubID }: { readonly projectID: string ,readonly githubID:string }) {
     const {
         register,
         handleSubmit,
@@ -18,12 +18,10 @@ function Form({ projectID , githubID }: { projectID: string ,githubID:string }) 
     } = useForm();
 
     
-
+    const typeOfAdd = githubID?"Update Repo":"Add Repo";
+    const loadingStatement = githubID?"Updating Repo":"Adding Repo";
 
     const handleCreateRepo = async (data: any) => {
-
-       
-        console.log("submit")
         try {
             const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID, repoID: githubID }, {
                 headers: {
@@ -98,7 +96,7 @@ function Form({ projectID , githubID }: { projectID: string ,githubID:string }) 
                     {isSubmitting && (
                         <Spinner />
                     )}
-                    {isSubmitting ?  (githubID?"Updating Repo":"Adding Repo"): (githubID?"Update Repo":"Add Repo")}
+                    {isSubmitting ? loadingStatement : typeOfAdd}
                 </button>
 
             </div>
