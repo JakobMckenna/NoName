@@ -105,7 +105,7 @@ const UpdateRepoModal = ({ projectID, githubID }: { projectID: string, githubID:
             <div className="modal-box ">
                 <h2 className="font-bold text-lg uppercase">Update Github Repository</h2>
                 <p>Enter data base on GitHub Repository URL</p>
-                <div className="flex flex-row items-center  ">
+                <div className="flex flex-row items-center  mb-5">
                     <p className="text-info">https://github.com</p>
                     <p className="text-info">/</p>
                     <p className=" text-primary underline">owner</p>
