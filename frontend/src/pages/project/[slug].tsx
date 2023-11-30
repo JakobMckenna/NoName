@@ -18,6 +18,7 @@ import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
 import InfoCard from "~/components/info_card";
 import UpdateRepoModal from "~/components/update_repo_modal";
+import Drawer from "~/components/drawer";
 
 
 function LoadingCard() {
@@ -60,8 +61,8 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
             <div className="card-body items-center text-center h-full">
                 <h2 className="card-title">Github</h2>
                 <div className="flex flex-col">
-                    <p className="mb-3 ">Check recent updates from Github and code progress or 
-                    <span className=" bg-secondary glass tooltip  ml-1 mr-1 px-1" data-tip="click here to update repo info">
+                    <p className="mb-3 ">Check recent updates from Github and code progress or
+                        <span className=" bg-secondary glass tooltip  ml-1 mr-1 px-1" data-tip="click here to update repo info">
                             <button onClick={() => {
                                 const modal: any = document.getElementById('update_repo');
                                 if (modal) {
@@ -69,7 +70,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                                 }
                             }} className="link">update </button>
                         </span>
-                         repo info
+                        repo info
                     </p>
                     <div className="mb-1">
                         <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
@@ -187,7 +188,7 @@ export default function Project() {
     const [projectData, setProjectData] = useState<any>();
     const [projectIDstr, setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState<any>(null);
-    const [sprints, setID] = useSprint();
+    //const [sprints, setID] = useSprint();
     const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)
@@ -210,7 +211,7 @@ export default function Project() {
 
         } catch (error) {
             console.log(error);
-           // alert(typeof id)
+            // alert(typeof id)
             throw new Error("failed to get project");
         }
 
@@ -222,8 +223,8 @@ export default function Project() {
 
     const getSprintSize = () => {
         let result = 0;
-        if (sprints) {
-            result = sprints.length;
+        if (projectData.sprint) {
+            result = projectData.sprint.length;
         }
         return result;
     }
@@ -240,14 +241,14 @@ export default function Project() {
 
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
-                        if (results && setID != null) {
-                            setID(String(projectID));
+                        if (results) {
+                            // setID(String(projectID));
                             setProjectData(results);
                             setGithub(results.github);
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                       // alert("Project does not exist anymore or the server is down,contact your project owner");
+                        // alert("Project does not exist anymore or the server is down,contact your project owner");
                         router.push("/home");
                     }
 
@@ -266,27 +267,28 @@ export default function Project() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navbar userName={`${user?.name}#${user?.id}`} />
+            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
 
-            <main className="flex flex-col items-center justify-center  mb-10    ">
+                <main className="flex flex-col items-center justify-center  mb-10    ">
 
-                <Header projectData={projectData} userID={userID} owner={owner} />
-                <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 pl-5 md:pl-24  ">
+                    <Header projectData={projectData} userID={userID} owner={owner} />
+                    <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 pl-5 md:pl-24  ">
 
-                    {projectData != null ? (<MenuCard github={github} projectID={projectIDstr} />) : <LoadingCard />}
-                    {projectData != null ? (<SprintCard projectID={projectIDstr} />) : <LoadingCard />}
-
-
-                    {sprints != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
-                    {projectData != null ? (<ChatCard projectID={projectIDstr} />) : <LoadingCard />}
-
-                </div>
+                        {projectData != null ? (<MenuCard github={github} projectID={projectIDstr} />) : <LoadingCard />}
+                        {projectData != null ? (<SprintCard projectID={projectIDstr} />) : <LoadingCard />}
 
 
-            </main >
-            <RepoModal projectID={projectIDstr} />
-            <DeleteModal projectID={projectIDstr} home={goToHome} />
-            <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
+                        {projectData != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
+                        {projectData != null ? (<ChatCard projectID={projectIDstr} />) : <LoadingCard />}
+
+                    </div>
+
+
+                </main >
+                <RepoModal projectID={projectIDstr} />
+                <DeleteModal projectID={projectIDstr} home={goToHome} />
+                <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
+            </Drawer>
 
         </div>
     )

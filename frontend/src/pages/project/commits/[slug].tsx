@@ -9,6 +9,8 @@ import useCommits from "~/hooks/use_commits";
 import useUser from "~/hooks/use_user";
 
 import config from "config";
+import BackPage from "~/components/back_navigation";
+import Drawer from "~/components/drawer";
 
 function CommitsList({ commits }: any) {
     return (
@@ -96,20 +98,21 @@ export default function Project() {
             }
 
 
-        }
+        }, [projectID, user]
     )
 
     return (
         <div>
-            <Navbar userName={`${user?.name}#${user?.id}`} />
-
-            <main className="container w-full">
-                <div className="flex flex-col justify-center items-center pl-24 ">
-                    <h1 className="text-4xl uppercase mb-3">{projectData?.name} PROJECT Commits</h1>
-                    {!commits && (<Spinner />)}
-                    {commits != null && (<CommitsList commits={commits} />)}
-                </div>
-            </main>
+            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+                <main className="container w-full">
+                    <div className="flex flex-col justify-center items-center pl-24 ">
+                        {projectData != null ? (<BackPage link={`/project/${projectID}`} name={`Back to ${projectData?.name} Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
+                        <h1 className="text-4xl uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
+                        {!commits && (<Spinner />)}
+                        {commits != null && (<CommitsList commits={commits} />)}
+                    </div>
+                </main>
+            </Drawer>
 
         </div>
     )

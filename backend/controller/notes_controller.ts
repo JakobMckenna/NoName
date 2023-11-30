@@ -48,7 +48,8 @@ const NotesController = {
             const userID:number = noteBody.userID;
             const sprintID:string = noteBody.sprintID;
             const urlList = noteBody.urlList;
-
+            console.log("title")
+            console.log(urlList)
             const notes = await NotesService.update(noteID,title,details,userID,sprintID,urlList)
 
             res.status(200).json({ "notes": notes});

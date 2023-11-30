@@ -444,6 +444,51 @@ I. Finish up CD pipeline
 
 II. Add more acceptence tests
 
+
+## Date: November 23th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
+
+*Location:* In Class
+
+**Agenda**
+
+I. Looked over sprint 4 rubric
+
+II. Discussed load testing, security scanning, and finishing off the system
+
+
+**Next Steps**
+
+I. Jakob will work on the load testing
+
+II. Tehillah will polish the frontend and make sure nothing breaks 
+
+
+## Date: November 28th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
+
+*Location:* Online
+
+**Agenda**
+
+I. Looked over sprint 4 rubric again
+
+II. Need to email TA to schedule a time
+
+III. Need to finish load testing and security scanning
+
+**Next Steps**
+
+I. Jakob will contact the TA, and finish load testing
+
+II. Susie will work on the security scanner
+
+III. Tehillah will work on making sure there are no bugs left
+
+VI. Isabelle will work on frontend features
+
     
 
 <br>

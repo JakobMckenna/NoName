@@ -1,9 +1,17 @@
+/**
+ * @fileoverview  Research Model retrieves , updates research info made by users
+ */
 import { PrismaClient } from '@prisma/client'
 
 interface Url{
     url:string
 }
 
+/**
+ * Gets research notes
+ * @param projectID Project ID of the research Notes you want to get
+ * @returns  list object of research notes of a particular poject
+ */
 export async function getResearchNotes(projectID: string) {
     const prisma = new PrismaClient()
     try {
@@ -34,6 +42,15 @@ export async function getResearchNotes(projectID: string) {
 
 }
 
+/**
+ * Creates research note
+ * @param title 
+ * @param details 
+ * @param userID userID of user creating research note
+ * @param sprint sprint/milestone the research was done in
+ * @param urlList list of links/resources user found
+ * @returns  note object
+ */
 export async function createResearchNote(title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
     const prisma = new PrismaClient()
     try {
@@ -52,9 +69,15 @@ export async function createResearchNote(title: string, details: string, userID:
                     },
                   
                 },
-
+                include:{
+                    link:true
+                }
             }
-        )
+        );
+        if(notes==null){
+            throw new Error("invalid input was given")
+        }
+        console.log("here")
 
         return notes;
     } catch (err: any) {
@@ -65,10 +88,20 @@ export async function createResearchNote(title: string, details: string, userID:
     }
 }
 
-export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: Url[]) {
+/**
+ * Updates research note
+ * @param noteID 
+ * @param title 
+ * @param details 
+ * @param userID 
+ * @param sprint 
+ * @param urlList 
+ * @returns  updated note object
+ */
+export async function updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: any) {
     const prisma = new PrismaClient()
     try {
-
+        console.log(urlList)
         const notes = await prisma.researchNote.update(
             {
                 where: {
@@ -79,15 +112,31 @@ export async function updateResearchNote(noteID: string, title: string, details:
                     title: title,
                     userID: userID,
                     details: details,
-                    link: {
-                        createMany: {
-                            data: urlList
-                        },
+                    link:{
+                        update:{
+                            where:{
+                                id:urlList.id
+                            },
+                            data:{
+                                url:urlList.url
+                            }
+                        }
                     }
+                    
+                  
+                    
+                 
                 },
+                include:{
+                    link:true
+                }
 
             }
         )
+        
+        console.log(notes)
+       
+      
 
         return notes;
     } catch (err: any) {
@@ -98,7 +147,11 @@ export async function updateResearchNote(noteID: string, title: string, details:
     }
 }
 
-
+/**
+ * Deletes research note by note ID
+ * @param noteID 
+ * @returns  deleted research note
+ */
 export async function deleteResearchNote(noteID: string) {
     const prisma = new PrismaClient()
     try {
