@@ -1,76 +1,116 @@
+
+
 /* eslint-disable */
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-
 import config from 'config';
-import { useState } from 'react';
 import Spinner from './modal_spinner';
+import FormAlert from './form_alert';
 
-function Form({projectID}:{projectID:string}) {
+function Form({ projectID , githubID }: { readonly projectID: string ,readonly githubID:string }) {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitSuccessful, isSubmitting },
+        setError,
+        formState: { errors, isSubmitting },
+        clearErrors,
+        setValue
     } = useForm();
 
-    const [loading ,setLoading] = useState(false);
+    
+    const typeOfAdd = githubID?"Update Repo":"Add Repo";
+    const loadingStatement = githubID?"Updating Repo":"Adding Repo";
 
-
-    const handleCreateProject = async (data:any) => {
-        setLoading(true)
-        console.log("submit")
-        try{
-            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner ,repoName:data.repo,projectID:projectID}, {
+    const handleCreateRepo = async (data: any) => {
+        try {
+            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID, repoID: githubID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             console.log('create repo', response.data);
             const modalElement: any = document.getElementById('my_modal_4');
-            setLoading(false)
+         
             modalElement.close();
 
-        }catch(error){
-            console.log(error)
+        } catch (error) {
+            // Repo the user entered does not exist
+            if(axios.isAxiosError(error) && error.response?.status==404){
+                console.log("repo does not exist")
+                setError("repo",{
+                    type:"server",
+                    message:"Repo does not exist , please enter a valid owner and repo name."
+                })
+            }
+
+            // clears inputs on form
+            setValue("owner","");
+            setValue("repo","");
+
         }
     }
 
     return (
-        <form onSubmit={handleSubmit(handleCreateProject)} >
+        <form onSubmit={handleSubmit(handleCreateRepo)} >
+            {errors.repo && (<FormAlert message={errors.repo?.message as string} />)}
             <div className="form-control">
                 <label className="label">
                     <span className="label-text text-primary">Owner</span>
                 </label>
-                <input {...register("owner")} type="text" placeholder="owner" className="input input-bordered" required />
+                <input
+                    {...register("owner")}
+                    disabled={isSubmitting}
+                    type="text"
+                    placeholder="owner"
+                    className="input input-bordered"
+                    onChange={
+                        ()=>{
+                            clearErrors();
+                        }
+                    }
+                    required
+                />
             </div>
             <div className="form-control">
                 <label className="label">
                     <span className="label-text text-secondary ">Repo Name</span>
                 </label>
-                <input {...register("repo")} type="text" placeholder="repo name" className="input input-bordered" required />
-             
+                <input
+                    {...register("repo")}
+                    disabled={isSubmitting}
+                    type="text"
+                    placeholder="repo name"
+                    className="input input-bordered"
+                    onChange={
+                        ()=>{
+                            clearErrors();
+                        }
+                    }
+                    required
+                />
+
 
             </div>
             <div className="form-control mt-6">
-                    <button className="btn btn-primary" disabled={loading}>
-                    {loading && (
-                            <Spinner />
-                        )}
-                       {loading?"Adding Repo":"Add Repo"}
-                    </button>
+                <button className="btn btn-primary" disabled={isSubmitting}>
+                    {isSubmitting && (
+                        <Spinner />
+                    )}
+                    {isSubmitting ? loadingStatement : typeOfAdd}
+                </button>
 
             </div>
         </form>
     )
 }
 
-const RepoModal = ({projectID}:{projectID:string}) => {
+const RepoModal = ({ projectID , githubID }: { projectID: string , githubID: string }) => {
     return (
         <dialog id="my_modal_4" className="modal">
             <div className="modal-box ">
-                <h2 className="font-bold text-lg uppercase">Add Github Repository</h2>
+                <h2 className="font-bold text-lg uppercase">{githubID?"update":"add"} Github Repository</h2>
                 <p>Enter data base on GitHub Repository URL</p>
-                <div className="flex flex-row items-center  ">
+                <div className="flex flex-row items-center mb-5">
                     <p className="text-info">https://github.com</p>
                     <p className="text-info">/</p>
                     <p className=" text-primary underline">owner</p>
@@ -81,7 +121,7 @@ const RepoModal = ({projectID}:{projectID:string}) => {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form projectID={projectID} />
+                <Form projectID={projectID}  githubID={githubID} />
             </div>
         </dialog>
     );
