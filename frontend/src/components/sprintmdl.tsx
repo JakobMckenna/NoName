@@ -24,8 +24,6 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
 
 
     const submitSprint = async (data: any) => {
-        const startDate = new Date(data.start);
-        const deadlineDate = new Date(data.deadline);
 
         try {
             const startDate = new Date(data.start);
@@ -45,6 +43,7 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
             add(responseSprint.data.sprint)
             const modalElement: any = document.getElementById('sprint_modal')
             modalElement.close()
+            reset();
             //refresh(true)
         } catch (error) {
             console.log(error)
@@ -52,7 +51,7 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
     }
     return (
         <form onSubmit={handleSubmit(submitSprint)} >
-            
+
             {errors && errors.name && <FormAlert message={errors.name.message as string} />}
            
             {errors && errors.start && <FormAlert message={errors.start.message as string} />}
