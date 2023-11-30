@@ -22,6 +22,13 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
 
     const handleCreateProject = async (data: any) => {
         try {
+            if (!data.name.trim()) {
+                setError("project", {
+                    type: "manual",
+                    message: "Project name cannot be empty",
+                });
+                return;
+            }
             setAdding(true);
             const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name, userID: userID }, {
                 headers: {
