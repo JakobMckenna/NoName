@@ -16,7 +16,7 @@ function Form({ projectID }: { projectID: string }) {
     
 
 
-    const handleCreateProject = async (data: any) => {
+    const handleCreateRepo = async (data: any) => {
        
         console.log("submit")
         try {
@@ -36,7 +36,7 @@ function Form({ projectID }: { projectID: string }) {
     }
 
     return (
-        <form onSubmit={handleSubmit(handleCreateProject)} >
+        <form onSubmit={handleSubmit(handleCreateRepo)} >
             <div className="form-control">
                 <label className="label">
                     <span className="label-text text-primary">Owner</span>
