@@ -31,7 +31,11 @@ function Form({ projectID }: { projectID: string }) {
             modalElement.close();
 
         } catch (error) {
-            console.log(error)
+            // Repo the user entered does not exist
+            if(axios.isAxiosError(error) && error.response?.status==404){
+                console.log("repo does not exist")
+            }
+
         }
     }
 
