@@ -13,12 +13,12 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
-    const [loading, setLoading] = useState(false);
+
 
 
     const handleCreateProject = async (data: any) => {
-        setLoading(true)
-        console.log(githubID)
+       
+       
         try {
             const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID, repoID: githubID }, {
                 headers: {
@@ -27,7 +27,6 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
             });
             console.log('create repo', response.data);
             const modalElement: any = document.getElementById('update_repo');
-            setLoading(false)
             modalElement.close();
 
         } catch (error) {
@@ -66,7 +65,7 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
 
             </div>
             <div className="form-control mt-6">
-                <button className="btn btn-primary" disabled={loading}>
+                <button className="btn btn-primary" disabled={isSubmitting}>
                     {isSubmitting && (
                         <Spinner />
                     )}
