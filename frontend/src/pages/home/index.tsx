@@ -130,20 +130,12 @@ export default function LandingPage() {
     }
 
     const getProjects = async (userID: number) => {
-       //try{ 
         const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`
         const results = await axios.get(reqUrl)
-        console.log("pages/home/index.tsx");
-        console.log(" User: "+results.data.user);
+        console.log(results.data.user)
         setRefresh(false);
-        return results.data.user//}
-        // catch{
-        //     var user = localStorage.getItem("userData")
-        //     localStorage.removeItem("userData");
-        //     console.log("Removed userData: ");
-        //     console.log(user);
-        //     router.push("/"); 
-        // }
+
+        return results.data.user
 
     }
 
@@ -186,11 +178,6 @@ export default function LandingPage() {
                     setTheme(currentTheme as unknown as string)
                 }
 
-            }
-            else{
-
-             console.log("No user");
-             router.push("/"); 
             }
 
 
