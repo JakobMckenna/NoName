@@ -20,6 +20,28 @@ const hourBeforeTime = () => {
  */
 const GithubService = {
 
+    isValidRepo:async (owner: string, repoName: string)=>{
+        let result: boolean = false;
+        try {
+            const url: string = `https://api.github.com/repos/${owner}/${repoName}/commits`;
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `token ${GIT_TOKEN}`
+                }
+            });
+            result = true;
+
+
+        } catch (error) {
+            console.log(error);
+            if(axios.isAxiosError(error) && error.response?.status==404)
+                result = false;
+        } finally{
+            return result;
+        }
+
+    },
+
     /**
      * getMainCommits gets commits from main branch
      * @param owner github user name  of the owner of the repo 
