@@ -19,6 +19,35 @@ const hourBeforeTime = () => {
  * GithubService is an object literal that handles github business logic
  */
 const GithubService = {
+    /**
+     * isValidRepo checks if a github repository exists and is valid
+     * @param owner 
+     * @param repoName 
+     * @returns  boolean value
+     */
+    isValidRepo: async (owner: string, repoName: string) => {
+        let result: boolean = false;
+        try {
+            const url: string = `https://api.github.com/repos/${owner}/${repoName}/commits`;
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `token ${GIT_TOKEN}`
+                }
+            });
+            console.log(response)
+            result = true;
+            return result;
+
+
+        } catch (error) {
+            console.log(error);
+            if (axios.isAxiosError(error) && error.response?.status == 404)
+            {
+                return result;
+            }
+        } 
+
+    },
 
     /**
      * getMainCommits gets commits from main branch

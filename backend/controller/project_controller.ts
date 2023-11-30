@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import ProjectService from '../services/project_service';
+import GithubService from '../services/github_service';
 import ChatService from '../services/chat_service';
+
 
 const ProjectController = {
     getProject:async (req: Request, res: Response) => {
@@ -115,8 +117,15 @@ const ProjectController = {
             const projectID: string = repoBody.projectID;
             const owner: string =repoBody.owner;
             const repoName: string = repoBody.repoName;
-            const repo = await ProjectService.addRepo(repoID, projectID, owner, repoName)
-            res.status(200).json({ "github": repo });
+
+            const  isRepoValid = await GithubService.isValidRepo(owner ,repoName)
+             
+             if(isRepoValid){
+                    const repo = await ProjectService.addRepo(repoID, projectID, owner, repoName)
+                    res.status(200).json({ "github": repo });
+             }else{
+                res.status(404).json({"github":null})
+             }
 
         } catch (error) {
             res.status(400).json()
