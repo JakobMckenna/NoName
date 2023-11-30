@@ -60,6 +60,11 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
                     type="text"
                     placeholder="owner"
                     className="input input-bordered"
+                    onChange={
+                        ()=>{
+                            clearErrors();
+                        }
+                    }
                     required
                 />
             </div>
@@ -73,6 +78,11 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
                     type="text"
                     placeholder="repo name"
                     className="input input-bordered"
+                    onChange={
+                        ()=>{
+                            clearErrors();
+                        }
+                    }
                     required
                 />
             </div>
