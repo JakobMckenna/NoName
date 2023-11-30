@@ -11,13 +11,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RepoModal from "~/components/repomdl";
 import Link from "next/link";
-import useSprint from "~/hooks/use_sprint";
+
 import Head from "next/head";
 import config from "config";
 import DeleteModal from "~/components/delete_project_modal";
 import BackPage from "~/components/back_navigation";
 import InfoCard from "~/components/info_card";
-import UpdateRepoModal from "~/components/update_repo_modal";
+
 import Drawer from "~/components/drawer";
 
 
@@ -276,18 +276,18 @@ export default function Project() {
 
                         {projectData != null ? (<MenuCard github={github} projectID={projectIDstr} />) : <LoadingCard />}
                         {projectData != null ? (<SprintCard projectID={projectIDstr} />) : <LoadingCard />}
-
-
                         {projectData != null ? (<ResearchCard projectID={projectIDstr} numSprints={getSprintSize()} />) : <LoadingCard />}
                         {projectData != null ? (<ChatCard projectID={projectIDstr} />) : <LoadingCard />}
 
                     </div>
 
-
                 </main >
+
+                {/** Page Modals , these exist outside the normal html flow */}
+                
                 <RepoModal projectID={projectIDstr} githubID={github?.id}  />
                 <DeleteModal projectID={projectIDstr} home={goToHome} />
-                <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
+               
             </Drawer>
 
         </div>
