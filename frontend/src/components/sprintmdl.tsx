@@ -7,14 +7,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import config from "config";
 import Spinner from "./modal_spinner";
 import { sprintValidation } from "~/validations_schemas/sprint_create";
+import FormAlert from "./form_alert";
 
 function Form({ projectID, add }: { projectID: string, add: any }) {
     const {
         register,
         handleSubmit,
+        reset,
+        clearErrors,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm({
-        resolver:yupResolver(sprintValidation)
+        resolver: yupResolver(sprintValidation)
     });
 
 
@@ -49,18 +52,33 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
     }
     return (
         <form onSubmit={handleSubmit(submitSprint)} >
+            
+            {errors && errors.name && <FormAlert message={errors.name.message as string} />}
+           
+            {errors && errors.start && <FormAlert message={errors.start.message as string} />}
+           
+            {errors && errors.deadline && <FormAlert message={errors.deadline.message as string} />}
+            <span className="mt-10" />
             <div className="form-control">
                 <label className="label">
                     <span className="label-text">Name</span>
                 </label>
                 <input
                     {...register("name")}
+                    onChange={
+                        () => {
+                            if (errors) {
+                                clearErrors()
+                            }
+                        }
+                    }
                     disabled={isSubmitting}
                     type="text"
                     placeholder="Name"
                     className="input input-bordered"
                     required
                 />
+
             </div>
 
 
@@ -72,6 +90,13 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
                 </label>
                 <input
                     {...register("start")}
+                    onChange={
+                        () => {
+                            if (errors) {
+                                clearErrors()
+                            }
+                        }
+                    }
                     disabled={isSubmitting}
                     type="date"
                     placeholder="Start"
@@ -86,6 +111,13 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
                 </label>
                 <input
                     {...register("deadline")}
+                    onChange={
+                        () => {
+                            if (errors) {
+                                clearErrors()
+                            }
+                        }
+                    }
                     disabled={isSubmitting}
                     type="date"
                     placeholder="Name"
@@ -110,7 +142,8 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
 const SprintModal = ({ projectID, add }: { projectID: string, add: any }) => {
     return (
         <dialog id="sprint_modal" className="modal">
-            <div className="modal-box">
+            <div className="modal-box prose">
+                <h2 className="font-bold text-2lg uppercase">Create Sprint/Milestone</h2>
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
