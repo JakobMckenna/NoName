@@ -7,41 +7,6 @@ import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     const [deleting, setDeleting] = useState(false);
-    const [projectName, setProjectName] = useState("");
-    const [loading, setLoading] = useState(true);
-
-    // useEffect(() => {
-    //     // Fetch project name when component mounts
-    //     const fetchData = async () => {
-    //         try {
-    //             const name = await getProjectData(projectID);
-    //             if (name !== undefined) {
-    //                 setProjectName(name);
-    //             } 
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.log(error);
-    //             // Handle error if needed
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [projectID]);
-
-    const getProjectData = async (id: string) => {
-        const reqUrl = `${config.backendApiUrl}/projects/${id}`;
-
-        try {
-            if (id != null || id != undefined) {
-                const results = await axios.get(reqUrl);
-                return results.data.projects.name;
-            }
-        } catch (error) {
-            console.log(error);
-            throw new Error("failed to get project");
-        }
-    };
 
     const deleteProject = async () => {
         try {
@@ -66,11 +31,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     return (
         <dialog id="del_proj" className="modal">
             <div className="modal-box flex flex-col items-center space-y-4">
-            {loading ? (
-                    <p>Loading project data...</p>
-                ) : (
-                    <>
-                <h3 className="text-lg">Delete project?</h3>
+                <h3 className="text-lg font-bold m-5">Are you sure you want to delete this project?</h3>
                 <div className="flex flex-row space-x-4">
                     <button
                         className="btn btn-warning btn-md"
@@ -108,8 +69,8 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         Cancel
                     </button>
                 </div>
-                </>
-                )}
+                
+             
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
