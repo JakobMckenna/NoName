@@ -34,6 +34,7 @@ const GithubService = {
                     Authorization: `token ${GIT_TOKEN}`
                 }
             });
+            console.log(response)
             result = true;
             return result;
 
