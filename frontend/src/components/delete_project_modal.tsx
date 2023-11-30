@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import config from 'config';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
@@ -10,24 +10,24 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     const [projectName, setProjectName] = useState("");
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Fetch project name when component mounts
-        const fetchData = async () => {
-            try {
-                const name = await getProjectData(projectID);
-                if (name !== undefined) {
-                    setProjectName(name);
-                } 
-                setLoading(false);
-            } catch (error) {
-                console.log(error);
-                // Handle error if needed
-                setLoading(false);
-            }
-        };
+    // useEffect(() => {
+    //     // Fetch project name when component mounts
+    //     const fetchData = async () => {
+    //         try {
+    //             const name = await getProjectData(projectID);
+    //             if (name !== undefined) {
+    //                 setProjectName(name);
+    //             } 
+    //             setLoading(false);
+    //         } catch (error) {
+    //             console.log(error);
+    //             // Handle error if needed
+    //             setLoading(false);
+    //         }
+    //     };
 
-        fetchData();
-    }, [projectID]);
+    //     fetchData();
+    // }, [projectID]);
 
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`;
@@ -70,7 +70,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                     <p>Loading project data...</p>
                 ) : (
                     <>
-                <h3 className="text-lg">Delete project <b>{projectName}</b>?</h3>
+                <h3 className="text-lg">Delete project?</h3>
                 <div className="flex flex-row space-x-4">
                     <button
                         className="btn btn-warning btn-md"
