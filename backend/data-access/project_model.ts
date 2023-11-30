@@ -1,6 +1,16 @@
+/**
+ * @fileoverview  Project model interacts with project data in the database which includes
+ * project infomation and membes
+ */
+
 import { PrismaClient } from '@prisma/client'
 
-
+/**
+ * Creates project
+ * @param name name of the project created
+ * @param userID this is the UserID of the person who created the project
+ * @returns  project created 
+ */
 export async function createProject(name: string, userID: number) {
     const prisma = new PrismaClient()
     try {
@@ -25,6 +35,11 @@ export async function createProject(name: string, userID: number) {
 
 }
 
+/**
+ * Gets project by ID
+ * @param projectID 
+ * @returns  a project object
+ */
 export async function getProject(projectID: string,) {
     const prisma = new PrismaClient()
     try {
@@ -61,6 +76,13 @@ export async function getProject(projectID: string,) {
     }
 }
 
+/**
+ * Updates project info
+ * @param projectID 
+ * @param name 
+ * @param userID 
+ * @returns  update project object
+ */
 export async function updateProject(projectID: string, name: string, userID: number) {
     const prisma = new PrismaClient()
     try {
@@ -86,6 +108,11 @@ export async function updateProject(projectID: string, name: string, userID: num
 
 }
 
+/**
+ * Removes project by project ID
+ * @param projectID 
+ * @returns  removed project object
+ */
 export async function removeProject(projectID: string,) {
     const prisma = new PrismaClient()
     try {
@@ -107,7 +134,10 @@ export async function removeProject(projectID: string,) {
     }
 }
 
-
+/**
+ * Gets all projects in the database
+ * @returns  a list of project object
+ */
 export async function getAllProjects() {
     const prisma = new PrismaClient()
     try {
@@ -141,8 +171,14 @@ export async function getAllProjects() {
 }
 
 
-// Project Members
 
+/**
+ * Adds project member
+ * This is a recursive function to add members of a project 
+ * @param projectID 
+ * @param userId 
+ * @returns  an object of the project ID and a list of the members of the project
+ */
 export async function addProjectMember(projectID: string, userId: number) {
     const prisma = new PrismaClient()
     try {
@@ -180,8 +216,6 @@ export async function addProjectMember(projectID: string, userId: number) {
                     }
                 }
             )
-           // console.log(members)
-           // console.log(result)
            return result;
         } else {
             await prisma.projectMember.create(
@@ -203,6 +237,11 @@ export async function addProjectMember(projectID: string, userId: number) {
     }
 }
 
+/**
+ * Gets project members
+ * @param projectID 
+ * @returns  a list of members of a project
+ */
 export async function getProjectMembers(projectID: string) {
     const prisma = new PrismaClient()
     try {
@@ -231,6 +270,12 @@ export async function getProjectMembers(projectID: string) {
     }
 }
 
+/**
+ * Removes project member
+ * @param projectID 
+ * @param userID The id of the user being removed
+ * @returns  an updated list of current project members excluding the removed user
+ */
 export async function removeProjectMember(projectID: string, userID: number) {
     console.log(projectID)
     const prisma = new PrismaClient()

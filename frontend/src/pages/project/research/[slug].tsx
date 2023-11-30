@@ -267,9 +267,7 @@ export default function Research() {
     const changeTopic = (topic: string) => {
 
         setSearchTopic(topic)
-        if (topic == "") {
-            reset();
-        }
+        
     }
 
     const changeMilestone = (milestone: string) => {

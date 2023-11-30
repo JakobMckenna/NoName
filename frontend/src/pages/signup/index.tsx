@@ -4,13 +4,15 @@ import Head from "next/head";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { registrationValidation } from "../../validations_schemas/user_registration";
 
 import config from "config";
+import Spinner from "~/components/modal_spinner";
+import BackPage from "~/components/back_navigation";
 
-function SignIn({ handleSignUp }: any) {
+function SignUp({ handleSignUp }: any) {
 
     const {
         register,
@@ -23,38 +25,68 @@ function SignIn({ handleSignUp }: any) {
 
 
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="hero min-h-screen bg-base-100">
             <div className="hero-content text-center">
                 <div className="max-w-md">
+                <BackPage link="/" name="Back To Sign In Page" />
                     <h1 className="text-5xl font-bold mb-5">SIGN UP</h1>
-                    <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+                    <div className="card  flex-shrink-0 w-full max-w-md shadow-2xl bg-base-300 ">
 
-                        <form className="card-body" onSubmit={handleSubmit(handleSignUp)}>
+                        <form className="card-body " onSubmit={handleSubmit(handleSignUp)}>
 
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input {...register("name")} type="text" placeholder="Name" className="input input-bordered" required />
-                                {errors.name && (<div>{errors.name.message}</div>)}
+                                <input
+                                    {...register("name")}
+                                    disabled={isSubmitting}
+                                    type="text"
+                                    placeholder="Name"
+                                    className="input input-bordered"
+                                    required
+                                />
+                                {errors.name && (<div className="text-red-500">{errors.name.message}</div>)}
                             </div>
 
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input {...register("email")} type="email" placeholder="email" className="input input-bordered" required />
-                                {errors.email && (<div>{errors.email.message}</div>)}
+                                <input
+                                    {...register("email")}
+                                    disabled={isSubmitting}
+                                    type="email"
+                                    placeholder="email"
+                                    className="input input-bordered"
+                                    required
+                                />
+                                {errors.email && (<div className="text-red-500">{errors.email.message}</div>)}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password")} type="password" placeholder="password" className="input input-bordered" required />
-                                {errors.password && (<div>{errors.password.message}</div>)}
+                                <input
+                                    {...register("password")}
+                                    disabled={isSubmitting}
+                                    type="password"
+                                    placeholder="password"
+                                    className="input input-bordered"
+                                    required
+                                />
+                                {errors.password && (<div className="text-red-500">{errors.password.message}</div>)}
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary">Create Account</button>
+                                <button 
+                                className="btn btn-primary"
+                                disabled={isSubmitting}
+                                >
+                                    {isSubmitting && (
+                                        <Spinner />
+                                    )}
+                                    {isSubmitting?"Creating Account":"Create Account"}
+                                </button>
 
                             </div>
                         </form>
@@ -73,7 +105,7 @@ export default function Register() {
 
     useEffect(
         () => {
-           
+
             const userData = localStorage.getItem('userData');
             if (userData) {
                 router.push("/")
@@ -107,7 +139,8 @@ export default function Register() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <SignIn handleSignUp={handleSignUp} />
+               
+                <SignUp handleSignUp={handleSignUp} />
             </main>
         </>
     );

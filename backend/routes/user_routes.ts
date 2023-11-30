@@ -14,4 +14,6 @@ userRoutes.delete("/:id",UserController.deleteUser);
 
 userRoutes.get("/",UserController.getAll);
 
+userRoutes.post("/verify",UserController.confirm)
+
 export default userRoutes;

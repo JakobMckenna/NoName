@@ -1,6 +1,9 @@
 # Group NoName
 By Isabelle, Jakob, Susie, and Tehillah.
 
+# Coding standard
+google styleguide -https://google.github.io/styleguide/tsguide.html#use-structural-types
+
 # Project summary and vision
 Dev Diaries is a free web application with the goal of making project management for developers easier than ever. 
 

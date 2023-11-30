@@ -8,8 +8,6 @@ const getItem = () => {
         localTheme = localStorage.getItem("theme");
     }
 
-
-
     if (localTheme != null) {
         result = localTheme;
     }
@@ -21,23 +19,28 @@ const getItem = () => {
 
 const useTheme = () => {
 
-    const [theme, setTheme] = useState<string>()
+    const [theme, setTheme] = useState<string|null>(null)
 
     const themeChange = (theme: string) => {
         const element = document.querySelector("html")
         if (element) {
             element.setAttribute("data-theme", theme)
         }
+        localStorage.setItem("theme",theme);
     }
     useEffect(
         () => {
-            setTheme(getItem)
-            //console.log(theme)
-            //if(theme)
+           
+            const localTheme = getItem()
 
-            if (theme != null && theme != undefined) {
-                localStorage.setItem("theme", theme)
+            if (localTheme != null && theme==null) {
+              
+                setTheme(localTheme);
 
+            }else if(localTheme==null && theme==null){
+                setTheme("dark")
+            }else{
+                setTheme(theme)
             }
 
             if (theme == "dark") {
@@ -45,7 +48,8 @@ const useTheme = () => {
             } else if (theme == "retro") {
                 themeChange("retro")
             }
-
+           // if(them)
+            
         }
         , [theme]
     )
