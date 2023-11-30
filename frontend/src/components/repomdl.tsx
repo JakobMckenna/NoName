@@ -5,11 +5,13 @@ import { useForm } from "react-hook-form";
 import config from 'config';
 import { useState } from 'react';
 import Spinner from './modal_spinner';
+import FormAlert from './form_alert';
 
 function Form({ projectID }: { projectID: string }) {
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
@@ -34,6 +36,10 @@ function Form({ projectID }: { projectID: string }) {
             // Repo the user entered does not exist
             if(axios.isAxiosError(error) && error.response?.status==404){
                 console.log("repo does not exist")
+                setError("repo",{
+                    type:"server",
+                    message:"Repo does not exist , please enter a valid owner and repo name."
+                })
             }
 
         }
@@ -41,6 +47,7 @@ function Form({ projectID }: { projectID: string }) {
 
     return (
         <form onSubmit={handleSubmit(handleCreateRepo)} >
+            {errors.repo && (<FormAlert message={errors.repo?.message as string} />)}
             <div className="form-control">
                 <label className="label">
                     <span className="label-text text-primary">Owner</span>
@@ -88,7 +95,7 @@ const RepoModal = ({ projectID }: { projectID: string }) => {
             <div className="modal-box ">
                 <h2 className="font-bold text-lg uppercase">Add Github Repository</h2>
                 <p>Enter data base on GitHub Repository URL</p>
-                <div className="flex flex-row items-center  ">
+                <div className="flex flex-row items-center mb-5  ">
                     <p className="text-info">https://github.com</p>
                     <p className="text-info">/</p>
                     <p className=" text-primary underline">owner</p>
