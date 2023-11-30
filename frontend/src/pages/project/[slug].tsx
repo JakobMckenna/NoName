@@ -242,14 +242,13 @@ export default function Project() {
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
                         if (results) {
-                            // setID(String(projectID));
+                           
                             setProjectData(results);
                             setGithub(results.github);
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                        // alert("Project does not exist anymore or the server is down,contact your project owner");
-                        router.push("/home");
+                          router.push("/home");
                     }
 
                 }
@@ -284,7 +283,7 @@ export default function Project() {
                 </main >
 
                 {/** Page Modals , these exist outside the normal html flow */}
-                
+
                 <RepoModal projectID={projectIDstr} githubID={github?.id}  />
                 <DeleteModal projectID={projectIDstr} home={goToHome} />
                
