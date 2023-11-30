@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useForm } from "react-hook-form";
 
 import config from 'config';
-import { useState } from 'react';
+
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -20,12 +20,11 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
         resolver: yupResolver(projectValidation)
     });
 
-    const [adding, setAdding] = useState(false);
     
 
     const handleCreateProject = async (data: any) => {
         try {
-            setAdding(true);
+          
             const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name, userID: userID }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +44,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                 }
             })
             // refresh(true)
-            setAdding(false);
+           
             
            // reset();
         } catch (error) {
@@ -72,7 +71,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                     });
 
             }
-            setAdding(false);
+           
         }finally{
             //reset();
             setValue("name","");
