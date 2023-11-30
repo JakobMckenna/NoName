@@ -13,11 +13,11 @@ function Form({ projectID }: { projectID: string }) {
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm();
 
-    const [loading, setLoading] = useState(false);
+    
 
 
     const handleCreateProject = async (data: any) => {
-        setLoading(true)
+       
         console.log("submit")
         try {
             const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID }, {
@@ -27,7 +27,7 @@ function Form({ projectID }: { projectID: string }) {
             });
             console.log('create repo', response.data);
             const modalElement: any = document.getElementById('my_modal_4');
-            setLoading(false)
+         
             modalElement.close();
 
         } catch (error) {
@@ -43,6 +43,7 @@ function Form({ projectID }: { projectID: string }) {
                 </label>
                 <input
                     {...register("owner")}
+                    disabled={isSubmitting}
                     type="text"
                     placeholder="owner"
                     className="input input-bordered"
@@ -55,6 +56,7 @@ function Form({ projectID }: { projectID: string }) {
                 </label>
                 <input
                     {...register("repo")}
+                    disabled={isSubmitting}
                     type="text"
                     placeholder="repo name"
                     className="input input-bordered"
@@ -64,7 +66,7 @@ function Form({ projectID }: { projectID: string }) {
 
             </div>
             <div className="form-control mt-6">
-                <button className="btn btn-primary" disabled={loading}>
+                <button className="btn btn-primary" disabled={isSubmitting}>
                     {isSubmitting && (
                         <Spinner />
                     )}
