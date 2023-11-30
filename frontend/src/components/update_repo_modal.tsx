@@ -12,7 +12,7 @@ function Form({ projectID, githubID }: { projectID: string, githubID: string }) 
         setError,
         clearErrors,
         setValue,
-        formState: { errors, isSubmitSuccessful, isSubmitting },
+        formState: { errors, isSubmitting },
     } = useForm();
 
 
