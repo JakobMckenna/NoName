@@ -7,7 +7,7 @@ import config from 'config';
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 
-function Form({ projectID }: { projectID: string }) {
+function Form({ projectID , githubID }: { projectID: string ,githubID:string }) {
     const {
         register,
         handleSubmit,
@@ -25,7 +25,7 @@ function Form({ projectID }: { projectID: string }) {
        
         console.log("submit")
         try {
-            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID }, {
+            const response = await axios.post(`${config.backendApiUrl}/projects/repo`, { owner: data.owner, repoName: data.repo, projectID: projectID, repoID: githubID }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -98,7 +98,7 @@ function Form({ projectID }: { projectID: string }) {
                     {isSubmitting && (
                         <Spinner />
                     )}
-                    {isSubmitting ? "Adding Repo" : "Add Repo"}
+                    {isSubmitting ?  (githubID?"Updating Repo":"Adding Repo"): (githubID?"Update Repo":"Add Repo")}
                 </button>
 
             </div>
@@ -106,11 +106,11 @@ function Form({ projectID }: { projectID: string }) {
     )
 }
 
-const RepoModal = ({ projectID }: { projectID: string }) => {
+const RepoModal = ({ projectID , githubID }: { projectID: string , githubID: string }) => {
     return (
         <dialog id="my_modal_4" className="modal">
             <div className="modal-box ">
-                <h2 className="font-bold text-lg uppercase">Add Github Repository</h2>
+                <h2 className="font-bold text-lg uppercase">{githubID?"update":"add"} Github Repository</h2>
                 <p>Enter data base on GitHub Repository URL</p>
                 <div className="flex flex-row items-center mb-5  ">
                     <p className="text-info">https://github.com</p>
@@ -123,7 +123,7 @@ const RepoModal = ({ projectID }: { projectID: string }) => {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form projectID={projectID} />
+                <Form projectID={projectID}  githubID={githubID} />
             </div>
         </dialog>
     );

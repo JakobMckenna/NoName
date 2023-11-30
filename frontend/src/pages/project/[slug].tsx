@@ -64,7 +64,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                     <p className="mb-3 ">Check recent updates from Github and code progress or
                         <span className=" bg-secondary glass tooltip  ml-1 mr-1 px-1" data-tip="click here to update repo info">
                             <button onClick={() => {
-                                const modal: any = document.getElementById('update_repo');
+                                const modal: any = document.getElementById('my_modal_4');
                                 if (modal) {
                                     modal?.showModal();
                                 }
@@ -285,7 +285,7 @@ export default function Project() {
 
 
                 </main >
-                <RepoModal projectID={projectIDstr} />
+                <RepoModal projectID={projectIDstr} githubID={github?.id}  />
                 <DeleteModal projectID={projectIDstr} home={goToHome} />
                 <UpdateRepoModal projectID={projectIDstr} githubID={github?.id} />
             </Drawer>
