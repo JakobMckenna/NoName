@@ -24,7 +24,7 @@ function Sprints({ sprints, changeSelected, animate }: any) {
     return (
         <div className="flex flex-col">
 
-            <h1 className="text-2xl text-center uppercase mb-2 ">Sprints</h1>
+            <h1 className="text-2xl text-center uppercase mb-2 ">Milestones / Sprints</h1>
             <ul ref={animate}>
                 {
                     sprints && sprints.map(
