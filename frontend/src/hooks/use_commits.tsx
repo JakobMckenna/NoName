@@ -27,7 +27,7 @@ const useCommits = () => {
                 //   console.log(response.data.commits);
                 setCommits(response.data.commits)
                 return response.data.commits;
-            });
+            })
     }
     useEffect(
         () => {

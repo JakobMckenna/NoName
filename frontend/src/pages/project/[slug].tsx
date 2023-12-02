@@ -72,11 +72,16 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                         </span>
                         repo info
                     </p>
-                    <div className="mb-1">
-                        <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
-                    </div>
-                    <div>
-                        <Link href={`/project/issues/${projectID}`} className="link">see issues</Link>
+                    <div className="pb-5" >
+                        <div className="">
+                            <Link href={`/project/commits/${projectID}`} className="link ">see commits</Link>
+                        </div>
+                        <div>
+                            <Link href={`/project/issues/${projectID}`} className="link">see issues</Link>
+                        </div>
+                        <div>
+                            <Link href={`/project/issues/${projectID}`} className="link">Stats</Link>
+                        </div>
                     </div>
 
                 </div>
@@ -242,13 +247,13 @@ export default function Project() {
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
                         if (results) {
-                           
+
                             setProjectData(results);
                             setGithub(results.github);
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                          router.push("/home");
+                        router.push("/home");
                     }
 
                 }
@@ -266,7 +271,7 @@ export default function Project() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+            <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
 
                 <main className="flex flex-col items-center justify-center  mb-10    ">
 
@@ -284,9 +289,9 @@ export default function Project() {
 
                 {/** Page Modals , these exist outside the normal html flow */}
 
-                <RepoModal projectID={projectIDstr} githubID={github?.id}  />
+                <RepoModal projectID={projectIDstr} githubID={github?.id} />
                 <DeleteModal projectID={projectIDstr} home={goToHome} />
-               
+
             </Drawer>
 
         </div>
