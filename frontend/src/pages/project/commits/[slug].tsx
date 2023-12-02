@@ -14,6 +14,7 @@ import Drawer from "~/components/drawer";
 import Iframe from "react-iframe";
 import Head from "next/head";
 import Image from "next/image";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 
 function Commit({ time, message, author, commit }: { time: string, message: string, author: string, commit: string }) {
@@ -44,16 +45,16 @@ function CommitsList({ commits }: any) {
                     commits.map(
                         (commit: any) => {
                             let commitData = commit.commit;
-                            const author =commitData.author;
+                            const author = commitData.author;
                             console.log(commitData)
                             return (
-                                <div  key={commit.sha} className="flex flex-row bg-secondary-content  justify-center w-full mb-5">
+                                <div key={commit.sha} className="flex flex-row bg-secondary-content  justify-center w-full mb-5">
                                     <Commit
                                         time={commitData.author.date}
                                         message={commitData.message}
                                         author={commitData.author.name}
                                         commit={commit.html_url}
-                                        
+
                                     />
                                 </div>
                             )
@@ -76,6 +77,7 @@ function CommitsList({ commits }: any) {
 }
 
 function CommitsTable({ commits }: any) {
+    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
     return (
         <table className="table table-zebra max-w-lg">
             <thead>
@@ -86,15 +88,16 @@ function CommitsTable({ commits }: any) {
                     <th>Commit</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody ref={parent}>
 
                 {
                     commits.map(
                         (commit: any) => {
                             let commitData = commit.commit;
+                            const date = new Date(commitData.author.date);
                             return (
                                 <tr key={commit.sha} className="">
-                                    <td>{commitData.author.date}</td>
+                                    <td>{date.toLocaleDateString()}</td>
                                     <td className="mr-2 max-w-xs">{commitData.message}</td>
                                     <td>{commitData.author.name}</td>
                                     <td>
@@ -119,6 +122,8 @@ export default function Project() {
     const [github, setGithub] = useState(null);
     const [commits, latestCommits, setMaintainer, setProject] = useCommits();
     const projectID = router.query.slug;
+    const [filteredCommits, setFilteredCommits] = useState<any | null | []>()
+    const [message, setMessage] = useState<string>("")
 
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
@@ -135,13 +140,23 @@ export default function Project() {
 
     }
 
+    const search =()=>{
+        if(commits && Array.isArray(commits)){
+            const list = commits?.filter((commit:any)=>{
+                return commit.commit.message.toLowerCase().includes(message?.toLowerCase())
+            })
+           // console.log(list)
+            setFilteredCommits(list)
+        }
+    }
+
     useEffect(
         () => {
 
-            if (user != null) {
+            if (user != null && !commits) {
                 // console.log
                 const getData = async () => {
-                    if (projectID) {
+                    if (projectID && !Array.isArray(setMaintainer) && !Array.isArray(setProject)) {
                         const results = await getProjectData(projectID as string);
                         if (results && setMaintainer && setProject) {
                             setProjectData(results);
@@ -153,15 +168,21 @@ export default function Project() {
 
                     }
                 }
+               
 
                 getData();
-
-
+               
 
             }
 
+            if (commits && !filteredCommits) {
+                setFilteredCommits(commits)
+            }
+            
+            
 
-        }, [projectID, user]
+
+        }, [projectID, user,commits, filteredCommits]
     )
 
     return (
@@ -174,14 +195,57 @@ export default function Project() {
                     <div className="flex flex-col justify-center items-center ">
                         {projectData != null ? (<BackPage link={`/project/${projectID}`} name={`Back to ${projectData?.name} Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                         <h1 className="prose text-4xl font-bold uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
+                        <div className="flex flex-row justify-between items-start py-3 px-5 mb-5">
+                            <div className="flex flex-row w-1/2 mr-5">
+                                <input
+                                    type="text"
+                                    placeholder="Message"
+                                    className="input input-bordered w-full max-w-xs"
+                                    onChange={
+                                        (event: React.ChangeEvent<HTMLInputElement>) => {
+                                            const userInput = event.target.value;
+                                            if(userInput==""){
+                                                setFilteredCommits(commits);
+                                            }
+                                            setMessage(userInput)
 
+                                        }
+                                    }
+                                />
+                                <button
+                                    className="btn  btn-md"
+                                    onClick={()=>search()}
+                                >
+                                    Search
+                                </button>
+                            </div>
+                            {/*  Sort options     */}
+                            <div className="flex flex-row w-1/2">
+                                <select className="select select-bordered w-full max-w-xs">
+                                    <option disabled selected>Order</option>
+                                    <option>Newest</option>
+                                    <option>Oldest</option>
+                                </select>
+
+                                <button
+                                    className="btn  btn-md mr-5"
+                                >
+                                    Sort
+                                </button>
+                            </div>
+
+
+
+
+                        </div>
                     </div>
+
 
 
                 </main>
                 <div className=" flex flex-row justify-center items-center w-full">
-                    {!commits && (<Spinner />)}
-                    {commits != null && (<CommitsList commits={commits} />)}
+                    {!filteredCommits && (<Spinner />)}
+                    {filteredCommits != null && (<CommitsTable commits={filteredCommits} />)}
                 </div>
 
             </Drawer>
