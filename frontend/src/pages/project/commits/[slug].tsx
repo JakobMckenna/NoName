@@ -35,7 +35,10 @@ function CommitsList({ commits }: any) {
                                     <td className="mr-2 max-w-xs">{commitData.message}</td>
                                     <td>{commitData.author.name}</td>
                                     <td>
-                                        <a className="btn btn-link " href={commit.html_url}>see commit</a>
+                                        <div className="dropdown">
+                                        {/* <a div tabIndex={0} role="button" className="btn btn-link " href={commit.html_url}>see commit</a> */}
+                                        <div tabIndex={0} role="button" className="btn m-1">See commit</div>
+                                        </div>
                                     </td>
                                 </tr>
                             )
@@ -53,14 +56,12 @@ export default function Project() {
     const [projectData, setProjectData] = useState<any>();
     const [github, setGithub] = useState(null);
     const [commits, latestCommits, setMaintainer, setProject] = useCommits();
-    const projectID: string = String(router.query.slug);
+    const projectID = router.query.slug;
 
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
-            if (!id) {
-                router.push("/")
-            }
+          
             const results = await axios.get(reqUrl)
             //  console.log(results.data.projects)
             return results.data.projects
@@ -79,7 +80,7 @@ export default function Project() {
                 // console.log
                 const getData = async () => {
                     if (projectID) {
-                        const results = await getProjectData(projectID);
+                        const results = await getProjectData(projectID as string);
                         if (results && setMaintainer && setProject) {
                             setProjectData(results);
                             setGithub(results.github);
