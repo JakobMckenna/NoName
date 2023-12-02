@@ -99,7 +99,7 @@ function CommitsTable({ commits }: any) {
                                 <tr key={commit.sha} className="">
                                     <td>{date.toLocaleDateString()}</td>
                                     <td className="mr-2 max-w-xs">{commitData.message}</td>
-                                    <td>{commitData.author.name}</td>
+                                    <td>{commit.author.login}</td>
                                     <td>
 
                                         <a role="button" className="btn btn-link " href={commit.html_url}>see commit</a>
@@ -194,7 +194,9 @@ export default function Project() {
 
             }
 
-            if (commits && !filteredCommits) {
+            if (commits && Array.isArray(commits) && !filteredCommits) {
+                const uniqueNames = _.uniq((commits).map(commit=>commit.author.login));
+                console.log(uniqueNames)
                 setFilteredCommits(commits)
             }
 
