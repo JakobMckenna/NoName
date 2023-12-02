@@ -7,7 +7,7 @@ import config from 'config';
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 
-function Form({ projectID , githubID }: { readonly projectID: string ,readonly githubID:string }) {
+function Form({ projectID , githubID ,addRepo }: { readonly projectID: string ,readonly githubID:string ,addRepo:any }) {
     const {
         register,
         handleSubmit,
@@ -29,6 +29,8 @@ function Form({ projectID , githubID }: { readonly projectID: string ,readonly g
                 },
             });
             console.log('create repo', response.data);
+            const repo = response.data.github;
+            addRepo(repo)
             const modalElement: any = document.getElementById('my_modal_4');
          
             modalElement.close();
@@ -104,7 +106,7 @@ function Form({ projectID , githubID }: { readonly projectID: string ,readonly g
     )
 }
 
-const RepoModal = ({ projectID , githubID }: { projectID: string , githubID: string }) => {
+const RepoModal = ({ projectID , githubID ,addRepo}: { projectID: string , githubID: string  ,addRepo:any}) => {
     return (
         <dialog id="my_modal_4" className="modal">
             <div className="modal-box ">
@@ -121,7 +123,7 @@ const RepoModal = ({ projectID , githubID }: { projectID: string , githubID: str
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <Form projectID={projectID}  githubID={githubID} />
+                <Form projectID={projectID}  githubID={githubID} addRepo={addRepo} />
             </div>
         </dialog>
     );
