@@ -7,7 +7,7 @@ import config from 'config';
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 
-function Form({ projectID , githubID ,addRepo }: { readonly projectID: string ,readonly githubID:string ,addRepo:any }) {
+function Form({ projectID , githubID ,addRepo }: { readonly projectID: string ,readonly githubID:string ,readonly addRepo:any }) {
     const {
         register,
         handleSubmit,

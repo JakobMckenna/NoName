@@ -217,10 +217,7 @@ export default function Project() {
 
     }
 
-    const isProjectIdReady = () => {
-        return projectID != null || projectID != undefined
-    }
-
+  
     const getSprintSize = () => {
         let result = 0;
         if (projectData.sprint) {
