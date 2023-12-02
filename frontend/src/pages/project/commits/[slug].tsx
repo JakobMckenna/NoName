@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "~/components/navbar";
-
+import _ from "lodash";
 import Spinner from "~/components/spinner";
 import useCommits from "~/hooks/use_commits";
 import useUser from "~/hooks/use_user";
@@ -124,6 +124,7 @@ export default function Project() {
     const projectID = router.query.slug;
     const [filteredCommits, setFilteredCommits] = useState<any | null | []>()
     const [message, setMessage] = useState<string>("")
+    const [sort, setSort] = useState("0")
 
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
@@ -140,13 +141,31 @@ export default function Project() {
 
     }
 
-    const search =()=>{
-        if(commits && Array.isArray(commits)){
-            const list = commits?.filter((commit:any)=>{
+    const search = () => {
+        if (commits && Array.isArray(commits)) {
+            const list = commits?.filter((commit: any) => {
                 return commit.commit.message.toLowerCase().includes(message?.toLowerCase())
             })
+            // console.log(list)
+            setFilteredCommits(list)
+        }
+    }
+
+    const sortCommits = () => {
+        if (commits && Array.isArray(commits) && sort == "0") {
+           const list=  _.sortBy(filteredCommits,(commit)=>
+               -  new Date(commit.commit.author.date).getTime()
+            )
            // console.log(list)
             setFilteredCommits(list)
+        } else if (commits && Array.isArray(commits) && sort == "1") {
+            console.log("oldest")
+            const list = _.sortBy(filteredCommits,(commit)=>  - new Date(commit.commit.author.date).getTime()
+            )
+            //console.log(list)
+            const result = _.reverse(list)
+            
+            setFilteredCommits(result);
         }
     }
 
@@ -168,21 +187,21 @@ export default function Project() {
 
                     }
                 }
-               
+
 
                 getData();
-               
+
 
             }
 
             if (commits && !filteredCommits) {
                 setFilteredCommits(commits)
             }
-            
-            
 
 
-        }, [projectID, user,commits, filteredCommits]
+
+
+        }, [projectID, user, commits, filteredCommits]
     )
 
     return (
@@ -204,7 +223,7 @@ export default function Project() {
                                     onChange={
                                         (event: React.ChangeEvent<HTMLInputElement>) => {
                                             const userInput = event.target.value;
-                                            if(userInput==""){
+                                            if (userInput == "") {
                                                 setFilteredCommits(commits);
                                             }
                                             setMessage(userInput)
@@ -214,21 +233,35 @@ export default function Project() {
                                 />
                                 <button
                                     className="btn  btn-md"
-                                    onClick={()=>search()}
+                                    onClick={() => search()}
                                 >
                                     Search
                                 </button>
                             </div>
                             {/*  Sort options     */}
                             <div className="flex flex-row w-1/2">
-                                <select className="select select-bordered w-full max-w-xs">
+                                <select
+                                    className="select select-bordered w-full max-w-xs"
+                                    onChange={
+                                        (event: React.ChangeEvent<HTMLSelectElement>) => {
+                                            const userInput = event.target.value;
+                                            
+                                            // setMessage(userInput)
+                                            setSort(userInput)
+
+                                        }
+                                    }
+                                >
                                     <option disabled selected>Order</option>
-                                    <option>Newest</option>
-                                    <option>Oldest</option>
+                                    <option value={"0"}>Newest</option>
+                                    <option value={"1"}>Oldest</option>
                                 </select>
 
                                 <button
                                     className="btn  btn-md mr-5"
+                                    onClick={
+                                        ()=>sortCommits()
+                                    }
                                 >
                                     Sort
                                 </button>
