@@ -80,7 +80,7 @@ function UserSort({ users, changeName }: { users: any[], changeName: any }) {
 
                 {
                     users?.map((user) => {
-                        return (<option value={user}>{user}</option>)
+                        return (<option key={user} value={user}>{user}</option>)
                     })
                 }
             </select>
@@ -243,7 +243,6 @@ export default function Project() {
                                     }
                                 }
                             >
-                                <option disabled selected>Order</option>
                                 <option value={"0"}>Newest</option>
                                 <option value={"1"}>Oldest</option>
                             </select>
