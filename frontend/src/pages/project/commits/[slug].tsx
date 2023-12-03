@@ -80,7 +80,7 @@ function CommitsTable({ commits }: any) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
     return (
         <table className="table table-zebra max-w-lg">
-            
+
             <thead>
                 <tr>
                     <th>Time</th>
@@ -117,40 +117,58 @@ function CommitsTable({ commits }: any) {
 }
 
 
-function UserSort({users,sort}:{users:any[], sort:any}){
-    const [name ,setName]= useState("")
-    return(
-        <div className="flex flex-row justify-start w-1/2 mb-5 ml-36">
-        <select
-            className="select select-bordered w-1/5 max-w-xs"
-            onChange={
-                (event: React.ChangeEvent<HTMLSelectElement>) => {
-                    const userInput = event.target.value;
-                    setName(userInput)
+function UserSort({ users, changeName }: { users: any[], changeName: any }) {
+   
+    return (
+        <div className="flex flex-row justify-start w-1/3 mb-5 mr-5 ">
+            <select
+                className="select select-bordered w-full max-w-xs"
+                onChange={
+                    (event: React.ChangeEvent<HTMLSelectElement>) => {
+                        const userInput = event.target.value;
+                        changeName(userInput)
 
-                    // setMessage(userInput)
-                    //  setSort(userInput)
+                        // setMessage(userInput)
+                        //  setSort(userInput)
 
+                    }
                 }
-            }
-        >
-            <option value={""}>All Users</option>
-           
-            {
-                users?.map((user) => {
-                    return (<option value={user}>{user}</option>)
-                })
-            }
-        </select>
+            >
+                <option value={""}>All Users</option>
 
-        <button
-            className="btn  btn-md mr-5"
-            onClick={()=>sort(name)}
-        >
-            Sort
-        </button>
-    </div>
+                {
+                    users?.map((user) => {
+                        return (<option value={user}>{user}</option>)
+                    })
+                }
+            </select>
 
+
+        </div>
+
+    )
+}
+
+function MessageSort({ setMessage }: { setMessage: any }) {
+    return (
+        <div className="flex flex-row w-1/2 mr-5">
+            <input
+                type="text"
+                placeholder="Message"
+                className="input input-bordered w-full max-w-xs"
+                onChange={
+                    (event: React.ChangeEvent<HTMLInputElement>) => {
+                        const userInput = event.target.value;
+                        if (userInput == "") {
+                            //setFilteredCommits(commits);
+                        }
+                        setMessage(userInput)
+
+                    }
+                }
+            />
+
+        </div>
     )
 }
 
@@ -164,9 +182,10 @@ export default function Project() {
     const [commits, latestCommits, setMaintainer, setProject] = useCommits();
     const projectID = router.query.slug;
     const [filteredCommits, setFilteredCommits] = useState<any | null | []>()
-    const [message, setMessage] = useState<string>("")
-    const [users, setUsers] = useState<any[]>([])
-    const [sort, setSort] = useState("0")
+    const [message, setMessage] = useState<string>("");
+    const [users, setUsers] = useState<any[]>([]);
+    const [sort, setSort] = useState("0");
+    const [name, setName] = useState("");
 
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
@@ -186,7 +205,7 @@ export default function Project() {
     const search = () => {
         if (commits && Array.isArray(commits)) {
             const list = commits?.filter((commit: any) => {
-                return commit.commit.message.toLowerCase().includes(message?.toLowerCase())
+                return commit.commit.message.toLowerCase().includes(message?.toLowerCase()) && commit.author.login.includes(name)
             })
             // console.log(list)
             setFilteredCommits(list)
@@ -211,13 +230,21 @@ export default function Project() {
         }
     }
 
-    const getUserCommits =(name:string)=>{
-        if(Array.isArray(filteredCommits)){
-           const list = filteredCommits.filter((commit)=>{
-                return commit.author.login == name
-            })
-            console.log(list)
-            setFilteredCommits(list);
+    const getUserCommits = () => {
+        if (Array.isArray(filteredCommits)) {
+            if (name != "") {
+                const list = filteredCommits.filter((commit) => {
+                    return commit.author.login == name;
+                })
+                console.log(list)
+                setFilteredCommits(list);
+            }
+            else if (filteredCommits.length == 0) {
+                setFilteredCommits(commits)
+            }
+            else {
+                setFilteredCommits(commits)
+            }
         }
     }
 
@@ -268,67 +295,52 @@ export default function Project() {
                     <div className="flex flex-col justify-center items-center ">
                         {projectData != null ? (<BackPage link={`/project/${projectID}`} name={`Back to ${projectData?.name} Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                         <h1 className="prose text-4xl font-bold uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
-                        <UserSort users={users} sort={getUserCommits} />
-                        <div className="flex flex-row justify-between items-start py-3 px-5 mb-5">
-                            <div className="flex flex-row w-1/2 mr-5">
-                                <input
-                                    type="text"
-                                    placeholder="Message"
-                                    className="input input-bordered w-full max-w-xs"
-                                    onChange={
-                                        (event: React.ChangeEvent<HTMLInputElement>) => {
-                                            const userInput = event.target.value;
-                                            if (userInput == "") {
-                                                setFilteredCommits(commits);
-                                            }
-                                            setMessage(userInput)
+                        {/*  Sort options     */}
+                        <div className="flex flex-row w-1/2 justify-end pr-12 mr-8 ">
+                            <select
+                                className="select select-bordered w-1/6  max-w-xs"
+                                onChange={
+                                    (event: React.ChangeEvent<HTMLSelectElement>) => {
+                                        const userInput = event.target.value;
 
-                                        }
+                                        // setMessage(userInput)
+                                        setSort(userInput)
+
                                     }
-                                />
-                                <button
-                                    className="btn  btn-md"
-                                    onClick={() => search()}
-                                >
-                                    Search
-                                </button>
-                            </div>
-                            {/*  Sort options     */}
-                            <div className="flex flex-row w-1/2">
-                                <select
-                                    className="select select-bordered w-full max-w-xs"
-                                    onChange={
-                                        (event: React.ChangeEvent<HTMLSelectElement>) => {
-                                            const userInput = event.target.value;
+                                }
+                            >
+                                <option disabled selected>Order</option>
+                                <option value={"0"}>Newest</option>
+                                <option value={"1"}>Oldest</option>
+                            </select>
 
-                                            // setMessage(userInput)
-                                            setSort(userInput)
-
-                                        }
-                                    }
-                                >
-                                    <option disabled selected>Order</option>
-                                    <option value={"0"}>Newest</option>
-                                    <option value={"1"}>Oldest</option>
-                                </select>
-
-                                <button
-                                    className="btn  btn-md mr-5"
-                                    onClick={
-                                        () => sortCommits()
-                                    }
-                                >
-                                    Sort
-                                </button>
-                            </div>
-
-                            
-
-
-
-
+                            <button
+                                className="btn  btn-md mr-5"
+                                onClick={
+                                    () => sortCommits()
+                                }
+                            >
+                                Sort
+                            </button>
                         </div>
-                     
+                        <div className="flex flex-row justify-between items-start py-3 px-5 mb-5">
+                            <UserSort
+                                users={users}
+                                sort={getUserCommits}
+                                changeName={(val: string) => setName(val)}
+                            />
+                            <MessageSort
+                                setMessage={(val: string) => setMessage(val)}
+                            />
+                            <button
+                                className="btn"
+                                onClick={()=>search()}
+                            >
+                                filter
+                            </button>
+                        </div>
+
+
                     </div>
 
 
