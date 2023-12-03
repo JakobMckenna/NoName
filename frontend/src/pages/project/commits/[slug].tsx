@@ -152,9 +152,9 @@ export default function Project() {
                 })
                 // console.log(list)
                 setFilteredCommits(list)
-            }else{
+            } else {
                 const list = commits?.filter((commit: any) => {
-                    return commit.commit.message.toLowerCase().includes(message?.toLowerCase()) 
+                    return commit.commit.message.toLowerCase().includes(message?.toLowerCase())
                 })
                 // console.log(list)
                 setFilteredCommits(list)
@@ -229,7 +229,15 @@ export default function Project() {
                     <div className="flex flex-col justify-center items-center ">
                         {projectData != null ? (<BackPage link={`/project/${projectID}`} name={`Back to ${projectData?.name} Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                         <h1 className="prose text-4xl font-bold uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
-                        <p className="prose text-2xl mb-3">Latest commits from  <a href={`https://github.com/${github?.owner}/${github?.repoName}`} target="_blank" className="underline decoration-sky-500 tooltip  " data-tip="Link to repo on github">  {github?.repoName}</a> Repo </p>
+                        <p className="prose text-2xl mb-3">Latest commits from 
+                            <a
+                                href={`https://github.com/${github?.owner}/${github?.repoName}`}
+                                target="_blank" 
+                                className="ml-1 underline decoration-sky-500 tooltip"
+                                data-tip="Link to repo on github">
+                                {github?.repoName}
+                            </a> Repo
+                        </p>
                         {/*  Sort options     */}
                         <div className="flex flex-row w-1/2 justify-end pr-12 mr-8 ">
                             <select
