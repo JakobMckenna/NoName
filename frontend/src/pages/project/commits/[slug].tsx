@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Navbar from "~/components/navbar";
 import _ from "lodash";
 import Spinner from "~/components/spinner";
@@ -80,6 +80,7 @@ function CommitsTable({ commits }: any) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
     return (
         <table className="table table-zebra max-w-lg">
+            
             <thead>
                 <tr>
                     <th>Time</th>
@@ -115,6 +116,46 @@ function CommitsTable({ commits }: any) {
     )
 }
 
+
+function UserSort({users,sort}:{users:any[], sort:any}){
+    const [name ,setName]= useState("")
+    return(
+        <div className="flex flex-row justify-start w-1/2 mb-5 ml-36">
+        <select
+            className="select select-bordered w-1/5 max-w-xs"
+            onChange={
+                (event: React.ChangeEvent<HTMLSelectElement>) => {
+                    const userInput = event.target.value;
+                    setName(userInput)
+
+                    // setMessage(userInput)
+                    //  setSort(userInput)
+
+                }
+            }
+        >
+            <option value={""}>All Users</option>
+           
+            {
+                users?.map((user) => {
+                    return (<option value={user}>{user}</option>)
+                })
+            }
+        </select>
+
+        <button
+            className="btn  btn-md mr-5"
+            onClick={()=>sort(name)}
+        >
+            Sort
+        </button>
+    </div>
+
+    )
+}
+
+
+
 export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
@@ -124,6 +165,7 @@ export default function Project() {
     const projectID = router.query.slug;
     const [filteredCommits, setFilteredCommits] = useState<any | null | []>()
     const [message, setMessage] = useState<string>("")
+    const [users, setUsers] = useState<any[]>([])
     const [sort, setSort] = useState("0")
 
     const getProjectData = async (id: string) => {
@@ -153,19 +195,29 @@ export default function Project() {
 
     const sortCommits = () => {
         if (commits && Array.isArray(commits) && sort == "0") {
-           const list=  _.sortBy(filteredCommits,(commit)=>
-               -  new Date(commit.commit.author.date).getTime()
+            const list = _.sortBy(filteredCommits, (commit) =>
+                -  new Date(commit.commit.author.date).getTime()
             )
-           // console.log(list)
+            // console.log(list)
             setFilteredCommits(list)
         } else if (commits && Array.isArray(commits) && sort == "1") {
             console.log("oldest")
-            const list = _.sortBy(filteredCommits,(commit)=>  - new Date(commit.commit.author.date).getTime()
+            const list = _.sortBy(filteredCommits, (commit) => - new Date(commit.commit.author.date).getTime()
             )
             //console.log(list)
             const result = _.reverse(list)
-            
+
             setFilteredCommits(result);
+        }
+    }
+
+    const getUserCommits =(name:string)=>{
+        if(Array.isArray(filteredCommits)){
+           const list = filteredCommits.filter((commit)=>{
+                return commit.author.login == name
+            })
+            console.log(list)
+            setFilteredCommits(list);
         }
     }
 
@@ -195,8 +247,8 @@ export default function Project() {
             }
 
             if (commits && Array.isArray(commits) && !filteredCommits) {
-                const uniqueNames = _.uniq((commits).map(commit=>commit.author.login));
-                console.log(uniqueNames)
+                const uniqueNames = _.uniq((commits).map(commit => commit.author.login));
+                setUsers(uniqueNames)
                 setFilteredCommits(commits)
             }
 
@@ -216,6 +268,7 @@ export default function Project() {
                     <div className="flex flex-col justify-center items-center ">
                         {projectData != null ? (<BackPage link={`/project/${projectID}`} name={`Back to ${projectData?.name} Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                         <h1 className="prose text-4xl font-bold uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
+                        <UserSort users={users} sort={getUserCommits} />
                         <div className="flex flex-row justify-between items-start py-3 px-5 mb-5">
                             <div className="flex flex-row w-1/2 mr-5">
                                 <input
@@ -247,7 +300,7 @@ export default function Project() {
                                     onChange={
                                         (event: React.ChangeEvent<HTMLSelectElement>) => {
                                             const userInput = event.target.value;
-                                            
+
                                             // setMessage(userInput)
                                             setSort(userInput)
 
@@ -262,24 +315,28 @@ export default function Project() {
                                 <button
                                     className="btn  btn-md mr-5"
                                     onClick={
-                                        ()=>sortCommits()
+                                        () => sortCommits()
                                     }
                                 >
                                     Sort
                                 </button>
                             </div>
 
+                            
+
 
 
 
                         </div>
+                     
                     </div>
 
 
 
                 </main>
-                <div className=" flex flex-row justify-center items-center w-full">
+                <div className=" flex flex-col justify-center items-center w-full">
                     {!filteredCommits && (<Spinner />)}
+                    <p className="prose font-bold  w-1/2 pl-10 mb-1">{filteredCommits?.length} Commits</p>
                     {filteredCommits != null && (<CommitsTable commits={filteredCommits} />)}
                 </div>
 
