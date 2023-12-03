@@ -100,7 +100,7 @@ function Form({ sendMessage }: { sendMessage: any }) {
         console.log("submit")
         try {
             sendMessage(data.message);
-            
+
             setValue("message", "");
         } catch (error) {
             console.log(error)
@@ -145,14 +145,14 @@ function Form({ sendMessage }: { sendMessage: any }) {
 }
 
 
-const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket, projectID: string, name: string, userID: string,messages:any }) => {
+const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket, projectID: string, name: string, userID: string, messages: any }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
     //const [prevChats, isLoading] = usePrevChat(projectID);
     const [filteredMessages, setFilteredMessages] = useState<Chat[]>([])
     const [search, setSearch] = useState("");
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
-   // const messages = useRef<HTMLDivElement | null>(null);
+    // const messages = useRef<HTMLDivElement | null>(null);
 
     const [parent, enableAnimations] = useAutoAnimate()
 
@@ -182,10 +182,10 @@ const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket
 
     }
     const scrollDown = () => {
-        //if (chatBox.current) {
-            chatBox.current?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+        if (chatBox.current) {
+            chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
 
-       // }
+        }
         //  scroll.scrollToBottom()
 
 
@@ -200,9 +200,12 @@ const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket
     }
 
     const sendMessage = (msg: string) => {
+      
 
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-        scrollDown();
+        scrollDown()
+        scrollDown()
+
     }
 
     const scrollToMessage = (time: string) => {
@@ -239,8 +242,8 @@ const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket
             />
 
             <div
-               // ref={chatBox}
-               ref={parent}
+                // ref={chatBox}
+                ref={parent}
                 className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20"
             >
                 <span ref={topChatBox} />
@@ -249,7 +252,7 @@ const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket
 
                 {
                     // chats live on socket
-                   chatHistory.length>0 && chatHistory.map((chat, index) => {
+                    chatHistory.length > 0 && chatHistory.map((chat, index) => {
                         const rightNowDate = new Date()
                         //  const date: string = convDate(rightNowDate.toISOString());
                         const timestamp = chat?.timestamp;
@@ -272,9 +275,9 @@ const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket
                 }
 
 
-                {/* <span className="flex flex-row mt-60" ref={chatBox}>
+                <div   ref={chatBox} className="mt-20" >
                     <span />
-                </span> */}
+                </div>
 
             </div>
 
