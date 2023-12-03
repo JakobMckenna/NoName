@@ -1,8 +1,8 @@
 /* eslint-disable */
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState, useEffect, use } from "react";
-import Navbar from "~/components/navbar";
+import { useState, useEffect } from "react";
+
 import _ from "lodash";
 import Spinner from "~/components/spinner";
 import useCommits from "~/hooks/use_commits";
@@ -11,7 +11,7 @@ import useUser from "~/hooks/use_user";
 import config from "config";
 import BackPage from "~/components/back_navigation";
 import Drawer from "~/components/drawer";
-import Iframe from "react-iframe";
+
 import Head from "next/head";
 import Image from "next/image";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -129,6 +129,12 @@ export default function Project() {
     const [sort, setSort] = useState("0");
     const [name, setName] = useState("");
 
+    /**
+     * getProjectData
+     * get project data from backend by project ID
+     * @param id 
+     * @returns  
+     */
     const getProjectData = async (id: string) => {
         const reqUrl = `${config.backendApiUrl}/projects/${id}`
         try {
@@ -144,6 +150,10 @@ export default function Project() {
 
     }
 
+    /**
+     * search
+     * set state of commits by name of github contributer and message text
+     */
     const search = () => {
         if (commits && Array.isArray(commits)) {
             if (name != "") {
@@ -162,6 +172,10 @@ export default function Project() {
         }
     }
 
+    /**
+     * sortCommits 
+     * sorts commits by date and sets state
+     */
     const sortCommits = () => {
         if (commits && Array.isArray(commits) && sort == "0") {
             const list = _.sortBy(filteredCommits, (commit) =>
@@ -194,8 +208,8 @@ export default function Project() {
                             setProjectData(results);
                             setGithub(results.github);
 
-                            setMaintainer(String(results.github.owner))
-                            setProject(results.github.repoName)
+                            setMaintainer(String(results.github.owner));
+                            setProject(results.github.repoName);
                         }
 
                     }
@@ -208,9 +222,9 @@ export default function Project() {
             }
 
             if (commits && Array.isArray(commits) && !filteredCommits) {
-                const uniqueNames = _.uniq((commits).map(commit => commit.author.login));
-                setUsers(uniqueNames)
-                setFilteredCommits(commits)
+                const users = _.uniq((commits).map(commit => commit.author.login));
+                setUsers(users);
+                setFilteredCommits(commits);
             }
 
 
@@ -229,10 +243,10 @@ export default function Project() {
                     <div className="flex flex-col justify-center items-center ">
                         {projectData != null ? (<BackPage link={`/project/${projectID}`} name={`Back to ${projectData?.name} Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                         <h1 className="prose text-4xl font-bold uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
-                        <p className="prose text-2xl mb-3">Latest commits from 
+                        <p className="prose text-2xl mb-3">Latest commits from
                             <a
-                                href={`https://github.com/${github?.owner? github?.owner:""}/${github?.repoName}`}
-                                target="_blank" 
+                                href={`https://github.com/${github?.owner ? github?.owner : ""}/${github?.repoName}`}
+                                target="_blank"
                                 className="ml-1 underline decoration-sky-500 tooltip"
                                 data-tip="Link to repo on github">
                                 {github?.repoName}
