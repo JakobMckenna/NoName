@@ -42,7 +42,16 @@ function CommitsTable({ commits }: any) {
                                 <tr key={commit.sha} className="">
                                     <td>{date.toLocaleDateString()}</td>
                                     <td className="mr-2 max-w-xs">{commitData.message}</td>
-                                    <td>{commit.author.login}</td>
+                                    <td className="flex flex-col items-center">
+                                        <Image
+                                            src={commit.author.avatar_url}
+                                            width={25}
+                                            height={25}
+                                            alt=""
+                                            objectFit="cover"
+                                        />
+                                        <div>{commit.author.login}</div>
+                                    </td>
                                     <td>
 
                                         <a role="button" className="btn btn-link " href={commit.html_url}>see commit</a>
@@ -202,7 +211,7 @@ export default function Project() {
             // waits for user data to load 
             // this only gets commits if commits is empty or if page refreshes
             if (user != null && !commits) {
-               
+
                 /**
                  * getData
                  * retieve project data from backend  and set state of page
@@ -259,6 +268,7 @@ export default function Project() {
                                 {github?.repoName}
                             </a> Repo
                         </p>
+
                         {/*  Sort options     */}
                         <div className="flex flex-row w-1/2 justify-end pr-12 mr-8 ">
                             <select
