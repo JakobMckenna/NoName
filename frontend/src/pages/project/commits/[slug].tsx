@@ -120,7 +120,7 @@ export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
-    const [github, setGithub] = useState(null);
+    const [github, setGithub] = useState<any>(null);
     const [commits, latestCommits, setMaintainer, setProject] = useCommits();
     const projectID = router.query.slug;
     const [filteredCommits, setFilteredCommits] = useState<any | null | []>()
@@ -231,7 +231,7 @@ export default function Project() {
                         <h1 className="prose text-4xl font-bold uppercase mb-3">{projectData != null ? `${projectData?.name} PROJECT Commits` : (<div className="skeleton h-10 w-80"></div>)} </h1>
                         <p className="prose text-2xl mb-3">Latest commits from 
                             <a
-                                href={`https://github.com/${github?.owner}/${github?.repoName}`}
+                                href={`https://github.com/${github.owner? github?.owner:""}/${github?.repoName}`}
                                 target="_blank" 
                                 className="ml-1 underline decoration-sky-500 tooltip"
                                 data-tip="Link to repo on github">
