@@ -51,7 +51,7 @@ function CommitsTable({ commits }: any) {
                                     </td>
                                     <td>
 
-                                        <a role="button" className="btn btn-link " href={commit.html_url}>see commit</a>
+                                        <a className="btn btn-link " href={commit.html_url}>see commit</a>
 
                                     </td>
                                 </tr>
