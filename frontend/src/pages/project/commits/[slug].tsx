@@ -17,64 +17,6 @@ import Image from "next/image";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 
-function Commit({ time, message, author, commit }: { time: string, message: string, author: string, commit: string }) {
-    const date = new Date(time)
-    return (
-        <div className="flex flex-row prose text-white    justify-evenly items-center py-3 w-full  ">
-            <div className="flex flex-row w-1/5 justify-center">
-                <p>{date.toDateString()}</p>
-            </div>
-            <div className="flex flex-row w-1/5  justify-start text-ellipsis overflow-hidden ... prose">
-                <p>{message}</p>
-            </div>
-            <div className="flex flex-row w-1/5 justify-center">
-                <p>{author}</p>
-            </div>
-            <div className="flex flex-row w-1/5 justify-center">
-                <a role="button" className="btn btn-link " href={commit}>see commit</a>
-            </div>
-        </div>
-    )
-}
-
-function CommitsList({ commits }: any) {
-    if (commits) {
-        return (
-            <div className=" flex flex-col justify-center bg-base-300    w-full ">
-                {
-                    commits.map(
-                        (commit: any) => {
-                            let commitData = commit.commit;
-                            const author = commitData.author;
-                            console.log(commitData)
-                            return (
-                                <div key={commit.sha} className="flex flex-row bg-secondary-content  justify-center w-full mb-5">
-                                    <Commit
-                                        time={commitData.author.date}
-                                        message={commitData.message}
-                                        author={commitData.author.name}
-                                        commit={commit.html_url}
-
-                                    />
-                                </div>
-                            )
-                        }
-                    )
-                }
-
-            </div>
-        )
-    }
-    else {
-        return (
-            <div className="flex flex-row w-full justify-center ">
-                <div>
-                    <Spinner />
-                </div>
-            </div>
-        )
-    }
-}
 
 function CommitsTable({ commits }: any) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
@@ -238,23 +180,7 @@ export default function Project() {
         }
     }
 
-    const getUserCommits = () => {
-        if (Array.isArray(filteredCommits)) {
-            if (name != "") {
-                const list = filteredCommits.filter((commit) => {
-                    return commit.author.login == name;
-                })
-                console.log(list)
-                setFilteredCommits(list);
-            }
-            else if (filteredCommits.length == 0) {
-                setFilteredCommits(commits)
-            }
-            else {
-                setFilteredCommits(commits)
-            }
-        }
-    }
+
 
     useEffect(
         () => {
@@ -334,7 +260,6 @@ export default function Project() {
                         <div className="flex flex-row justify-between items-start py-3 px-5 mb-5">
                             <UserSort
                                 users={users}
-                                sort={getUserCommits}
                                 changeName={(val: string) => setName(val)}
                             />
                             <MessageSort
