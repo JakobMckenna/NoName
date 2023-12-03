@@ -178,6 +178,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
         scrollDown();
         console.log(data);
         setChatHistory((messages) => [...messages, data]);
+       // scrollDown();
         // scroll()
 
     }
@@ -203,8 +204,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
       
 
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-        scrollDown()
-        scrollDown()
+       
 
     }
 
@@ -275,7 +275,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
                 }
 
 
-                <div   ref={chatBox} className="mt-20" >
+                <div   ref={chatBox} className="mt-24" >
                     <span />
                 </div>
 
