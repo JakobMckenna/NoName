@@ -280,7 +280,7 @@ export default function Project() {
                 </main>
                 <div className=" flex flex-col justify-center items-center w-full">
                     {!filteredCommits && (<Spinner />)}
-                    <p className="prose font-bold  w-1/2 pl-10 mb-1">{filteredCommits?.length} Commits</p>
+                    <p className="prose font-bold  w-1/2 pl-10 mb-1">{filteredCommits?.length} Commits from Main Branch</p>
                     {filteredCommits != null && (<CommitsTable commits={filteredCommits} />)}
                 </div>
 
