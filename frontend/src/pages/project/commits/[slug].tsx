@@ -42,7 +42,7 @@ function CommitsTable({ commits }: any) {
                                 <tr key={commit.sha} className="">
                                     <td>{date.toLocaleDateString()}</td>
                                     <td className="mr-2 max-w-xs">{commitData.message}</td>
-                                    <td className="flex flex-col items-center">
+                                    <td className="flex flex-col ">
                                         <Image
                                             src={commit.author.avatar_url}
                                             width={25}
