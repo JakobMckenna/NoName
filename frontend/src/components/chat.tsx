@@ -4,6 +4,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
+import { Element, scroller, animateScroll as scroll } from 'react-scroll';
 import usePrevChat from "~/hooks/use_prev_chat";
 
 interface User {
@@ -95,10 +96,11 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
 
 
-    const handleCreateProject = async (data: any) => {
+    const handleSendMessage = async (data: any) => {
         console.log("submit")
         try {
             sendMessage(data.message);
+            
             setValue("message", "");
         } catch (error) {
             console.log(error)
@@ -107,7 +109,7 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
     return (
 
-        <form className="flex flex-row w-full " onSubmit={handleSubmit(handleCreateProject)} >
+        <form className="flex flex-row w-full " onSubmit={handleSubmit(handleSendMessage)} >
             <div className="form-control w-4/5">
                 <textarea {...register("message")}
                     className="textarea textarea-bordered w-full "
@@ -116,20 +118,23 @@ function Form({ sendMessage }: { sendMessage: any }) {
                         (event) => {
                             if (event.key === `Enter`) {
                                 event.preventDefault();
-                                handleSubmit(handleCreateProject)();
+                                handleSubmit(handleSendMessage)();
                             }
                         }
                     }
                     required />
             </div>
             <div className="form-control w-1/5 ">
-                <button className="btn btn-primary">
-                Send
+                <button
+                    className={!isSubmitting ? "btn btn-primary" : "btn btn-primary glass skeleton"}
+                    disabled={isSubmitting}
+                >
+                    Send
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                     </svg>
 
-                    
+
                 </button>
 
             </div>
@@ -140,14 +145,14 @@ function Form({ sendMessage }: { sendMessage: any }) {
 }
 
 
-const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectID: string, name: string, userID: string }) => {
+const ChatBox = ({ socket, projectID, name, userID ,messages }: { socket: Socket, projectID: string, name: string, userID: string,messages:any }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
-    const [prevChats, isLoading] = usePrevChat(projectID);
+    //const [prevChats, isLoading] = usePrevChat(projectID);
     const [filteredMessages, setFilteredMessages] = useState<Chat[]>([])
     const [search, setSearch] = useState("");
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
-    const messages = useRef<HTMLDivElement | null>(null);
+   // const messages = useRef<HTMLDivElement | null>(null);
 
     const [parent, enableAnimations] = useAutoAnimate()
 
@@ -170,16 +175,21 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
 
 
     const messageEvent = (data: Chat) => {
+        scrollDown();
         console.log(data);
         setChatHistory((messages) => [...messages, data]);
         // scroll()
-        scrollDown();
+
     }
     const scrollDown = () => {
-        if (chatBox.current) {
-            chatBox.current.scrollIntoView({ behavior: "smooth", block: "nearest" })
+        //if (chatBox.current) {
+            chatBox.current?.scrollIntoView({ behavior: "smooth", block: "nearest" })
 
-        }
+       // }
+        //  scroll.scrollToBottom()
+
+
+
     }
 
     const scrollUP = () => {
@@ -192,7 +202,7 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     const sendMessage = (msg: string) => {
 
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-        //  scrollDown();
+        scrollDown();
     }
 
     const scrollToMessage = (time: string) => {
@@ -206,14 +216,17 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
 
     useEffect(() => {
         // scroll()
-        setChatHistory((prev) => [...prevChats])
+        setChatHistory((prev) => [...messages])
         scrollDown()
         socket.on("message", messageEvent)
         return () => {
             socket.off("message", messageEvent);
         };
 
-    }, [projectID, prevChats])
+    }, [messages])
+
+
+
     return (
 
         <div className="flex flex-col  w-[405px] md:w-[512px]  max-w-lg h-screen overflow-y-none">
@@ -224,13 +237,19 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 messages={filteredMessages}
                 scrollToMsg={scrollToMessage}
             />
-            <div ref={parent} className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
+
+            <div
+               // ref={chatBox}
+               ref={parent}
+                className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20"
+            >
                 <span ref={topChatBox} />
+
 
 
                 {
                     // chats live on socket
-                    chatHistory.map((chat, index) => {
+                   chatHistory.length>0 && chatHistory.map((chat, index) => {
                         const rightNowDate = new Date()
                         //  const date: string = convDate(rightNowDate.toISOString());
                         const timestamp = chat?.timestamp;
@@ -252,10 +271,13 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
 
                 }
 
-                <span className="flex flex-row mt-60" ref={chatBox}>
+
+                {/* <span className="flex flex-row mt-60" ref={chatBox}>
                     <span />
-                </span>
+                </span> */}
+
             </div>
+
 
             <div className="flex flex-row  w-full    overflow-y-none">
                 <Form sendMessage={sendMessage} />
