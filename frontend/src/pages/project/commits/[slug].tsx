@@ -65,7 +65,7 @@ function CommitsTable({ commits }: any) {
 }
 
 
-function UserSort({ users, changeName }: { users: any[], changeName: any }) {
+function UserSort({ users, changeName }: { readonly users: any[],readonly changeName: any }) {
 
     return (
         <div className="flex flex-row justify-start w-1/3 mb-5 mr-5 ">
