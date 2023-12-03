@@ -36,7 +36,7 @@ function CommitsTable({ commits }: any) {
                 {
                     commits.map(
                         (commit: any) => {
-                            let commitData = commit.commit;
+                            const commitData = commit.commit;
                             const date = new Date(commitData.author.date);
                             return (
                                 <tr key={commit.sha} className="">
