@@ -118,7 +118,7 @@ function CommitsTable({ commits }: any) {
 
 
 function UserSort({ users, changeName }: { users: any[], changeName: any }) {
-   
+
     return (
         <div className="flex flex-row justify-start w-1/3 mb-5 mr-5 ">
             <select
@@ -204,11 +204,19 @@ export default function Project() {
 
     const search = () => {
         if (commits && Array.isArray(commits)) {
-            const list = commits?.filter((commit: any) => {
-                return commit.commit.message.toLowerCase().includes(message?.toLowerCase()) && commit.author.login.includes(name)
-            })
-            // console.log(list)
-            setFilteredCommits(list)
+            if (name != "") {
+                const list = commits?.filter((commit: any) => {
+                    return commit.commit.message.toLowerCase().includes(message?.toLowerCase()) && commit.author.login.includes(name)
+                })
+                // console.log(list)
+                setFilteredCommits(list)
+            }else{
+                const list = commits?.filter((commit: any) => {
+                    return commit.commit.message.toLowerCase().includes(message?.toLowerCase()) 
+                })
+                // console.log(list)
+                setFilteredCommits(list)
+            }
         }
     }
 
@@ -334,7 +342,7 @@ export default function Project() {
                             />
                             <button
                                 className="btn"
-                                onClick={()=>search()}
+                                onClick={() => search()}
                             >
                                 filter
                             </button>
