@@ -2,16 +2,13 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-
 import _ from "lodash";
 import Spinner from "~/components/spinner";
 import useCommits from "~/hooks/use_commits";
 import useUser from "~/hooks/use_user";
-
 import config from "config";
 import BackPage from "~/components/back_navigation";
 import Drawer from "~/components/drawer";
-
 import Head from "next/head";
 import Image from "next/image";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -252,7 +249,7 @@ export default function Project() {
     return (
         <div>
             <Head>
-                <title>Commits</title>
+                <title>Commits | Dev Diaries</title>
             </Head>
             <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
                 <main className="container ">
@@ -276,10 +273,7 @@ export default function Project() {
                                 onChange={
                                     (event: React.ChangeEvent<HTMLSelectElement>) => {
                                         const userInput = event.target.value;
-
-                                        // setMessage(userInput)
-                                        setSort(userInput)
-
+                                        setSort(userInput);
                                     }
                                 }
                             >
