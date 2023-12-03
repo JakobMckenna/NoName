@@ -97,7 +97,7 @@ function UserSort({ users, changeName }: { readonly users: any[], readonly chang
     )
 }
 
-function MessageSort({ setMessage }: { setMessage: any }) {
+function MessageSort({ setMessage }: {readonly setMessage: any }) {
     return (
         <div className="flex flex-row w-1/2 mr-5">
             <input
@@ -119,7 +119,7 @@ function MessageSort({ setMessage }: { setMessage: any }) {
 }
 
 
-function GithubLink({ github }: { github: any }) {
+function GithubLink({ github }: { readonly github: any }) {
     return (
         <a
             href={`https://github.com/${github?.owner ? github?.owner : ""}/${github?.repoName}`}
@@ -141,7 +141,7 @@ export default function Project() {
     const [github, setGithub] = useState<any>(null);
     const [commits, latestCommits, setMaintainer, setProject] = useCommits();
     const projectID = router.query.slug;
-    const [filteredCommits, setFilteredCommits] = useState<any | null | []>()
+    const [filteredCommits, setFilteredCommits] = useState<any>(null);
     const [message, setMessage] = useState<string>("");
     const [users, setUsers] = useState<any[]>([]);
     const [sort, setSort] = useState("0");
