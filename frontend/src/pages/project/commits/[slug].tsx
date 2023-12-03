@@ -107,9 +107,7 @@ function MessageSort({ setMessage }: { setMessage: any }) {
                 onChange={
                     (event: React.ChangeEvent<HTMLInputElement>) => {
                         const userInput = event.target.value;
-                        if (userInput == "") {
-                            //setFilteredCommits(commits);
-                        }
+                      
                         setMessage(userInput)
 
                     }
