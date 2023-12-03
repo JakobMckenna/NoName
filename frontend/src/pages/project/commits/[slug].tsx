@@ -16,7 +16,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 
 function CommitsTable({ commits }: any) {
-    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
+    const [parent, enableAnimations] = useAutoAnimate({ duration: 300 });
+    enableAnimations(true);
     return (
         <table className="table table-zebra max-w-lg">
 
@@ -66,7 +67,6 @@ function CommitsTable({ commits }: any) {
 
 
 function UserSort({ users, changeName }: { readonly users: any[], readonly changeName: any }) {
-
     return (
         <div className="flex flex-row justify-start w-1/3 mb-5 mr-5 ">
             <select
