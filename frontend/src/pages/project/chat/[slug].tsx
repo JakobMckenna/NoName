@@ -2,13 +2,15 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
+import { Element, scroller } from 'react-scroll';
 
 import { Socket, io } from "socket.io-client"
 import BackPage from "~/components/back_navigation";
 import ChatBox from "~/components/chat";
 import Drawer from "~/components/drawer";
-import Navbar from "~/components/navbar";
+
 import useChatSocket from "~/hooks/use_chat_socket";
+
 
 import useUser from "~/hooks/use_user";
 
