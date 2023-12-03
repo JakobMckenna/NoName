@@ -199,15 +199,20 @@ export default function Project() {
     useEffect(
         () => {
 
+            // waits for user data to load 
+            // this only gets commits if commits is empty or if page refreshes
             if (user != null && !commits) {
-                // console.log
+               
+                /**
+                 * getData
+                 * retieve project data from backend  and set state of page
+                 */
                 const getData = async () => {
                     if (projectID && !Array.isArray(setMaintainer) && !Array.isArray(setProject)) {
                         const results = await getProjectData(projectID as string);
                         if (results && setMaintainer && setProject) {
                             setProjectData(results);
                             setGithub(results.github);
-
                             setMaintainer(String(results.github.owner));
                             setProject(results.github.repoName);
                         }
@@ -216,11 +221,13 @@ export default function Project() {
                 }
 
 
+                // gets project data and sets state
                 getData();
 
 
             }
 
+            // gets all contributers of the past 100 commits of github project
             if (commits && Array.isArray(commits) && !filteredCommits) {
                 const users = _.uniq((commits).map(commit => commit.author.login));
                 setUsers(users);
