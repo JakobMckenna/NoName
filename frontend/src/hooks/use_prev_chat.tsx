@@ -4,37 +4,30 @@ import { useEffect, useState } from "react";
 
 import config from "config";
 
-const usePrevChat = (projectID: string) => {
+const usePrevChat = () => {
     const [response, setResponse] = useState<any>(null);
     const [isLoading, setLoading] = useState<boolean>(true);
     const [roomID, setRoomID] = useState<string | null>(null)
+
     const getResponse = async () => {
-        // console.log(typeof projectID)
-
-        if (roomID != null) {
-
-            console.log(roomID)
-            const reqUrl = `${config.backendApiUrl}/projects/chat/${roomID}`
-            const results = await axios.get(reqUrl)
-            console.log("why")
-            console.log(results.data.messages)
-
-            setResponse(results.data.messages)
-            setLoading(false)
-
-            return results
+        try {
+            if (roomID != null) {
+                const reqUrl = `${config.backendApiUrl}/projects/chat/${roomID}`;
+                const results = await axios.get(reqUrl);
+                console.log(results.data.messages);
+                setResponse(results.data.messages);
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
         }
-        return null
     }
+
     useEffect(
         () => {
             if (roomID != undefined || roomID != "undefined" || roomID != null) {
-
                 getResponse();
             }
-
-
-
 
         }, [roomID]
     )

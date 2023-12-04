@@ -15,7 +15,7 @@ export default function ChatPage() {
     const [user] = useUser();
     const projectID = router.query.slug;
     const [socket, loading] = useChatSocket(projectID as string);
-    const [prevChats, isLoading, setRoomID] = usePrevChat(projectID as string);
+    const [prevChats, isLoading, setRoomID] = usePrevChat();
 
     useEffect(
         () => {      
