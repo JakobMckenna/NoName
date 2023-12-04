@@ -1,18 +1,13 @@
 /* eslint-disable */
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react"
-
-
-import { Socket, io } from "socket.io-client"
+import { useEffect } from "react"
+import { Socket } from "socket.io-client"
 import BackPage from "~/components/back_navigation";
 import ChatBox from "~/components/chat";
 import Drawer from "~/components/drawer";
-
 import useChatSocket from "~/hooks/use_chat_socket";
 import usePrevChat from "~/hooks/use_prev_chat";
-
-
 import useUser from "~/hooks/use_user";
 
 export default function ChatPage() {
@@ -20,27 +15,15 @@ export default function ChatPage() {
     const [user] = useUser();
     const projectID = router.query.slug;
     const [socket, loading] = useChatSocket(projectID as string);
-    const [userName, setUserName] = useState("JohnDoe");
-    const [userID, setUserID] = useState<string>("")
-    //
     const [prevChats, isLoading, setRoomID] = usePrevChat(projectID as string);
 
-
-
-
     useEffect(
-        () => {
-
-
+        () => {      
             if ((projectID != null || projectID != undefined) && user) {
                 console.log(projectID)
                 console.log(user)
                 setRoomID(projectID)
-
             }
-            // console.log(prevChats)
-
-
 
         }, [user, projectID, prevChats]
     )
@@ -58,14 +41,14 @@ export default function ChatPage() {
                         {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
 
                         {
-                            (socket && !isLoading && user != null )?
-                            (<ChatBox
-                                projectID={projectID as string}
-                                socket={socket as Socket}
-                                name={user?.name}
-                                userID={user?.id}
-                                messages={prevChats}
-                            />):(<div className="skeleton  w-[405px] md:w-[512px]  max-w-lg h-screen" />)
+                            (socket && !isLoading && user != null) ?
+                                (<ChatBox
+                                    projectID={projectID as string}
+                                    socket={socket as Socket}
+                                    name={user?.name}
+                                    userID={user?.id}
+                                    messages={prevChats}
+                                />) : (<div className="skeleton  w-[405px] md:w-[512px]  max-w-lg h-screen" />)
                         }
                     </div>
 

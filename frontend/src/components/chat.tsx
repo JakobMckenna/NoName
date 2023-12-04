@@ -4,8 +4,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
-import { Element, scroller, animateScroll as scroll } from 'react-scroll';
-import usePrevChat from "~/hooks/use_prev_chat";
+
 
 interface User {
     id: string;
