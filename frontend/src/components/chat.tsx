@@ -146,12 +146,12 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
 const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket, projectID: string, name: string, userID: string, messages: any }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
-    //const [prevChats, isLoading] = usePrevChat(projectID);
+   
     const [filteredMessages, setFilteredMessages] = useState<Chat[]>([])
     const [search, setSearch] = useState("");
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
-    // const messages = useRef<HTMLDivElement | null>(null);
+   
 
     const [parent, enableAnimations] = useAutoAnimate()
 
@@ -167,7 +167,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
         setSearch(msg);
         const messages = getMessages(msg);
         setFilteredMessages(messages)
-        // console.log(messages)
+       
 
     }
 
