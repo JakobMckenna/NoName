@@ -185,7 +185,7 @@ function Header({ projectData, userID, owner }: { projectData: any, userID: numb
 export default function Project() {
     const router = useRouter();
     const [user, loading] = useUser();
-    const [projectData, setProjectData] = useState<any>();
+    const [projectData, setProjectData] = useState<any>(null);
     const [projectIDstr, setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState<any>(null);
     //const [sprints, setID] = useSprint();
@@ -217,10 +217,7 @@ export default function Project() {
 
     }
 
-    const isProjectIdReady = () => {
-        return projectID != null || projectID != undefined
-    }
-
+  
     const getSprintSize = () => {
         let result = 0;
         if (projectData.sprint) {
@@ -228,11 +225,15 @@ export default function Project() {
         }
         return result;
     }
+    const addGitHub= (repo:any)=>{
+        setGithub(repo);
+    }
 
     useEffect(
         () => {
             // retrieve data but only if user data is stored in browser local storage
-            if (user != null && user != undefined && projectID != null && projectID != undefined) {
+            if (user != null && user != undefined && projectID != null && projectID != undefined && projectData==null ) {
+                console.log("getting data")
                 // store user ID from local storage
                 setUserID(user.id)
                 // retrieves with project ID project data
@@ -241,22 +242,24 @@ export default function Project() {
 
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
-                        if (results) {
-                           
+                        if (results ) {
+
                             setProjectData(results);
                             setGithub(results.github);
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                          router.push("/home");
+                        router.push("/home");
                     }
 
                 }
 
-                // retrieve project data  from server and save it in state
-                getData();
+               // if (projectID == null) {
+                    // retrieve project data  from server and save it in state
+                    getData();
+               // }
             }
-        }, [isProjectIdReady, user]);
+        }, [projectID, user]);
 
     return (
         <div>
@@ -266,7 +269,7 @@ export default function Project() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+            <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
 
                 <main className="flex flex-col items-center justify-center  mb-10    ">
 
@@ -284,9 +287,9 @@ export default function Project() {
 
                 {/** Page Modals , these exist outside the normal html flow */}
 
-                <RepoModal projectID={projectIDstr} githubID={github?.id}  />
+                <RepoModal projectID={projectIDstr} githubID={github?.id} addRepo={addGitHub}  />
                 <DeleteModal projectID={projectIDstr} home={goToHome} />
-               
+
             </Drawer>
 
         </div>
