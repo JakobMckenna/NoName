@@ -58,14 +58,14 @@ export default function ChatPage() {
                         {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
 
                         {
-                            socket && !isLoading && user != null &&
+                            (socket && !isLoading && user != null )?
                             (<ChatBox
                                 projectID={projectID as string}
                                 socket={socket as Socket}
                                 name={user?.name}
                                 userID={user?.id}
                                 messages={prevChats}
-                            />)
+                            />):(<div className="skeleton  w-[405px] md:w-[512px]  max-w-lg h-screen" />)
                         }
                     </div>
 
