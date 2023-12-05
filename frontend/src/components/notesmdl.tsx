@@ -8,7 +8,7 @@ import FormAlert from "./form_alert";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { notesValidation } from "~/validations_schemas/notes_create";
 
-function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) {
+function Form({ projectID, userID, sprints, addNotes }: { projectID: string, userID: string, sprints: any, addNotes: any }) {
     const {
         register,
         handleSubmit,
@@ -189,7 +189,7 @@ function Form({ projectID, userID, sprints, addNotes, refresh }: { projectID: st
 
 
 
-const NotesModal = ({ projectID, userID, sprints, addNotes, refresh }: { projectID: string, userID: string, sprints: any, addNotes: any, refresh: any }) => {
+const NotesModal = ({ projectID, userID, sprints, addNotes }: { projectID: string, userID: string, sprints: any, addNotes: any }) => {
     // const sprint = sprints[0].id;
 
     return (
@@ -197,7 +197,12 @@ const NotesModal = ({ projectID, userID, sprints, addNotes, refresh }: { project
         <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
                 <h2 className="font-bold text-2lg uppercase">Create Note</h2>
-                <Form projectID={projectID} userID={userID} sprints={sprints} addNotes={addNotes} refresh={refresh} />
+                <Form
+                    projectID={projectID}
+                    userID={userID}
+                    sprints={sprints}
+                    addNotes={addNotes}
+                />
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>

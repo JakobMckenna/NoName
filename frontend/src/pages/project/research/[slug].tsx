@@ -89,7 +89,7 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
     )
 }
 
-function NoteList({ list, remove, refresh, setUpdateNote }: { list: any, remove: any, refresh: any, setUpdateNote: any }) {
+function NoteList({ list, remove, setUpdateNote }: { list: any, remove: any, setUpdateNote: any }) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
 
 
@@ -181,9 +181,7 @@ export default function Research() {
     const [user, loading] = useUser();
     const [notes, setNotes] = useState<any[] | null>(null);
     const [filteredNotes, setFilteredNotes] = useState<any[]>([])
-    // const [notes, changeID] = useNotes()
     const [sprints, setID] = useSprint();
-    const [refresh, setRefresh] = useState(true);
     const [searchTopic, setSearchTopic] = useState<string>("")
     const [searchMilestone, setSearchMilestone] = useState<string>("")
     const [projectIDstr, setProjectIDstr] = useState("")
@@ -199,18 +197,17 @@ export default function Research() {
             console.log(results.data);
             setNotes(results.data.notes);
             setFilteredNotes(results.data.notes);
-            setRefresh(false);
+          
 
         } catch (error) {
             //we failed to get notes for some reason
-            //setNotes(null);
-            setRefresh(true);
+          
+           console.log(error)
 
         }
     }
 
     const addNotes = (note: any) => {
-
         setNotes((prev: any) => [...prev, note])
     }
 
@@ -239,10 +236,9 @@ export default function Research() {
 
     const removeNotes = (noteID: any) => {
         const noteList = notes?.filter((note) => note.id !== noteID);
+        // if a result exists update notes
         if (noteList) {
-
             setNotes(noteList);
-
         }
 
     }
@@ -252,15 +248,12 @@ export default function Research() {
     }
 
 
-
-
-
     const search = () => {
-        let results
+        let results;
         results = notes?.filter((note) => {
             return (
                 (note.title.toLowerCase().includes(searchTopic.toLowerCase()) || note.details.toLowerCase().includes(searchTopic.toLowerCase())) && note.sprintID.toLowerCase().includes(searchMilestone)
-            )
+            );
         })
 
 
@@ -288,26 +281,22 @@ export default function Research() {
         }
     }
 
-
-
     const reset = () => {
-
         if (notes)
             setFilteredNotes(notes)
     }
+
+
     useEffect(
         () => {
             if (user != null && projectID != null && setID != null) {
                 const id = String(projectID);
-                //    changeID(projectID);
                 setID(id);
                 setProjectIDstr(id);
-                // setRefresh(false)
-
             }
 
             if (notes == null || notes.length == 0) {
-                getResponse()
+                getResponse();
             }
 
             else {
@@ -332,9 +321,8 @@ export default function Research() {
                             <button
                                 onClick={
                                     () => {
-                                        const modalElement: any = document.getElementById('my_modal_2')
-                                        modalElement.showModal()
-                                        // setRefresh(true)
+                                        const modalElement: any = document.getElementById('my_modal_2');
+                                        modalElement.showModal();
                                     }
                                 }
                                 className="btn btn-primary"
@@ -355,7 +343,7 @@ export default function Research() {
                     </div>
 
                     <div className="container bg-base-100  mx-auto mb-24 px-7">
-                        {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
+                        {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} />) : (<Spinner />)}
                     </div>
                 </main>
                 <NotesModal
@@ -363,7 +351,6 @@ export default function Research() {
                     addNotes={addNotes}
                     userID={user?.id}
                     sprints={sprints}
-                    refresh={(val: boolean) => setRefresh(val)}
                 />
                 <UpdateNote
                     noteID={editNoteID}
@@ -372,7 +359,6 @@ export default function Research() {
                     update={updateNotes}
                     userID={user?.id}
                     sprints={sprints}
-                    refresh={(val: boolean) => setRefresh(val)}
                 />
                 <DeleteNote id={deleteNoteID} remove={removeNotes} />
             </Drawer>
