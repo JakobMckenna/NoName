@@ -3,7 +3,7 @@
  */
 
 
-import { createUserPasswordData, deleteUserByID, getAllUsers, getUserPassword, getUserProjects } from '../data-access/user_model';
+import { createUserPasswordData, deleteUserByID, getAllUsers, getUserPassword, getUserProjects, updateUser } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
 
 
@@ -136,6 +136,9 @@ const UserService = {
     } finally {
       return result;
     }
+  },
+  updateUser:async (userID:number ,name:string ,email:string,password:string)=>{
+    await updateUser(userID,name ,email,password)
   }
 }
 
