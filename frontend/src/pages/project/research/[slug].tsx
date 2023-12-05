@@ -308,7 +308,9 @@ export default function Research() {
 
             if (notes == null || notes.length == 0) {
                 getResponse()
-            } else {
+            }
+
+            else {
                 if (notes)
                     setFilteredNotes(notes);
 
@@ -340,7 +342,15 @@ export default function Research() {
                                 Add Note
                             </button>
                         </div>
-                        <SearchBar sprints={sprints} changeTopic={changeTopic} search={search} changeMilestone={changeMilestone} milestone={searchMilestone} topic={searchTopic} reset={reset} />
+                        <SearchBar
+                            sprints={sprints}
+                            changeTopic={changeTopic}
+                            search={search}
+                            changeMilestone={changeMilestone}
+                            milestone={searchMilestone}
+                            topic={searchTopic}
+                            reset={reset}
+                        />
 
                     </div>
 
@@ -348,8 +358,22 @@ export default function Research() {
                         {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
                     </div>
                 </main>
-                <NotesModal projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
-                <UpdateNote noteID={editNoteID} note={noteEdit} projectID={projectIDstr} update={updateNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
+                <NotesModal
+                    projectID={projectIDstr}
+                    addNotes={addNotes}
+                    userID={user?.id}
+                    sprints={sprints}
+                    refresh={(val: boolean) => setRefresh(val)}
+                />
+                <UpdateNote
+                    noteID={editNoteID}
+                    note={noteEdit}
+                    projectID={projectIDstr}
+                    update={updateNotes}
+                    userID={user?.id}
+                    sprints={sprints}
+                    refresh={(val: boolean) => setRefresh(val)}
+                />
                 <DeleteNote id={deleteNoteID} remove={removeNotes} />
             </Drawer>
         </div>
