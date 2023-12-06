@@ -62,10 +62,10 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                 <div className="card-actions ">
 
                     {
-                        links.map((link, index) => {
+                        links.map((link) => {
                             return (
                                 <a
-                                    key={index}
+                                    key={link.id}
                                     href={link.url}
                                     target="_blank"
                                     className="btn btn-primary"
