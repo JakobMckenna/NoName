@@ -2,20 +2,15 @@
 import Head from "next/head";
 import axios from "axios";
 import { useRouter } from "next/router";
-
 import { useState, useEffect, useRef } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-
 import NotesModal from "~/components/notesmdl";
-
 import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
-
 import config from "config";
 import Spinner from "~/components/spinner";
 import BackPage from "~/components/back_navigation";
 import UpdateNote from "~/components/update_note_modal";
-
 import DeleteNote from "~/components/delete_note_modal";
 import Drawer from "~/components/drawer";
 
@@ -37,9 +32,9 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                                 <a
                                     onClick={
                                         () => {
-                                            update(noteID)
-                                            const modalElement: any = document.getElementById('update_note')
-                                            modalElement.showModal()
+                                            update(noteID); //note to update
+                                            const modalElement: any = document.getElementById('update_note');
+                                            modalElement.showModal();
                                         }
                                     }
                                 >Edit
@@ -50,9 +45,8 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                                     onClick={
                                         () => {
                                             deleteNote(noteID);
-                                            // console.log(result.data);
-                                            const modalElement: any = document.getElementById('del_note')
-                                            modalElement.showModal()
+                                            const modalElement: any = document.getElementById('del_note');
+                                            modalElement.showModal();
 
                                         }
                                     }
@@ -69,7 +63,6 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
 
                     {
                         links.map((link, index) => {
-                            //useMemo(index)
                             return (
                                 <a
                                     key={index}
@@ -143,7 +136,7 @@ function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMiles
                     }
                 }
             >
-                <option disabled selected>Filter  by Sprint</option>
+                <option disabled selected>Filter  by Sprint/Milestone</option>
                 <option value={""}>Any Sprint</option>
                 {
                     sprints?.map(
@@ -189,28 +182,42 @@ export default function Research() {
     const [deleteNoteID, setDeleteNoteID] = useState("")
     const [noteEdit, setNoteEdit] = useState<any>(null)
 
+    /**
+     * getResponse
+     * gets notes from server and sets note state
+     */
     const getResponse = async () => {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/notes/${projectID}`;
             const results = await axios.get(reqUrl);
 
-            console.log(results.data);
+            //console.log(results.data);
             setNotes(results.data.notes);
             setFilteredNotes(results.data.notes);
-          
+
 
         } catch (error) {
             //we failed to get notes for some reason
-          
-           console.log(error)
+
+            console.log(error)
 
         }
     }
 
+    /**
+     * addNotes
+     * add note to note list afeter server response
+     * @param note 
+     */
     const addNotes = (note: any) => {
         setNotes((prev: any) => [...prev, note])
     }
 
+    /**
+     * updateNote
+     * updates note in notelist after server response
+     * @param updateNote 
+     */
     const updateNotes = (updateNote: any) => {
         if (notes) {
             const index = notes.findIndex((note) => note.id == updateNote.id)
@@ -223,6 +230,11 @@ export default function Research() {
         }
     }
 
+    /**
+     * setUpdateNote
+     * get notes user is trying to edit and prepares it for update modal
+     * @param noteID 
+     */
     const setUpdateNote = (noteID: string) => {
         setEditNoteID(noteID)
         const note = notes?.filter((editNote) => {
@@ -234,6 +246,11 @@ export default function Research() {
         }
     }
 
+    /**
+     * removeNotes
+     * removes deleted note from note list
+     * @param noteID 
+     */
     const removeNotes = (noteID: any) => {
         const noteList = notes?.filter((note) => note.id !== noteID);
         // if a result exists update notes
@@ -243,11 +260,20 @@ export default function Research() {
 
     }
 
+    /**
+     * deleteNote
+     * sets note user is trying to delete into state
+     * @param id 
+     */
     const deleteNote = (id: string) => {
         setDeleteNoteID(id);
     }
 
 
+    /**
+     * search
+     * searches through notes based on user filters
+     */
     const search = () => {
         let results;
         results = notes?.filter((note) => {
@@ -268,12 +294,21 @@ export default function Research() {
 
     }
 
+    /**
+     * changeTopic
+     * gets topic filter user set in input
+     * @param topic 
+     */
     const changeTopic = (topic: string) => {
 
         setSearchTopic(topic)
 
     }
-
+    /**
+     * changeMilestone
+     * get milestone/sprint filter from user input
+     * @param milestone 
+     */
     const changeMilestone = (milestone: string) => {
         setSearchMilestone(milestone);
         if (milestone == "") {
@@ -281,6 +316,10 @@ export default function Research() {
         }
     }
 
+    /**
+     * reset
+     * reset search filters and resets list 
+     */
     const reset = () => {
         if (notes)
             setFilteredNotes(notes)
@@ -315,8 +354,14 @@ export default function Research() {
             </Head>
             <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
                 <main className="container mx-auto   ">
+                
                     {projectID != "" ? (<div className="px-7"><BackPage link={`/project/${projectIDstr}`} name={`Back to Project page`} /></div>) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                     <div className="flex flex-col  mx-auto row-gap-2 mb-10 ">
+                        <div className="prose pl-7 mb-5">
+                            <h1 className=" uppercase mb-2">Research Notes</h1>
+                            <p className="text-xl ">Create notes for later reference for you and your team.</p>
+                        </div>
+                        
                         <div className="flex flex-row justify-between mb-5 px-7">
                             <button
                                 onClick={
@@ -360,7 +405,10 @@ export default function Research() {
                     userID={user?.id}
                     sprints={sprints}
                 />
-                <DeleteNote id={deleteNoteID} remove={removeNotes} />
+                <DeleteNote
+                    id={deleteNoteID}
+                    remove={removeNotes}
+                />
             </Drawer>
         </div>
     )
