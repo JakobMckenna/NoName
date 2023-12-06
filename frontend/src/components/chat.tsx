@@ -260,9 +260,10 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { readonly socke
 
 
     useEffect(() => {
-        setChatHistory((prev) => [...messages])
-        scrollDown()
-        socket.on("message", messageEvent)
+        setChatHistory((prev) => [...messages]);
+        scrollDown();
+        enableAnimations(true);
+        socket.on("message", messageEvent);
         return () => {
             socket.off("message", messageEvent);
         };
