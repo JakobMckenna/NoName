@@ -198,11 +198,13 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
 
 
     const sendMessage = (msg: string) => {
-
-
-        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-
-
+        try{
+            socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
+        }catch(error){
+            alert("message failed to send , server must be down . Check console logs");
+            console.log(error);
+        }
+        
     }
 
     const scrollToMessage = (messageID: string) => {
