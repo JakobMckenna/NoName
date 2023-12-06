@@ -20,12 +20,18 @@ interface Chat {
     timestamp: string;
     user: User;
 }
-
+/**
+ * convDate
+ * convert iso date into local time
+ * @param date  is the iso date you are trying to convert
+ * @returns  local time string
+ */
 const convDate = (date: string) => {
     const result = new Date(date)
     return ` ${result.toLocaleDateString()} ${result.toLocaleTimeString()}`
 
 }
+
 
 function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, messages }: { scrollDown: Function, scrollUp: Function, searchMessage: Function, scrollToMsg: Function, messages: Chat[] }) {
     const [typing, setTyping] = useState(false);
@@ -201,8 +207,8 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
      * @param message is a new message from chat room socket
      */
     const messageEvent = (message: Chat) => {
-        setChatHistory((messages) => [...messages, message]);
         scrollDown();
+        setChatHistory((messages) => [...messages, message]);
     }
 
 
@@ -266,7 +272,6 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
                     // chats live on socket
                     chatHistory.length > 0 && chatHistory.map((chat, index) => {
                         const rightNowDate = new Date()
-                        //  const date: string = convDate(rightNowDate.toISOString());
                         const timestamp = chat?.timestamp;
                         const date = convDate(timestamp);
                         const currDate = convDate(rightNowDate.toISOString());
