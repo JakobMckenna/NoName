@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { notesValidation } from "~/validations_schemas/notes_create";
 
 
-function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: string,readonly userID: string, sprints: any,readonly addNotes: any }) {
+function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: string,readonly userID: string,readonly sprints: any,readonly addNotes: any }) {
     const {
         register,
         handleSubmit,
