@@ -20,9 +20,7 @@ export default function ChatPage() {
     useEffect(
         () => {      
             if ((projectID != null || projectID != undefined) && user) {
-                console.log(projectID)
-                console.log(user)
-                setRoomID(projectID)
+                setRoomID(projectID);
             }
 
         }, [user, projectID, prevChats]
