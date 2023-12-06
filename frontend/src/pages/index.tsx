@@ -1,7 +1,6 @@
 /* eslint-disable */
 import Head from "next/head";
 import Link from "next/link";
-import NextLink from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
