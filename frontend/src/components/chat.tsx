@@ -151,6 +151,12 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     const topChatBox = useRef<HTMLDivElement | null>(null);
     const [parent, enableAnimations] = useAutoAnimate();
 
+    /**
+     * getMessages
+     * gets all messages that contain the searchVal value
+     * @param searchVal 
+     * @returns  
+     */
     const getMessages = (searchVal: string) => {
         return chatHistory.filter((message: Chat) => {
             return message.message.toLowerCase().includes(searchVal.toLowerCase())
@@ -158,16 +164,20 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     }
 
 
+    /**
+     * seacrch message gets all messages that contain a string of characters
+     * @param msg is the characters or string user is searching for
+     */
     const searchMessage = (msg: string) => {
         const messages = getMessages(msg);
         setFilteredMessages(messages);
     }
 
-     /**
-     * scrollUp
-     * scrolls up to the top of message container
-     */
-     const scrollUP = () => {
+    /**
+    * scrollUp
+    * scrolls up to the top of message container
+    */
+    const scrollUP = () => {
         if (topChatBox.current) {
             topChatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
         }
@@ -196,17 +206,25 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     }
 
 
-
-    const sendMessage = (msg: string) => {
-        try{
-            socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-        }catch(error){
+    /**
+     * sendMessage
+     * sends message to chat room socket
+     * @param message is the message being sent to chat room socket
+     */
+    const sendMessage = (message: string) => {
+        try {
+            socket.emit("message", { room: projectID, message: message, name: name, userID: userID });
+        } catch (error) {
             alert("message failed to send , server must be down . Check console logs");
             console.log(error);
         }
-        
     }
 
+    /**
+     * scrollToMessage
+     * scrolls to the message with particular message ID
+     * @param messageID  is the message that must come into view
+     */
     const scrollToMessage = (messageID: string) => {
         const message = document.getElementById(messageID);
         message?.scrollIntoView({ behavior: 'smooth' });
@@ -237,7 +255,6 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
             />
 
             <div
-                // ref={chatBox}
                 ref={parent}
                 className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20"
             >
