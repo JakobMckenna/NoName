@@ -24,7 +24,7 @@ function SignUp({ handleSignUp }: any) {
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
-        <div className="max-w-md">
+        <div className="max-w-md -mt-16">
           <h1 className="mb-5 text-3xl">Sign Up</h1>
           <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100 mt-10">
 
