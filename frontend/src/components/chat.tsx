@@ -163,6 +163,17 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
         setFilteredMessages(messages);
     }
 
+     /**
+     * scrollUp
+     * scrolls up to the top of message container
+     */
+     const scrollUP = () => {
+        if (topChatBox.current) {
+            topChatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        }
+    }
+
+
     /**
      * scrollDown
      * scrolls down to bottom of chat container
@@ -174,21 +185,17 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     }
 
 
-
-    const messageEvent = (data: Chat) => {
+    /**
+     * messageEvent
+     * adds new message from socket to chat history array and scrolls down to new message
+     * @param message is a new message from chat room socket
+     */
+    const messageEvent = (message: Chat) => {
+        setChatHistory((messages) => [...messages, message]);
         scrollDown();
-        console.log(data);
-        setChatHistory((messages) => [...messages, data]);
     }
 
 
-
-    const scrollUP = () => {
-        if (topChatBox.current) {
-            topChatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
-
-        }
-    }
 
     const sendMessage = (msg: string) => {
 
