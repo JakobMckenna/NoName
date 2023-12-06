@@ -8,7 +8,8 @@ import FormAlert from "./form_alert";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { notesValidation } from "~/validations_schemas/notes_create";
 
-function Form({ projectID, userID, sprints, addNotes }: { projectID: string, userID: string, sprints: any, addNotes: any }) {
+
+function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: string,readonly userID: string, sprints: any,readonly addNotes: any }) {
     const {
         register,
         handleSubmit,
@@ -59,9 +60,6 @@ function Form({ projectID, userID, sprints, addNotes }: { projectID: string, use
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
-
-                //console.log(error.response.status);
-                //  console.log(error.response.data);
                 if (error.response) {
                     setError("details",
                         {
@@ -93,10 +91,10 @@ function Form({ projectID, userID, sprints, addNotes }: { projectID: string, use
 
     return (
         <form onSubmit={handleSubmit(handleCreateProject)} >
-            {errors && errors.sprint && (<FormAlert message={errors.sprint.message as string} />)}
-            {errors && errors.title && (<FormAlert message={errors.title.message as string} />)}
-            {errors && errors.details && (<FormAlert message={errors.details.message as string} />)}
-            {errors && errors.url && (<FormAlert message={errors.url.message as string} />)}
+            {errors?.sprint && (<FormAlert message={errors.sprint.message as string} />)}
+            {errors?.title && (<FormAlert message={errors.title.message as string} />)}
+            {errors?.details && (<FormAlert message={errors.details.message as string} />)}
+            {errors?.url && (<FormAlert message={errors.url.message as string} />)}
 
 
             <div className="form-control">

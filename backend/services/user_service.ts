@@ -3,7 +3,7 @@
  */
 
 
-import { createUserPasswordData, deleteUserByID, getAllUsers, getUserPassword, getUserProjects, updateUser } from '../data-access/user_model';
+import { createUserPasswordData, deleteUserByID, getAllUsers, getUserPassword, getUserProjects } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
 
 

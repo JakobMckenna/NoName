@@ -82,7 +82,7 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
     )
 }
 
-function NoteList({ list, remove, setUpdateNote }: { list: any, remove: any, setUpdateNote: any }) {
+function NoteList({ list, remove, setUpdateNote }: { readonly list: any,readonly remove: any,readonly setUpdateNote: any }) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
 
 
@@ -190,12 +190,8 @@ export default function Research() {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/notes/${projectID}`;
             const results = await axios.get(reqUrl);
-
-            //console.log(results.data);
             setNotes(results.data.notes);
             setFilteredNotes(results.data.notes);
-
-
         } catch (error) {
             //we failed to get notes for some reason
 
