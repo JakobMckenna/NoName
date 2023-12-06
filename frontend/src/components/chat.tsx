@@ -196,7 +196,8 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
      */
     const scrollDown = () => {
         if (chatBox.current) {
-            chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
+            //    chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
+            chatBox.current.scrollTop = chatBox.current.scrollHeight;
         }
     }
 
@@ -209,6 +210,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     const messageEvent = (message: Chat) => {
         scrollDown();
         setChatHistory((messages) => [...messages, message]);
+        // scrollDown();
     }
 
 
@@ -250,8 +252,10 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
 
 
     return (
-
-        <div className="flex flex-col  w-[405px] md:w-[512px]  max-w-lg h-screen overflow-y-none">
+        <div
+            ref={parent}
+            className="flex flex-col  w-[405px] md:w-[512px]  max-w-lg h-screen overflow-y-none"
+        >
             <ChatActions
                 scrollDown={scrollDown}
                 scrollUp={scrollUP}
@@ -261,7 +265,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
             />
 
             <div
-                ref={parent}
+                ref={chatBox}
                 className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20"
             >
                 <span ref={topChatBox} />
@@ -270,13 +274,13 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
 
                 {
                     // chats live on socket
-                    chatHistory.length > 0 && chatHistory.map((chat, index) => {
+                    chatHistory.length > 0 && chatHistory.map((chat) => {
                         const rightNowDate = new Date()
                         const timestamp = chat?.timestamp;
                         const date = convDate(timestamp);
                         const currDate = convDate(rightNowDate.toISOString());
                         return (
-                            <div key={index} id={chat.id} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
+                            <div key={chat.id} id={chat.id} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
                                 <div className="chat-header">
                                     {chat.user.name}#{chat.user.id}
                                     <time className="text-xs opacity-50">{timestamp ? date : currDate}</time>
@@ -292,7 +296,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
                 }
 
 
-                <div ref={chatBox} className="mt-24" >
+                <div className="mt-24" >
                     <span />
                 </div>
 
