@@ -10,7 +10,6 @@ import { registrationValidation } from "../../validations_schemas/user_registrat
 import Drawer from "~/components/drawer";
 import config from "config";
 import Spinner from "~/components/modal_spinner";
-import BackPage from "~/components/back_navigation";
 
 function SignUp({ handleSignUp }: any) {
   const {
