@@ -26,8 +26,8 @@ function SignIn({ handleSignIn, message }: any) {
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
         <div className="max-w-md">
-         <h1 className="mb-5 text-3xl my-10">Sign In</h1>
-          <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+         <h1 className="mb-5 text-3xl">Sign In</h1>
+          <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100  mt-10">
 
             <form className="card-body  w-80 " onSubmit={handleSubmit(handleSignIn)}>
               {message!="" && (
@@ -75,8 +75,8 @@ function SignIn({ handleSignIn, message }: any) {
                   )}
                   Login
                 </button>
-                <div className="flex flex-row justify-center items-center">
-                  <p className="label-text mr-1">Don't have account?</p>
+                <div className="flex flex-row justify-center items-center my-4">
+                  <p className="label-text">Don't have account?</p>
                   <label className="label">
                     <Link href="/signup" className="label-text  link link-hover">Sign up</Link>
                   </label>
