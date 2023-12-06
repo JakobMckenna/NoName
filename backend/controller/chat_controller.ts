@@ -1,3 +1,6 @@
+/**
+ * @fileoverview chat controller handles incomming socket connections
+ */
 import { Namespace } from "socket.io";
 import { Dictionary } from "../interfaces/interfaces";
 import ChatService from "../services/chat_service";
@@ -50,6 +53,7 @@ export default class ChatController {
 
         });
     }
+    
     /**
      * Saves this saves message to database 
      * @param message  is the message being saved
