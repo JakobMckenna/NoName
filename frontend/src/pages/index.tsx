@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Head from "next/head";
 import Link from "next/link";
+import NextLink from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -76,10 +77,12 @@ function SignIn({ handleSignIn, message }: any) {
                   Login
                 </button>
                 <div className="flex flex-row justify-start items-center mt-4">
-                  <p className="label-text">Don't have an account?</p>
-                  <label className="label ml-11">
-                    <Link href="/signup" className="label-text  link link-hover">Sign up</Link>
-                  </label>
+                  <p className="label-text mr-10">Don't have an account?</p>
+                  <label className="label">
+                  <Link href="/signup" className="label-text link link-hover">
+                    Sign Up
+                  </Link>
+                </label>
                 </div>
               </div>
             </form>
