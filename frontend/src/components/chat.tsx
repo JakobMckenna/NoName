@@ -146,12 +146,10 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
 const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket, projectID: string, name: string, userID: string, messages: any }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
-   
-    const [filteredMessages, setFilteredMessages] = useState<Chat[]>([])
-    const [search, setSearch] = useState("");
+    const [filteredMessages, setFilteredMessages] = useState<Chat[]>([]);
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
-    const [parent, enableAnimations] = useAutoAnimate()
+    const [parent, enableAnimations] = useAutoAnimate();
 
     const getMessages = (searchVal: string) => {
         return chatHistory.filter((message: Chat) => {
@@ -161,12 +159,14 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
 
 
     const searchMessage = (msg: string) => {
-        setSearch(msg);
         const messages = getMessages(msg);
         setFilteredMessages(messages);
     }
 
-
+    /**
+     * scrollDown
+     * scrolls down to bottom of chat container
+     */
     const scrollDown = () => {
         if (chatBox.current) {
             chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
@@ -181,7 +181,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
         setChatHistory((messages) => [...messages, data]);
     }
 
-    
+
 
     const scrollUP = () => {
         if (topChatBox.current) {
@@ -191,10 +191,10 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     }
 
     const sendMessage = (msg: string) => {
-      
+
 
         socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-       
+
 
     }
 
@@ -261,7 +261,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
                 }
 
 
-                <div   ref={chatBox} className="mt-24" >
+                <div ref={chatBox} className="mt-24" >
                     <span />
                 </div>
 
