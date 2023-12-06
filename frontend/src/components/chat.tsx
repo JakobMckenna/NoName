@@ -151,8 +151,6 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
     const [search, setSearch] = useState("");
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
-   
-
     const [parent, enableAnimations] = useAutoAnimate()
 
     const getMessages = (searchVal: string) => {
@@ -163,12 +161,16 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
 
 
     const searchMessage = (msg: string) => {
-        console.log(msg)
         setSearch(msg);
         const messages = getMessages(msg);
-        setFilteredMessages(messages)
-       
+        setFilteredMessages(messages);
+    }
 
+
+    const scrollDown = () => {
+        if (chatBox.current) {
+            chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        }
     }
 
 
@@ -177,20 +179,9 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
         scrollDown();
         console.log(data);
         setChatHistory((messages) => [...messages, data]);
-       // scrollDown();
-        // scroll()
-
     }
-    const scrollDown = () => {
-        if (chatBox.current) {
-            chatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
 
-        }
-        //  scroll.scrollToBottom()
-
-
-
-    }
+    
 
     const scrollUP = () => {
         if (topChatBox.current) {
@@ -207,17 +198,13 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { socket: Socket
 
     }
 
-    const scrollToMessage = (time: string) => {
-        const message = document.getElementById(time)
-
+    const scrollToMessage = (messageID: string) => {
+        const message = document.getElementById(messageID);
         message?.scrollIntoView({ behavior: 'smooth' });
-
-
     }
 
 
     useEffect(() => {
-        // scroll()
         setChatHistory((prev) => [...messages])
         scrollDown()
         socket.on("message", messageEvent)
