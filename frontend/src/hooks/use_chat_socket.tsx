@@ -1,12 +1,12 @@
 /* eslint-disable */
+/**
+ * @fileoverview this 
+ */
 import { useEffect, useState } from "react";
-import { Socket, io } from "socket.io-client"
+import {  io } from "socket.io-client"
 
 import config from "config";
-interface ChatSocket{
-    socket:Socket,
-    loading:boolean
-}
+
 
 const useChatSocket = (projectID:string)  => {
     const [socket, setSocket] = useState<any>();
