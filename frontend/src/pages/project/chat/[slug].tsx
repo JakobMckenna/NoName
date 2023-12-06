@@ -14,8 +14,8 @@ export default function ChatPage() {
     const router = useRouter();
     const [user] = useUser();
     const projectID = router.query.slug;
-    const [socket, loading] = useChatSocket(projectID as string);
-    const [prevChats, isLoading, setRoomID] = usePrevChat();
+    const [socket, loading] = useChatSocket(projectID as string); // Connects to chat room socket of the project the user is on
+    const [prevChats, isLoading, setRoomID] = usePrevChat();   // gets prev messages saved on previous session
 
     useEffect(
         () => {      
@@ -36,11 +36,14 @@ export default function ChatPage() {
             </Head>
             <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
                 <div className="h-screen">
-                    {/* <Navbar userName={`${user?.name}#${user?.id}`} /> */}
                     <div className="container flex flex-col justify-center items-center  min-h-full overflow-y-none">
                         {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
 
                         {
+                            /**
+                             * Setups previousily saved message on web page
+                             * also recieves chat socket for responding and sending new live messages
+                             */
                             (!loading && !isLoading && user != null) ?
                                 (<ChatBox
                                     projectID={projectID as string}
