@@ -28,7 +28,7 @@ function SignUp({ handleSignUp }: any) {
           <h1 className="mb-5 text-3xl">Sign Up</h1>
           <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100 mt-10">
 
-            <form className="card-body" onSubmit={handleSubmit(handleSignUp)}>
+            <form className="card-body w-80 flex flex-col" onSubmit={handleSubmit(handleSignUp)}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Name</span>
@@ -58,7 +58,7 @@ function SignUp({ handleSignUp }: any) {
                 />
                 {errors.email && (<div className="text-red-500">{errors.email.message}</div>)}
               </div>
-              <div className="form-control">
+              <div className="form-control ">
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
@@ -73,25 +73,25 @@ function SignUp({ handleSignUp }: any) {
                 {errors.password && (<div className="text-red-500">{errors.password.message}</div>)}
               </div>
               <div className="form-control mt-6">
-              <button
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
-                {isSubmitting && (
-                  <Spinner />
-                )}
-                {isSubmitting ? "Creating Account" : "Create Account"}
-              </button>
-            </div>
+                <button
+                  className="btn btn-primary"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting && (
+                    <Spinner />
+                  )}
+                  {isSubmitting ? "Creating Account" : "Create Account"}
+                </button>
+              </div>
+              <div className="flex flex-row justify-between items-center mt-4">
+                <p className="label-text mr-9">Already have an account?</p>
+                <label className="label">
+                  <Link href="/" className="label-text link link-hover">
+                    Sign In
+                  </Link>
+                </label>
+              </div>
             </form>
-            <div className="flex flex-row justify-center items-center mt-4">
-              <p className="label-text mr-1">Already have an account?</p>
-              <label className="label">
-                <Link href="/" className="label-text link link-hover">
-                  Sign In
-                </Link>
-              </label>
-            </div>
           </div>
         </div>
       </div>
