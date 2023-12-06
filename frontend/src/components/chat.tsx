@@ -149,15 +149,7 @@ function Form({ sendMessage }: { readonly sendMessage: any }) {
     )
 }
 
-/**
- * Sockets chat box
- * @param { socket, projectID, name, userID, messages } 
- * @returns  
-/**
- * Sockets chat box
- * @param { socket, projectID, name, userID, messages } 
- * @returns  
- */
+
 const ChatBox = ({ socket, projectID, name, userID, messages }: { readonly socket: Socket, projectID: string, name: string, userID: string, messages: any }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
     const [filteredMessages, setFilteredMessages] = useState<Chat[]>([]);
@@ -251,11 +243,7 @@ const ChatBox = ({ socket, projectID, name, userID, messages }: { readonly socke
             const offset =  messageDomRect.top - messagesDomRect.top; 
              // move the message container to that position
             chatBox.current.scrollTop = chatBox.current.scrollTop + offset; 
-           
-
         }
-      
-
     }
 
 
