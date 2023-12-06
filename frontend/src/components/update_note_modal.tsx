@@ -7,7 +7,7 @@ import Spinner from "./modal_spinner";
 import FormAlert from "./form_alert";
 import { useEffect } from "react";
 
-function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: string, note: any, projectID: string, userID: string, sprints: any, update: any, refresh: any }) {
+function Form({ id, note, projectID, userID, sprints, update }: { id: string, note: any, projectID: string, userID: string, sprints: any, update: any}) {
   const {
     register,
     handleSubmit,
@@ -25,12 +25,12 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
       const response = await axios.patch(`${config.backendApiUrl}/projects/notes`,
         {
           noteID: id,
-          title: data.title==""?note?.title:data.title,
-          details: data.details==""?note?.details:data.details,
+          title: data.title == "" ? note?.title : data.title,
+          details: data.details == "" ? note?.details : data.details,
           projectID: projectID,
           userID: userID,
           sprintID: data.sprint,
-          urlList: { id:note?.link[0]?.id, url: data.url==""?note.link.url:data.url }
+          urlList: { id: note?.link[0]?.id, url: data.url == "" ? note.link.url : data.url }
         }, {
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
         }
       }
       //setAdding(false);
-    } 
+    }
   }
 
   return (
@@ -96,7 +96,7 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
           {
             sprints && sprints.map((sprint: any) => {
               return (
-                <option key={sprint.id} value={sprint.id} selected={note?.sprintID==sprint.id}>{sprint.name}</option>
+                <option key={sprint.id} value={sprint.id} selected={note?.sprintID == sprint.id}>{sprint.name}</option>
               )
             })
           }
@@ -177,13 +177,20 @@ function Form({ id, note, projectID, userID, sprints, update, refresh }: { id: s
 
 
 
-const UpdateNote = ({ noteID, note, projectID, userID, sprints, update, refresh }: { noteID: string, note: any, projectID: string, userID: string, sprints: any, update: any, refresh: any }) => {
-  useEffect(()=>{},[note])
+const UpdateNote = ({ noteID, note, projectID, userID, sprints, update }: { noteID: string, note: any, projectID: string, userID: string, sprints: any, update: any }) => {
+  useEffect(() => { }, [note])
   return (
     <dialog id="update_note" className="modal">
       <div className="modal-box">
         <h2 className="font-bold text-2lg uppercase">Update Note</h2>
-        <Form id={noteID} note={note} projectID={projectID} userID={userID} sprints={sprints} update={update} refresh={refresh} />
+        <Form
+          id={noteID}
+          note={note}
+          projectID={projectID}
+          userID={userID}
+          sprints={sprints}
+          update={update}
+        />
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>

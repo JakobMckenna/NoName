@@ -2,20 +2,15 @@
 import Head from "next/head";
 import axios from "axios";
 import { useRouter } from "next/router";
-
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import Navbar from "~/components/navbar";
 import NotesModal from "~/components/notesmdl";
-
 import useSprint from "~/hooks/use_sprint";
 import useUser from "~/hooks/use_user";
-
 import config from "config";
 import Spinner from "~/components/spinner";
 import BackPage from "~/components/back_navigation";
 import UpdateNote from "~/components/update_note_modal";
-import { boolean } from "yup";
 import DeleteNote from "~/components/delete_note_modal";
 import Drawer from "~/components/drawer";
 
@@ -37,9 +32,9 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                                 <a
                                     onClick={
                                         () => {
-                                            update(noteID)
-                                            const modalElement: any = document.getElementById('update_note')
-                                            modalElement.showModal()
+                                            update(noteID); //note to update
+                                            const modalElement: any = document.getElementById('update_note');
+                                            modalElement.showModal();
                                         }
                                     }
                                 >Edit
@@ -50,12 +45,15 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                                     onClick={
                                         () => {
                                             deleteNote(noteID);
-                                            // console.log(result.data);
-                                            const modalElement: any = document.getElementById('del_note')
-                                            modalElement.showModal()
+                                            const modalElement: any = document.getElementById('del_note');
+                                            modalElement.showModal();
 
                                         }
-                                    } >delete</a></li>
+                                    }
+                                >
+                                    delete
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -64,10 +62,16 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
                 <div className="card-actions ">
 
                     {
-                        links.map((link, index) => {
-                            //useMemo(index)
+                        links.map((link) => {
                             return (
-                                <a key={index} href={link.url} className="btn btn-primary">link {index}</a>
+                                <a
+                                    key={link.id}
+                                    href={link.url}
+                                    target="_blank"
+                                    className="btn btn-primary"
+                                >
+                                    Resource
+                                </a>
                             )
                         })
                     }
@@ -78,7 +82,7 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
     )
 }
 
-function NoteList({ list, remove, refresh, setUpdateNote }: { list: any, remove: any, refresh: any, setUpdateNote: any }) {
+function NoteList({ list, remove, setUpdateNote }: { readonly list: any,readonly remove: any,readonly setUpdateNote: any }) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
 
 
@@ -132,7 +136,7 @@ function SearchBar({ search, changeTopic, milestone, topic, sprints, changeMiles
                     }
                 }
             >
-                <option disabled selected>Filter  by Sprint</option>
+                <option disabled selected>Filter  by Sprint/Milestone</option>
                 <option value={""}>Any Sprint</option>
                 {
                     sprints?.map(
@@ -170,9 +174,7 @@ export default function Research() {
     const [user, loading] = useUser();
     const [notes, setNotes] = useState<any[] | null>(null);
     const [filteredNotes, setFilteredNotes] = useState<any[]>([])
-    // const [notes, changeID] = useNotes()
     const [sprints, setID] = useSprint();
-    const [refresh, setRefresh] = useState(true);
     const [searchTopic, setSearchTopic] = useState<string>("")
     const [searchMilestone, setSearchMilestone] = useState<string>("")
     const [projectIDstr, setProjectIDstr] = useState("")
@@ -180,29 +182,38 @@ export default function Research() {
     const [deleteNoteID, setDeleteNoteID] = useState("")
     const [noteEdit, setNoteEdit] = useState<any>(null)
 
+    /**
+     * getResponse
+     * gets notes from server and sets note state
+     */
     const getResponse = async () => {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/notes/${projectID}`;
             const results = await axios.get(reqUrl);
-
-            console.log(results.data);
             setNotes(results.data.notes);
             setFilteredNotes(results.data.notes);
-            setRefresh(false);
-
         } catch (error) {
             //we failed to get notes for some reason
-            //setNotes(null);
-            setRefresh(true);
+
+            console.log(error)
 
         }
     }
 
+    /**
+     * addNotes
+     * add note to note list afeter server response
+     * @param note 
+     */
     const addNotes = (note: any) => {
-
         setNotes((prev: any) => [...prev, note])
     }
 
+    /**
+     * updateNote
+     * updates note in notelist after server response
+     * @param updateNote 
+     */
     const updateNotes = (updateNote: any) => {
         if (notes) {
             const index = notes.findIndex((note) => note.id == updateNote.id)
@@ -215,6 +226,11 @@ export default function Research() {
         }
     }
 
+    /**
+     * setUpdateNote
+     * get notes user is trying to edit and prepares it for update modal
+     * @param noteID 
+     */
     const setUpdateNote = (noteID: string) => {
         setEditNoteID(noteID)
         const note = notes?.filter((editNote) => {
@@ -226,30 +242,40 @@ export default function Research() {
         }
     }
 
+    /**
+     * removeNotes
+     * removes deleted note from note list
+     * @param noteID 
+     */
     const removeNotes = (noteID: any) => {
         const noteList = notes?.filter((note) => note.id !== noteID);
+        // if a result exists update notes
         if (noteList) {
-
             setNotes(noteList);
-
         }
 
     }
 
+    /**
+     * deleteNote
+     * sets note user is trying to delete into state
+     * @param id 
+     */
     const deleteNote = (id: string) => {
         setDeleteNoteID(id);
     }
 
 
-
-
-
+    /**
+     * search
+     * searches through notes based on user filters
+     */
     const search = () => {
-        let results
+        let results;
         results = notes?.filter((note) => {
             return (
                 (note.title.toLowerCase().includes(searchTopic.toLowerCase()) || note.details.toLowerCase().includes(searchTopic.toLowerCase())) && note.sprintID.toLowerCase().includes(searchMilestone)
-            )
+            );
         })
 
 
@@ -264,12 +290,21 @@ export default function Research() {
 
     }
 
+    /**
+     * changeTopic
+     * gets topic filter user set in input
+     * @param topic 
+     */
     const changeTopic = (topic: string) => {
 
         setSearchTopic(topic)
-        
-    }
 
+    }
+    /**
+     * changeMilestone
+     * get milestone/sprint filter from user input
+     * @param milestone 
+     */
     const changeMilestone = (milestone: string) => {
         setSearchMilestone(milestone);
         if (milestone == "") {
@@ -277,33 +312,35 @@ export default function Research() {
         }
     }
 
-
-
+    /**
+     * reset
+     * reset search filters and resets list 
+     */
     const reset = () => {
-
         if (notes)
             setFilteredNotes(notes)
     }
+
+
     useEffect(
         () => {
             if (user != null && projectID != null && setID != null) {
                 const id = String(projectID);
-                //    changeID(projectID);
                 setID(id);
                 setProjectIDstr(id);
-                // setRefresh(false)
-
             }
 
-            if (notes == null || notes.length==0) {
-                getResponse()
-            } else {
+            if (notes == null || notes.length == 0) {
+                getResponse();
+            }
+
+            else {
                 if (notes)
                     setFilteredNotes(notes);
-                
+
             }
 
-        }, [projectID,user, notes])
+        }, [projectID, user, notes])
     return (
         <div >
             <Head>
@@ -311,17 +348,22 @@ export default function Research() {
                 <meta name="description" content="Generated by create-t3-app" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+            <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
                 <main className="container mx-auto   ">
+                
                     {projectID != "" ? (<div className="px-7"><BackPage link={`/project/${projectIDstr}`} name={`Back to Project page`} /></div>) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                     <div className="flex flex-col  mx-auto row-gap-2 mb-10 ">
+                        <div className="prose pl-7 mb-5">
+                            <h1 className=" uppercase mb-2">Research Notes</h1>
+                            <p className="text-xl ">Create notes for later reference for you and your team.</p>
+                        </div>
+                        
                         <div className="flex flex-row justify-between mb-5 px-7">
                             <button
                                 onClick={
                                     () => {
-                                        const modalElement: any = document.getElementById('my_modal_2')
-                                        modalElement.showModal()
-                                        // setRefresh(true)
+                                        const modalElement: any = document.getElementById('my_modal_2');
+                                        modalElement.showModal();
                                     }
                                 }
                                 className="btn btn-primary"
@@ -329,17 +371,40 @@ export default function Research() {
                                 Add Note
                             </button>
                         </div>
-                        <SearchBar sprints={sprints} changeTopic={changeTopic} search={search} changeMilestone={changeMilestone} milestone={searchMilestone} topic={searchTopic} reset={reset} />
+                        <SearchBar
+                            sprints={sprints}
+                            changeTopic={changeTopic}
+                            search={search}
+                            changeMilestone={changeMilestone}
+                            milestone={searchMilestone}
+                            topic={searchTopic}
+                            reset={reset}
+                        />
 
                     </div>
 
                     <div className="container bg-base-100  mx-auto mb-24 px-7">
-                        {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} refresh={(val: boolean) => setRefresh(val)} />) : (<Spinner />)}
+                        {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} />) : (<Spinner />)}
                     </div>
                 </main>
-                <NotesModal projectID={projectIDstr} addNotes={addNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
-                <UpdateNote noteID={editNoteID} note={noteEdit} projectID={projectIDstr} update={updateNotes} userID={user?.id} sprints={sprints} refresh={(val: boolean) => setRefresh(val)} />
-                <DeleteNote id={deleteNoteID} remove={removeNotes} />
+                <NotesModal
+                    projectID={projectIDstr}
+                    addNotes={addNotes}
+                    userID={user?.id}
+                    sprints={sprints}
+                />
+                <UpdateNote
+                    noteID={editNoteID}
+                    note={noteEdit}
+                    projectID={projectIDstr}
+                    update={updateNotes}
+                    userID={user?.id}
+                    sprints={sprints}
+                />
+                <DeleteNote
+                    id={deleteNoteID}
+                    remove={removeNotes}
+                />
             </Drawer>
         </div>
     )

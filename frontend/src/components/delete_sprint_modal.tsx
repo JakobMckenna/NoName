@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState } from "react";
 import Spinner from "./modal_spinner";
 
