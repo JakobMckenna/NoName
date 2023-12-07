@@ -5,9 +5,10 @@
 
 import { createUserPasswordData, deleteUserByID, getAllUsers, getUserPassword, getUserProjects } from '../data-access/user_model';
 import jwt from "jsonwebtoken";
+import { PrismaClient } from '@prisma/client';
 
 
-
+const prisma = new PrismaClient();
 
 const createUserToken = (email: string) => {
   return jwt.sign({ email }, "TLzr2645ADWJHnVwLILFarysji44YiPi", {
@@ -88,15 +89,12 @@ const UserService = {
     try {
 
       const deletedUser = await deleteUserByID(userID);
-      if (deletedUser) {
-        result = deletedUser;
-      }
+      return deletedUser !== null; //bypass DB update time
     } catch (err: any) {
       console.log(err)
+      console.error('Error deleting user in service:', err);
       throw new Error()
-    } finally {
-      return result;
-    }
+    } 
   },
 
   /**
@@ -127,7 +125,9 @@ const UserService = {
   getAll: async () => {
     let result: any = null;
     try {
-      const users = await getAllUsers();
+      const users = await prisma.user.findMany({
+        where: { deleted: false },
+    });
       result = users;
       return result;
     } catch (err: any) {

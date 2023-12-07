@@ -109,9 +109,11 @@ export async function deleteUserByID(userID: number) {
             }
         })
 
-        console.log(`Deleted user\n${user}`)
+        console.log(`Deleted user\n${userID}`)
+        localStorage.removeItem("userData");
         if (user != null) {
             console.log("user doesnt exist")
+            console.log("userID", userID)
             throw new Error("user does not exist")
         }
         return user;
