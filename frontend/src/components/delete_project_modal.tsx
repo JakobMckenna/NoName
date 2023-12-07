@@ -57,7 +57,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         {deleting&&(
                             <Spinner />
                         )}
-                        {deleting?"delting":"yes"}
+                        {deleting?"deleting":"yes"}
                     </button>
                     <button
                         className="btn btn-neutral btn-lg"
