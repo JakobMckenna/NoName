@@ -8,6 +8,16 @@ const DeleteUserModal = ({ userID, home }: { userID: string, home: () => void })
     const [modalOpen, setModalOpen] = useState(true);
 
     console.log('Delete Modal Loaded, ID: ', userID);
+    const closeModal = () => {
+        console.log('Close Modal');
+        const modalElement: any = document.getElementById('del_user')
+        modalElement.close()
+        setDeleting(false);
+        setModalOpen(false);
+    };
+
+    //TODO: Bug that onlny lets you open the delete user modal once
+
 
     const deleteUser = async () => {
         try {
@@ -30,13 +40,13 @@ const DeleteUserModal = ({ userID, home }: { userID: string, home: () => void })
     };
 
     return (
-        <dialog open={modalOpen} id="delete_user_modal" className="modal">
+        <dialog open={modalOpen} id="del_user" className="modal">
             <div className="modal-box">
                 <h3 className="font-bold text-lg">Are you sure you want to delete your account?</h3>
                 <h4 className="text-sm">This action cannot be undone.</h4>
                 <div className="flex flex-row justify-around">
                     <button
-                        className="btn btn-danger btn-lg"
+                        className="btn btn-warning btn-lg m-5"
                         onClick={async () => {
                             try {
                                 setDeleting(true);
@@ -50,16 +60,16 @@ const DeleteUserModal = ({ userID, home }: { userID: string, home: () => void })
                         disabled={deleting}
                     >
                         {deleting && <Spinner />}
-                        {deleting ? "Deleting" : "Yes"}
+                        {deleting ? "Deleting" : "Delete Account"}
                     </button>
                     <button
-                        className="btn btn-neutral btn-lg"
+                        className="btn btn-neutral btn-lg m-5"
                         onClick={() => {
                             setModalOpen(false);
                         }}
                         disabled={deleting}
                     >
-                        No
+                        Cancel
                     </button>
                 </div>
             </div>

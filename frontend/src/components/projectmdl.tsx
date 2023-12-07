@@ -23,6 +23,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
     
 
     const handleCreateProject = async (data: any) => {
+        console.log("Attempting to create project", data.name)
         try {
           
             const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name, userID: userID }, {

@@ -79,7 +79,7 @@ export default function Settings() {
     <Drawer userName={`${user?.name}#${user?.id}`}>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content text-center">
-          <div className="max-w-md -mt-16">
+          <div className="max-w-md">
             <h1 className="mb-5 text-3xl">Account Settings</h1>
             <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100 mt-10">
               <form onSubmit={handleSubmit(handleUpdateSettings)} className="card-body w-80 flex flex-col">
