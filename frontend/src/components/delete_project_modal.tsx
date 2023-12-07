@@ -6,7 +6,7 @@ import { useState } from "react";
 import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
-    const [deleting, setDeleting] = useState(false);
+    const [deleting, setDeleting] = useState(false)
 
     const deleteProject = async () => {
         try {
@@ -30,11 +30,11 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
     }
     return (
         <dialog id="del_proj" className="modal">
-            <div className="modal-box flex flex-col items-center space-y-4">
-                <h3 className="text-lg font-bold m-5">Are you sure you want to delete this project?</h3>
-                <div className="flex flex-row space-x-4">
+            <div className="modal-box">
+                <h3 className="font-bold text-lg">Are you sure you want to delete this project!</h3>
+                <div className="flex flex-row justify-around">
                     <button
-                        className="btn btn-warning btn-md"
+                        className="btn  btn-warning btn-lg"
                         onClick={
                             async () => {
                                 try {
@@ -54,10 +54,10 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         {deleting&&(
                             <Spinner />
                         )}
-                        {deleting?"deleting":"Delete"}
+                        {deleting?"delting":"yes"}
                     </button>
                     <button
-                        className="btn btn-neutral btn-md"
+                        className="btn btn-neutral btn-lg"
                         onClick={
                             () => {
                                 const modalElement: any = document.getElementById('del_proj')
@@ -66,7 +66,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         }
                         disabled={deleting}
                     >
-                        Cancel
+                        no
                     </button>
                 </div>
                 
