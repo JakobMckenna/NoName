@@ -46,7 +46,7 @@ function SignIn({ handleSignIn, message }: any) {
                   {...register("email")}
                   disabled={isSubmitting}
                   type="email"
-                  placeholder="email"
+                  placeholder="Email"
                   className="input input-bordered"
                   required
                 />
@@ -59,7 +59,7 @@ function SignIn({ handleSignIn, message }: any) {
                   {...register("password")}
                   disabled={isSubmitting}
                   type="password"
-                  placeholder="password"
+                  placeholder="Password"
                   className="input input-bordered"
                   required
                 />
