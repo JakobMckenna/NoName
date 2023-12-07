@@ -1,32 +1,35 @@
 /* eslint-disable */
+/**
+ * @fileoverview Initiates connection to the server socket and joins a projects chat rooom
+ */
 import { useEffect, useState } from "react";
-import { Socket, io } from "socket.io-client"
+import { io } from "socket.io-client"
 
 import config from "config";
-interface ChatSocket{
-    socket:Socket,
-    loading:boolean
-}
 
-const useChatSocket = (projectID:string)  => {
+
+const useChatSocket = (projectID: string) => {
     const [socket, setSocket] = useState<any>();
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);  // tells frontend when socket is ready
+
     useEffect(
         () => {
-            if(projectID!==undefined || !socket)
-            {
+
+            // only join a chat room if we have a valid project ID also doesnt create a new socket 
+            // if socket is already initiated
+            if (projectID !== undefined && projectID != null && projectID != "undefined" && !socket) {
                 const chatSocket = io(`${config.backendApiUrl}/chat`);
                 setSocket(chatSocket)
                 chatSocket.emit("join", projectID);
                 setLoading(false)
-            }else{
+            } else {
                 console.log("no")
             }
 
-            
 
 
-        },[projectID]
+
+        }, [projectID]
     )
     return [socket, loading];
 }

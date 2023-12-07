@@ -65,7 +65,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
                     {milestone}
                 </button>
             </div>
-            <p className="w-32">{date}</p>
+            <p className="w-32">{dueDate?date:"does not have milestone"}</p>
         </div>
     )
 }

@@ -58,7 +58,7 @@ const GithubService = {
     getMainCommits: async (owner: string, repoName: string) => {
         let result: any = null;
         try {
-            const url: string = `https://api.github.com/repos/${owner}/${repoName}/commits`;
+            const url: string = `https://api.github.com/repos/${owner}/${repoName}/commits?per_page=100`;
             const response = await axios.get(url, {
                 headers: {
                     Authorization: `token ${GIT_TOKEN}`

@@ -4,7 +4,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket } from "socket.io-client";
-import usePrevChat from "~/hooks/use_prev_chat";
+
 
 interface User {
     id: string;
@@ -20,14 +20,20 @@ interface Chat {
     timestamp: string;
     user: User;
 }
-
+/**
+ * convDate
+ * convert iso date into local time
+ * @param date  is the iso date you are trying to convert
+ * @returns  local time string
+ */
 const convDate = (date: string) => {
     const result = new Date(date)
     return ` ${result.toLocaleDateString()} ${result.toLocaleTimeString()}`
 
 }
 
-function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, messages }: { scrollDown: Function, scrollUp: Function, searchMessage: Function, scrollToMsg: Function, messages: Chat[] }) {
+
+function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, messages }: { readonly scrollDown: any, readonly scrollUp: any, readonly searchMessage: any, readonly scrollToMsg: any, readonly messages: Chat[] }) {
     const [typing, setTyping] = useState(false);
     return (
         <div className="flex flex-col justify-start md:flex-row md:justify-between items-end w-full mb-4">
@@ -85,7 +91,7 @@ function ChatActions({ scrollDown, scrollUp, searchMessage, scrollToMsg, message
     )
 }
 
-function Form({ sendMessage }: { sendMessage: any }) {
+function Form({ sendMessage }: { readonly sendMessage: any }) {
     const {
         register,
         handleSubmit,
@@ -95,10 +101,11 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
 
 
-    const handleCreateProject = async (data: any) => {
+    const handleSendMessage = async (data: any) => {
         console.log("submit")
         try {
             sendMessage(data.message);
+
             setValue("message", "");
         } catch (error) {
             console.log(error)
@@ -107,7 +114,7 @@ function Form({ sendMessage }: { sendMessage: any }) {
 
     return (
 
-        <form className="flex flex-row w-full " onSubmit={handleSubmit(handleCreateProject)} >
+        <form className="flex flex-row w-full " onSubmit={handleSubmit(handleSendMessage)} >
             <div className="form-control w-4/5">
                 <textarea {...register("message")}
                     className="textarea textarea-bordered w-full "
@@ -116,20 +123,23 @@ function Form({ sendMessage }: { sendMessage: any }) {
                         (event) => {
                             if (event.key === `Enter`) {
                                 event.preventDefault();
-                                handleSubmit(handleCreateProject)();
+                                handleSubmit(handleSendMessage)();
                             }
                         }
                     }
                     required />
             </div>
             <div className="form-control w-1/5 ">
-                <button className="btn btn-primary">
-                Send
+                <button
+                    className={!isSubmitting ? "btn btn-primary" : "btn btn-primary glass skeleton"}
+                    disabled={isSubmitting}
+                >
+                    Send
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                     </svg>
 
-                    
+
                 </button>
 
             </div>
@@ -140,17 +150,19 @@ function Form({ sendMessage }: { sendMessage: any }) {
 }
 
 
-const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectID: string, name: string, userID: string }) => {
+const ChatBox = ({ socket, projectID, name, userID, messages }: { readonly socket: Socket, projectID: string, name: string, userID: string, messages: any }) => {
     const [chatHistory, setChatHistory] = useState<Chat[]>([]);
-    const [prevChats, isLoading] = usePrevChat(projectID);
-    const [filteredMessages, setFilteredMessages] = useState<Chat[]>([])
-    const [search, setSearch] = useState("");
+    const [filteredMessages, setFilteredMessages] = useState<Chat[]>([]);
     const chatBox = useRef<HTMLDivElement | null>(null);
     const topChatBox = useRef<HTMLDivElement | null>(null);
-    const messages = useRef<HTMLDivElement | null>(null);
+    const [parent, enableAnimations] = useAutoAnimate();
 
-    const [parent, enableAnimations] = useAutoAnimate()
-
+    /**
+     * getMessages
+     * gets all messages that contain the searchVal value
+     * @param searchVal 
+     * @returns  
+     */
     const getMessages = (searchVal: string) => {
         return chatHistory.filter((message: Chat) => {
             return message.message.toLowerCase().includes(searchVal.toLowerCase())
@@ -158,65 +170,101 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
     }
 
 
+    /**
+     * seacrch message gets all messages that contain a string of characters
+     * @param msg is the characters or string user is searching for
+     */
     const searchMessage = (msg: string) => {
-        console.log(msg)
-        setSearch(msg);
         const messages = getMessages(msg);
-        setFilteredMessages(messages)
-        // console.log(messages)
-
+        setFilteredMessages(messages);
     }
 
-
-
-    const messageEvent = (data: Chat) => {
-        console.log(data);
-        setChatHistory((messages) => [...messages, data]);
-        // scroll()
-        scrollDown();
-    }
-    const scrollDown = () => {
-        if (chatBox.current) {
-            chatBox.current.scrollIntoView({ behavior: "smooth", block: "nearest" })
-
-        }
-    }
-
+    /**
+    * scrollUp
+    * scrolls up to the top of message container
+    */
     const scrollUP = () => {
         if (topChatBox.current) {
             topChatBox.current.scrollIntoView({ behavior: "smooth", block: "end" })
-
         }
     }
 
-    const sendMessage = (msg: string) => {
 
-        socket.emit("message", { room: projectID, message: msg, name: name, userID: userID });
-        //  scrollDown();
+    /**
+     * scrollDown
+     * scrolls down to bottom of chat container
+     */
+    const scrollDown = () => {
+        if (chatBox.current) {
+            chatBox.current.scrollTop = chatBox.current.scrollHeight;
+        }
     }
 
-    const scrollToMessage = (time: string) => {
-        const message = document.getElementById(time)
 
-        message?.scrollIntoView({ behavior: 'smooth' });
+    /**
+     * messageEvent
+     * adds new message from socket to chat history array and scrolls down to new message
+     * @param message is a new message from chat room socket
+     */
+    const messageEvent = (message: Chat) => {
+        scrollDown();
+        setChatHistory((messages) => [...messages, message]);
+    }
 
 
+    /**
+     * sendMessage
+     * sends message to chat room socket
+     * @param message is the message being sent to chat room socket
+     */
+    const sendMessage = (message: string) => {
+        try {
+            socket.emit("message", { room: projectID, message: message, name: name, userID: userID });
+        } catch (error) {
+            alert("message failed to send , server must be down . Check console logs");
+            console.log(error);
+        }
+    }
+
+    /**
+     * scrollToMessage
+     * scrolls to the message with particular message ID
+     * @param messageID  is the message that must come into view
+     */
+    const scrollToMessage = (messageID: string) => {
+        //retrieve message by id 
+        const message = chatBox.current?.querySelector(`#${messageID}`);
+        if (chatBox?.current && message ) {
+           // get the message dom rectangle
+            const messageDomRect = message?.getBoundingClientRect();  
+            // get the chat box dom rectangle
+            const messagesDomRect = chatBox.current.getBoundingClientRect(); 
+            // calculate relative postition of message based on messages container
+            const offset =  messageDomRect.top - messagesDomRect.top; 
+             // move the message container to that position
+            chatBox.current.scrollTop = chatBox.current.scrollTop + offset; 
+        }
     }
 
 
     useEffect(() => {
-        // scroll()
-        setChatHistory((prev) => [...prevChats])
-        scrollDown()
-        socket.on("message", messageEvent)
+        setChatHistory((prev) => [...messages]);
+        scrollDown();
+        enableAnimations(true);
+        socket.on("message", messageEvent);
         return () => {
             socket.off("message", messageEvent);
         };
 
-    }, [projectID, prevChats])
-    return (
+    }, [messages])
 
-        <div className="flex flex-col  w-[405px] md:w-[512px]  max-w-lg h-screen overflow-y-none">
+
+
+    return (
+        <div
+            ref={parent}
+            className="flex flex-col  w-[405px] md:w-[512px]  max-w-lg h-screen overflow-y-none"
+        >
             <ChatActions
                 scrollDown={scrollDown}
                 scrollUp={scrollUP}
@@ -224,38 +272,41 @@ const ChatBox = ({ socket, projectID, name, userID }: { socket: Socket, projectI
                 messages={filteredMessages}
                 scrollToMsg={scrollToMessage}
             />
-            <div ref={parent} className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-20">
+
+            <div
+                ref={chatBox}
+                className="bg-base-200  h-3/5 mb-6 overflow-y-auto px-10 pt-5  pb-16"
+            >
                 <span ref={topChatBox} />
 
 
-                {
-                    // chats live on socket
-                    chatHistory.map((chat, index) => {
-                        const rightNowDate = new Date()
-                        //  const date: string = convDate(rightNowDate.toISOString());
-                        const timestamp = chat?.timestamp;
-                        const date = convDate(timestamp);
-                        const currDate = convDate(rightNowDate.toISOString());
-                        return (
-                            <div key={index} id={chat.id} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
-                                <div className="chat-header">
-                                    {chat.user.name}#{chat.user.id}
-                                    <time className="text-xs opacity-50">{timestamp ? date : currDate}</time>
-                                </div>
-                                <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
 
-                            </div>
-                        )
-                    }
+                {
+                    // chat history includes messages saved on the db and messages being sent on the socket
+                    chatHistory.length > 0 && chatHistory.map(
+                        (chat) => {
+                            return (
+                                <div key={chat.id} id={chat.id} className={userID == chat.user.id ? "chat chat-start " : "chat chat-end "}>
+                                    <div className="chat-header">
+                                        {chat.user.name}#{chat.user.id}
+                                        <time className="text-xs opacity-50">{chat.timestamp}</time>
+                                    </div>
+                                    <div className={userID == chat.user.id ? "chat-bubble chat-bubble-primary" : "chat-bubble"}>{chat.message}</div>
+
+                                </div>
+                            )
+                        }
 
                     )
 
                 }
 
-                <span className="flex flex-row mt-60" ref={chatBox}>
+                <div className="mt-5" >
                     <span />
-                </span>
+                </div>
+
             </div>
+
 
             <div className="flex flex-row  w-full    overflow-y-none">
                 <Form sendMessage={sendMessage} />

@@ -489,6 +489,39 @@ III. Tehillah will work on making sure there are no bugs left
 
 VI. Isabelle will work on frontend features
 
+## Date: december 5th, 2023
+
+*Attendees:* Jakob McKenna, Tehillah Kangamba, Susie Kihaile, Isabelle Anderson-Gregoire
+
+*Location:* EITC 330
+
+**Agenda**
+
+I. Talked about presentation
+
+II. Discussed what needed to be completed for final project release
+
+**Next Steps**
+
+Presentation:
+
+I. Susie do the intro (slides 1-8)
+
+II. Jakob will do the demo (slide 9)
+
+III. Isabelle will talk about frontend development (slides 10-23)
+
+VI. Tehillah will talk about backend development (slides 24-37)
+
+Final project release:
+
+I. Susie will add a description of how to run dockerhub, regression testing, 5 bugs in secuirty analysis
+
+II. Jakob will finish testing for the application, and write about the tests
+
+III. Isabelle do the user manual
+
+VI. Tehillah add the frameworks he used, and top 5 most important files
     
 
 <br>
