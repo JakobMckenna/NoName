@@ -54,8 +54,7 @@ export default function Settings() {
   const {
     register,
     handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<FormInput>();
 
   const handleUpdateSettings: SubmitHandler<FormInput> = async (data) => {
@@ -71,6 +70,10 @@ export default function Settings() {
       router.push('/');
     }
   }, [user]);
+
+  useEffect(() => {
+    console.log('showDeleteModal', showDeleteModal);
+  }, [showDeleteModal]);
 
   return (
     <Drawer userName={`${user?.name}#${user?.id}`}>
@@ -119,29 +122,35 @@ export default function Settings() {
                 ) : (
                   <LoadingTile />
                 )}
-                <button type="submit" className="btn btn-primary" disabled={isSubmitting || !user}>
-                      {isSubmitting && <Spinner />}
-                      {isSubmitting ? 'Updating Account' : 'Update Account'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleDeleteAccount}
-                      className="btn btn-danger mt-4"
-                      disabled={isSubmitting || !user}
-                    >
-                      Delete Account
-                    </button>
+               <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isSubmitting || !user}
+                >
+                  {isSubmitting && <Spinner />}
+                  {isSubmitting ? 'Updating Account' : 'Update Account'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteAccount}
+                  className="btn btn-danger mt-4"
+                  disabled={isSubmitting || !user}
+                >
+                  Delete Account
+                </button>
+                {showDeleteModal && (
+                  <DeleteUserModal
+                    userID={user.id}
+                    home={() => {
+                      router.push('/');
+                    }}
+                  />
+                )}
               </form>
             </div>
           </div>
         </div>
       </div>
-      {showDeleteModal && (
-        <DeleteUserModal
-          userID={user.id}
-          home={() => router.push('/')}
-        />
-      )}
     </Drawer>
   );
 }
