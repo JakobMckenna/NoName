@@ -30,7 +30,7 @@ const Drawer = ({ children, userName }: { children: ReactNode, userName: string 
                         </label>
                     </div>
                     <div className="navbar-center">
-                    <Link href={"/home"} className="btn btn-ghost normal-case text-xl"> {userName ? `${userName} DEV DIARY` : 'DEV DIARY'} </Link>
+                    <Link href={userName ? '/home' : '/'} className="btn btn-ghost normal-case text-xl"> {userName ? `${userName} DEV DIARY` : 'DEV DIARY'} </Link>
                     </div>
                     <div className="navbar-end">
                         <label className="flex cursor-pointer gap-2">
