@@ -46,6 +46,17 @@ test('Creating a dummy user to create a project', async () => {
         expect(data6).toBeTruthy();
       });
 
+      // createResearchNote(title: string, details: string, userID: number, sprint: string, urlList: Url[])
+      //new tests for notes funcationality
+      test('Create a research note', async () => {
+        let data5 = null
+        let urlList =  [{ url: 'http://example.com'}];
+        if(projID !== undefined && userID !== undefined && sprintID !== undefined){
+            data5 = await createResearchNote("New Note", "Details of note", userID, sprintID, urlList);
+        }
+        expect(data5).toBeTruthy();
+      });
+
 
 
       //clean up the DB
