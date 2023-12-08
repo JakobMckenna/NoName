@@ -7,6 +7,7 @@ import {getResearchNotes, createResearchNote, updateResearchNote, deleteResearch
 let userID: number | undefined
 let projID: string | undefined
 let sprintID: string | undefined
+let noteID: string | undefined
 let sprints = null
 
 // createResearchNote(title: string, details: string, userID: number, sprint: string, urlList: Url[])
@@ -54,10 +55,35 @@ test('Creating a dummy user to create a project', async () => {
         if(projID !== undefined && userID !== undefined && sprintID !== undefined){
             data5 = await createResearchNote("New Note", "Details of note", userID, sprintID, urlList);
         }
+        noteID = data5?.id
         expect(data5).toBeTruthy();
       });
 
+      test('Get all research notes', async () => {
+        let data5 = null
+        if(projID !== undefined){
+            data5 = await getResearchNotes(projID);
+        }
+        expect(data5).toBeTruthy();
+      });
 
+      // updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: any)
+      test('Update a research note', async () => {
+        let data5 = null
+        let urlList =  [{ url: 'http://example2.com'}];
+        if(noteID !== undefined && userID !== undefined && sprintID !== undefined){
+            data5 = await updateResearchNote(noteID, "New note title", "New note details", userID, sprintID, urlList);
+        }
+        expect(data5).toBeTruthy();
+      });
+
+      test('Delete a research note', async () => {
+        let data5 = null
+        if(noteID !== undefined){
+            data5 = await deleteResearchNote(noteID);
+        }
+        expect(data5).toBeTruthy();
+      });
 
       //clean up the DB
       test('Remove a sprint', async () => {
