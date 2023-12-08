@@ -1,6 +1,14 @@
 import { Request, Response } from 'express';
 import NotesService from '../services/notes_service';
 const NotesController = {
+
+    /**
+     * create
+     * creates note/bookmark
+     * @param req 
+     * @param res 
+     * @returns http 200 and if it fails it returns http 400
+     */
     create: async (req: Request, res: Response) => {
         const noteBody = req.body;
         try{
@@ -18,6 +26,14 @@ const NotesController = {
             res.status(400).json()
         }
     },
+
+    /**
+     * delete
+     * deletes notes by ID
+     * @param req 
+     * @param res 
+     * @returns http 200 and if it fails it returns http 400
+     */
     delete: async (req: Request, res: Response) => {
         try {
             const noteID: string = req.params.id;
@@ -28,6 +44,13 @@ const NotesController = {
             res.status(400).json()
         }
     },
+    /**
+     * getAll
+     * gets all notes in a project
+     * @param req 
+     * @param res 
+     * @returns http 200 and if it fails it returns http 400
+     */
     getAll:async (req: Request, res: Response) => {
         console.log("get notes")
         try {
@@ -39,6 +62,13 @@ const NotesController = {
             res.status(400).json()
         }
     },
+    /**
+     * update
+     * updates a note by note ID
+     * @param req 
+     * @param res 
+     * @returns http 200 and if it fails it returns http 400
+     */
     update:async (req: Request, res: Response) => {
         const noteBody = req.body;
         try {
