@@ -1,4 +1,4 @@
-import {createUserPasswordData, deleteUserByID, updateUser} from "../backend/data-access/user_model"
+import {createUserPasswordData, deleteUserByID, updateUser, getAllUsers, getUserProjects} from "../backend/data-access/user_model"
 import {getUserPassword} from "../backend/data-access/user_model"
 
 let userID1: number | undefined
@@ -41,6 +41,28 @@ test('User 1 created', async () => {
     const data5 = await getUserPassword("john999@email.com");
     expect(data5?.userPassword?.password).toBe("password2");
   });
+
+    //Update a user
+    test('Updating user info', async () => {
+      if(userID4 !== undefined){
+        const data13 = await updateUser(userID4,"john33","john9783@email.com","password33");
+        expect(data13).toBeTruthy;
+      }
+    });
+
+     //Getting all users
+     test('Getting users (There should be 4 right now)', async () => {
+        const data14 = await getAllUsers();
+        expect(data14).toBeTruthy;
+      
+     });
+
+     //get user projects
+     test('Getting user projects (Should be none)', async () => {
+      const data15 = await getAllUsers();
+      expect(data15).toBeNull;
+    
+   });
 
   //Delete users
   test('delete user by ID', async () => {
