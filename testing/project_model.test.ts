@@ -23,7 +23,7 @@ test('Create a project', async () => {
   test('Project 2 created', async () => {
     let data2 = null
     if(userID !== undefined){
-        data2 = await createProject("Project tester 2", userID);
+        data2 = await createProject("Project test 2", userID);
     }
     expect(data2?.name).toBe("Project test 2");
   });
