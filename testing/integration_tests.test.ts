@@ -1,17 +1,14 @@
 import {createUserPasswordData, deleteUserByID} from "../backend/data-access/user_model"
 
-let userID1: number | undefined
-
-test('User 1 created', async () => {
+test('Create and delete user', async () => {
+    let userID: number | undefined
     const data1 = await createUserPasswordData("test user 1","test1@email.com","testpass");
-    userID1 = data1?.id
+    userID = data1?.id
     expect(data1?.email).toBe("test1@email.com");
-  });
 
-  test('delete user by ID', async () => {
-    let data6 = null
-   if(userID1 !== undefined){
-     data6 = await deleteUserByID(userID1);
-   }
-   expect(data6).toBeNull();
- });
+    let data2 = null
+    if(userID !== undefined){
+        data2 = await deleteUserByID(userID);
+      }
+      expect(data2).toBeNull();
+  });
