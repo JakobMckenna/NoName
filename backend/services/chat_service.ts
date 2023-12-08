@@ -70,7 +70,7 @@ const ChatService = {
      */
     sendTime: () => {
         const result = new Date();
-        return result.toISOString()
+        return result.toISOString();
     }
 }
 
