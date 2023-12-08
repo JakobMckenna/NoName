@@ -1,7 +1,6 @@
 import { addProjectMember, createProject, getAllProjects, getProject, getProjectMembers, removeProject, removeProjectMember, updateProject } from "../data-access/project_model"
 import { createRepo, getRepo, updateRepo } from "../data-access/repo_model";
 import { createSprint, getSprint, getSprints, removeSprint, updateSprint } from "../data-access/sprint_model";
-import { createProjectTask, getProjectTask, removeProjectTask, updateProjectTask } from "../data-access/task_model";
 
 const ProjectService = {
     /**
@@ -20,7 +19,8 @@ const ProjectService = {
     },
 
     /**
-     * getProject gets project by project ID
+     * getProject 
+     * gets project by project ID
      * @param projectID 
      * @returns  a project object
      */
@@ -35,7 +35,8 @@ const ProjectService = {
     },
 
     /**
-     * createProject this creates a user project
+     * createProject 
+     * this creates a user project
      * @param id is the id of an existing project if  a user wants to modify project data
      * @param name is the name of the project
      * @param userID is the owner of a project
@@ -66,7 +67,8 @@ const ProjectService = {
     },
 
     /**
-     * removeProject removes a user project based on the project id
+     * removeProject 
+     * removes a user project based on the project id
      * @param id is the ID of the project you want to delete
      * @returns  deleted project
      */
@@ -81,16 +83,30 @@ const ProjectService = {
         }
     },
 
+    /**
+     * addMember
+     * add a user by ID to a project
+     * @param projectID , the project a user is being added to
+     * @param userID , is the ID of the user being added to a project
+     * @returns  a list of current members + the new one
+     */
     addMember: async (projectID: string, userID: number) => {
         try {
             let results = null;
-            const addProjectMem = await addProjectMember(projectID, userID);
-            results = addProjectMem;
+            const addProjectMemember = await addProjectMember(projectID, userID);
+            results = addProjectMemember;
             return results;
         } catch (error) {
             throw new Error("failed to get projects");
         }
     },
+
+    /**
+     * getMembers
+     * gets the current members of a project
+     * @param projectID is the project members being requested 
+     * @returns  a list of current project members
+     */
     getMembers: async (projectID: string) => {
         try {
             let results = null;
@@ -101,6 +117,14 @@ const ProjectService = {
             throw new Error("failed to get projects");
         }
     },
+
+    /**
+     * removeMember
+     * this removes a user from a project
+     * @param projectID is the project you want to remove a user from
+     * @param userID is the user you want to remove
+     * @returns  updated member list
+     */
     removeMember: async (projectID: string, userID: number) => {
         try {
             let results = null;
@@ -112,6 +136,15 @@ const ProjectService = {
         }
     },
 
+    /**
+     * addRepo
+     * adds github repository infomation to the database
+     * @param repoID , is the ID of the repo in the database if you want update the github repository
+     * @param projectID , is the project you want to add github information fo
+     * @param owner is the owner of the github repository
+     * @param repo is the name of the repository
+     * @returns  
+     */
     addRepo: async (repoID: string, projectID: string, owner: string, repo: string) => {
         try {
             let results = null;
@@ -133,6 +166,17 @@ const ProjectService = {
             throw new Error("failed to add new repo data");
         }
     },
+
+    /**
+     * createSprint
+     * This creates sprint/milestone of a project
+     * @param sprintID is the ID of the sprint in the database if you want update the sprint 
+     * @param projectID is the project you want to add a sprint for
+     * @param name is the name of the sprint
+     * @param start is the start date of sprint
+     * @param deadline is the deadline of a sprint
+     * @returns  created/updated sprint
+     */
     createSprint: async (sprintID: string, projectID: string, name: string, start: string, deadline: string) => {
         try {
             let results = null;
@@ -152,6 +196,13 @@ const ProjectService = {
             throw new Error("failed to add new sprint");
         }
     },
+
+    /**
+     * removeSprint
+     * removes sprint from a project
+     * @param sprintID  is the sprint you want to remove
+     * @returns  deleted sprint
+     */
     removeSprint: async (sprintID: string) => {
         try {
             let results = null;
@@ -162,6 +213,13 @@ const ProjectService = {
             throw new Error("failed to get projects");
         }
     },
+
+    /**
+     * getAllSprints
+     * returns all sprints of a project
+     * @param projectID is the ID of the project you want sprint for
+     * @returns  a list of sprints
+     */
     getAllSprints: async (projectID: string) => {
         try {
             const sprints = await getSprints(projectID);
@@ -170,33 +228,7 @@ const ProjectService = {
             throw new Error("failed to get sprints");
         }
     },
-    addTask: async (taskID: string, sprintID: string, name: string, details: string, deadline: string, assignedUser: number, authorUser: number, completed: boolean) => {
-        try {
-            let results = null;
 
-            let exists = null;
-            if (taskID != null || taskID === "")
-                exists = await getProjectTask(taskID);
-            if (exists === null) {
-                const sprint = await createProjectTask(sprintID, name, details, deadline, assignedUser, authorUser, completed);
-                results = sprint;
-            } else {
-                const sprint = await updateProjectTask(exists.id, sprintID, name, details, deadline, assignedUser, authorUser, completed);
-                results = sprint;
-            }
-            return results;
-        } catch (error) {
-            throw new Error("failed to add new sprint");
-        }
-    },
-    removeTask: async (taskID: string) => {
-        try {
-            const task = await removeProjectTask(taskID);
-            return task;
-        } catch (error) {
-            throw new Error("failed to get sprints");
-        }
-    },
 }
 
 export default ProjectService;
