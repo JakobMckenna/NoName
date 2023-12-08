@@ -5,6 +5,7 @@ import ChatService from '../services/chat_service';
 
 
 const ProjectController = {
+    
     getProject:async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
