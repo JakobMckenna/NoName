@@ -65,7 +65,8 @@ test('Creating a dummy user to create a project', async () => {
        if(sprintID !== undefined && projID !== undefined){
          data4 = await updateSprint(sprintID, projID, "new name", "2023-10-20T06:20:11.963Z", "2023-10-20T06:20:11.963Z");
        }
-       expect(data4).toBeTruthy();
+       expect(data4?.name).toBe("new name");
+       expect(data4?.projectID).toBe(projID);
       });
 
       //clean up the DB
