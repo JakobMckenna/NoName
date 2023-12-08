@@ -1,3 +1,6 @@
+/**
+ * @fileoverview project service this handle the business logic of project
+ */
 import { addProjectMember, createProject, getAllProjects, getProject, getProjectMembers, removeProject, removeProjectMember, updateProject } from "../data-access/project_model"
 import { createRepo, getRepo, updateRepo } from "../data-access/repo_model";
 import { createSprint, getSprint, getSprints, removeSprint, updateSprint } from "../data-access/sprint_model";

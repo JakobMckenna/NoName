@@ -34,9 +34,6 @@ projectRoutes.delete("/notes/:id",NotesController.delete);
 
 projectRoutes.patch("/notes",NotesController.update);
 
-projectRoutes.post("/task",ProjectController.addTask);
-
-projectRoutes.delete("/task/:id",ProjectController.removeTask);
 
 projectRoutes.get("/chat/:id",ProjectController.getPrevMessages);
 

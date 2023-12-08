@@ -170,46 +170,7 @@ const ProjectController = {
             res.status(400).json()
         }
     },
-    addTask: async (req: Request, res: Response) => {
-        try {
-            const taskBody = req.body;
-            console.log(taskBody)
-            const taskID: string = taskBody.taskID;
-            const sprintID: string = taskBody.sprintID;
 
-            const details: string = taskBody.details;
-            const name: string = taskBody.name;
-            const assignedUser: number = taskBody.assignedUser;
-            const authorUser: number = taskBody.authorUser;
-            const deadline: string = taskBody.deadline;
-            const completed: boolean = taskBody.completed;
-
-            const addedTask = await ProjectService.addTask(taskID, sprintID, name, details, deadline, assignedUser, authorUser, completed)
-            if(addedTask === null)
-            {
-                res.status(400).json()
-            }
-            res.status(200).json({ "task": addedTask  });
-
-        } catch (error) {
-            res.status(400).json()
-        }
-    },
-    removeTask: async (req: Request, res: Response) => {
-        try {
-            const taskID: string = req.params.id;
-            const removedTask = await ProjectService.removeTask(taskID)
-            if(removedTask === null)
-            {
-                res.status(400).json()
-            }
-            res.status(200).json({ "sprints": removedTask });
-
-        } catch (error) {
-            res.status(400).json()
-        }
-    },
-    
     getPrevMessages:async(req: Request, res: Response)=>{
         try {
             const projectID: string = req.params.id;
