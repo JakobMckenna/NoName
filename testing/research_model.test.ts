@@ -68,13 +68,13 @@ test('Creating a dummy user to create a project', async () => {
       });
 
       // updateResearchNote(noteID: string, title: string, details: string, userID: number, sprint: string, urlList: any)
-      test('Update a research note', async () => {
+      test('Update a research note with bad info (should not work)', async () => {
         let data5 = null
-        let urlList =  [{ url: 'http://example2.com'}];
+        let urlList =  "bad"
         if(noteID !== undefined && userID !== undefined && sprintID !== undefined){
             data5 = await updateResearchNote(noteID, "New note title", "New note details", userID, sprintID, urlList);
         }
-        expect(data5).toBeTruthy();
+        expect(data5).toBeNull();
       });
 
       test('Delete a research note', async () => {
