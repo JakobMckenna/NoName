@@ -35,7 +35,7 @@ const SprintDelete = ({deleteSprint}:{deleteSprint:any}) => {
                     {deleting&&(
                         <Spinner />
                     )}
-                    {deleting?"delting":"yes"}
+                    {deleting?"deleting":"yes"}
                 </button>
                 <button
                     className="btn btn-neutral btn-lg"
