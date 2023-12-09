@@ -6,7 +6,7 @@ import { useState } from "react";
 import Spinner from "./modal_spinner";
 
 const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
-    const [deleting, setDeleting] = useState(false);
+    const [deleting, setDeleting] = useState(false)
 
     const deleteProject = async () => {
         try {
@@ -21,9 +21,6 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
             home()
             const modalElement: any = document.getElementById('del_proj')
             modalElement.close()
-
-
-            // refresh(true)
 
         } catch (error) {
             console.log(error)
@@ -57,7 +54,7 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         {deleting&&(
                             <Spinner />
                         )}
-                        {deleting?"delting":"yes"}
+                        {deleting?"deleting":"yes"}
                     </button>
                     <button
                         className="btn btn-neutral btn-lg"
@@ -72,7 +69,8 @@ const DeleteModal = ({ projectID, home }: { projectID: string, home: any }) => {
                         no
                     </button>
                 </div>
-
+                
+             
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
