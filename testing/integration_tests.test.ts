@@ -3,6 +3,7 @@ import {createProject, getProject, updateProject, removeProject, getAllProjects,
 import {getRepo, createRepo, updateRepo} from "../backend/data-access/repo_model"
 import {getAllMessages, saveMessage, deleteMessage, } from "../backend/data-access/chat_model"
 import {getSprint, getSprints, createSprint, removeSprint, updateSprint} from "../backend/data-access/sprint_model"
+import {getResearchNotes, createResearchNote, updateResearchNote, deleteResearchNote} from "../backend/data-access/research_model"
 
 test('Create and delete user', async () => {
     let userID: number | undefined
@@ -72,6 +73,7 @@ test('Create and delete user', async () => {
   let projID1: string | undefined
   let repoID1: string | undefined
   let sprintID1: string | undefined
+  let noteID: string | undefined
 
   test('Make project and add a repo', async () => {
     
@@ -170,6 +172,36 @@ test('Create and delete user', async () => {
    }
    expect(data41?.name).toBe("new name");
    expect(data41?.projectID).toBe(projID1);
+  });
+
+
+  test('Notes testing', async () => {
+    let data55 = null
+    let urlList =  [{ url: 'http://example.com'}];
+    if(projID1 !== undefined && userID1 !== undefined && sprintID1 !== undefined){
+        data55 = await createResearchNote("New Note", "Details of note", userID1, sprintID1, urlList);
+    }
+    noteID = data55?.id
+    expect(data55).toBeTruthy();
+ 
+    let data51 = null
+    if(projID1 !== undefined){
+        data51 = await getResearchNotes(projID1);
+    }
+    expect(data51).toBeTruthy();
+
+    let data52 = null
+    let urlList1 =  "bad"
+    if(noteID !== undefined && userID1 !== undefined && sprintID1 !== undefined){
+        data52 = await updateResearchNote(noteID, "New note title", "New note details", userID1, sprintID1, urlList1);
+    }
+    expect(data52).toBeNull();
+
+    let data53 = null
+    if(noteID !== undefined){
+        data53 = await deleteResearchNote(noteID);
+    }
+    expect(data53).toBeTruthy();
   });
 
 
