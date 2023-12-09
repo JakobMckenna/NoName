@@ -17,16 +17,16 @@
     - Accessing a Project
 
 4. Project Tiles & Functionalities
-    a. GitHub Integration
+    - GitHub Integration
         - Setting up GitHub for Live Updates
         - Viewing Recent Commits & Issues
-    b. Milestones & Sprints
+    - Milestones & Sprints
         - Creating Milestones/Sprints
         - Syncing with GitHub
-    c. Research & Bookmarks
+    - Research & Bookmarks
         - Organizing Research Notes
         - Sharing Resources with Teammates
-    d. Communication
+    - Communication
         - Accessing & Using Chat Functionality
         - Adding/Removing Team Members
 
@@ -63,30 +63,37 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 1. **Signing In:**
     - Enter your registered credentials (username and password) in the provided fields on the sign-in page.
-    - Click the "Login" button to access your Dev Diaries dashboard.
-
-    <img src="./frontend/src/assests/man_sign_in.jpeg" style="max-width:300px;" />
+    - Click the "Login" button to access your Dev Diaries dashboard.  
+    <a name="f1"></a>
+<figure>
+    <img src="./frontend/src/assests/man_sign_in.jpg" style="max-width:300px;" />
   <figcaption>Figure 1: Sign In</figcaption>
-</figure>
+</figure>   
 
+<br>
 
 2. **Signing Up:**
-    - If you don't have an account, click on “Sign Up"
-    - Fill in the required details:
+    - If you don't have an account, click on “Sign Up" ([Figure 1](#f1))
+    - Fill in the required details ([Figure 2](#f2))
         1. Name: Must be a minimum of 3 characters.
         2. Email: Must be a valid email format and at least 6 characters.
         3. Password: Must be a minimum of 6 characters.
     - Click the "Create Account” button to create your Dev Diaries account.
 
-
+<a name="f2"></a>
+<figure>
   <img src="./frontend/src/assests/man_sign_up.png" style="max-width:300px;" />
-  <figcaption>Figure : </figcaption>
+  <figcaption>Figure 2: Sign Up</figcaption>
 </figure>
 
 
 ### Dashboard Overview
 
-![Figure 1: Dashboard Overview](placeholder_image_url)
+<a name="f3"></a>
+<figure>
+  <img src="./frontend/src/assests/man_landing.jpg" style="max-height:300px;" />
+  <figcaption>Figure 3: Dashboard Overview</figcaption>
+</figure>
 The dashboard presents a clean interface displaying user projects. Users' names and IDs are prominently displayed in the header for easy identification (1). It includes an "Add Project" button for creating new projects (2), and a search bar for quick project access (3).
 
 ### Navigation & Interface Elements
