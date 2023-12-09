@@ -1,6 +1,7 @@
 import {createUserPasswordData, deleteUserByID, getUserProjects, getUserPassword} from "../backend/data-access/user_model"
 import {createProject, getProject, updateProject, removeProject, getAllProjects, removeProjectMember, addProjectMember, getProjectMembers} from "../backend/data-access/project_model"
 import {getRepo, createRepo, updateRepo} from "../backend/data-access/repo_model"
+import {getAllMessages, saveMessage, deleteMessage, } from "../backend/data-access/chat_model"
 
 test('Create and delete user', async () => {
     let userID: number | undefined
@@ -107,8 +108,41 @@ test('Create and delete user', async () => {
           expect(data71).toBeNull();
   });
 
+  test('Get all messages (none added)', async () => {
+      let msg = null
+      if(projID1 !== undefined){
+         const msg = await getAllMessages(projID1);
+      }
+      expect(msg).toBeNull()
+ 
 
-  
+    if(projID1 !== undefined && userID1 !== undefined){
+        let msg1 = await saveMessage("Hello", projID1, userID1);
+        expect(msg1).toBeTruthy()  
+    } 
+      
+    if(projID1 !== undefined && userID1 !== undefined){
+        let msg1 = await saveMessage("Hello", projID1, userID1);
+        expect(msg1).toBeTruthy()  
+    } 
+      
+    if(projID1 !== undefined){
+        let msg2 = await getAllMessages(projID1);
+        expect(msg2).toBeTruthy()
+    }
+   
+    if(projID1 !== undefined){
+        let msg2 = await getAllMessages(projID1);
+        expect(msg2).toBeTruthy()
+    }
+   
+    if(projID1 !== undefined){
+        let msg3 = await deleteMessage(projID1);
+        expect(msg3).toBeNull()
+    }
+  });
+
+
 
   test('Delete all info', async () => {
     let data7 = null
