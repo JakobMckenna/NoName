@@ -2,6 +2,7 @@ import {createUserPasswordData, deleteUserByID, getUserProjects, getUserPassword
 import {createProject, getProject, updateProject, removeProject, getAllProjects, removeProjectMember, addProjectMember, getProjectMembers} from "../backend/data-access/project_model"
 import {getRepo, createRepo, updateRepo} from "../backend/data-access/repo_model"
 import {getAllMessages, saveMessage, deleteMessage, } from "../backend/data-access/chat_model"
+import {getSprint, getSprints, createSprint, removeSprint, updateSprint} from "../backend/data-access/sprint_model"
 
 test('Create and delete user', async () => {
     let userID: number | undefined
@@ -70,6 +71,7 @@ test('Create and delete user', async () => {
   let userID1: number | undefined
   let projID1: string | undefined
   let repoID1: string | undefined
+  let sprintID1: string | undefined
 
   test('Make project and add a repo', async () => {
     
@@ -140,6 +142,34 @@ test('Create and delete user', async () => {
         let msg3 = await deleteMessage(projID1);
         expect(msg3).toBeNull()
     }
+  });
+
+
+  test('Sprint testing', async () => {
+    let data6 = null
+    if(projID1 !== undefined){
+        data6 = await createSprint(projID1, "Sprint 1", "2023-10-20T06:20:11.963Z", "2023-10-20T06:20:11.963Z");
+    }
+    //sprints1 = data6
+    sprintID1 = data6?.id
+    expect(data6).toBeTruthy();
+
+
+  
+    let data4 = null
+   if(sprintID1 !== undefined){
+     data4 = await getSprint(sprintID1);
+   }
+   expect(data4).toBeTruthy();
+
+
+
+    let data41 = null
+   if(sprintID1 !== undefined && projID1 !== undefined){
+     data41 = await updateSprint(sprintID1, projID1, "new name", "2023-10-20T06:20:11.963Z", "2023-10-20T06:20:11.963Z");
+   }
+   expect(data41?.name).toBe("new name");
+   expect(data41?.projectID).toBe(projID1);
   });
 
 
