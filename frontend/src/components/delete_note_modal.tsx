@@ -55,7 +55,7 @@ const DeleteNote = ({id , remove}:{id:string , remove:any}) => {
                     {deleting&&(
                         <Spinner />
                     )}
-                    {deleting?"delting":"yes"}
+                    {deleting?"deleting":"yes"}
                 </button>
                 <button
                     className="btn btn-neutral btn-lg"
