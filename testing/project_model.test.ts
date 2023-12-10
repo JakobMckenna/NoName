@@ -1,5 +1,5 @@
 import {createProject, getProject, updateProject, removeProject, getAllProjects, removeProjectMember, addProjectMember, getProjectMembers} from "../backend/data-access/project_model"
-import {createUserPasswordData, deleteUserByID} from "../backend/data-access/user_model"
+import {createUserPasswordData, deleteUserByID, getUserProjects} from "../backend/data-access/user_model"
 
 let userID: number | undefined
 let projID: string | undefined
@@ -34,6 +34,14 @@ test('Create a project', async () => {
         data4 = await getProject(projID);
     }
     expect(data4?.name).toBe("Project test");
+  });
+
+   //Get a users project
+   test('Get user 1s project', async () => {
+    if(userID !== undefined){
+      const data13 = await getUserProjects(userID);
+      expect(data13).toBeTruthy;
+    }
   });
 
   test('Update project 1', async () => {
@@ -136,4 +144,10 @@ test('Create a project', async () => {
      data3 = await deleteUserByID(userID2);
    }
    expect(data3).toBeNull();
+  });
+
+  test('Get false project data', async () => {
+    let data4 = null
+    data4 = await getProject("null");
+    expect(data4).toBeNull();
   });

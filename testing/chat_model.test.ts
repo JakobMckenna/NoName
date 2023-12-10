@@ -37,7 +37,23 @@ test('Get all messages (none added)', async () => {
       
   });
 
+  test('Save a 2nd message', async () => {
+    if(projID !== undefined && userID !== undefined){
+        let msg1 = await saveMessage("Hello", projID, userID);
+        expect(msg1).toBeTruthy()  
+    } 
+      
+  });
+
   test('Get message added', async () => {
+    if(projID !== undefined){
+        let msg2 = await getAllMessages(projID);
+        expect(msg2).toBeTruthy()
+    }
+   
+  });
+
+  test('Get 2nd message added', async () => {
     if(projID !== undefined){
         let msg2 = await getAllMessages(projID);
         expect(msg2).toBeTruthy()

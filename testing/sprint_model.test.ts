@@ -1,7 +1,7 @@
 import {createUserPasswordData, deleteUserByID} from "../backend/data-access/user_model"
 import {createProject, removeProject, getProject} from "../backend/data-access/project_model"
 import {createRepo} from "../backend/data-access/repo_model"
-import {getSprint, getSprints, createSprint, removeSprint} from "../backend/data-access/sprint_model"
+import {getSprint, getSprints, createSprint, removeSprint, updateSprint} from "../backend/data-access/sprint_model"
 
 
 let userID: number | undefined
@@ -58,6 +58,15 @@ test('Creating a dummy user to create a project', async () => {
          data4 = await getSprint(sprintID);
        }
        expect(data4).toBeTruthy();
+      });
+
+      test('Update a Sprint', async () => {
+        let data4 = null
+       if(sprintID !== undefined && projID !== undefined){
+         data4 = await updateSprint(sprintID, projID, "new name", "2023-10-20T06:20:11.963Z", "2023-10-20T06:20:11.963Z");
+       }
+       expect(data4?.name).toBe("new name");
+       expect(data4?.projectID).toBe(projID);
       });
 
       //clean up the DB
