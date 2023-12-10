@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
 import UserService from '../services/user_service';
 
 const UserController = {
+    
     /**
      * signIn
      * confirms user data email + password
