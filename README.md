@@ -31,9 +31,7 @@ It’s common for a team working on a project to do different kinds of research 
 
 ### Communication function between members
 We also want team members to be able to communicate with each other in the app. In this way, they won’t need to find an external means of communication that works for everybody.
-
-### Time management tools
-Lastly, we thought it would be a good idea to have a feature that would help users with time management. This feature would use periodic notifications to check in with developers to see how their progress is going and remind them to take breaks.
+their progress is going and remind them to take breaks.
 
 ### Capacity Requirement
 Dev Diaries will be able to respond to 50 users with a total of 200 requests per minute concurrently.
