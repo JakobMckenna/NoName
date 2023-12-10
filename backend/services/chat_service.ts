@@ -72,6 +72,6 @@ const ChatService = {
         const result = new Date();
         return result.toISOString();
     }
-}
+};
 
 export default ChatService;
