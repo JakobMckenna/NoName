@@ -235,7 +235,7 @@ function RemoveModal({ deleteMember, projectID, userID, goHome }: { deleteMember
                         {deleting && (
                             <Spinner />
                         )}
-                        {deleting ? "delting" : "yes"}
+                        {deleting ? "deleting" : "yes"}
                     </button>
                     <button
                         className="btn btn-neutral btn-lg"

@@ -20,7 +20,7 @@ const Navbar = ({ children, userName }: { children: ReactNode, userName: string 
         {children}
       </div>
       <div className="navbar-center">
-        <Link href={"/home"} className="btn btn-ghost normal-case text-xl">{userName != null || userName != undefined || userName != "undefined" ? `${userName} DEV DIARY` : (<p className="skeleton h-4 w-28"></p>)} </Link>
+        <Link href={"/home"} className="btn btn-ghost normal-case text-xl">{userName!=null ||userName!=undefined||userName!="undefined"?`${userName}'s DevDiaries`:(<p className="skeleton h-4 w-28"></p>)} </Link>
       </div>
       <div className="navbar-end">
         <label className="flex cursor-pointer gap-2">
