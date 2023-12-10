@@ -145,3 +145,9 @@ test('Create a project', async () => {
    }
    expect(data3).toBeNull();
   });
+
+  test('Get false project data', async () => {
+    let data4 = null
+    data4 = await getProject("null");
+    expect(data4).toBeNull();
+  });
