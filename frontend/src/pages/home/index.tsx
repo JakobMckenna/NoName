@@ -1,15 +1,12 @@
 /* eslint-disable */
-
 import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import ProjectModal from "~/components/projectmdl";
 import useUser from "~/hooks/use_user";
 import config from "config";
-import useCurrentTheme from "~/hooks/use_current_theme";
 import { Ref } from "react-hook-form";
 import Drawer from "~/components/drawer";
 
@@ -76,7 +73,7 @@ function ProjectHero({ projects, parent, search, projectsInit }: { projects: any
                     </div>
                     {
                         projectsInit ? projects.map(
-                            (project: any, index: number) => {
+                            (project: any) => {
                                 const id = project.project.id;
                                 const user = project.project.user?.name;
                                 const projectName = project.project.name;
@@ -146,7 +143,7 @@ export default function LandingPage() {
                     setFilteredList(results?.member)
                     return results.project;
                 }
-                
+
                 projects();
             }
 
