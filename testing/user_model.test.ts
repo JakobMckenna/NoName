@@ -96,5 +96,32 @@ test('delete user by ID4', async () => {
  }
  expect(data9).toBeNull();
 });
+
+test('Create user with bad data', async () => {
+  const data1 = await createUserPasswordData("1","1@1","1");
+  expect(data1).toBeNull();
+});
+
+test('Create user with bad email', async () => {
+  const data1 = await createUserPasswordData("1","1","1");
+  expect(data1).toBeNull();
+});
+
+test('delete user by bad ID', async () => {
+   let data6 = null
+   data6 = await deleteUserByID(66666);
+   expect(data6).toBeNull();
+});
   
+test('Updating with bad user info', async () => {
+  if(userID4 !== undefined){
+    const data13 = await updateUser(userID4,"1","1","1");
+    expect(data13).toBeNull();
+  }
+});
+
+test('Testing password for non existant user', async () => {
+  const data5 = await getUserPassword("fakeuser");
+  expect(data5).toBeNull();
+});
   
