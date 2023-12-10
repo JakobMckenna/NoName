@@ -22,7 +22,7 @@ projectRoutes.post("/",ProjectController.createProject);
 
 /**
  * Http get /project/:id
- * gets project by projectID
+ * gets project by projectID as a url query string
  */
 projectRoutes.get("/:id",ProjectController.getProject);
 
@@ -41,13 +41,13 @@ projectRoutes.post("/member",ProjectController.addProjectMember);
 
 /**
  * Http get /project/member/:id
- * gets all members of a project
+ * gets all members of a project by projectID as a url query string
  */
 projectRoutes.get("/member/:id",ProjectController.getMembers);
 
 /**
  * Http get /project/member/:project/:user
- * gets all members of a project by url query string
+ * gets all members of a project by projectID and userID as url query strings
  */
 projectRoutes.delete("/member/:project/:user",ProjectController.removeMember);
 
