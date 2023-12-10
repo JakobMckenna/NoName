@@ -5,12 +5,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import ProjectModal from "~/components/projectmdl";
-
 import useUser from "~/hooks/use_user";
-
 import config from "config";
 import useCurrentTheme from "~/hooks/use_current_theme";
 import { Ref } from "react-hook-form";
@@ -116,7 +113,7 @@ export default function LandingPage() {
     const router = useRouter();
     const [user, loading] = useUser()
     const [projectList, setProjectList] = useState<any[] | null>(null)
-    const [refresh, setRefresh] = useState(true)
+    
     const [currentTheme, loadingTheme] = useCurrentTheme()
     const [theme, setTheme] = useState<string>()
     const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
@@ -130,18 +127,12 @@ export default function LandingPage() {
     }
 
     const getProjects = async (userID: number) => {
-        const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`
-        const results = await axios.get(reqUrl)
-        console.log(results.data.user)
-        setRefresh(false);
-
-        return results.data.user
-
+        const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`;
+        const results = await axios.get(reqUrl);
+        return results.data.user;
     }
 
-    const isRefresh = () => {
-        return refresh == true
-    }
+   
 
     // filter projects by project name
     const searchProjects = (projectName: string) => {
@@ -158,20 +149,15 @@ export default function LandingPage() {
             //only get data when user data is loaded
             if (user) {
                 const projects = async () => {
-                    const results = await getProjects(user.id)
-                    console.log("members")
-                    console.log(results.member)
-                    setProjectList(results.member);
-                    setFilteredList(results.member)
+                    const results = await getProjects(user?.id)
+                    setProjectList(results?.member);
+                    setFilteredList(results?.member)
                     return results.project;
                 }
 
 
-                if (refresh) {
+                if (!projectList && !Array.isArray(projectList) ) {
                     projects();
-                    //created filtered list  from project list
-                    //setFilteredList((prev)=>[...prev,projectList]);
-
                 }
                 //set current theme
                 if (currentTheme != null) {
@@ -181,7 +167,7 @@ export default function LandingPage() {
             }
 
 
-        }, [user,theme, projectList, isRefresh]
+        }, [user,theme, projectList]
     )
     return (
         <Drawer userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
