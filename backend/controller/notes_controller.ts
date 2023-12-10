@@ -1,10 +1,14 @@
+/**
+ * @fileoverview notes controller handles http requests and responds to 
+ * clients with note related request
+ */
 import { Request, Response } from 'express';
 import NotesService from '../services/notes_service';
 const NotesController = {
 
     /**
      * create
-     * creates note/bookmark
+     * creates note/bookmark from a req json body
      * @param req 
      * @param res 
      * @returns http 200 and if it fails it returns http 400
@@ -29,7 +33,7 @@ const NotesController = {
 
     /**
      * delete
-     * deletes notes by ID
+     * deletes notes by ID from a url request param
      * @param req 
      * @param res 
      * @returns http 200 and if it fails it returns http 400
@@ -46,7 +50,7 @@ const NotesController = {
     },
     /**
      * getAll
-     * gets all notes in a project
+     * gets all notes in a project from a url request param
      * @param req 
      * @param res 
      * @returns http 200 and if it fails it returns http 400
@@ -64,7 +68,7 @@ const NotesController = {
     },
     /**
      * update
-     * updates a note by note ID
+     * updates a note by note ID by json request body
      * @param req 
      * @param res 
      * @returns http 200 and if it fails it returns http 400

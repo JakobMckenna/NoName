@@ -1,3 +1,7 @@
+/**
+ * @fileoverview user controller handles http requests and responds to 
+ * clients with user related requests
+ */
 import { Request, Response } from 'express';
 import UserService from '../services/user_service';
 

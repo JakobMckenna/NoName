@@ -1,3 +1,7 @@
+/**
+ * @fileoverview project controller handles http requests and responds to 
+ * clients with user projects related requests
+ */
 import { Request, Response } from 'express';
 import ProjectService from '../services/project_service';
 import GithubService from '../services/github_service';
