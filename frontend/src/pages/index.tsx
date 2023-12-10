@@ -20,7 +20,7 @@ function FoundUser() {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-2xl font-bold">Found user data & verifying data</h1>
-             <Spinner />
+          <Spinner />
         </div>
       </div>
     </div>
@@ -111,6 +111,7 @@ function SignIn({ handleSignIn, message }: any) {
 
 
 
+
 export default function Home() {
   const router = useRouter();
   const [login, setLogin] = useState(false);
@@ -138,6 +139,13 @@ export default function Home() {
     }
   }
 
+  /**
+   * userverify
+   * confirms if previousily logged in user is part of the system
+   * @param id 
+   * @param email 
+   * @returns  
+   */
   const userVerify = async (id: string, email: string) => {
     try {
       const response = await axios.post(`${config.backendApiUrl}/users/verify`, { id: id, email: email }, {
@@ -160,7 +168,11 @@ export default function Home() {
 
   }
 
-
+  /**
+   * logExistingUser
+   * logs in user with cached user data
+   * @param user 
+   */
   const logExistingUser = async (user: any) => {
     setFoundUser(true);
     try {
