@@ -1,3 +1,8 @@
+/**
+ * @fileoverview github controller handles http requests and responds to 
+ * clients with github related request
+ */
+
 import { Request, Response } from 'express';
 import GithubService from '../services/github_service';
 
