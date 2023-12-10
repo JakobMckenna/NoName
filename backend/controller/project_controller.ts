@@ -5,8 +5,14 @@ import ChatService from '../services/chat_service';
 
 
 const ProjectController = {
-    
-    getProject:async (req: Request, res: Response) => {
+
+    /**
+     * getProject
+     * get project by project id from request url params
+     * @param req  
+     * @param res 
+     */
+    getProject: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
             const projects = await ProjectService.getProject(projectID);
@@ -21,6 +27,13 @@ const ProjectController = {
 
 
     },
+
+    /**
+     * createProject
+     * creates a project from a json request body
+     * @param req 
+     * @param res 
+     */
     createProject: async (req: Request, res: Response) => {
         const projectBody = req.body;
         try {
@@ -35,6 +48,13 @@ const ProjectController = {
         }
 
     },
+
+    /**
+     * removProject
+     * removes project by ID from req url params
+     * @param req 
+     * @param res 
+     */
     removeProject: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
@@ -50,6 +70,13 @@ const ProjectController = {
 
 
     },
+
+    /**
+     * getAllProjects
+     * gets all projects in the database
+     * @param req 
+     * @param res 
+     */
     getAllProjects: async (req: Request, res: Response) => {
         try {
 
@@ -62,13 +89,18 @@ const ProjectController = {
             res.status(400).json()
         }
     },
+
+    /**
+     * addProjectMember
+     * adds a user to a project from a json request body
+     * @param req 
+     * @param res 
+     */
     addProjectMember: async (req: Request, res: Response) => {
         try {
             const memberBody = req.body;
             const projectID: string = memberBody.projectID;
             const userID: number = memberBody.userID;
-
-
             const projects = await ProjectService.addMember(projectID, userID);
             if (projects === null) {
                 res.status(400).json({ "projects": null });
@@ -79,6 +111,13 @@ const ProjectController = {
             res.status(400).json()
         }
     },
+
+    /**
+     * getMembers
+     * gets members of a project by projectID from url request params
+     * @param req 
+     * @param res 
+     */
     getMembers: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
@@ -92,6 +131,14 @@ const ProjectController = {
             res.status(400).json()
         }
     },
+
+    /**
+     * removeMember
+     * removes a user from a project by userID and project ID
+     * by using url request params
+     * @param req 
+     * @param res 
+     */
     removeMember: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.project;
@@ -111,27 +158,42 @@ const ProjectController = {
         }
 
     },
+
+    /**
+     * addRepo
+     * adds or updates github repository infomation to a project from a
+     * json request body
+     * @param req 
+     * @param res 
+     */
     addRepo: async (req: Request, res: Response) => {
         try {
             const repoBody = req.body;
             const repoID: string = repoBody.repoID;
             const projectID: string = repoBody.projectID;
-            const owner: string =repoBody.owner;
+            const owner: string = repoBody.owner;
             const repoName: string = repoBody.repoName;
 
-            const  isRepoValid = await GithubService.isValidRepo(owner ,repoName)
-             
-             if(isRepoValid){
-                    const repo = await ProjectService.addRepo(repoID, projectID, owner, repoName)
-                    res.status(200).json({ "github": repo });
-             }else{
-                res.status(404).json({"github":null})
-             }
+            const isRepoValid = await GithubService.isValidRepo(owner, repoName)
+
+            if (isRepoValid) {
+                const repo = await ProjectService.addRepo(repoID, projectID, owner, repoName)
+                res.status(200).json({ "github": repo });
+            } else {
+                res.status(404).json({ "github": null })
+            }
 
         } catch (error) {
             res.status(400).json()
         }
     },
+
+    /**
+     * createSprint
+     * adds sprint to a project from a request json body
+     * @param req 
+     * @param res 
+     */
     createSprint: async (req: Request, res: Response) => {
         try {
             const sprintBody = req.body;
@@ -148,6 +210,13 @@ const ProjectController = {
             res.status(400).json()
         }
     },
+
+    /**
+     * removeSprint
+     * removes a sprint from a project by sprint ID
+     * @param req 
+     * @param res 
+     */
     removeSprint: async (req: Request, res: Response) => {
         try {
             const sprintID: string = req.params.id;
@@ -159,7 +228,13 @@ const ProjectController = {
             res.status(400).json()
         }
     },
-    // get all sprint of all a project
+    
+    /**
+     * getAllSprints
+     * gets all sprints of a project by project ID  from request url params
+     * @param req 
+     * @param res 
+     */
     getAllSprints: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
@@ -172,13 +247,19 @@ const ProjectController = {
         }
     },
 
-    getPrevMessages:async(req: Request, res: Response)=>{
+    /**
+     * getPrevMessages
+     * gets previous messages from a project chat from request url params
+     * @param req 
+     * @param res 
+     */
+    getPrevMessages: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
             const result = await ChatService.getAll(projectID);
-            res.status(200).json({"messages":result})
+            res.status(200).json({ "messages": result })
         } catch (error) {
-            res.status(400).json({"messages":null})
+            res.status(400).json({ "messages": null })
         }
     }
 
