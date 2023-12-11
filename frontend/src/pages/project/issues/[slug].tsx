@@ -2,12 +2,10 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { use, useEffect, useRef, useState } from "react";
-import Navbar from "~/components/navbar";
+import { useEffect, useRef, useState } from "react";
 import Spinner from "~/components/spinner";
 import useUser from "~/hooks/use_user";
 import * as _ from 'lodash';
-
 import config from "config";
 import BackPage from "~/components/back_navigation";
 import Drawer from "~/components/drawer";
@@ -30,7 +28,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
         return ` ${result.toDateString()}`
 
     }
-    const date = convDate(dueDate)
+    const date = convDate(dueDate);
     return (
         <div className="flex flex-row w-full justify-between py-2 border-b-2  mb-5">
             <p className="w-36">{title}</p>
@@ -57,16 +55,16 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
             <div className=" w-32"> {assigned && (<><Image src={avatar} height={20} width={20} alt={""} /><p>{assigned}</p> </>)}</div>
             <div className="w-32 ">
                 <button
-                    className={milestone?"badge badge-secondary badge-outline":"btn-ghost"}
+                    className={milestone ? "badge badge-secondary badge-outline" : "btn-ghost"}
                     onClick={
                         () => clickMilestone(milestone)
                     }
-                    disabled={milestone==undefined || milestone==null}
+                    disabled={milestone == undefined || milestone == null}
                 >
-                    {milestone?milestone:"no milestone"}
+                    {milestone ? milestone : "no milestone"}
                 </button>
             </div>
-            <p className="w-32">{dueDate?date:"does not have milestone"}</p>
+            <p className="w-32">{dueDate ? date : "does not have milestone"}</p>
         </div>
     )
 }
@@ -118,23 +116,31 @@ function Issues({ issues, type, clickLabel, clickMilestone }: any) {
 function IssueList({ openIssues, closedIssues, refresh }: any) {
     const [show, setShow] = useState(true);
     const labelTxt = useRef<HTMLInputElement>(null);
-    const milestoneTxt = useRef<HTMLInputElement>(null)
-    const [filteredOpen, setFilteredOpen] = useState<any[]>(openIssues)
-    const [filteredClosed, setFilteredClosed] = useState<any[]>(closedIssues)
+    const milestoneTxt = useRef<HTMLInputElement>(null);
+    const [filteredOpen, setFilteredOpen] = useState<any[]>(openIssues);
+    const [filteredClosed, setFilteredClosed] = useState<any[]>(closedIssues);
 
 
     const searchLabel = (issues: any[], search: string) => {
         setFilteredOpen(openIssues);
         setFilteredClosed(closedIssues);
         return _.filter(issues, (issue) => {
-            return _.some(issue.labels, (label) => label.name.toLowerCase().includes(search.toLowerCase()))
+            if (search != "")
+                return _.some(issue.labels, (label) => label.name.toLowerCase().includes(search.toLowerCase()));
+            else {
+                return issue;
+            }
         })
 
     }
 
     const searchMilestone = (issues: any[], search: string) => {
         return _.filter(issues, (issue) => {
-            return issue.milestone.title.toLowerCase().includes(search.toLowerCase())
+            if (search !== "")
+                return issue.milestone?.title.toLowerCase().includes(search.toLowerCase());
+            else {
+                return issue;
+            }
         })
 
     }
@@ -143,14 +149,13 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
         const label = event.target.value;
         let list;
 
-        //console.log(label)
         if (show) {
-            list = searchLabel(openIssues, label)
-            setFilteredOpen(list)
-            //console.log(list)
+            list = searchLabel(openIssues, label);
+            setFilteredOpen(list);
+
         } else {
-            list = searchLabel(closedIssues, label)
-            setFilteredClosed(list)
+            list = searchLabel(closedIssues, label);
+            setFilteredClosed(list);
         }
 
     }
@@ -174,33 +179,31 @@ function IssueList({ openIssues, closedIssues, refresh }: any) {
     const clickLabel = (label: string) => {
         let list;
         if (labelTxt && labelTxt.current) {
-            labelTxt.current.value = label
-            //  labelTxt.current.
+            labelTxt.current.value = label;
         }
 
         if (show) {
             list = searchLabel(openIssues, label)
-            setFilteredOpen(list)
-            //console.log(list)
+            setFilteredOpen(list);
         } else {
-            list = searchLabel(closedIssues, label)
-            setFilteredClosed(list)
+            list = searchLabel(closedIssues, label);
+            setFilteredClosed(list);
         }
 
-        //   handleLabel()
+
     }
 
     const clickMilestone = (milestone: string) => {
         let list;
         if (milestoneTxt && milestoneTxt.current) {
-            milestoneTxt.current.value = milestone
-            //  labelTxt.current.
+            milestoneTxt.current.value = milestone;
+
         }
 
         if (show) {
             list = searchMilestone(openIssues, milestone);
             setFilteredOpen(list);
-            //console.log(list)
+
         } else {
             list = searchMilestone(closedIssues, milestone);
             setFilteredClosed(list);
@@ -347,12 +350,12 @@ export default function IssuesPage() {
             }
 
 
-        }, [user,isRefreshing]
+        }, [user, isRefreshing]
     )
 
     return (
         <div>
-            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+            <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
 
                 <main className="container mx-auto md:w-1/2 mt-5 ">
                     {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
