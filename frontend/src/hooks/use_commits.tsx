@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import config from "config";
+import { error } from "console";
 
 const useCommits = () => {
     const [commits, setCommits] = useState<any[]|null>(null);
@@ -24,7 +25,6 @@ const useCommits = () => {
         axios
             .get(url)
             .then(function (response) {
-                //   console.log(response.data.commits);
                 setCommits(response.data.commits)
                 return response.data.commits;
             })

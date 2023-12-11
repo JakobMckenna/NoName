@@ -68,7 +68,7 @@ function Sprints({ sprints, changeSelected, animate }: any) {
     )
 }
 
-function MilestoneHero({ sprints, changeSelected, animate }: {sprints:any[],changeSelected:any ,animate:any}) {
+function MilestoneHero({ sprints, changeSelected, animate }: {readonly sprints:any[],readonly changeSelected:any ,readonly animate:any}) {
     return (
         <div className="flex  flex-col justify-evenly px-16  md:flex-row md:px-0 ">
             <div className="card  bg-neutral-focus w-80  shadow-xl h-56 ">

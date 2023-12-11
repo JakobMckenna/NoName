@@ -8,7 +8,7 @@ import { notesValidation } from "~/validations_schemas/notes_create";
 import Spinner from "./modal_spinner";
 import FormAlert from "./form_alert";
 
-function Form({ id, note, projectID, userID, sprints, update }: { id: string, note: any, projectID: string, userID: string, sprints: any, update: any }) {
+function Form({ id, note, projectID, userID, sprints, update }: { readonly id: string,readonly note: any,readonly projectID: string,readonly userID: string,readonly sprints: any,readonly update: any }) {
   const {
     register,
     handleSubmit,

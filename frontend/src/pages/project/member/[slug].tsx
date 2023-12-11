@@ -258,12 +258,12 @@ export default function MemberPage() {
     const [users, setUsers] = useState([]);
     const [members, setMembers] = useState<any[]>([]);
     const [ownerID, setOwnerID] = useState<number>(0);
-
     const [refresh, setRefresh] = useState(true);
     const [parent, enableAnimations] = useAutoAnimate();
     const [userID, setUserID] = useState<number>(0)
 
-
+    enableAnimations(true);
+    
     const projectID = router.query.slug;
 
     const goToHome = () => {
