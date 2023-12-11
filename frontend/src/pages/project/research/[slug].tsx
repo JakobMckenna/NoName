@@ -82,7 +82,7 @@ function Note({ noteID, title, details, links, update, deleteNote }: { noteID: s
     )
 }
 
-function NoteList({ list, remove, setUpdateNote }: { readonly list: any,readonly remove: any,readonly setUpdateNote: any }) {
+function NoteList({ list, remove, setUpdateNote }: { readonly list: any, readonly remove: any, readonly setUpdateNote: any }) {
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 })
 
 
@@ -172,7 +172,7 @@ export default function Research() {
     const router = useRouter()
     const projectID = router.query.slug;
     const [user, loading] = useUser();
-    const [notes, setNotes] = useState<any[] | null>(null);
+    const [notes, setNotes] = useState<any[]>([]);
     const [filteredNotes, setFilteredNotes] = useState<any[]>([])
     const [sprints, setID] = useSprint();
     const [searchTopic, setSearchTopic] = useState<string>("")
@@ -324,19 +324,17 @@ export default function Research() {
 
     useEffect(
         () => {
-            if (user != null && projectID != null && setID != null) {
+            if (user != null && !loading && projectID != null && setID != null) {
                 setID(projectID as string);
                 setProjectIDstr(projectID as string);
             }
 
-            if (notes == null || notes.length == 0) {
+            if (notes.length == 0) {
                 getResponse();
             }
 
-            else {
-                if (notes)
-                    setFilteredNotes(notes);
-
+            if (notes.length > 0) {
+                setFilteredNotes(notes);
             }
 
         }, [projectID, user, notes])
@@ -349,14 +347,14 @@ export default function Research() {
             </Head>
             <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
                 <main className="container mx-auto   ">
-                
+
                     {projectID != "" ? (<div className="px-7"><BackPage link={`/project/${projectIDstr}`} name={`Back to Project page`} /></div>) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                     <div className="flex flex-col  mx-auto row-gap-2 mb-10 ">
                         <div className="prose pl-7 mb-5">
                             <h1 className=" uppercase mb-2">Research Notes</h1>
                             <p className="text-xl ">Create notes for later reference for you and your team.</p>
                         </div>
-                        
+
                         <div className="flex flex-row justify-between mb-5 px-7">
                             <button
                                 onClick={
@@ -383,7 +381,7 @@ export default function Research() {
                     </div>
 
                     <div className="container bg-base-100  mx-auto mb-24 px-7">
-                        {notes != null ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} />) : (<Spinner />)}
+                        {projectID ? (<NoteList list={filteredNotes} remove={deleteNote} setUpdateNote={setUpdateNote} />) : (<Spinner />)}
                     </div>
                 </main>
                 <NotesModal
