@@ -32,20 +32,20 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                 },
             });
             console.log('added Notes', response.data);
-            //const note = response.data.notes
+           
             if (response.data.notes == null) {
-                console.log("bad input")
+                console.log("bad input");
                 setError("details",
                     {
                         type: "server",
                         message: `Bad input, details or Title might be too long`
                     }
-                )
-                throw new Error("")
-                //return null
+                );
+                throw new Error("");
+                
 
             }
-            const note = response.data.notes
+            const note = response.data.notes;
             addNotes(
                 {
                     id: note.id,
@@ -53,10 +53,10 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     details: note.details,
                     link: note.link
                 }
-            )
-            // refresh(true);
-            const modalElement: any = document.getElementById('my_modal_2')
-            modalElement.close()
+            );
+           
+            const modalElement: any = document.getElementById('my_modal_2');
+            modalElement.close();
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -68,7 +68,7 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                         }
 
 
-                    )
+                    );
                 } else {
                     setError("details",
                         {
@@ -77,10 +77,10 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                         }
 
 
-                    )
+                    );
                 }
             }
-            //setAdding(false);
+            
         } finally {
             setValue("sprint", "");
             setValue("title", "");
@@ -188,8 +188,7 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
 
 
 const NotesModal = ({ projectID, userID, sprints, addNotes }: { projectID: string, userID: string, sprints: any, addNotes: any }) => {
-    // const sprint = sprints[0].id;
-
+   
     return (
 
         <dialog id="my_modal_2" className="modal">

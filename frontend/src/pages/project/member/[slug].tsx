@@ -5,11 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { RefCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
-import Navbar from "~/components/navbar";
-
 import useUser from "~/hooks/use_user";
-
 import config from "config";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Spinner from "~/components/modal_spinner";
@@ -19,7 +15,6 @@ import Drawer from "~/components/drawer";
 
 function Form({
     projectID,
-
     update,
     users,
 }: {
@@ -31,11 +26,10 @@ function Form({
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitSuccessful, isSubmitting },
+        formState: { isSubmitting },
     } = useForm();
 
     const handleMemberAdd = async (data: any) => {
-        console.log("submit");
         try {
             const response = await axios.post(
                 `${config.backendApiUrl}/projects/member`,
@@ -46,13 +40,11 @@ function Form({
                     },
                 },
             );
-            //  console.log("Login successful", response.data);
-            //  const members = response.data.members.
+
             update(response.data.projects.user)
 
         } catch (error) {
             console.log(error);
-            //changeError("user does not exists ");
         }
     };
 
@@ -92,9 +84,8 @@ function Form({
 }
 
 function Member({ name, email, projectID, userID, signInUser, owner, removeMember, changeLoading }: any) {
-
     const [clicked, setClicked] = useState(false);
-    const isSignedUser: boolean = signInUser == userID;
+    
     return (
         <>
 
@@ -114,7 +105,7 @@ function Member({ name, email, projectID, userID, signInUser, owner, removeMembe
                                             setClicked(true);
                                             changeLoading(true);
                                             await removeMember(projectID, userID);
-                                            //changeLoading(false)
+
                                         } catch (error) {
                                             console.log(error);
 
@@ -152,15 +143,13 @@ function MemberBoard({
     userID,
     animate,
 }: { members: any[], projectID: string, owner: number, update: any, userID: number, removeMember: any, users: any, animate: RefCallback<Element> }) {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     return (
         <div className=" flex  flex-col h-3/4   overscroll-none overflow-x-none  overflow-y-hidden  w-[420px] ml-2.5  rounded-md border-black bg-base-200  px-6 py-4 md:ml-0">
             <div className="flex flex-col h-fit  mb-0  px-3">
                 <Form
                     projectID={projectID}
-                    // changeError={changeError}
                     update={update}
-
                     users={users}
                 />
 
@@ -216,11 +205,12 @@ function RemoveModal({ deleteMember, projectID, userID, goHome }: { deleteMember
                             async () => {
                                 const modalElement: any = document.getElementById('del_mem');
                                 try {
-                                    setDeleting(true)
-                                    const deletedProject = await deleteMember(projectID, userID);
-                                    setDeleting(false)
-                                    goHome()
-                                    modalElement.close()
+                                    setDeleting(true);
+                                    const deletedMember = await deleteMember(projectID, userID);
+                                    console.log(deletedMember);
+                                    setDeleting(false);
+                                    goHome();
+                                    modalElement.close();
 
 
                                 } catch (error) {
@@ -266,16 +256,14 @@ export default function MemberPage() {
     const router = useRouter();
     const [user, loading] = useUser();
     const [users, setUsers] = useState([]);
-
-    // const [user, loading] = useUser();
     const [members, setMembers] = useState<any[]>([]);
     const [ownerID, setOwnerID] = useState<number>(0);
-    const [error, setError] = useState("");
     const [refresh, setRefresh] = useState(true);
-    const [parent, enableAnimations] = useAutoAnimate()
+    const [parent, enableAnimations] = useAutoAnimate();
     const [userID, setUserID] = useState<number>(0)
 
-
+    enableAnimations(true);
+    
     const projectID = router.query.slug;
 
     const goToHome = () => {
@@ -294,13 +282,9 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/users`;
             const results = await axios.get(reqUrl);
             if (results.data && results.data.users) {
-                // console.log(results.data.users);
-                // setMembers(results.data.members.user);
-                setUsers(results.data.users)
+                setUsers(results.data.users);
             }
 
-            //  console.log(results.data);
-            //setRefresh(false);
             return results.data;
         } catch (error) {
             console.log("failed");
@@ -313,7 +297,6 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/projects/member/${userID}`;
             const results = await axios.get(reqUrl);
             if (results.data && results.data.members && results.data.members.user) {
-                //   console.log(results.data.members.user);
                 const members = results.data.members.user
                 const membersSorted = _.sortBy(members, "name");
                 setMembers(membersSorted);
@@ -325,7 +308,6 @@ export default function MemberPage() {
             ) {
                 setOwnerID(results.data.members.project.userId);
             }
-            // console.log(results.data);
             setRefresh(false);
             return results.data.members.user;
         } catch (error) {
@@ -339,15 +321,10 @@ export default function MemberPage() {
             const reqUrl = `${config.backendApiUrl}/projects/member/${projectID}/${userID}`;
             const results = await axios.delete(reqUrl);
             if (results.data && results.data.projects.members) {
-                // console.log(results.data.projects.members)
-                //  setMembers(results.data.members)
                 const members = results.data.projects.members;
                 const membersSorted = _.sortBy(members, "name");
                 setMembers(membersSorted);
-
             }
-
-            // refresh(true);
             return results.data;
         } catch (error) {
             console.log("failed");
@@ -356,17 +333,16 @@ export default function MemberPage() {
     };
 
     useEffect(() => {
-        if (projectID != null && projectID != undefined && user != null) {
+        if (projectID != null && projectID != undefined && user != null && !loading && refresh) {
+            setUserID(user?.id);
+            getUsers();
             const projects = async () => {
-                const results = await getResponse(String(router.query.slug));
-                // console.log("members");
-                return results
+                const results = await getResponse(router.query.slug as string);
+                return results;
             };
-            if (refresh) {
-                setUserID(user.id)
-                getUsers()
-                projects();
-            }
+
+            projects();
+
         }
     }, [user, projectID, members]);
 
@@ -377,7 +353,7 @@ export default function MemberPage() {
                 <meta name="description" content="Generated by create-t3-app" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
+            <Drawer userName={user != null && (user.name != undefined || user.name != null) ? `${user.name}#${user.id}` : ""}>
                 <main ref={parent} className="container h-screen mx-auto mr-5">
                     {projectID != null ? (<BackPage link={`/project/${projectID}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
                     <MemberBoard
@@ -386,11 +362,9 @@ export default function MemberPage() {
                         owner={ownerID}
                         users={users}
                         userID={userID}
-                        //  error={error}
                         update={updateMemberList}
                         removeMember={removeMember}
                         animate={parent}
-
                     />
                 </main>
 
