@@ -171,28 +171,57 @@ When a project is selected, users are directed to a project-specific page displa
 
 ### b. Milestones & Sprints
 
+<a name="f11"></a>
+<figure>
+  <img src="./frontend/src/assets/man_milestonedel.jpeg" style="max-width:450px"/>
+  <figcaption>Figure 11: Milestones</figcaption>
+</figure>
+
 #### Creating Milestones/Sprints
 
 1. Select "Setup/See" under Milestones/Sprints (4) ([Figure 8](#f8))
-2. Choose "Manual Create" to create a new sprint or milestone.
-3. Enter details such as Name, Start Date, and Deadline.
-4. Click "Add Sprint" to create the milestone/sprint.
+2. Choose "Manual Create" to create a new sprint or milestone ([Figure 11](#f11))
+3. Enter sprint details: ([Figure 12](#f12))
+    - Name(1) 
+    - Start Date (2) and 
+    - Deadline (3)
+4. A calendar will pop up when you click on the start or deadline fields ([Figure 13](#f13))
+5. Click "Add Sprint" (4) to create the milestone/sprint.
+6. Or click the x in the top right (5) or hit escape on your keyboard to cancel 
 
-<a name="f11"></a>
+
+<a name="f13"></a>
 <figure>
-  <img src="./frontend/src/assets/man_create_milestone.jpg" />
-  <figcaption>Figure 11: Connected Project</figcaption>
+  <img src="./frontend/src/assets/man_create_milestone.jpg" style="max-width:450px"/>
+  <figcaption>Figure 13: Craete a Milestone</figcaption>
+</figure>
+
+<a name="f14"></a>
+<figure>
+  <img src="./frontend/src/assets/man_milestone_cal.png" style="max-width:450px"/>
+  <figcaption>Figure 14: Date Selection</figcaption>
 </figure>
 
 ### c. Research & Bookmarks
 
 #### Organizing Research Notes
 
-1. Access the "Research Notes" tile.
+1. Click the "See Bookmarks" section (4) ([Figure 10])
 2. Click "Add Note" to create a new note.
 3. Input Title, Details, URL, and assign it to a specific sprint or milestone.
 4. Click "Create Note" to save research for reference.
 
+<a name="f15"></a>
+<figure>
+  <img src="./frontend/src/assets/man_milestone_cal.png" style="max-width:450px"/>
+  <figcaption>Figure 15: Research Notes</figcaption>
+</figure>
+
+<a name="f16"></a>
+<figure>
+  <img src="./frontend/src/assets/man_add_research.jpg" style="max-width:450px"/>
+  <figcaption>Figure 16: Reserch</figcaption>
+</figure>
 #### Sharing Resources with Teammates
 
 1. Create a note as explained above.
