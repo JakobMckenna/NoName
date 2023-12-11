@@ -2,25 +2,23 @@
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { use, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Navbar from "~/components/navbar";
+import { useEffect, useState } from "react";
 import SprintModal from "~/components/sprintmdl";
 import useUser from "~/hooks/use_user";
-
 import config from "config";
 import BackPage from "~/components/back_navigation";
 import SprintDelete from "~/components/delete_sprint_modal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Drawer from "~/components/drawer";
-;
+
 
 function Sprints({ sprints, changeSelected, animate }: any) {
-    // console.log(sprints)
+    
     const convDate = (date: string) => {
         const result = new Date(date)
         return result.toLocaleDateString();
     }
+    
     return (
         <div className="flex flex-col">
 
@@ -43,10 +41,10 @@ function Sprints({ sprints, changeSelected, animate }: any) {
                                                 className="btn  btn-primary"
                                                 onClick={
                                                     () => {
-                                                        changeSelected(sprint.id)
-                                                        const modal: any = document.getElementById('del_sprint')
+                                                        changeSelected(sprint.id) // sprint we are trying to delete
+                                                        const modal: any = document.getElementById('del_sprint');
                                                         if (modal) {
-                                                            modal?.showModal()
+                                                            modal?.showModal();
                                                         }
                                                     }
                                                 }
@@ -79,7 +77,7 @@ function MilestoneHero({ sprints, changeSelected, animate }: any) {
                     <button onClick={() => {
                         const modal: any = document.getElementById('sprint_modal')
                         if (modal) {
-                            modal?.showModal()
+                            modal?.showModal();
                         }
 
                     }}
@@ -100,32 +98,22 @@ function MilestoneHero({ sprints, changeSelected, animate }: any) {
 export default function SprintPage() {
     const router = useRouter();
     const [user, loading] = useUser();
-    //const [sprints, setID] = useSprint();
     const [sprints, setSprints] = useState<any[]>([]);
     const projectID = router.query.slug;
-    const [refresh, setRefesh] = useState(true);
     const [selected, setSelected] = useState<string>("");
-    const [selectedSprint, setSelectedSprint] = useState<any>(null)
     const [parent, enableAnimations] = useAutoAnimate({ duration: 300 });
 
 
     const getSprints = async () => {
         try {
             const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID as string}`
-            console.log("url")
-            console.log(`url ${reqUrl}`);
             if (projectID != null) {
                 const results = await axios.get(reqUrl)
                 console.log(results.data.sprints)
                 setSprints((prev): any => [...results.data.sprints])
-                setSelectedSprint(results.data.sprints[0])
-
             }
-            setRefesh(false);
-            //setSprints(results.data.sprints)
         } catch (error) {
-            //we failed to get notes for some reason
-            //  setSprints(null);
+           console.log(error)
         }
 
     }
@@ -137,17 +125,9 @@ export default function SprintPage() {
 
 
     const changeSelected = (sprintID: string) => {
-        setSelectedSprint(getSelectedSprint(sprintID));
         setSelected(sprintID);
-
-
-
     }
 
-    const getSelectedSprint = (sprintID: string) => {
-        const sprintList = sprints.filter((sprint) => sprint.id == sprintID);
-        return sprintList[0];
-    }
 
     const removeSprint = (sprintID: string) => {
         const sprintList = sprints.filter((sprint) => sprint.id !== sprintID);
@@ -175,13 +155,9 @@ export default function SprintPage() {
 
     useEffect(
         () => {
-            if (projectID != null && refresh) {
-
+            if (projectID != null && !loading && sprints.length==0) {
                 getSprints();
-
             }
-
-
         }, [user,selected, sprints, projectID]
 
     )
@@ -195,13 +171,11 @@ export default function SprintPage() {
             <Drawer  userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>
                 <main className="container mx-auto">
                     {projectID != null ? (<BackPage link={`/project/${projectID as string}`} name={`Back to  Project page`} />) : (<div className="skeleton h-9 w-96 mb-5"></div>)}
-
                     <div ref={parent}>
                         <MilestoneHero sprints={sprints} changeSelected={changeSelected} animate={parent} />
                     </div>
                 </main>
                 <SprintModal projectID={projectID as string} add={addSprint} />
-
                 <SprintDelete deleteSprint={deleteSprint} />
             </Drawer>
         </div>
