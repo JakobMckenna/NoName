@@ -91,7 +91,7 @@ function NoteList({ list, remove, setUpdateNote }: { readonly list: any, readonl
     return (
         <ul ref={parent} className="grid grid-cols-1 md:grid-cols-3 gap-y-10 justify-center">
             {
-                list && list.map(
+             list.map(
                     (note: any) => (
                         <Note
                             key={note.id}
@@ -172,7 +172,7 @@ export default function Research() {
     const router = useRouter()
     const projectID = router.query.slug;
     const [user, loading] = useUser();
-    const [notes, setNotes] = useState<any[]>([]);
+    const [notes, setNotes] = useState<any[]|null>(null);
     const [filteredNotes, setFilteredNotes] = useState<any[]>([])
     const [sprints, setID] = useSprint();
     const [searchTopic, setSearchTopic] = useState<string>("")
@@ -207,6 +207,7 @@ export default function Research() {
      */
     const addNotes = (note: any) => {
         setNotes((prev: any) => [...prev, note])
+        setFilteredNotes((prev: any) => [...prev, note]);
     }
 
     /**
@@ -324,20 +325,17 @@ export default function Research() {
 
     useEffect(
         () => {
-            if (user != null && !loading && projectID != null && setID != null) {
+            if (user != null && !loading && projectID!=undefined && projectID != null && setID != null && !notes ) {
                 setID(projectID as string);
                 setProjectIDstr(projectID as string);
-            }
-
-            if (notes.length == 0) {
+                console.log("getting notes")
                 getResponse();
             }
 
-            if (notes.length > 0) {
-                setFilteredNotes(notes);
-            }
+            
+           
 
-        }, [projectID, user, notes])
+        }, [projectID,notes])
     return (
         <div >
             <Head>
