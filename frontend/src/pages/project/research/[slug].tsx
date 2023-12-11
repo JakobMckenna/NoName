@@ -325,9 +325,8 @@ export default function Research() {
     useEffect(
         () => {
             if (user != null && projectID != null && setID != null) {
-                const id = String(projectID);
-                setID(id);
-                setProjectIDstr(id);
+                setID(projectID as string);
+                setProjectIDstr(projectID as string);
             }
 
             if (notes == null || notes.length == 0) {
