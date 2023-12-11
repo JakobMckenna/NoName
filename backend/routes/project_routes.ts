@@ -12,7 +12,7 @@ const projectRoutes = express.Router();
  * Http get /project
  * gets all projects in the database
  */
-projectRoutes.get("/",ProjectController.getAllProjects);
+projectRoutes.get("/", ProjectController.getAllProjects);
 
 /**
  * Http post /project

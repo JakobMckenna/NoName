@@ -254,7 +254,7 @@ export default function Project() {
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                        router.push("/home");
+                      //  router.push("/home");
                     }
 
                 }

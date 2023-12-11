@@ -119,7 +119,7 @@ const UserController = {
     },
 
     
-    confirm: async (req: Request, res: Response) => {
+    confirm: async (req: Request, res: Response): Promise<void> => {
         try {
             const userBody = req.body;
             const userID = userBody.id
