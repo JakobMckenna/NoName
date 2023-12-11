@@ -223,6 +223,7 @@ export default function Research() {
                 const updatedList = [...notes];
                 updatedList[index] = updateNote;
                 setNotes(updatedList);
+                setFilteredNotes(updatedList);
             }
         }
     }
@@ -326,13 +327,13 @@ export default function Research() {
 
     useEffect(
         () => {
-            if (user != null && !loading && projectID!=undefined && projectID != null && setID != null && !notes ) {
+            if (projectID&& user != null && !loading && projectID!=undefined  && setID != null && !notes ) {
                 setID(projectID as string);
                 setProjectIDstr(projectID as string);
                 getResponse();
             }
         }, [projectID,notes])
-        
+
     return (
         <div >
             <Head>
