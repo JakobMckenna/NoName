@@ -28,8 +28,8 @@ function Form({ id, note, projectID, userID, sprints, update }: { id: string, no
       const response = await axios.patch(`${config.backendApiUrl}/projects/notes`,
         {
           noteID: id,
-          title: data.title == "" ? note?.title : data.title,
-          details: data.details == "" ? note?.details : data.details,
+          title: data.title ,
+          details: data.details ,
           projectID: projectID,
           userID: userID,
           sprintID: data.sprint,
