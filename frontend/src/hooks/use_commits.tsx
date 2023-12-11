@@ -6,7 +6,7 @@ import config from "config";
 
 const useCommits = () => {
     const [commits, setCommits] = useState<any[]|null>(null);
-    const [latestCommits, setLatestCommits] = useState(null);
+    //const [latestCommits, setLatestCommits] = useState(null);
     const [maintainer, setMaintainer] = useState("");
     const [project, setProject] = useState("");
 
@@ -36,7 +36,7 @@ const useCommits = () => {
 
         }, [maintainer, project],
     )
-    return [commits, latestCommits, addOwner, addProject];
+    return [commits, addOwner, addProject];
 }
 
 export default useCommits;

@@ -97,7 +97,7 @@ function UserSort({ users, changeName }: { readonly users: any[], readonly chang
     )
 }
 
-function MessageSort({ setMessage }: {readonly setMessage: any }) {
+function MessageSort({ setMessage }: { readonly setMessage: any }) {
     return (
         <div className="flex flex-row w-1/2 mr-5">
             <input
@@ -139,7 +139,7 @@ export default function Project() {
     const [user, loading] = useUser();
     const [projectData, setProjectData] = useState<any>();
     const [github, setGithub] = useState<any>(null);
-    const [commits, latestCommits, setMaintainer, setProject] = useCommits();
+    const [commits, setMaintainer, setProject] = useCommits();
     const projectID = router.query.slug;
     const [filteredCommits, setFilteredCommits] = useState<any>(null);
     const [message, setMessage] = useState<string>("");
@@ -154,16 +154,16 @@ export default function Project() {
      * @returns  
      */
     const getProjectData = async (id: string) => {
-        const reqUrl = `${config.backendApiUrl}/projects/${id}`
+        const reqUrl = `${config.backendApiUrl}/projects/${id}`;
         try {
 
-            const results = await axios.get(reqUrl)
-            //  console.log(results.data.projects)
-            return results.data.projects
+            const results = await axios.get(reqUrl);
+
+            return results.data.projects;
 
         } catch (error) {
-            //setGithub()
-            router.push("/home")
+
+            router.push("/home");
         }
 
     }
@@ -178,13 +178,13 @@ export default function Project() {
                 const list = commits?.filter((commit: any) => {
                     return commit.commit.message.toLowerCase().includes(message?.toLowerCase()) && commit.author.login.includes(name)
                 })
-                // console.log(list)
+
                 setFilteredCommits(list)
             } else {
                 const list = commits?.filter((commit: any) => {
                     return commit.commit.message.toLowerCase().includes(message?.toLowerCase())
                 })
-                // console.log(list)
+
                 setFilteredCommits(list)
             }
         }
@@ -199,15 +199,10 @@ export default function Project() {
             const list = _.sortBy(filteredCommits, (commit) =>
                 -  new Date(commit.commit.author.date).getTime()
             )
-            // console.log(list)
-            setFilteredCommits(list)
+            setFilteredCommits(list);
         } else if (commits && Array.isArray(commits) && sort == "1") {
-            console.log("oldest")
-            const list = _.sortBy(filteredCommits, (commit) => - new Date(commit.commit.author.date).getTime()
-            )
-            //console.log(list)
-            const result = _.reverse(list)
-
+            const list = _.sortBy(filteredCommits, (commit) => - new Date(commit.commit.author.date).getTime());
+            const result = _.reverse(list);
             setFilteredCommits(result);
         }
     }
@@ -219,22 +214,19 @@ export default function Project() {
 
             // waits for user data to load 
             // this only gets commits if commits is empty or if page refreshes
-            if (user != null && !commits) {
+            if (user != null && !loading && projectID && !Array.isArray(setMaintainer) && !Array.isArray(setProject) && !commits) {
 
                 /**
                  * getData
                  * retieve project data from backend  and set state of page
                  */
                 const getData = async () => {
-                    if (projectID && !Array.isArray(setMaintainer) && !Array.isArray(setProject)) {
-                        const results = await getProjectData(projectID as string);
-                        if (results && setMaintainer && setProject) {
-                            setProjectData(results);
-                            setGithub(results.github);
-                            setMaintainer(String(results.github.owner));
-                            setProject(results.github.repoName);
-                        }
-
+                    const results = await getProjectData(projectID as string);
+                    if (results && setMaintainer && setProject) {
+                        setProjectData(results);
+                        setGithub(results.github);
+                        setMaintainer(String(results.github.owner));
+                        setProject(results.github.repoName);
                     }
                 }
 
