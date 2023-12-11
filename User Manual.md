@@ -106,7 +106,7 @@ The dashboard presents a clean interface displaying user projects. Users' names 
 ### Creating a New Project
 
 ![Figure 3: Creating a New Project](placeholder_image_url)
-Users can create new projects by clicking the "Add Project" button (3) on the dashboard. The CreateProject popup appears and requires a unique project name (4). Clicking the “Create Project” button (5) to complete this process.
+Users can create new projects by clicking the "Add Project" button (3) on the dashboard. The Create Project popup appears and requires a unique project name (4). Clicking the “Create Project” button (5) to complete this process.
 
 ### Project Overview & Tiles
 
@@ -129,8 +129,7 @@ By clicking into a project tile, users access specific functionalities related t
 
 #### Viewing Recent Commits & Issues
 
-1. Navigate to the "GitHub" tile.
-2. Choose "See Commits" or "See Issues" to access detailed information on recent code commits and reported issues.
+1. Choose "See Commits" or "See Issues" to access detailed information on recent code commits and reported issues.
 
 ### b. Milestones & Sprints
 
