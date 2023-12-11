@@ -332,7 +332,7 @@ export default function Research() {
                 setProjectIDstr(projectID as string);
                 getResponse();
             }
-        }, [projectID,notes])
+        }, [projectID,sprints,notes])
 
     return (
         <div >
