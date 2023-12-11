@@ -61,7 +61,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
                     }
                     disabled={milestone == undefined || milestone == null}
                 >
-                    {milestone ? milestone : "no milestone"}
+                    {milestone!=null ? milestone : "no milestone"}
                 </button>
             </div>
             <p className="w-32">{dueDate ? date : "does not have milestone"}</p>

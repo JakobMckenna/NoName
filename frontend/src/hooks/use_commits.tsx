@@ -1,13 +1,12 @@
 /* eslint-disable */
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import config from "config";
-import { error } from "console";
+
 
 const useCommits = () => {
     const [commits, setCommits] = useState<any[]|null>(null);
-    //const [latestCommits, setLatestCommits] = useState(null);
+  
     const [maintainer, setMaintainer] = useState("");
     const [project, setProject] = useState("");
 
