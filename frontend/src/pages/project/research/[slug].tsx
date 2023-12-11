@@ -253,6 +253,7 @@ export default function Research() {
         // if a result exists update notes
         if (noteList) {
             setNotes(noteList);
+            setFilteredNotes(noteList);
         }
 
     }
@@ -328,7 +329,6 @@ export default function Research() {
             if (user != null && !loading && projectID!=undefined && projectID != null && setID != null && !notes ) {
                 setID(projectID as string);
                 setProjectIDstr(projectID as string);
-                console.log("getting notes")
                 getResponse();
             }
 
