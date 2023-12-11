@@ -62,27 +62,28 @@ Our primary goal is to offer a central hub for project management, delivering a 
 ### Sign-In/Sign-Up Process
 
 1. **Signing In:**
-    - Enter your registered credentials (username and password) in the provided fields on the sign-in page.
-    - Click the "Login" button to access your Dev Diaries dashboard.  
+    - Enter your registered credentials: email (1) and password (2) in the provided fields on the sign-in page ([Figure 1](#f1))
+    - Click the "Login" button (3) to access your Dev Diaries dashboard.  
     <a name="f1"></a>
 <figure>
-    <img src="./frontend/src/assests/man_sign_in.jpg" style="max-width:300px;" />
+    <img src="./frontend/src/assets/man_signIn.jpeg" style="max-width:300px;" />
   <figcaption>Figure 1: Sign In</figcaption>
 </figure>   
 
 <br>
 
 2. **Signing Up:**
-    - If you don't have an account, click on “Sign Up" ([Figure 1](#f1))
+    - If you don't have an account, click on “Sign Up" (4) ([Figure 1](#f1))
     - Fill in the required details ([Figure 2](#f2))
         1. Name: Must be a minimum of 3 characters.
         2. Email: Must be a valid email format and at least 6 characters.
         3. Password: Must be a minimum of 6 characters.
-    - Click the "Create Account” button to create your Dev Diaries account.
+    - Click the "Create Account” (4) button to create your Dev Diaries account.
+    - To return to the Sign In page, click Sign Up (5)
 
 <a name="f2"></a>
 <figure>
-  <img src="./frontend/src/assests/man_sign_up.png" style="max-width:300px;" />
+  <img src="./frontend/src/assets/man_signup.jpg" style="max-width:300px;" />
   <figcaption>Figure 2: Sign Up</figcaption>
 </figure>
 
@@ -91,31 +92,54 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 <a name="f3"></a>
 <figure>
-  <img src="./frontend/src/assests/man_landing.jpg" style="max-height:300px;" />
+  <img src="./frontend/src/assets/man_dash.jpeg" style="max-width:300px;" />
   <figcaption>Figure 3: Dashboard Overview</figcaption>
 </figure>
-The dashboard presents a clean interface displaying user projects. Users' names and IDs are prominently displayed in the header for easy identification (1). It includes an "Add Project" button for creating new projects (2), and a search bar for quick project access (3).
+The user dashboard displays an "Add Project" button (1) for creating new projects, a search bar for quick project access (2), and each project listed (3) ([Figure 3](#f3))
 
 ### Navigation & Interface Elements
 
-![Figure 2: Navigation & Interface Elements](placeholder_image_url)
-- **Header:** Displays the "Dev Diaries" title and features a toggle for dark/light modes (4). It also includes a side navigation bar (5). Clicking on the navigation bar icon (5) opens the side navigation with options for Home (1), Settings (2), and Logout (3).
+<a name="f4"></a>
+<figure>
+  <img src="./frontend/src/assets/man_header.jpg" style="max-height:80px"/>
+  <figcaption>Figure 4: Header & Interface Elements</figcaption>
+</figure>
+- **Header:** 
+The header, found on each page, displays the "Dev Diary" title; clicking on it will return you to your dashboard. It also features a toggle for dark/light modes (2) ([Figure 5](#f5)). It also includes a side navigation bar (1). Clicking on the navigation bar icon (1) opens the side navigation with options for Home (1), Settings (2), and Logout (3) ([Figure 6](#f6)).
+
+<a name="f5"></a>
+<figure>
+  <img src="./frontend/src/assets/man_light_mode.jpg" style="max-height:400px;" />
+  <figcaption>Figure 5: Light Mode</figcaption>
+</figure>
+
+<a name="f5"></a>
+<figure>
+  <img src="./frontend/src/assets/man_nav.jpg" style="max-height:200px;" />
+  <figcaption>Figure 6: Navigation</figcaption>
+</figure>
 
 ## 3. Managing Projects
 
 ### Creating a New Project
 
-![Figure 3: Creating a New Project](placeholder_image_url)
-Users can create new projects by clicking the "Add Project" button (3) on the dashboard. The Create Project popup appears and requires a unique project name (4). Clicking the “Create Project” button (5) to complete this process.
+Users can create new projects by clicking the "Add Project" button on the dashboard ([Figure 3](#f3)). The Create Project popup appears and requires a unique project name (1). Clicking the “Create Project” button (2) to complete this process. ([Figure 7](#f7))
+
+<a name="f7"></a>
+<figure>
+  <img src="./frontend/src/assets/man_newproj.jpg" style="max-height:300px;" />
+  <figcaption>Figure 7: Create a New Project</figcaption>
+</figure>
 
 ### Project Overview & Tiles
 
-![Figure 4: Project Overview & Tiles](placeholder_image_url)
 When a project is selected, users are directed to a project-specific page displaying tiles representing different aspects of project management. These tiles offer specific functionalities related to GitHub integration, milestones/sprints, research/bookmarks, and communication.
 
-### Accessing a Project
-
-By clicking into a project tile, users access specific functionalities related to that aspect of project management, such as GitHub integration, milestone/sprint setup, research organization, or communication tools.
+<a name="f8"></a>
+<figure>
+  <img src="./frontend/src/assets/man_projOverview.jpeg" style="max-width:400px;" />
+  <figcaption>Figure 8: Project Overview</figcaption>
+</figure>
 
 ## 4. Project Tiles & Functionalities
 
@@ -123,26 +147,42 @@ By clicking into a project tile, users access specific functionalities related t
 
 #### Setting up GitHub for Live Updates
 
-1. Click on the "Setup GitHub" tile.
-2. Enter the required details: Repository URL, Owner, Repo Name.
-3. Click "Add Repo" to link your project to the GitHub repository for automatic updates.
+1. Click "Setup GitHub" (3) ([Figure 8](#f8))
+2. Enter the required details: Repository owner (1) and repository name (2) ([Figure 9](#f9))
+3. Click "Add Repo" (3) to link your project to the GitHub repository for automatic updates.
+
+<a name="f9"></a>
+<figure>
+  <img src="./frontend/src/assets/man_setup_github.jpg" style="max-height:300px;" />
+  <figcaption>Figure 9: Setup Repository</figcaption>
+</figure>
 
 #### Viewing Recent Commits & Issues
 
-1. Choose "See Commits" or "See Issues" to access detailed information on recent code commits and reported issues.
+1. You will now be able to access issues (1) and commits (2) ([Figure 10](#f10))
+2. Click update (3) to update the owner or repo name.
+
+<a name="f10"></a>
+<figure>
+  <img src="./frontend/src/assets/man_projFull.jpg" style="max-width:400px;" />
+  <figcaption>Figure 10: Connected Project</figcaption>
+</figure>
+
 
 ### b. Milestones & Sprints
 
 #### Creating Milestones/Sprints
 
-1. Select "Setup/See" under Milestones/Sprints.
+1. Select "Setup/See" under Milestones/Sprints (4) ([Figure 8](#f8))
 2. Choose "Manual Create" to create a new sprint or milestone.
 3. Enter details such as Name, Start Date, and Deadline.
 4. Click "Add Sprint" to create the milestone/sprint.
 
-#### Syncing with GitHub
-
-1. While creating a milestone/sprint, select "Sync with GitHub" to align it with your GitHub repository.
+<a name="f11"></a>
+<figure>
+  <img src="./frontend/src/assets/man_create_milestone.jpg" />
+  <figcaption>Figure 11: Connected Project</figcaption>
+</figure>
 
 ### c. Research & Bookmarks
 
@@ -150,8 +190,8 @@ By clicking into a project tile, users access specific functionalities related t
 
 1. Access the "Research Notes" tile.
 2. Click "Add Note" to create a new note.
-3. Input Title, Details, URL (if applicable), and assign it to a specific sprint or milestone.
-4. Click "Create Note" to save and organize the note.
+3. Input Title, Details, URL, and assign it to a specific sprint or milestone.
+4. Click "Create Note" to save research for reference.
 
 #### Sharing Resources with Teammates
 
