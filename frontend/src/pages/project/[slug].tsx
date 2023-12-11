@@ -79,7 +79,7 @@ function MenuCard({ github, projectID }: { github: any, projectID: string }) {
                         <div>
                             <Link href={`/project/issues/${projectID}`} className="link">see issues</Link>
                         </div>
-                       
+
                     </div>
 
                 </div>
@@ -191,7 +191,6 @@ export default function Project() {
     const [projectData, setProjectData] = useState<any>(null);
     const [projectIDstr, setProjectIDstr] = useState<string>("")
     const [github, setGithub] = useState<any>(null);
-    //const [sprints, setID] = useSprint();
     const projectID = router.query.slug;
     const [owner, setOwner] = useState<number | null>(null)
     const [userID, setUserID] = useState<number | null>(null)
@@ -220,7 +219,7 @@ export default function Project() {
 
     }
 
-  
+
     const getSprintSize = () => {
         let result = 0;
         if (projectData.sprint) {
@@ -228,14 +227,14 @@ export default function Project() {
         }
         return result;
     }
-    const addGitHub= (repo:any)=>{
+    const addGitHub = (repo: any) => {
         setGithub(repo);
     }
 
     useEffect(
         () => {
             // retrieve data but only if user data is stored in browser local storage
-            if (user != null && user != undefined && projectID != null && projectID != undefined && projectData==null ) {
+            if (user != null && user != undefined && projectID != null && projectID != undefined && projectData == null) {
                 console.log("getting data")
                 // store user ID from local storage
                 setUserID(user.id)
@@ -246,7 +245,7 @@ export default function Project() {
                         const results = await getProjectData(String(projectID));
                         // if results  is valid fom serve we will store it in react state
 
-                        if (results ) {
+                        if (results) {
 
 
                             setProjectData(results);
@@ -254,15 +253,11 @@ export default function Project() {
                         }
                         setProjectIDstr(String(projectID))
                     } catch (error) {
-                      //  router.push("/home");
+                        router.push("/home");
                     }
 
                 }
-
-               // if (projectID == null) {
-                    // retrieve project data  from server and save it in state
-                    getData();
-               // }
+                getData();
             }
         }, [projectID, user]);
 
@@ -293,7 +288,7 @@ export default function Project() {
                 {/** Page Modals , these exist outside the normal html flow */}
 
 
-                <RepoModal projectID={projectIDstr} githubID={github?.id} addRepo={addGitHub}  />
+                <RepoModal projectID={projectIDstr} githubID={github?.id} addRepo={addGitHub} />
 
                 <DeleteModal projectID={projectIDstr} home={goToHome} />
 

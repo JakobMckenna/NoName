@@ -19,15 +19,11 @@ const ProjectController = {
     getProject: async (req: Request, res: Response) => {
         try {
             const projectID: string = req.params.id;
-            
-
-                const projects = await ProjectService.getProject(projectID);
-                if (projects === null) {
-                    res.status(400).json({ "projects": null });
-                }
-                res.status(200).json({ "projects": projects });
-            
-
+            const projects = await ProjectService.getProject(projectID);
+            if (projects === null) {
+                res.status(400).json({ "projects": null });
+            }
+            res.status(200).json({ "projects": projects });
         } catch (error) {
             res.status(400).json()
         }
