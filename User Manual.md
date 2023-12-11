@@ -30,20 +30,16 @@
         - Accessing & Using Chat Functionality
         - Adding/Removing Team Members
 
-5. GitHub Integration
-    - Exploring GitHub Updates & Statistics
-    - Viewing Commit Details
-
-6. Navigation & User Flow
+5. Navigation & User Flow
     - Moving Between Project Sections
     - Return to Landing Page
 
-7. Preferences & Settings
+6. Preferences & Settings
     - Dark/Light Mode Toggle
     - Accessing User Settings
     - Logging Out
 
-8. User Stories and Interactions
+7. User Stories and Interactions
     - User Stories & Scenarios
     - Corresponding User Interactions
 
@@ -95,7 +91,8 @@ Our primary goal is to offer a central hub for project management, delivering a 
   <img src="./frontend/src/assets/man_dash.jpeg" style="max-width:300px;" />
   <figcaption>Figure 3: Dashboard Overview</figcaption>
 </figure>
-The user dashboard displays an "Add Project" button (1) for creating new projects, a search bar for quick project access (2), and each project listed (3) ([Figure 3](#f3))
+
+The user dashboard displays an "Add Project" button (1) for creating new projects, a search bar for quick project access (2), and each project listed (3) ([Figure 3](#f3)) 
 
 ### Navigation & Interface Elements
 
@@ -104,8 +101,9 @@ The user dashboard displays an "Add Project" button (1) for creating new project
   <img src="./frontend/src/assets/man_header.jpg" style="max-height:80px"/>
   <figcaption>Figure 4: Header & Interface Elements</figcaption>
 </figure>
+
 - **Header:** 
-The header, found on each page, displays the "Dev Diary" title; clicking on it will return you to your dashboard. It also features a toggle for dark/light modes (2) ([Figure 5](#f5)). It also includes a side navigation bar (1). Clicking on the navigation bar icon (1) opens the side navigation with options for Home (1), Settings (2), and Logout (3) ([Figure 6](#f6)).
+The header, found on each page, displays the "Dev Diary" title; clicking on it will return you to your dashboard. It features a toggle for dark/light modes (2) ([Figure 5](#f5)). It also includes a side navigation bar (1). Clicking on the navigation bar icon (1) opens the side navigation with options for Home (1), Settings (2), and Logout (3) ([Figure 6](#f6)).
 
 <a name="f5"></a>
 <figure>
@@ -113,7 +111,7 @@ The header, found on each page, displays the "Dev Diary" title; clicking on it w
   <figcaption>Figure 5: Light Mode</figcaption>
 </figure>
 
-<a name="f5"></a>
+<a name="f6"></a>
 <figure>
   <img src="./frontend/src/assets/man_nav.jpg" style="max-height:200px;" />
   <figcaption>Figure 6: Navigation</figcaption>
@@ -133,7 +131,7 @@ Users can create new projects by clicking the "Add Project" button on the dashbo
 
 ### Project Overview & Tiles
 
-When a project is selected, users are directed to a project-specific page displaying tiles representing different aspects of project management. These tiles offer specific functionalities related to GitHub integration, milestones/sprints, research/bookmarks, and communication.
+When a project is selected, users are directed to a project-specific page displaying tiles representing different aspects of project management. These tiles offer specific functionalities related to GitHub integration, milestones/sprints, research/bookmarks, and communication. To return to your dashboard, click Back to Home Page (1). To delete a project, click the delete button (2) ([Figure 8](#f8)).
 
 <a name="f8"></a>
 <figure>
@@ -168,60 +166,91 @@ When a project is selected, users are directed to a project-specific page displa
   <figcaption>Figure 10: Connected Project</figcaption>
 </figure>
 
+### Commits
 
-### b. Milestones & Sprints
+1. Clicking on see commits (1) ([Figure 10](#f10)) will bring you to your commits summary for the last 100 commits ([Figure 11](#f11))
+2. Click on your project name (1) to open your GitHub repository in a new tab
+3. To sort your last 100 commits, click the dropdown box (2) to select sort order - either by newest or oldest, and click Sort (3)
+4. Select a user (4) to filter commits by author
+5. Type a search term to filter by commit message (5)
+6. Click filter (6) to apply your search parameters
+7. The last 100 commits will appear below (7) if no search parameters set, otherwise the commits matching your search parameters will be listed
 
 <a name="f11"></a>
 <figure>
-  <img src="./frontend/src/assets/man_milestonedel.jpeg" style="max-width:450px"/>
-  <figcaption>Figure 11: Milestones</figcaption>
+  <img src="./frontend/src/assets/man_see_commits.jpg" style="max-width:400px;" />
+  <figcaption>Figure 11: Commits</figcaption>
 </figure>
+
+### Issues
+
+1. To access your projects issues, click see issues (3) ([Figure 10](#f10)); to return to your project overview, click Back to Project page (1) ([Figure 12](#f12))
+2. Filter issues by Open (2) or Recently Closed (3)
+3. Enter a label (4) or milestone (5) search term to filter further
+
+<a name="f12"></a>
+<figure>
+  <img src="./frontend/src/assets/man_issues.jpg" style="max-width:450px"/>
+  <figcaption>Figure 12: Issues</figcaption>
+</figure>
+
+
+### b. Milestones & Sprints
 
 #### Creating Milestones/Sprints
 
 1. Select "Setup/See" under Milestones/Sprints (4) ([Figure 8](#f8))
-2. Choose "Manual Create" to create a new sprint or milestone ([Figure 11](#f11))
-3. Enter sprint details: ([Figure 12](#f12))
+2. Choose "Manual Create" (2) to create a new sprint or milestone ([Figure 13](#f13))
+3. Enter sprint details: ([Figure 14](#f14))
     - Name(1) 
     - Start Date (2) and 
     - Deadline (3)
-4. A calendar will pop up when you click on the start or deadline fields ([Figure 13](#f13))
+4. A calendar will pop up when you click on the start or deadline fields to select the date ([Figure 14](#f14)) 
 5. Click "Add Sprint" (4) to create the milestone/sprint.
 6. Or click the x in the top right (5) or hit escape on your keyboard to cancel 
 
-
 <a name="f13"></a>
 <figure>
-  <img src="./frontend/src/assets/man_create_milestone.jpg" style="max-width:450px"/>
-  <figcaption>Figure 13: Craete a Milestone</figcaption>
+  <img src="./frontend/src/assets/man_milestonedel.jpeg" style="max-width:450px"/>
+  <figcaption>Figure 13: Milestones</figcaption>
 </figure>
+
 
 <a name="f14"></a>
 <figure>
+  <img src="./frontend/src/assets/man_create_milestone.jpg" style="max-width:450px"/>
+  <figcaption>Figure 14: Create a Milestone</figcaption>
+</figure>
+
+<a name="f15"></a>
+<figure>
   <img src="./frontend/src/assets/man_milestone_cal.png" style="max-width:450px"/>
-  <figcaption>Figure 14: Date Selection</figcaption>
+  <figcaption>Figure 15: Date Selection</figcaption>
 </figure>
 
 ### c. Research & Bookmarks
 
 #### Organizing Research Notes
 
-1. Click the "See Bookmarks" section (4) ([Figure 10])
-2. Click "Add Note" to create a new note.
-3. Input Title, Details, URL, and assign it to a specific sprint or milestone.
-4. Click "Create Note" to save research for reference.
-
-<a name="f15"></a>
-<figure>
-  <img src="./frontend/src/assets/man_milestone_cal.png" style="max-width:450px"/>
-  <figcaption>Figure 15: Research Notes</figcaption>
-</figure>
+1. Click the "See Bookmarks" section (4) ([Figure 10](#f10))
+2. Click "Add Note" (1) to create a new note ([Figure 16](#f16))
+3. Assign your note to a specific sprint or milestone (1) ([Figure 17](#f17))
+4. Input Title (2), Details (3), and URL (4)
+4. Click "Create Note" (5) to save research for reference
 
 <a name="f16"></a>
 <figure>
-  <img src="./frontend/src/assets/man_add_research.jpg" style="max-width:450px"/>
-  <figcaption>Figure 16: Reserch</figcaption>
+  <img src="./frontend/src/assets/man_research.jpg" style="max-width:450px"/>
+  <figcaption>Figure 16: Research Notes</figcaption>
 </figure>
+
+<a name="f17"></a>
+<figure>
+  <img src="./frontend/src/assets/man_add_research.jpg" style="max-width:450px"/>
+  <figcaption>Figure 17: New Research</figcaption>
+</figure>
+
+
 #### Sharing Resources with Teammates
 
 1. Create a note as explained above.
@@ -231,47 +260,60 @@ When a project is selected, users are directed to a project-specific page displa
 
 #### Accessing & Using Chat Functionality
 
-1. Click on "See Chat" to access the chat feature.
-2. Use the search option or scroll to find past messages.
-3. Type in the message field and press "Send" to communicate with team members.
+1. Click on "See Chat" (5) to access the chat feature ([Figure 8](#f8))
+2. Use the search option (2) or scroll to find past messages ([Figure 18](#f18))
+3. To see the end or beginning of the chat, click Latest Messages (3) or Oldest Messages (4) respectively
+4. See past messages from anyone within the project (5)
+4. Type in the message field (6) and press "Send" (7) to communicate with team members
+
+<a name="f18"></a>
+<figure>
+  <img src="./frontend/src/assets/man_chat.jpg" style="max-width:300px"/>
+  <figcaption>Figure 18: New Research</figcaption>
+</figure>
 
 #### Adding/Removing Team Members
 
-1. Click "Add/See User" to manage team members.
-2. To add a member, enter their username or email and click "Add Member."
-3. To remove a member, select the user and click "Remove."
+1. Click "Add/See User" (6) to manage team members ([Figure 8](#f8))
+2. To add a member, select them from the dropdown box (2), then click Add Member (3) ([Figure 19](#f19))
+3. To remove a member, select the user and click "Remove" (4)
+4. The owner of the project will be listed here (5)
 
-## 5. GitHub Integration
+<a name="f19"></a>
+<figure>
+  <img src="./frontend/src/assets/man_add_user.jpg" style="max-width:300px"/>
+  <figcaption>Figure 19: Add Member</figcaption>
+</figure>
 
-### Exploring GitHub Updates & Statistics
 
-#### Viewing Commit Details
-
-1. Select "See Commits" to view the latest commits.
-2. Sort commits by choosing options such as "Newest" or "Oldest."
-3. Filter commits by user or search term.
-
-## 6. Navigation & User Flow
+## 5. Navigation & User Flow
 
 ### Moving Between Project Sections
 
-To navigate between project sections, simply click on the desired tile representing the feature or functionality you wish to access.
+1. To navigate between project sections, simply click on the desired tile representing the feature or functionality you wish to access
+2. To return to the project overview, click the Back to Project Page button at the top of the page ([Figure 20](#f20))
 
-## 7. Preferences & Settings
+<a name="f20"></a>
+<figure>
+  <img src="./frontend/src/assets/man_back.jpg" style="max-width:200px"/>
+  <figcaption>Figure 20: Back to Project Page</figcaption>
+</figure>
+
+## 6. Preferences & Settings
 
 ### Dark/Light Mode Toggle
 
-Toggle between Dark and Light modes by clicking on the moon/sun icon in the header.
+Toggle between Dark and Light modes by clicking on the moon/sun icon in the header ([Figure 5](#f5))
 
 ### Accessing User Settings
 
-Access and modify user settings by clicking on the "Settings" option in the side nav bar.
+Access and modify user settings by clicking on the "Settings" option in the side nav bar (2) ([Figure 6](#f6))
 
 ### Logging Out
 
-To log out of your Dev Diaries account, click on "Logout" in the side nav bar.
+To log out of your Dev Diaries account, click on "Logout" in the side nav bar (3) ([Figure 6](#f6))
 
-## 8. User Stories and Interactions
+## 7. User Stories and Interactions
 
 ### User Stories & Scenarios
 
