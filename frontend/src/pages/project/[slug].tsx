@@ -234,7 +234,7 @@ export default function Project() {
     useEffect(
         () => {
             // retrieve data but only if user data is stored in browser local storage
-            if (user != null && user != undefined && projectID != null && projectID != undefined && projectData == null) {
+            if (user != null && !loading && user != undefined && projectID != null && projectID != undefined && projectData == null) {
                 console.log("getting data")
                 // store user ID from local storage
                 setUserID(user.id)
@@ -242,16 +242,14 @@ export default function Project() {
                 const getData = async () => {
                     try {
 
-                        const results = await getProjectData(String(projectID));
+                        const results = await getProjectData(projectID as string);
                         // if results  is valid fom serve we will store it in react state
-
                         if (results) {
-
-
                             setProjectData(results);
                             setGithub(results.github);
                         }
-                        setProjectIDstr(String(projectID))
+
+                        setProjectIDstr(projectID as string)
                     } catch (error) {
                         router.push("/home");
                     }
