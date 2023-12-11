@@ -246,6 +246,6 @@ const GithubService = {
             return result;
         }
     }
-}
+};
 
 export default GithubService;

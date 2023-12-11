@@ -1,18 +1,12 @@
 /* eslint-disable */
-
 import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import ProjectModal from "~/components/projectmdl";
-
 import useUser from "~/hooks/use_user";
-
 import config from "config";
-import useCurrentTheme from "~/hooks/use_current_theme";
 import { Ref } from "react-hook-form";
 import Drawer from "~/components/drawer";
 
@@ -28,6 +22,7 @@ function LoadingTile() {
     )
 }
 
+
 function Tile({ id, name, user, parent }: { id: string, name: string, user: string, parent: any }) {
     return (
         <Link ref={parent} href={`/project/${id}`} className="card w-96 bg-primary glass text-primary-content shadow-xlw-full mb-10 hover:-translate-y-3 hover:-skew-y-3 duration-75">
@@ -35,14 +30,11 @@ function Tile({ id, name, user, parent }: { id: string, name: string, user: stri
                 <h2 className="card-title capitalize">{name} </h2>
                 <p> Created by {user} </p>
             </div>
-
         </Link>
     )
 }
 
 function ProjectHero({ projects, parent, search, projectsInit }: { projects: any, parent: Ref, search: any, projectsInit: any }) {
-    // console.log(projects)
-
     return (
         <div className="hero  bg-base-100">
             <div className="hero-content ">
@@ -81,7 +73,7 @@ function ProjectHero({ projects, parent, search, projectsInit }: { projects: any
                     </div>
                     {
                         projectsInit ? projects.map(
-                            (project: any, index: number) => {
+                            (project: any) => {
                                 const id = project.project.id;
                                 const user = project.project.user?.name;
                                 const projectName = project.project.name;
@@ -101,8 +93,6 @@ function ProjectHero({ projects, parent, search, projectsInit }: { projects: any
                             </>
                         )
 
-
-
                     }
 
                 </div>
@@ -113,16 +103,12 @@ function ProjectHero({ projects, parent, search, projectsInit }: { projects: any
 
 
 export default function LandingPage() {
-    const router = useRouter();
-    const [user, loading] = useUser()
-    const [projectList, setProjectList] = useState<any[] | null>(null)
-    const [refresh, setRefresh] = useState(true)
-    const [currentTheme, loadingTheme] = useCurrentTheme()
-    const [theme, setTheme] = useState<string>()
-    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
-    const [filteredList, setFilteredList] = useState<any[]>([])
+    const [user, loading] = useUser();
+    const [projectList, setProjectList] = useState<any[] | null>(null);
+    const [parent, enableAnimations] = useAutoAnimate();
+    const [filteredList, setFilteredList] = useState<any[]>([]);
 
-
+    enableAnimations(true);
 
     const addProject = (project: any) => {
         setFilteredList((prev) => [project, ...prev]);
@@ -130,58 +116,38 @@ export default function LandingPage() {
     }
 
     const getProjects = async (userID: number) => {
-        const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`
-        const results = await axios.get(reqUrl)
-        console.log(results.data.user)
-        setRefresh(false);
-
-        return results.data.user
-
+        const reqUrl = `${config.backendApiUrl}/users/projects/${userID}`;
+        const results = await axios.get(reqUrl);
+        return results.data.user;
     }
 
-    const isRefresh = () => {
-        return refresh == true
-    }
+   
 
     // filter projects by project name
     const searchProjects = (projectName: string) => {
         const results = projectList?.filter((project) => {
-            return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase())
-        })
+            return project.project.name.toLowerCase().includes(projectName.toLocaleLowerCase());
+        });
         if (results)
-            setFilteredList(results)
+            setFilteredList(results);
     }
 
     useEffect(
         () => {
-
+           
             //only get data when user data is loaded
-            if (user) {
+            if (user && !loading && !projectList && !Array.isArray(projectList) ) {
                 const projects = async () => {
-                    const results = await getProjects(user.id)
-                    console.log("members")
-                    console.log(results.member)
-                    setProjectList(results.member);
-                    setFilteredList(results.member)
+                    const results = await getProjects(user?.id)
+                    setProjectList(results?.member);
+                    setFilteredList(results?.member)
                     return results.project;
                 }
 
-
-                if (refresh) {
-                    projects();
-                    //created filtered list  from project list
-                    //setFilteredList((prev)=>[...prev,projectList]);
-
-                }
-                //set current theme
-                if (currentTheme != null) {
-                    setTheme(currentTheme as unknown as string)
-                }
-
+                projects();
             }
 
-
-        }, [user,theme, projectList, isRefresh]
+        }, [user, projectList]
     )
     return (
         <Drawer userName={user!=null && (user.name!=undefined || user.name!=null)?`${user.name}#${user.id}`:""}>

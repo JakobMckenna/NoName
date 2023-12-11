@@ -7,7 +7,7 @@ import { createResearchNote, deleteResearchNote, getResearchNotes, updateResearc
 
 interface Url {
     url: string
-}
+};
 
 const NotesService = {
     /**
@@ -84,7 +84,7 @@ const NotesService = {
         }
     }
 
-}
+};
 
 
 export default NotesService;
