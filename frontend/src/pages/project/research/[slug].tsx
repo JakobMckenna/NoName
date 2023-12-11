@@ -331,11 +331,8 @@ export default function Research() {
                 setProjectIDstr(projectID as string);
                 getResponse();
             }
-
-            
-           
-
         }, [projectID,notes])
+        
     return (
         <div >
             <Head>
