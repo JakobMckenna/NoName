@@ -74,11 +74,7 @@ function UserSort({ users, changeName }: { readonly users: any[], readonly chang
                 onChange={
                     (event: React.ChangeEvent<HTMLSelectElement>) => {
                         const userInput = event.target.value;
-                        changeName(userInput)
-
-                        // setMessage(userInput)
-                        //  setSort(userInput)
-
+                        changeName(userInput);
                     }
                 }
             >

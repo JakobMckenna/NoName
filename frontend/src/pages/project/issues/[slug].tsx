@@ -36,7 +36,7 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
             <p className="w-36">{title}</p>
             <div className="flex flex-col w-32">
                 {
-                    label.map(
+                    label?.map(
                         (data, index) => {
 
                             return (
@@ -44,10 +44,10 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
                                     key={index}
                                     className="badge hover:badge-secondary"
                                     onClick={
-                                        () => clickLabel(data.name)
+                                        () => clickLabel(data?.name)
                                     }
                                 >
-                                    {data.name}
+                                    {data?.name}
                                 </button>
                             )
                         }
@@ -57,12 +57,13 @@ function Issue({ title, label, assigned, milestone, dueDate, avatar, clickLabel,
             <div className=" w-32"> {assigned && (<><Image src={avatar} height={20} width={20} alt={""} /><p>{assigned}</p> </>)}</div>
             <div className="w-32 ">
                 <button
-                    className="badge badge-secondary badge-outline"
+                    className={milestone?"badge badge-secondary badge-outline":"btn-ghost"}
                     onClick={
                         () => clickMilestone(milestone)
                     }
+                    disabled={milestone==undefined || milestone==null}
                 >
-                    {milestone}
+                    {milestone?milestone:"no milestone"}
                 </button>
             </div>
             <p className="w-32">{dueDate?date:"does not have milestone"}</p>
