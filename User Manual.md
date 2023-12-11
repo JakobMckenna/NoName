@@ -86,35 +86,36 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 ### Dashboard Overview
 
+1. **Add Project**
+   - The user dashboard displays an "Add Project" button (1) for creating new projects, a search bar for quick project access (2), and each project listed (3) ([Figure 3](#f3)) 
+
 <a name="f3"></a>
 <figure>
   <img src="./frontend/src/assets/man_dash.jpeg" style="max-width:300px;" />
   <figcaption>Figure 3: Dashboard Overview</figcaption>
 </figure>
 
-The user dashboard displays an "Add Project" button (1) for creating new projects, a search bar for quick project access (2), and each project listed (3) ([Figure 3](#f3)) 
 
 ### Navigation & Interface Elements
 
+1. **Header:** 
+The header, found on each page, displays the "Dev Diary" title; clicking on it will return you to your dashboard.It includes a side navigation bar (1).  It also features a toggle for dark/light modes (2) ([Figure 5](#f5)).  Clicking on the navigation bar icon (1) opens the side navigation with options for Home (1), Settings (2), and Logout (3) ([Figure 6](#f6)).
 <a name="f4"></a>
 <figure>
-  <img src="./frontend/src/assets/man_header.jpg" style="max-height:80px"/>
+  <img src="./frontend/src/assets/man_header.jpg" style="max-width:600px"/>
   <figcaption>Figure 4: Header & Interface Elements</figcaption>
 </figure>
 
-- **Header:** 
-The header, found on each page, displays the "Dev Diary" title; clicking on it will return you to your dashboard. It features a toggle for dark/light modes (2) ([Figure 5](#f5)). It also includes a side navigation bar (1). Clicking on the navigation bar icon (1) opens the side navigation with options for Home (1), Settings (2), and Logout (3) ([Figure 6](#f6)).
-
 <a name="f5"></a>
 <figure>
-  <img src="./frontend/src/assets/man_light_mode.jpg" style="max-height:400px;" />
-  <figcaption>Figure 5: Light Mode</figcaption>
+  <img src="./frontend/src/assets/man_nav.jpg" style="max-width:600px;" />
+  <figcaption>Figure 5: Navigation</figcaption>
 </figure>
 
 <a name="f6"></a>
 <figure>
-  <img src="./frontend/src/assets/man_nav.jpg" style="max-height:200px;" />
-  <figcaption>Figure 6: Navigation</figcaption>
+  <img src="./frontend/src/assets/man_light_mode.jpg" style="max-width:600px;" />
+  <figcaption>Figure 6: Light Mode</figcaption>
 </figure>
 
 ## 3. Managing Projects
@@ -125,7 +126,7 @@ Users can create new projects by clicking the "Add Project" button on the dashbo
 
 <a name="f7"></a>
 <figure>
-  <img src="./frontend/src/assets/man_newproj.jpg" style="max-height:300px;" />
+  <img src="./frontend/src/assets/man_newproj.jpg" style="max-width:450px;" />
   <figcaption>Figure 7: Create a New Project</figcaption>
 </figure>
 
@@ -135,7 +136,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f8"></a>
 <figure>
-  <img src="./frontend/src/assets/man_projOverview.jpeg" style="max-width:400px;" />
+  <img src="./frontend/src/assets/man_projOverview.jpeg" style="max-width:450px;" />
   <figcaption>Figure 8: Project Overview</figcaption>
 </figure>
 
@@ -151,7 +152,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f9"></a>
 <figure>
-  <img src="./frontend/src/assets/man_setup_github.jpg" style="max-height:300px;" />
+  <img src="./frontend/src/assets/man_setup_github.jpg" style="max-width:450px;" />
   <figcaption>Figure 9: Setup Repository</figcaption>
 </figure>
 
@@ -162,7 +163,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f10"></a>
 <figure>
-  <img src="./frontend/src/assets/man_projFull.jpg" style="max-width:400px;" />
+  <img src="./frontend/src/assets/man_projFull.jpg" style="max-width:450px;" />
   <figcaption>Figure 10: Connected Project</figcaption>
 </figure>
 
@@ -178,7 +179,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f11"></a>
 <figure>
-  <img src="./frontend/src/assets/man_see_commits.jpg" style="max-width:400px;" />
+  <img src="./frontend/src/assets/man_see_commits.jpg" style="max-width:450px;" />
   <figcaption>Figure 11: Commits</figcaption>
 </figure>
 
@@ -197,10 +198,16 @@ When a project is selected, users are directed to a project-specific page displa
 
 ### b. Milestones & Sprints
 
+<a name="f13"></a>
+<figure>
+  <img src="./frontend/src/assets/man_milestones.jpeg" style="max-width:450px"/>
+  <figcaption>Figure 13: Milestones</figcaption>
+</figure>
+
 #### Creating Milestones/Sprints
 
 1. Select "Setup/See" under Milestones/Sprints (4) ([Figure 8](#f8))
-2. Choose "Manual Create" (2) to create a new sprint or milestone ([Figure 13](#f13))
+2. Choose "Manual Create" (1) to create a new sprint or milestone ([Figure 13](#f13))
 3. Enter sprint details: ([Figure 14](#f14))
     - Name(1) 
     - Start Date (2) and 
@@ -208,13 +215,6 @@ When a project is selected, users are directed to a project-specific page displa
 4. A calendar will pop up when you click on the start or deadline fields to select the date ([Figure 14](#f14)) 
 5. Click "Add Sprint" (4) to create the milestone/sprint.
 6. Or click the x in the top right (5) or hit escape on your keyboard to cancel 
-
-<a name="f13"></a>
-<figure>
-  <img src="./frontend/src/assets/man_milestonedel.jpeg" style="max-width:450px"/>
-  <figcaption>Figure 13: Milestones</figcaption>
-</figure>
-
 
 <a name="f14"></a>
 <figure>
@@ -228,15 +228,12 @@ When a project is selected, users are directed to a project-specific page displa
   <figcaption>Figure 15: Date Selection</figcaption>
 </figure>
 
+#### See Milestones/Sprints
+
+1. Click the arrow next to a milestone's name to expand (2) ([Figure 13](#f13)) and see the start and end dates of the milestone
+2. To delete the milestone, click the Delete button (3)
+
 ### c. Research & Bookmarks
-
-#### Organizing Research Notes
-
-1. Click the "See Bookmarks" section (4) ([Figure 10](#f10))
-2. Click "Add Note" (1) to create a new note ([Figure 16](#f16))
-3. Assign your note to a specific sprint or milestone (1) ([Figure 17](#f17))
-4. Input Title (2), Details (3), and URL (4)
-4. Click "Create Note" (5) to save research for reference
 
 <a name="f16"></a>
 <figure>
@@ -244,17 +241,32 @@ When a project is selected, users are directed to a project-specific page displa
   <figcaption>Figure 16: Research Notes</figcaption>
 </figure>
 
+#### Creating Research Notes
+
+1. Click the "See Bookmarks" section (4) ([Figure 10](#f10))
+2. Click "Add Note" (1) to create a new note ([Figure 16](#f16))
+3. Assign your note to a specific sprint or milestone (1) ([Figure 17](#f17))
+4. Input Title (2), Details (3), and URL (4)
+4. Click "Create Note" (5) to save research for reference
+
 <a name="f17"></a>
 <figure>
   <img src="./frontend/src/assets/man_add_research.jpg" style="max-width:450px"/>
   <figcaption>Figure 17: New Research</figcaption>
 </figure>
 
-
 #### Sharing Resources with Teammates
 
 1. Create a note as explained above.
 2. The note will be accessible to team members within the specified sprint or milestone.
+
+#### Review Research
+
+1. Filter research by text (2) or sprint (3) ([Figure 16](#f16))
+2. Click Search (4) to view results
+3. Click Reset (5) to reset filters
+4. Click the arrow next to a note's title (6) to view the note (7)
+5. To open the link in a new tab, click Resource (8)
 
 ### d. Communication
 
@@ -295,7 +307,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f20"></a>
 <figure>
-  <img src="./frontend/src/assets/man_back.jpg" style="max-width:200px"/>
+  <img src="./frontend/src/assets/man_back.jpg" style="max-width:300px"/>
   <figcaption>Figure 20: Back to Project Page</figcaption>
 </figure>
 
