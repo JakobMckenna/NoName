@@ -1,12 +1,12 @@
 /* eslint-disable */
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import config from "config";
+
 
 const useCommits = () => {
     const [commits, setCommits] = useState<any[]|null>(null);
-    const [latestCommits, setLatestCommits] = useState(null);
+  
     const [maintainer, setMaintainer] = useState("");
     const [project, setProject] = useState("");
 
@@ -24,7 +24,6 @@ const useCommits = () => {
         axios
             .get(url)
             .then(function (response) {
-                //   console.log(response.data.commits);
                 setCommits(response.data.commits)
                 return response.data.commits;
             })
@@ -36,7 +35,7 @@ const useCommits = () => {
 
         }, [maintainer, project],
     )
-    return [commits, latestCommits, addOwner, addProject];
+    return [commits, addOwner, addProject];
 }
 
 export default useCommits;

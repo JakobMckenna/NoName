@@ -1,4 +1,4 @@
-import {createUserPasswordData, deleteUserByID, updateUser} from "../backend/data-access/user_model"
+import {createUserPasswordData, deleteUserByID, updateUser, getAllUsers, getUserProjects} from "../backend/data-access/user_model"
 import {getUserPassword} from "../backend/data-access/user_model"
 
 let userID1: number | undefined
@@ -42,6 +42,28 @@ test('User 1 created', async () => {
     expect(data5?.userPassword?.password).toBe("password2");
   });
 
+    //Update a user
+    test('Updating user info', async () => {
+      if(userID4 !== undefined){
+        const data13 = await updateUser(userID4,"john33","john9783@email.com","password33");
+        expect(data13).toBeTruthy;
+      }
+    });
+
+     //Getting all users
+     test('Getting users (There should be 4 right now)', async () => {
+        const data14 = await getAllUsers();
+        expect(data14).toBeTruthy;
+      
+     });
+
+     //get user projects
+     test('Getting user projects (Should be none)', async () => {
+      const data15 = await getAllUsers();
+      expect(data15).toBeNull;
+    
+   });
+
   //Delete users
   test('delete user by ID', async () => {
      let data6 = null
@@ -74,5 +96,32 @@ test('delete user by ID4', async () => {
  }
  expect(data9).toBeNull();
 });
+
+test('Create user with bad data', async () => {
+  const data1 = await createUserPasswordData("1","1@1","1");
+  expect(data1).toBeNull();
+});
+
+test('Create user with bad email', async () => {
+  const data1 = await createUserPasswordData("1","1","1");
+  expect(data1).toBeNull();
+});
+
+test('delete user by bad ID', async () => {
+   let data6 = null
+   data6 = await deleteUserByID(66666);
+   expect(data6).toBeNull();
+});
   
+test('Updating with bad user info', async () => {
+  if(userID4 !== undefined){
+    const data13 = await updateUser(userID4,"1","1","1");
+    expect(data13).toBeNull();
+  }
+});
+
+test('Testing password for non existant user', async () => {
+  const data5 = await getUserPassword("fakeuser");
+  expect(data5).toBeNull();
+});
   
