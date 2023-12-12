@@ -63,7 +63,7 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
     <a name="f1"></a>
 <figure>
-    <img src="./frontend/src/assets/man_signIn.jpeg" style="max-width:300px;" />
+    <img src="./frontend/src/assets/man_signIn.jpeg" width="300px;" />
   <figcaption>Figure 1: Sign In</figcaption>
 </figure>   
 
@@ -80,7 +80,7 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 <a name="f2"></a>
 <figure>
-  <img src="./frontend/src/assets/man_signup.jpg" style="max-width:300px;" />
+  <img src="./frontend/src/assets/man_signup.jpg" width="300px;" />
   <figcaption>Figure 2: Sign Up</figcaption>
 </figure>
 
@@ -92,7 +92,7 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 <a name="f3"></a>
 <figure>
-  <img src="./frontend/src/assets/man_dash.jpeg" style="max-width:300px;" />
+  <img src="./frontend/src/assets/man_dash.jpeg" width="300px;" />
   <figcaption>Figure 3: Dashboard Overview</figcaption>
 </figure>
 
@@ -101,7 +101,7 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 <a name="f4"></a>
 <figure>
-  <img src="./frontend/src/assets/man_header.jpg" style="max-width:600px"/>
+  <img src="./frontend/src/assets/man_header.jpg" width="600px;"/>
   <figcaption>Figure 4: Header & Interface Elements</figcaption>
 </figure>
 
@@ -110,7 +110,7 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 <a name="f5"></a>
 <figure>
-  <img src="./frontend/src/assets/man_nav.jpg" style="max-width:600px;" />
+  <img src="./frontend/src/assets/man_nav.jpg" width="600px;" />
   <figcaption>Figure 5: Navigation</figcaption>
 </figure>
 
@@ -122,7 +122,7 @@ Users can create new projects by clicking the "Add Project" button ([3-1](#f3)) 
 
 <a name="f7"></a>
 <figure>
-  <img src="./frontend/src/assets/man_newproj.jpg" style="max-width:450px;" />
+  <img src="./frontend/src/assets/man_newproj.jpg" width="450px;" />
   <figcaption>Figure 7: Create a New Project</figcaption>
 </figure>
 
@@ -133,7 +133,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f8"></a>
 <figure>
-  <img src="./frontend/src/assets/man_project_overview.jpeg" style="max-width:450px;" />
+  <img src="./frontend/src/assets/man_project_overview.jpeg" width="450px;" />
   <figcaption>Figure 8: Project Overview</figcaption>
 </figure>
 
@@ -150,7 +150,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f9"></a>
 <figure>
-  <img src="./frontend/src/assets/man_setup_github.jpg" style="max-width:450px;" />
+  <img src="./frontend/src/assets/man_setup_github.jpg" width="450px;" />
   <figcaption>Figure 9: Setup Repository</figcaption>
 </figure>
 
@@ -162,7 +162,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f10"></a>
 <figure>
-  <img src="./frontend/src/assets/man_projFull.jpg" style="max-width:450px;" />
+  <img src="./frontend/src/assets/man_projFull.jpg" width="450px;" />
   <figcaption>Figure 10: Connected Project</figcaption>
 </figure>
 
@@ -178,7 +178,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f11"></a>
 <figure>
-  <img src="./frontend/src/assets/man_see_commits.jpg" style="max-width:450px;" />
+  <img src="./frontend/src/assets/man_see_commits.jpg" width="450px;" />
   <figcaption>Figure 11: Commits</figcaption>
 </figure>
 
@@ -190,7 +190,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f12"></a>
 <figure>
-  <img src="./frontend/src/assets/man_issues.jpg" style="max-width:450px"/>
+  <img src="./frontend/src/assets/man_issues.jpg" width="450px;"/>
   <figcaption>Figure 12: Issues</figcaption>
 </figure>
 
@@ -199,7 +199,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f13"></a>
 <figure>
-  <img src="./frontend/src/assets/man_milestones.jpeg" style="max-width:450px"/>
+  <img src="./frontend/src/assets/man_milestones.jpeg" width="450px;"/>
   <figcaption>Figure 13: Milestones</figcaption>
 </figure>
 
@@ -217,13 +217,13 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f14"></a>
 <figure>
-  <img src="./frontend/src/assets/man_create_milestone.jpg" style="max-width:450px"/>
+  <img src="./frontend/src/assets/man_create_milestone.jpg" width="450px;"/>
   <figcaption>Figure 14: Create a Milestone</figcaption>
 </figure>
 
 <a name="f15"></a>
 <figure>
-  <img src="./frontend/src/assets/man_milestone_cal.png" style="max-width:450px"/>
+  <img src="./frontend/src/assets/man_milestone_cal.png" width="450px;"/>
   <figcaption>Figure 15: Date Selection</figcaption>
 </figure>
 
@@ -236,7 +236,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f16"></a>
 <figure>
-  <img src="./frontend/src/assets/man_research.jpg" style="max-width:450px"/>
+  <img src="./frontend/src/assets/man_research.jpg" width="450px;"/>
   <figcaption>Figure 16: Research Notes</figcaption>
 </figure>
 
@@ -250,7 +250,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f17"></a>
 <figure>
-  <img src="./frontend/src/assets/man_add_research.jpg" style="max-width:450px"/>
+  <img src="./frontend/src/assets/man_add_research.jpg" width="450px;"/>
   <figcaption>Figure 17: New Research</figcaption>
 </figure>
 
@@ -279,7 +279,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f18"></a>
 <figure>
-  <img src="./frontend/src/assets/man_chat.jpg" style="max-width:300px"/>
+  <img src="./frontend/src/assets/man_chat.jpg" width="300px;"/>
   <figcaption>Figure 18: New Research</figcaption>
 </figure>
 
@@ -292,7 +292,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f19"></a>
 <figure>
-  <img src="./frontend/src/assets/man_add_user.jpg" style="max-width:300px"/>
+  <img src="./frontend/src/assets/man_add_user.jpg" width="300px;"/>
   <figcaption>Figure 19: Add Member</figcaption>
 </figure>
 
@@ -306,7 +306,7 @@ When a project is selected, users are directed to a project-specific page displa
 
 <a name="f20"></a>
 <figure>
-  <img src="./frontend/src/assets/man_back.jpg" style="max-width:300px"/>
+  <img src="./frontend/src/assets/man_back.jpg" width="300px;"/>
   <figcaption>Figure 20: Back to Project Page</figcaption>
 </figure>
 
@@ -318,7 +318,7 @@ Toggle between Dark and Light modes by clicking on the moon/sun icon in the head
 
 <a name="f21"></a>
 <figure>
-  <img src="./frontend/src/assets/man_light_mode.jpg" style="max-width:600px;" />
+  <img src="./frontend/src/assets/man_light_mode.jpg" width="600px;" />
   <figcaption>Figure 21: Light Mode</figcaption>
 </figure>
 
