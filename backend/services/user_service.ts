@@ -125,9 +125,7 @@ const UserService = {
   getAll: async () => {
     let result: any = null;
     try {
-      const users = await prisma.user.findMany({
-        where: { deleted: false },
-    });
+      const users = await getAllUsers();
       result = users;
       return result;
     } catch (err: any) {

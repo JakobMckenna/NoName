@@ -12,18 +12,23 @@ import { PrismaClient } from '@prisma/client'
  * @returns  all users
  */
 export async function getAllUsers() {
-    const prisma = new PrismaClient()
+    const prisma = new PrismaClient();
     try {
-        console.log("find all users")
+        console.log("find all users");
         const users = await prisma.user.findMany();
-        console.log(users);
-        //  prisma.$disconnect()
-        return users;
+        console.log(users ? users : "User found issue");
+
+        const nonNullUsers = users ? users.filter(user => user !== null) : [];
+
+        return nonNullUsers;
     } catch (err: any) {
         console.log(err)
         return null;
     }
-}
+    finally {
+        prisma.$disconnect();
+    }
+}  
 
 
 /**
