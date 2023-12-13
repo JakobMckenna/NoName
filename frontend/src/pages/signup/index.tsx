@@ -133,13 +133,10 @@ export default function Register() {
       if (error.response.data.user === null) {
         setErrorMessage(
           <>
-            An account already exists with this email. Please{" "}
-      <button
-        className="link link-hover"
-        onClick={() => router.push("/")}
-      >
-        sign in.
-      </button>
+            An account already exists with this email. Please&nbsp;
+            <Link href="/" className="link link-hover" style={{ textDecoration: "underline" }}>
+              sign in.
+            </Link>
           </>
         );
       }
