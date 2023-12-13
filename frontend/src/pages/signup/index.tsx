@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registrationValidation } from "../../validations_schemas/user_registration";
@@ -11,7 +11,7 @@ import config from "config";
 import Spinner from "~/components/modal_spinner";
 
 
-function SignUp({ handleSignUp }: any) {
+function SignUp({ handleSignUp, errorMessage  }: any) {
   const {
     register,
     handleSubmit,
@@ -55,7 +55,11 @@ function SignUp({ handleSignUp }: any) {
                   className="input input-bordered"
                   required
                 />
-                {errors.email && (<div className="text-red-500">{errors.email.message}</div>)}
+                {errorMessage ? (
+                  <div className="text-red-500 mb-4">{errorMessage}</div>
+                ) : (
+                  errors.email && <div className="text-red-500">{errors.email.message}</div>
+                )}
               </div>
               <div className="form-control ">
                 <label className="label">
@@ -101,6 +105,8 @@ function SignUp({ handleSignUp }: any) {
 
 export default function Register() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<React.ReactNode | null>(null);
+
 
   useEffect(() => {
     const userData = localStorage.getItem('userData');
@@ -118,13 +124,36 @@ export default function Register() {
         },
         withCredentials: false,
       });
-      console.log('Login successful', response.data);
-      localStorage.setItem("userData", JSON.stringify(response.data.user))
-      router.push("/home")
-    } catch (error) {
-      console.error('Login failed', error);
+      console.log('Sign up successful', response.data);
+      localStorage.setItem("userData", JSON.stringify(response.data.user));
+      router.push("/home");
+    } catch (error: any) {
+      console.error('Sign up failed', error);
+
+      if (error.response.data.user === null) {
+        setErrorMessage(
+          <>
+            An account already exists with this email. Please{" "}
+      <button
+        className="link link-hover"
+        onClick={() => router.push("/")}
+      >
+        sign in.
+      </button>
+          </>
+        );
+      }
+
+      if (error.response && error.response.status === 400 && error.response.data.code === 'P2002') {
+        // HTTP status 400 and Prisma error code P2002 for a unique constraint violation
+        setErrorMessage('Email is already taken. Please choose another email.');
+        console.log("Duplicate email block:", error.response.data);
+      } else {
+        // Handle other errors
+        //setErrorMessage('An error occurred. Please try again.');
+      }
     }
-  }
+}
 
   return (
     <>
@@ -134,7 +163,7 @@ export default function Register() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <SignUp handleSignUp={handleSignUp} />
+        <SignUp handleSignUp={handleSignUp} errorMessage={errorMessage}/>
       </main>
     </>
   );
