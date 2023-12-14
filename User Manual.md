@@ -110,7 +110,7 @@ Our primary goal is to offer a central hub for project management, delivering a 
 
 <a name="f5"></a>
 <figure>
-  <img src="./frontend/src/assets/man_nav.jpg" width="600px;" />
+  <img src="./frontend/src/assets/man_nav.png" width="600px;" />
   <figcaption>Figure 5: Navigation</figcaption>
 </figure>
 
@@ -310,7 +310,7 @@ When a project is selected, users are directed to a project-specific page displa
   <figcaption>Figure 20: Back to Project Page</figcaption>
 </figure>
 
-## 6. Preferences & Settings
+## 6. Preferences
 
 ### Dark/Light Mode Toggle
 ([Figure 21](#f21))
