@@ -1,13 +1,12 @@
 /* eslint-disable */
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-
 import config from 'config';
-
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { projectValidation } from '~/validations_schemas/project_create';
+
 function Form({ userID, addProject }: { userID: number, addProject: Function }) {
     const {
         register,
@@ -20,11 +19,9 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
         resolver: yupResolver(projectValidation)
     });
 
-    
-
     const handleCreateProject = async (data: any) => {
+        console.log("Project Name: ", data.name);
         try {
-          
             const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name, userID: userID }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,10 +40,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                     user:{name: "you recently"}
                 }
             })
-            // refresh(true)
-           
-            
-           // reset();
+
         } catch (error) {
             console.log(error)
 
@@ -73,7 +67,6 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
             }
            
         }finally{
-            //reset();
             setValue("name","");
         }
     }
@@ -87,7 +80,10 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                 </label>
                 <input
                     {...register("name")}
-                    onChange={() => clearErrors("name")}
+                    onChange={(e) => {
+                        setValue("name", e.target.value); // Update the value in real-time so enter key works to submit
+                        clearErrors("name"); 
+                    }}
                     type="text"
                     placeholder="Project Name"
                     className="input input-bordered"
