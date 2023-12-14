@@ -4,9 +4,8 @@
  */
 
 /* eslint-disable */
-import useUser from "~/hooks/use_user"
-import { useRouter } from 'next/router'
-import Navbar from "~/components/navbar";
+import useUser from "~/hooks/use_user";
+import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import RepoModal from "~/components/repomdl";
