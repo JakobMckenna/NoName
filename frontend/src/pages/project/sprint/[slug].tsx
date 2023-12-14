@@ -109,7 +109,6 @@ export default function SprintPage() {
             const reqUrl = `${config.backendApiUrl}/projects/sprint/${projectID as string}`
             if (projectID != null) {
                 const results = await axios.get(reqUrl)
-                console.log(results.data.sprints)
                 setSprints((prev): any => [...results.data.sprints])
             }
         } catch (error) {
@@ -142,10 +141,8 @@ export default function SprintPage() {
 
             const responseSprint = await axios.delete(`${config.backendApiUrl}/projects/sprint/${selected}`);
             const sprint = responseSprint.data.sprint;
-            // add(responseSprint.data.sprint)
             removeSprint(selected)
             return responseSprint.data.sprint;
-            //refresh(true)
         } catch (error) {
             console.log(error)
         }
