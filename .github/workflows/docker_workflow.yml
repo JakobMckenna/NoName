@@ -28,9 +28,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./backend  # Specify the backend directory
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
-          tags: noname4350/backend:latest
+          tags: noname4350/backend:linux-amd64
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
@@ -41,6 +41,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./frontend  # Specify the frontend directory
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
-          tags: noname4350/frontend:latest
+          tags: noname4350/frontend:linux-amd64

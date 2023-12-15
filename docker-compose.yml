@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    image: noname4350/backend:latest
+    image: noname4350/backend:linux-amd64
     env_file:
       - ./backend/.env
     ports:
@@ -10,7 +10,7 @@ services:
     platform: linux/amd64
 
   frontend:
-    image: noname4350/frontend:latest
+    image: noname4350/frontend:linux-amd64
     ports:
       - "3000:3000"
     platform: linux/amd64
