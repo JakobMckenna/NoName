@@ -4,7 +4,7 @@ COPY package.json ./
 COPY package-lock.json ./
 
 # Install frontend dependencies
-RUN npm install
+RUN npm install --max-attempts=3 --retry-delay=5000
 
 # Copy frontend directory
 COPY . .
