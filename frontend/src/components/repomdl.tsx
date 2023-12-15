@@ -65,11 +65,6 @@ function Form({ projectID , githubID ,addRepo }: { readonly projectID: string ,r
                     type="text"
                     placeholder="owner"
                     className="input input-bordered"
-                    onChange={
-                        ()=>{
-                            clearErrors();
-                        }
-                    }
                     required
                 />
             </div>
@@ -83,11 +78,6 @@ function Form({ projectID , githubID ,addRepo }: { readonly projectID: string ,r
                     type="text"
                     placeholder="repo name"
                     className="input input-bordered"
-                    onChange={
-                        ()=>{
-                            clearErrors();
-                        }
-                    }
                     required
                 />
 

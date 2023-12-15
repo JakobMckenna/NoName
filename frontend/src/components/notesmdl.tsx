@@ -15,7 +15,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
         handleSubmit,
         setError,
         formState: { errors, isSubmitting },
-        clearErrors,
         setValue
     } = useForm({
         resolver: yupResolver(notesValidation)
@@ -104,7 +103,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                 <select
                     {...register("sprint")}
                     className="select select-bordered w-full max-w-xs"
-                    onChange={() => clearErrors()}
                     disabled={isSubmitting}
                     required
                 >
@@ -131,7 +129,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     type="text"
                     placeholder="title"
                     className="input input-bordered"
-                    onChange={() => clearErrors()}
                     disabled={isSubmitting}
                     required
                 />
@@ -145,7 +142,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     {...register("details")}
                     placeholder="type the main things you learnt"
                     className="textarea textarea-bordered"
-                    onChange={() => clearErrors()}
                     disabled={isSubmitting}
                     required
                 />
@@ -160,7 +156,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     type="text"
                     placeholder="url"
                     className="input input-bordered"
-                    onChange={() => clearErrors()}
                     disabled={isSubmitting}
                     required
                 />

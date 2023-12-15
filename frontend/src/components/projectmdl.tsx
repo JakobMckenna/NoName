@@ -1,30 +1,26 @@
 /* eslint-disable */
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-
 import config from 'config';
-
 import Spinner from './modal_spinner';
 import FormAlert from './form_alert';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { projectValidation } from '~/validations_schemas/project_create';
+
 function Form({ userID, addProject }: { userID: number, addProject: Function }) {
     const {
         register,
         handleSubmit,
         setError,
         formState: { errors , isSubmitting },
-        clearErrors,
         setValue
     } = useForm({
         resolver: yupResolver(projectValidation)
     });
 
-    
-
     const handleCreateProject = async (data: any) => {
+        console.log("Project Name: ", data.name);
         try {
-          
             const response = await axios.post(`${config.backendApiUrl}/projects`, { name: data.name, userID: userID }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,10 +39,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                     user:{name: "you recently"}
                 }
             })
-            // refresh(true)
-           
-            
-           // reset();
+
         } catch (error) {
             console.log(error)
 
@@ -73,7 +66,6 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
             }
            
         }finally{
-            //reset();
             setValue("name","");
         }
     }
@@ -86,8 +78,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                     <span className="label-text">Project Name</span>
                 </label>
                 <input
-                    {...register("name")}
-                    onChange={() => clearErrors("name")}
+                {...register("name")}
                     type="text"
                     placeholder="Project Name"
                     className="input input-bordered"

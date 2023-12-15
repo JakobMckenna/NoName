@@ -64,13 +64,6 @@ function Form({ projectID, add }: { projectID: string, add: any }) {
                 </label>
                 <input
                     {...register("name")}
-                    onChange={
-                        () => {
-                            if (errors) {
-                                clearErrors()
-                            }
-                        }
-                    }
                     disabled={isSubmitting}
                     type="text"
                     placeholder="Name"
