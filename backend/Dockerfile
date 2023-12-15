@@ -3,6 +3,9 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 
+# Clear npm cache
+RUN npm cache clean --force
+
 # Install backend dependencies
 RUN npm install --max-attempts=3 --retry-delay=5000
 
