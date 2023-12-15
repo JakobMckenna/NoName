@@ -15,7 +15,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
         handleSubmit,
         setError,
         formState: { errors, isSubmitting },
-        clearErrors,
         setValue
     } = useForm({
         resolver: yupResolver(notesValidation)
@@ -104,10 +103,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                 <select
                     {...register("sprint")}
                     className="select select-bordered w-full max-w-xs"
-                    onChange={(e) => {
-                        setValue("sprint", e.target.value); // Update the value in real-time so enter key works to submit
-                        clearErrors(); 
-                    }}
                     disabled={isSubmitting}
                     required
                 >
@@ -134,10 +129,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     type="text"
                     placeholder="title"
                     className="input input-bordered"
-                    onChange={(e) => {
-                        setValue("title", e.target.value); // Update the value in real-time so enter key works to submit
-                        clearErrors(); 
-                    }}
                     disabled={isSubmitting}
                     required
                 />
@@ -151,10 +142,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     {...register("details")}
                     placeholder="type the main things you learnt"
                     className="textarea textarea-bordered"
-                    onChange={(e) => {
-                        setValue("details", e.target.value); // Update the value in real-time so enter key works to submit
-                        clearErrors(); 
-                    }}
                     disabled={isSubmitting}
                     required
                 />
@@ -169,10 +156,6 @@ function Form({ projectID, userID, sprints, addNotes }: { readonly projectID: st
                     type="text"
                     placeholder="url"
                     className="input input-bordered"
-                    onChange={(e) => {
-                        setValue("url", e.target.value); // Update the value in real-time so enter key works to submit
-                        clearErrors(); 
-                    }}
                     disabled={isSubmitting}
                     required
                 />

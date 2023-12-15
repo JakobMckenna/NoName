@@ -13,7 +13,6 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
         handleSubmit,
         setError,
         formState: { errors , isSubmitting },
-        clearErrors,
         setValue
     } = useForm({
         resolver: yupResolver(projectValidation)
@@ -79,11 +78,7 @@ function Form({ userID, addProject }: { userID: number, addProject: Function }) 
                     <span className="label-text">Project Name</span>
                 </label>
                 <input
-                    {...register("name")}
-                    onChange={(e) => {
-                        setValue("name", e.target.value); // Update the value in real-time so enter key works to submit
-                        clearErrors("name"); 
-                    }}
+                {...register("name")}
                     type="text"
                     placeholder="Project Name"
                     className="input input-bordered"

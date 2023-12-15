@@ -7,8 +7,10 @@ services:
       - ./backend/.env
     ports:
       - "5001:5001"
+    platform: linux/amd64
 
   frontend:
     image: noname4350/frontend:latest
     ports:
       - "3000:3000"
+    platform: linux/amd64
